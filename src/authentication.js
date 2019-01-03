@@ -1,10 +1,9 @@
-const authentication = require('@feathersjs/authentication');
-const jwt = require('@feathersjs/authentication-jwt');
+import authentication from '@feathersjs/authentication';
+import jwt from '@feathersjs/authentication-jwt';
+import oauth2 from '@feathersjs/authentication-oauth2';
+import Auth0Strategy from 'passport-auth0';
 
-const oauth2 = require('@feathersjs/authentication-oauth2');
-const Auth0Strategy = require('passport-auth0');
-
-module.exports = function(app) {
+export default function(app) {
   const config = app.get('authentication');
 
   // Set up authentication with the secret
@@ -32,4 +31,4 @@ module.exports = function(app) {
       remove: [authentication.hooks.authenticate('jwt')],
     },
   });
-};
+}

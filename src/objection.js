@@ -1,11 +1,11 @@
-const { Model } = require('objection');
-const knex = require('knex');
+import { Model } from 'objection';
+import knex from 'knex';
 
-module.exports = function(app) {
+export default function(app) {
   const { client, connection } = app.get('postgres');
   const kn = knex({ client, connection, useNullAsDefault: false });
 
   Model.knex(kn);
 
   app.set('knex', kn);
-};
+}

@@ -1,8 +1,8 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-const { Model } = require('objection');
+import { Model } from 'objection';
 
-class User extends Model {
+export default class User extends Model {
   static get tableName() {
     return 'users';
   }
@@ -18,5 +18,3 @@ class User extends Model {
     };
   }
 }
-
-module.exports = User;

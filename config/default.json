@@ -1,6 +1,6 @@
 {
   "host": "localhost",
-  "port": 3030,
+  "port": 3000,
   "public": "../public/",
   "paginate": {
     "default": 10,
@@ -35,5 +35,8 @@
       "secure": false
     }
   },
-  "postgres": "postgres://postgres:@localhost:5432/magic_wand"
+  "postgres": {
+    "client": "pg",
+    "connection": "postgres://postgres:@localhost:5432/magic_wand"
+  }
 }

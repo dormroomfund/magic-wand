@@ -23,7 +23,7 @@
     "lint-fix": "eslint --fix src/. test/. --ext js,jsx --config .eslintrc.json",
     "prettier": "prettier --write \"{src, test}/**/*.js\" \"config/**/*.json\"",
     "dev": "nodemon src/",
-    "start": "node src/",
+    "start": "babel-node src/",
     "jest": "jest"
   },
   "husky": {
@@ -64,6 +64,9 @@
     "winston": "^3.1.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
     "eslint": "^5.11.1",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^3.3.0",
