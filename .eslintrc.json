@@ -7,23 +7,19 @@
   "parserOptions": {
     "ecmaVersion": 2017
   },
-  "extends": "eslint:recommended",
+  "plugins": ["react", "import"],
+  "extends": [
+    "airbnb",
+    "plugin:prettier/recommended",
+    "plugin:eslint-comments/recommended"
+  ],
   "rules": {
-    "indent": [
-      "error",
-      2
-    ],
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
-    "quotes": [
-      "error",
-      "single"
-    ],
-    "semi": [
-      "error",
-      "always"
-    ]
+    "import/no-unresolved": "off",
+    "import/prefer-default-export": "off",
+    "func-names": "off",
+    "prettier/prettier": "error",
+    "require-jsdoc": "off",
+    "valid-jsdoc": "off",
+    "no-param-reassign": "off"
   }
 }

@@ -8,9 +8,7 @@
   },
   "authentication": {
     "secret": "b5a90dbfe33419614f1737bfab419509e5aaf3c525be012cbdabe1d1859bce9526b325c48fab9bb17a7249c33284bd54ae1ff61120ea41b35d234790a408a90016f735c240fa2fb4251da66fa8f471d95024b5b15f3cb012d96726fca39a29b11d3baff4207f3c79da99cc08163319c9fd41a5a8e6b25a33ae607ae6aed77cc9f25671b044ed01679e1a6d8a76d68964a763460c835bd0554eac061e91735409154399c6f298104c7419465d744f88e3c270f0f054ddc51726419907aa4c782f24a4a3b49494db72d284ff489dbc92dd3b7145b5ea8bb3d20bad748e886e04e37bba4ad5d77a5c36bed5d8f86480a600d35e9c774839a967a740882c6712e233",
-    "strategies": [
-      "jwt"
-    ],
+    "strategies": ["jwt"],
     "path": "/authentication",
     "service": "users",
     "jwt": {
@@ -28,9 +26,7 @@
       "clientSecret": "your auth0 client secret",
       "successRedirect": "/",
       "domain": "mydomain.auth0.com",
-      "scopes": [
-        "profile"
-      ]
+      "scopes": ["profile"]
     },
     "cookie": {
       "enabled": true,

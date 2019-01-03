@@ -3,13 +3,13 @@ const createService = require('feathers-sequelize');
 const createModel = require('../../models/users.model');
 const hooks = require('./users.hooks');
 
-module.exports = function (app) {
+module.exports = function(app) {
   const Model = createModel(app);
   const paginate = app.get('paginate');
 
   const options = {
     Model,
-    paginate
+    paginate,
   };
 
   // Initialize our service with any options it requires
