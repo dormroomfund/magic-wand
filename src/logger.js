@@ -1,11 +1,31 @@
+import config from 'config';
 import { createLogger, format, transports } from 'winston';
+import colors from 'colors';
 
-// Configure the Winston logger. For the complete documentation see https://github.com/winstonjs/winston
-const logger = createLogger({
-  // To see more detailed errors, change this to 'debug'
-  level: 'info',
-  format: format.combine(format.splat(), format.simple()),
-  transports: [new transports.Console()],
+// https://stackoverflow.com/a/53231561
+const errorStackTracerFormat = format((info) => {
+  if (info.meta && info.meta instanceof Error) {
+    info.message = `${info.message} ${info.meta.stack}`;
+  }
+
+  return info;
 });
 
-export default logger;
+export const loggerOptions = {
+  level: config.get('loglevel'),
+  format: format.combine(
+    format.colorize(),
+    format.timestamp({ format: 'HH:mm:ss' }),
+    format.splat(),
+    errorStackTracerFormat(),
+    format.printf(
+      (info) =>
+        `[${info.level}] ${colors.dim(`${info.timestamp}:`)} ${info.message}`
+    )
+  ),
+  transports: [new transports.Console()],
+};
+
+// Configure the Winston logger.
+// For the complete documentation see https://github.com/winstonjs/winston
+export default createLogger(loggerOptions);
