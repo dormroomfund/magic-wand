@@ -3,13 +3,13 @@
   "description": "pipeline automation for Dorm Room Fund",
   "version": "0.0.0",
   "private": true,
-  "main": "src",
+  "main": "server",
   "author": {
     "name": "Dorm Room Fund",
     "email": "team@drf.vc"
   },
   "directories": {
-    "lib": "src",
+    "lib": "server",
     "test": "test/",
     "config": "config/"
   },
@@ -19,12 +19,12 @@
   },
   "scripts": {
     "test": "npm run lint && NODE_ENV= npm run jest",
-    "lint": "eslint src/. client/. test/. --ext js,jsx --config .eslintrc.json",
-    "lint-fix": "eslint --fix src/. client/. test/. --ext js,jsx --config .eslintrc.json",
-    "prettier": "prettier --write \"{src,client,test}/**/*.js\" \"config/**/*.json\"",
-    "dev": "nodemon src/",
+    "lint": "eslint server/. client/. test/. --ext js,jsx --config .eslintrc.json",
+    "lint-fix": "eslint --fix server/. client/. test/. --ext js,jsx --config .eslintrc.json",
+    "prettier": "prettier --write \"{server,client,test}/**/*.js\" \"config/**/*.json\"",
+    "dev": "nodemon --exec babel-node server/",
     "build": "next build client",
-    "start": "babel-node src/",
+    "start": "babel-node server/",
     "jest": "jest"
   },
   "husky": {

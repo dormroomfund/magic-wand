@@ -1,4 +1,4 @@
-const app = require('../../src/app');
+const app = require('../../server/app');
 
 describe("'users' service", () => {
   it('registered the service', () => {
