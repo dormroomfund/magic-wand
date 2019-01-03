@@ -1,31 +1,22 @@
-// See http://docs.sequelizejs.com/en/latest/docs/models-definition/
+// See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-const Sequelize = require('sequelize');
+const { Model } = require('objection');
 
-// eslint-disable-next-line no-unused-vars
-const { DataTypes } = Sequelize;
+class User extends Model {
+  static get tableName() {
+    return 'users';
+  }
 
-module.exports = function(app) {
-  const sequelizeClient = app.get('sequelizeClient');
-  const users = sequelizeClient.define(
-    'users',
-    {
-      auth0Id: { type: Sequelize.STRING },
-    },
-    {
-      hooks: {
-        beforeCount(options) {
-          options.raw = true;
-        },
+  static get jsonSchema() {
+    return {
+      type: 'object',
+      required: ['password'],
+
+      properties: {
+        auth0Id: { type: 'string' },
       },
-    }
-  );
+    };
+  }
+}
 
-  // eslint-disable-next-line no-unused-vars
-  users.associate = function(models) {
-    // Define associations here
-    // See http://docs.sequelizejs.com/en/latest/docs/associations/
-  };
-
-  return users;
-};
+module.exports = User;
