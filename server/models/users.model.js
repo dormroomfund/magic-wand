@@ -13,7 +13,34 @@ export default class User extends Model {
       required: ['password'],
 
       properties: {
+        id: { type: 'integer' },
         auth0Id: { type: 'string' },
+        email: { type: 'string' },
+        isPartner: { type: 'boolean' },
+      },
+    };
+  }
+
+  static get relationMappings() {
+    const Partner = require('./partners.model');
+    const Founder = require('./founders.model');
+
+    return {
+      partners: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: Partner,
+        join: {
+          from: 'users.id',
+          to: 'partners.partnerID',
+        },
+      },
+      founders: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: Founder,
+        join: {
+          from: 'users.id',
+          to: 'founders.founderID',
+        },
       },
     };
   }
