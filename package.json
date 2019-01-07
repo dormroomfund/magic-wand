@@ -23,7 +23,8 @@
     "lint-fix": "eslint --fix server/. client/. test/. --ext js,jsx --config .eslintrc.json",
     "prettier": "prettier --write \"{server,client,test}/**/*.js\" \"config/**/*.json\"",
     "dev": "nodemon --exec babel-node server/",
-    "build": "next build client",
+    "build": "babel server --out-dir dist/server && babel client --out-dir dist/client && next build client",
+    "heroku-postbuild": "npm run build",
     "start": "babel-node server/",
     "jest": "jest"
   },
@@ -72,6 +73,7 @@
     "winston": "^3.1.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.2",
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.2.3",
