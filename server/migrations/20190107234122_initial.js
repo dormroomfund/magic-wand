@@ -11,8 +11,11 @@ exports.up = function(knex, Promise) {
       table.timestamps();
     }),
     knex.schema.createTable('users', (table) => {
-      table.increments('id');
-      table.text('auth0').notNullable();
+      table.increments('id').primary();
+      table
+        .text('auth0')
+        .notNullable()
+        .unique();
       table.text('permissions').notNullable();
       table.text('first_name');
       table.text('last_name');
@@ -26,12 +29,14 @@ exports.up = function(knex, Promise) {
       table.timestamps();
     }),
     knex.schema.createTable('votes', (table) => {
+      table.increments('id').primary();
       table.text('vote_type').notNullable();
       table.integer('partner_id').unsigned();
       table
         .foreign('partner_id')
         .references('users.id')
         .onDelete('CASCADE');
+      table.integer('company_id').unsigned();
       table
         .foreign('company_id')
         .references('companies.id')
