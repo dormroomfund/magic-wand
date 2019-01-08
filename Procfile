@@ -1,1 +1,1 @@
-web: node dist/server
+web: make production

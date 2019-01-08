@@ -8,22 +8,24 @@
 Make sure you have Postgres installed already. To install:
 
 ```
-$ npm install
+$ make install
 $ createdb magic_wand
-$ npx knex migrate:latest
+$ make migrate
 ```
 
 To run:
 
 ```
-$ npm start
+$ make
 ```
 
 To test:
 
 ```
-$ npm test
+$ make test
 ```
+
+For a full list of commands, consult the `Makefile`.
 
 ## Scaffolding
 
