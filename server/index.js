@@ -1,9 +1,11 @@
+import t from 'tcomb';
 import util from 'util';
 import logger from './logger';
 import app from './app';
 import { nextApp } from './next';
 
 const port = app.get('port');
+t.Integer(port);
 
 nextApp.prepare().then(async () => {
   const server = app.listen(port);
