@@ -5,10 +5,12 @@
 
 ## Setup and Running
 
-To install:
+Make sure you have Postgres installed already. To install:
 
 ```
 $ npm install
+$ createdb magic_wand
+$ npx knex migrate:latest
 ```
 
 To run:
@@ -36,6 +38,15 @@ $ feathers help                           # Show all commands
 ```
 
 ## Components
+
+### Database
+
+We use [objection.js](http://vincit.github.io/objection.js/) as our ORM, 
+which builds on knex.js. Migrations are handled by knex.js as a result.
+
+[Objection.js Guide](http://vincit.github.io/objection.js/)  
+[Knex.js Guide](https://knexjs.org/#Migrations)  
+[Knex.js Migrations Guide](https://knexjs.org/#Migrations)  
 
 ### Typechecking and Validation
 
