@@ -40,7 +40,7 @@ exports.up = function(knex, Promise) {
       table
         .foreign('company_id')
         .references('companies.id')
-        .onDelte('CASCADE');
+        .onDelete('CASCADE');
       table.decimal('market_score');
       table.decimal('product_score');
       table.decimal('team_score');

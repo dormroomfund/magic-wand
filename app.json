@@ -1,24 +1,17 @@
 {
-  "addons": [
-    "heroku-postgresql",
-    "timber-logging"
-  ],
+  "addons": ["heroku-postgresql", "timber-logging"],
   "buildpacks": [
     {
       "url": "heroku/nodejs"
     }
   ],
   "description": "",
-  "env": {
-  },
+  "env": {},
   "formation": {
     "web": {
       "quantity": 1
     }
   },
   "name": "magic-wand",
-  "scripts": {
-    "postdeploy": "npx knex migrate:latest"
-  },
   "stack": "heroku-18"
 }

@@ -1,6 +1,6 @@
 const config = require('config');
 const t = require('tcomb');
-require('babel-register');
+require('@babel/register');
 
 const client = config.get('postgres.client');
 t.String(client);
