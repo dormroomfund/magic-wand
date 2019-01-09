@@ -9,24 +9,50 @@ export default class Votes extends Model {
     return {
       type: 'object',
       required: [
-        'companyID',
-        'partnerID',
-        'voteType',
-        'market',
-        'product',
-        'fit',
+        'id',
+        'vote_type',
+        'partner_id',
+        'company_id',
+        'market_score',
+        'product_score',
+        'fit_score',
+        'comment',
       ],
 
       properties: {
-        companyID: { type: 'integer' },
-        partnerID: { type: 'integer' },
-        voteType: { type: 'string' },
-        market: { type: 'real' },
-        product: { type: 'real' },
-        team: { type: 'real' },
-        fit: { type: 'real' },
-        overall: { type: 'real' },
-        voteComment: { type: 'string' },
+        id: { type: 'integer' },
+        vote_type: { type: 'string' },
+        partner_id: { type: 'integer' },
+        company_id: { type: 'integer' },
+        market_score: { type: 'real' },
+        product_score: { type: 'real' },
+        team_score: { type: 'real' },
+        fit_score: { type: 'real' },
+        comment: { type: 'string' },
+      },
+    };
+  }
+
+  static get relationMappings() {
+    const Company = require('./companies.model');
+    const User = require('./users.model');
+
+    return {
+      votes: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: Company,
+        join: {
+          from: 'companies.id',
+          to: 'votes.company_id',
+        },
+      },
+      users: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: User,
+        join: {
+          from: 'users.id',
+          to: 'votes.partner_id',
+        },
       },
     };
   }
