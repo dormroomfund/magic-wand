@@ -18,13 +18,11 @@
     "npm": ">= 3.0.0"
   },
   "scripts": {
-    "test": "npm run lint && NODE_ENV= npm run jest",
-    "lint": "eslint server/. client/. test/. --ext js,jsx --config .eslintrc.json",
-    "lint-fix": "eslint --fix server/. client/. test/. --ext js,jsx --config .eslintrc.json",
-    "prettier": "prettier --write \"{server,client,test}/**/*.js\" \"config/**/*.json\"",
-    "dev": "nodemon --exec babel-node server/",
-    "build": "next build client",
-    "start": "babel-node server/",
+    "test": "make test",
+    "lint": "make lint",
+    "build": "make build",
+    "heroku-postbuild": "make build",
+    "start": "make start",
     "jest": "jest"
   },
   "husky": {
@@ -43,7 +41,10 @@
     ]
   },
   "dependencies": {
+    "@babel/core": "^7.2.2",
     "@babel/plugin-transform-react-jsx": "^7.2.0",
+    "@babel/preset-env": "^7.2.3",
+    "@babel/register": "^7.0.0",
     "@feathersjs/authentication": "^2.1.15",
     "@feathersjs/authentication-jwt": "^2.0.9",
     "@feathersjs/authentication-oauth2": "^1.2.7",
@@ -72,9 +73,8 @@
     "winston": "^3.1.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.2.2",
+    "@babel/cli": "^7.2.3",
     "@babel/node": "^7.2.2",
-    "@babel/preset-env": "^7.2.3",
     "eslint": "^5.11.1",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^3.3.0",

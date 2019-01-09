@@ -110,6 +110,7 @@ $RECYCLE.BIN/
 # Others
 lib/
 data/
+dist/
 
 # Next.js
-.next
+.next/

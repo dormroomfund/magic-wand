@@ -5,23 +5,27 @@
 
 ## Setup and Running
 
-To install:
+Make sure you have Postgres installed already. To install:
 
 ```
-$ npm install
+$ make install
+$ createdb magic_wand
+$ make migrate
 ```
 
 To run:
 
 ```
-$ npm start
+$ make
 ```
 
 To test:
 
 ```
-$ npm test
+$ make test
 ```
+
+For a full list of commands, consult the `Makefile`.
 
 ## Scaffolding
 
@@ -36,6 +40,15 @@ $ feathers help                           # Show all commands
 ```
 
 ## Components
+
+### Database
+
+We use [objection.js](http://vincit.github.io/objection.js/) as our ORM, 
+which builds on knex.js. Migrations are handled by knex.js as a result.
+
+[Objection.js Guide](http://vincit.github.io/objection.js/)  
+[Knex.js Guide](https://knexjs.org/#Migrations)  
+[Knex.js Migrations Guide](https://knexjs.org/#Migrations)  
 
 ### Typechecking and Validation
 
