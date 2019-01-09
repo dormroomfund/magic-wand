@@ -2,7 +2,6 @@
   "host": "localhost",
   "env": "development",
   "port": 3000,
-  "public": "../public/",
   "loglevel": "info",
   "paginate": {
     "default": 10,

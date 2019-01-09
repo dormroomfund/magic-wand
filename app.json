@@ -1,0 +1,17 @@
+{
+  "addons": ["heroku-postgresql", "timber-logging"],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "description": "",
+  "env": {},
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "name": "magic-wand",
+  "stack": "heroku-18"
+}

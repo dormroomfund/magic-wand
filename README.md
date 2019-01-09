@@ -2,34 +2,34 @@
 
 > pipeline automation for Dorm Room Fund
 
-## About
 
-This project uses [Feathers](http://feathersjs.com). An open source web framework for building modern real-time applications.
+## Setup and Running
 
-## Getting Started
+Make sure you have Postgres installed already. To install:
 
-Getting up and running is as easy as 1, 2, 3.
+```
+$ make install
+$ createdb magic_wand
+$ make migrate
+```
 
-1. Make sure you have [NodeJS](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
-2. Install your dependencies
+To run:
 
-    ```
-    cd path/to/magic-wand; npm install
-    ```
+```
+$ make
+```
 
-3. Start your app
+To test:
 
-    ```
-    npm start
-    ```
+```
+$ make test
+```
 
-## Testing
-
-Simply run `npm test` and all your tests in the `test/` directory will be run.
+For a full list of commands, consult the `Makefile`.
 
 ## Scaffolding
 
-Feathers has a powerful command line interface. Here are a few things it can do:
+Use the feathers scaffolding tool to generate code:
 
 ```
 $ npm install -g @feathersjs/cli          # Install Feathers CLI
@@ -39,18 +39,17 @@ $ feathers generate hook                  # Generate a new Hook
 $ feathers help                           # Show all commands
 ```
 
-## Help
+## Components
 
-For more information on all the things you can do with Feathers visit [docs.feathersjs.com](http://docs.feathersjs.com).
+### Database
 
-## Changelog
+We use [objection.js](http://vincit.github.io/objection.js/) as our ORM, 
+which builds on knex.js. Migrations are handled by knex.js as a result.
 
-__0.1.0__
+[Objection.js Guide](http://vincit.github.io/objection.js/)  
+[Knex.js Guide](https://knexjs.org/#Migrations)  
+[Knex.js Migrations Guide](https://knexjs.org/#Migrations)  
 
-- Initial release
+### Typechecking and Validation
 
-## License
-
-Copyright (c) 2018
-
-Licensed under the [MIT license](LICENSE).
+We use [tcomb](https://github.com/gcanti/tcomb) to check types where useful.
