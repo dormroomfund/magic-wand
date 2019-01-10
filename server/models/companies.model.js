@@ -26,7 +26,7 @@ export default class Company extends Model {
 
   static get relationMappings() {
     return {
-      associated_companies: {
+      associated_users: {
         relation: Model.ManyToManyRelation,
         modelClass: `${__dirname}/users.model`,
         join: {
