@@ -66,4 +66,4 @@ migrate:
 
 # Roll back the database to before the latest mgiration.
 rollback:
-	npx knex mgirate:rollback
+	npx knex migrate:rollback
