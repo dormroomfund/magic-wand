@@ -3,11 +3,10 @@ import User from '../../models/users.model';
 import hooks from './users.hooks';
 
 export default (app) => {
-  const user = new User(app);
   const paginate = app.get('paginate');
 
   const options = {
-    model: user,
+    model: User,
     paginate,
   };
 

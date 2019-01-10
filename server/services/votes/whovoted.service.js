@@ -9,34 +9,30 @@ export default (app) => {
   const PeopleWhoVotedService = {
     async find(params) {
       /*
-       * Error and Type Validation
+       * TODO: Query validataion?
        */
 
       /*
-       * Perform a find query on the votes link to get the partners ids
-       * of all the people who have submitted a vote so far.
+       * Perform a find query on the votes link to get the names of the partners who
+       * have submitted a vote on the company.
        */
       const votes = await app.service('votes').find({
         query: {
-          vote_type: params.query.voteType,
+          vote_type: params.query.vote_type,
           company_id: params.query.company_id,
+          $eager: 'voted_user',
         },
       });
 
-      const partnerIds = [];
+      const partnerNames = [];
 
-      votes.forEach((vote, index) => {
-        console.log(vote);
-        console.log(index);
-        partnerIds.append(vote);
+      votes.data.forEach((vote) => {
+        partnerNames.push(
+          `${vote.voted_user.first_name} ${vote.voted_user.last_name}`
+        );
       });
 
-      /*
-       * Now query the users services with the partners id and returns
-       * an array of partner names.
-       */
-
-      return [];
+      return partnerNames;
     },
   };
 

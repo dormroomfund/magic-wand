@@ -10,10 +10,40 @@ export default class User extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['password'],
+      required: ['id', 'permissions', 'first_name', 'last_name', 'email'],
 
       properties: {
-        auth0Id: { type: 'string' },
+        id: { type: 'integer' },
+        auth0: { type: 'string' },
+        email: { type: 'string' },
+        permissions: { type: 'string' },
+        first_name: { type: 'string' },
+        last_name: { type: 'string' },
+        school: { type: 'string' },
+        photo: { type: 'string' },
+        linkedin: { type: 'string' },
+        gender: { type: 'string' },
+        ethnicity: { type: 'string' },
+        partner_team: { type: 'string' },
+        partner_position: { type: 'string' },
+      },
+    };
+  }
+
+  static get relationMappings() {
+    return {
+      associated_companies: {
+        relation: Model.ManyToManyRelation,
+        modelClass: `${__dirname}/companies.model`,
+        join: {
+          from: 'users.id',
+          through: {
+            from: 'users_companies.user_id',
+            to: 'users_companies.company_id',
+          },
+          to: 'companies.id',
+          extra: ['permissions'],
+        },
       },
     };
   }

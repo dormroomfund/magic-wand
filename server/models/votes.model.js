@@ -1,6 +1,6 @@
 import { Model } from 'objection';
 
-export default class Votes extends Model {
+export default class Vote extends Model {
   static get tableName() {
     return 'votes';
   }
@@ -9,24 +9,46 @@ export default class Votes extends Model {
     return {
       type: 'object',
       required: [
-        'companyID',
-        'partnerID',
-        'voteType',
-        'market',
-        'product',
-        'fit',
+        'company_id',
+        'partner_id',
+        'vote_type',
+        'market_score',
+        'product_score',
+        'fit_score',
+        'team_score',
       ],
 
       properties: {
-        companyID: { type: 'integer' },
-        partnerID: { type: 'integer' },
-        voteType: { type: 'string' },
-        market: { type: 'real' },
-        product: { type: 'real' },
-        team: { type: 'real' },
-        fit: { type: 'real' },
-        overall: { type: 'real' },
-        voteComment: { type: 'string' },
+        id: { type: 'integer' },
+        vote_type: { type: 'string' },
+        partner_id: { type: 'integer' },
+        company_id: { type: 'integer' },
+        market_score: { type: 'real' },
+        product_score: { type: 'real' },
+        team_score: { type: 'real' },
+        fit_score: { type: 'real' },
+        comment: { type: 'string' },
+      },
+    };
+  }
+
+  static get relationMappings() {
+    return {
+      voted_company: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: `${__dirname}/companies.model`,
+        join: {
+          from: 'votes.company_id',
+          to: 'companies.id',
+        },
+      },
+      voted_user: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: `${__dirname}/users.model`,
+        join: {
+          from: 'users.id',
+          to: 'votes.partner_id',
+        },
       },
     };
   }
