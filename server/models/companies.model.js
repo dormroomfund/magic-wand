@@ -29,29 +29,16 @@ export default class Company extends Model {
     const Vote = require('./votes.model');
 
     return {
-      founders: {
+      associated_companies: {
         relation: Model.ManyToManyRelation,
         modelClass: User,
         join: {
-          from: 'users.id',
+          from: 'companies.id',
           through: {
-            from: 'users_company_founders.founder_id',
-            to: 'users_company_founders.company_id',
+            from: 'users_companies.company_id',
+            to: 'users_companies.users_id',
           },
-          to: 'companies.id',
-          extra: ['permissions'],
-        },
-      },
-      partners: {
-        relation: Model.ManyToManyRelation,
-        modelClass: User,
-        join: {
-          from: 'users.id',
-          through: {
-            from: 'users_company_partners.partner_id',
-            to: 'users_company_partners.company_id',
-          },
-          to: 'companies.id',
+          to: 'users.id',
           extra: ['permissions'],
         },
       },

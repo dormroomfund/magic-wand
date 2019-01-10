@@ -10,11 +10,12 @@ export default class User extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['id', 'permissions', 'first_name', 'last_name'],
+      required: ['id', 'permissions', 'first_name', 'last_name', 'email'],
 
       properties: {
         id: { type: 'integer' },
         auth0: { type: 'string' },
+        email: { type: 'string' },
         permissions: { type: 'string' },
         first_name: { type: 'string' },
         last_name: { type: 'string' },
@@ -33,7 +34,7 @@ export default class User extends Model {
     const Company = require('./companies.model');
 
     return {
-      companies: {
+      associated_companies: {
         relation: Model.ManyToManyRelation,
         modelClass: Company,
         join: {

@@ -42,8 +42,8 @@ export default class Votes extends Model {
         relation: Model.BelongsToOneRelation,
         modelClass: Company,
         join: {
-          from: 'companies.id',
-          to: 'votes.company_id',
+          from: 'votes.company_id',
+          to: 'companies.id',
         },
       },
       users: {
