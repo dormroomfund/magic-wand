@@ -1,6 +1,6 @@
 import { Model } from 'objection';
 
-export default class Votes extends Model {
+export default class Vote extends Model {
   static get tableName() {
     return 'votes';
   }
@@ -9,14 +9,13 @@ export default class Votes extends Model {
     return {
       type: 'object',
       required: [
-        'id',
-        'vote_type',
-        'partner_id',
         'company_id',
+        'partner_id',
+        'vote_type',
         'market_score',
         'product_score',
         'fit_score',
-        'comment',
+        'team_score',
       ],
 
       properties: {
@@ -34,21 +33,18 @@ export default class Votes extends Model {
   }
 
   static get relationMappings() {
-    const Company = require('./companies.model');
-    const User = require('./users.model');
-
     return {
-      votes: {
+      voted_company: {
         relation: Model.BelongsToOneRelation,
-        modelClass: Company,
+        modelClass: `${__dirname}/companies.model`,
         join: {
           from: 'votes.company_id',
           to: 'companies.id',
         },
       },
-      users: {
+      voted_user: {
         relation: Model.BelongsToOneRelation,
-        modelClass: User,
+        modelClass: `${__dirname}/users.model`,
         join: {
           from: 'users.id',
           to: 'votes.partner_id',

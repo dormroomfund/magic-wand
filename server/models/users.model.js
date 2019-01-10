@@ -31,12 +31,10 @@ export default class User extends Model {
   }
 
   static get relationMappings() {
-    const Company = require('./companies.model');
-
     return {
       associated_companies: {
         relation: Model.ManyToManyRelation,
-        modelClass: Company,
+        modelClass: `${__dirname}/companies.model`,
         join: {
           from: 'users.id',
           through: {

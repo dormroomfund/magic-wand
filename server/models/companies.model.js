@@ -25,13 +25,10 @@ export default class Company extends Model {
   }
 
   static get relationMappings() {
-    const User = require('./users.model');
-    const Vote = require('./votes.model');
-
     return {
-      associated_companies: {
+      associated_users: {
         relation: Model.ManyToManyRelation,
-        modelClass: User,
+        modelClass: `${__dirname}/users.model`,
         join: {
           from: 'companies.id',
           through: {
@@ -42,9 +39,9 @@ export default class Company extends Model {
           extra: ['permissions'],
         },
       },
-      votes: {
+      associated_votes: {
         relation: Model.HasManyRelation,
-        modelClass: Vote,
+        modelClass: `${__dirname}/votes.model`,
         join: {
           from: 'companies.id',
           to: 'votes.company_id',
