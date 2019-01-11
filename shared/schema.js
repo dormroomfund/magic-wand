@@ -1,3 +1,7 @@
+/*
+ * Describes JSON validation schema for each model.
+ */
+
 export default {
   users: {
     type: 'object',
