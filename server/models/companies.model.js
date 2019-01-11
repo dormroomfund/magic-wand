@@ -1,6 +1,5 @@
-// See https://vincit.github.io/objection.js/#models
-// for more of what you can do here.
 import { Model } from 'objection';
+import schema from '../../shared/schema';
 
 export default class Company extends Model {
   static get tableName() {
@@ -8,20 +7,7 @@ export default class Company extends Model {
   }
 
   static get jsonSchema() {
-    return {
-      type: 'object',
-      required: ['id', 'name', 'contact_email'],
-
-      properties: {
-        id: { type: 'integer' },
-        name: { type: 'string' },
-        description: { type: 'string' },
-        industries: { type: 'string[]' },
-        status: { type: 'string' },
-        contact_email: { type: 'array' },
-        company_links: { type: 'object' },
-      },
-    };
+    return schema.companies;
   }
 
   static get relationMappings() {
