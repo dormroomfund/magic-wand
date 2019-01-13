@@ -1,3 +1,5 @@
+import errors from '@feathersjs/errors';
+
 /*
  * This service is used to determine for a given voteType and voteType who
  * has submitted votes.
@@ -15,8 +17,11 @@ export default (app) => {
   const FinalizeVotesService = {
     async patch(id, data) {
       /*
-       * TODO: Query validataion?
+       * If the vote type is not specified throw an error.
        */
+      if (!('vote_type' in data)) {
+        return new errors.BadRequest('Vote Type Not Specified');
+      }
 
       const votes = await app.service('votes').find({
         query: {
@@ -47,7 +52,7 @@ export default (app) => {
             parseFloat(vote.product_score) +
             parseFloat(vote.team_score) +
             parseFloat(vote.fit_score)) /
-          votes.length;
+          4;
 
         if (currAvg > 3.0) {
           numYes += 1;
@@ -56,10 +61,10 @@ export default (app) => {
         }
       });
 
-      marketScoreAvg /= 6.0;
-      productScoreAvg /= 6.0;
-      teamScoreAvg /= 6.0;
-      fitScoreAvg /= 6.0;
+      marketScoreAvg /= votes.data.length;
+      productScoreAvg /= votes.data.length;
+      teamScoreAvg /= votes.data.length;
+      fitScoreAvg /= votes.data.length;
 
       /*
        * If there are enough yes votes mark the company as
