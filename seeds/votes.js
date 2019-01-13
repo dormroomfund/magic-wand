@@ -7,7 +7,7 @@ exports.seed = function(knex) {
       knex('votes').insert([
         {
           id: 1,
-          vote_type: 'Final',
+          vote_type: 'final',
           partner_id: 1,
           company_id: 2,
           market_score: 6,
@@ -18,7 +18,7 @@ exports.seed = function(knex) {
         },
         {
           id: 2,
-          vote_type: 'Final',
+          vote_type: 'final',
           partner_id: 2,
           company_id: 2,
           market_score: 5,

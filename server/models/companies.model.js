@@ -18,8 +18,8 @@ export default class Company extends Model {
         description: { type: 'string' },
         industries: { type: 'string[]' },
         status: { type: 'string' },
-        contact_email: { type: 'array' },
-        company_links: { type: 'object' },
+        contact_email: { type: 'string' },
+        company_links: { type: 'json' },
       },
     };
   }

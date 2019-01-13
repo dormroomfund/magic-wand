@@ -10,8 +10,8 @@ exports.seed = function(knex) {
           name: 'CompanyA',
           description: 'Sells Apples',
           industries: ['agtech'],
-          status: ['applied'],
-          contact_email: ['hello@apple.com'],
+          status: 'applied',
+          contact_email: 'hello@apple.com',
           company_links: {},
         },
         {
@@ -19,8 +19,8 @@ exports.seed = function(knex) {
           name: 'Google',
           description: 'Sells your data',
           industries: ['advertising'],
-          status: ['funded'],
-          contact_email: ['hello@google.com'],
+          status: 'funded',
+          contact_email: 'hello@google.com',
           company_links: {},
         },
       ])
