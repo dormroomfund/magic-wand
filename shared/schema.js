@@ -33,7 +33,7 @@ export default {
       description: { type: 'string' },
       industries: { type: 'string[]' },
       status: { type: 'string' },
-      contact_email: { type: 'array' },
+      contact_email: { type: 'string' },
       company_links: { type: 'object' },
     },
   },
