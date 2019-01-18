@@ -1,4 +1,5 @@
 import { Model } from 'objection';
+import schema from '../../shared/schema';
 
 export default class Vote extends Model {
   static get tableName() {
@@ -6,30 +7,7 @@ export default class Vote extends Model {
   }
 
   static get jsonSchema() {
-    return {
-      type: 'object',
-      required: [
-        'company_id',
-        'partner_id',
-        'vote_type',
-        'market_score',
-        'product_score',
-        'fit_score',
-        'team_score',
-      ],
-
-      properties: {
-        id: { type: 'integer' },
-        vote_type: { type: 'string' },
-        partner_id: { type: 'integer' },
-        company_id: { type: 'integer' },
-        market_score: { type: 'real' },
-        product_score: { type: 'real' },
-        team_score: { type: 'real' },
-        fit_score: { type: 'real' },
-        comment: { type: 'string' },
-      },
-    };
+    return schema.votes;
   }
 
   static get relationMappings() {

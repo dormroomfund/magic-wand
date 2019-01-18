@@ -1,6 +1,5 @@
-// See https://vincit.github.io/objection.js/#models
-// for more of what you can do here.
 import { Model } from 'objection';
+import schema from '../../shared/schema';
 
 export default class User extends Model {
   static get tableName() {
@@ -8,26 +7,7 @@ export default class User extends Model {
   }
 
   static get jsonSchema() {
-    return {
-      type: 'object',
-      required: ['id', 'permissions', 'first_name', 'last_name', 'email'],
-
-      properties: {
-        id: { type: 'integer' },
-        auth0: { type: 'string' },
-        email: { type: 'string' },
-        permissions: { type: 'string' },
-        first_name: { type: 'string' },
-        last_name: { type: 'string' },
-        school: { type: 'string' },
-        photo: { type: 'string' },
-        linkedin: { type: 'string' },
-        gender: { type: 'string' },
-        ethnicity: { type: 'string' },
-        partner_team: { type: 'string' },
-        partner_position: { type: 'string' },
-      },
-    };
+    return schema.users;
   }
 
   static get relationMappings() {
