@@ -1,4 +1,8 @@
-import { fastJoin } from 'feathers-hooks-common';
+import { fastJoin, validateSchema } from 'feathers-hooks-common';
+import Ajv from 'ajv';
+import schema from '../../../client/shared/schema';
+
+const ajv = new Ajv({ allErrors: true, $data: true });
 
 /*
  * Uses fastJoin to query all the partners who have voted on the
@@ -32,15 +36,19 @@ const votedPartners = {
     },
   },
 };
+const partialSchema = {
+  type: schema.companies.type,
+  properties: schema.companies.properties,
+};
 
 module.exports = {
   before: {
     all: [],
     find: [],
     get: [],
-    create: [],
-    update: [],
-    patch: [],
+    create: [validateSchema(schema.companies, ajv)],
+    update: [validateSchema(partialSchema, ajv)],
+    patch: [validateSchema(partialSchema, ajv)],
     remove: [],
   },
   after: {

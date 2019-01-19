@@ -6,34 +6,42 @@ export default {
   users: {
     type: 'object',
     required: ['id', 'permissions', 'first_name', 'last_name', 'email'],
+    description:
+      'Object that defines a user of Magic Wand. Either a partner or founder',
 
     properties: {
       id: { type: 'integer' },
       auth0: { type: 'string' },
-      email: { type: 'string' },
+      email: { type: 'string', format: 'email' },
       permissions: { type: 'string' },
-      first_name: { type: 'string' },
-      last_name: { type: 'string' },
-      school: { type: 'string' },
+      first_name: { type: 'string', maxLength: 128 },
+      last_name: { type: 'string', maxLength: 128 },
+      school: { type: 'string', maxLength: 128 },
       photo: { type: 'string' },
       linkedin: { type: 'string' },
       gender: { type: 'string' },
       ethnicity: { type: 'string' },
-      partner_team: { type: 'string' },
-      partner_position: { type: 'string' },
+      partner_team: {
+        type: 'string',
+        enum: ['Philadelphia', 'Boston', 'New York', 'San Francisco'],
+      },
+      partner_position: {
+        type: 'string',
+        enum: ['', 'Investment Partner', 'Managing Partner', 'HQ Partner'],
+      },
     },
   },
   companies: {
     type: 'object',
     required: ['id', 'name', 'contact_email'],
-
+    description: 'Defines a company that DRF encounters',
     properties: {
       id: { type: 'integer' },
-      name: { type: 'string' },
+      name: { type: 'string', maxLength: 128 },
       description: { type: 'string' },
-      industries: { type: 'string[]' },
-      status: { type: 'string' },
-      contact_email: { type: 'string' },
+      industries: { type: 'array' },
+      status: { type: 'string', maxLength: 128 },
+      contact_email: { type: 'string', format: 'email' },
       company_links: { type: 'object' },
     },
   },
@@ -51,7 +59,10 @@ export default {
 
     properties: {
       id: { type: 'integer' },
-      vote_type: { type: 'string' },
+      vote_type: {
+        type: 'string',
+        enum: ['prevote', 'final'],
+      },
       partner_id: { type: 'integer' },
       company_id: { type: 'integer' },
       market_score: { type: 'real' },
