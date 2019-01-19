@@ -9,10 +9,6 @@ export default (app) => {
   const PeopleWhoVotedService = {
     async find(params) {
       /*
-       * TODO: Query validataion?
-       */
-
-      /*
        * Perform a find query on the votes link to get the names of the partners who
        * have submitted a vote on the company.
        */

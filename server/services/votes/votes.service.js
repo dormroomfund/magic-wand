@@ -9,8 +9,20 @@ export default (app) => {
   const options = {
     model: Vote,
     paginate,
-    whitelist: ['$eager', '$joinRelation'],
-    allowedEager: 'voted_user',
+    whitelist: ['$eager', '$joinRelation', '$pick'],
+    allowedEager: 'voted_users',
+    eagerFilters: [
+      {
+        expression: 'voted_users',
+        filter(builder) {
+          /*
+           * Use the eager filter to only get the first_name
+           * and last_name.
+           */
+          builder.select(['first_name', 'last_name']);
+        },
+      },
+    ],
   };
 
   // Initialize our service with any options it requires
