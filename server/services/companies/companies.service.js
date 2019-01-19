@@ -12,6 +12,6 @@ export default (app) => {
   };
 
   // Initialize our service with any options it requires
-  app.use('/companies', createObjectionService(options));
+  app.use('/api/companies', createObjectionService(options));
   app.service('companies').hooks(hooks);
 };

@@ -7,7 +7,7 @@ import errors from '@feathersjs/errors';
  * For example when considering company_id = 1 and vote_type = 'Final' it will return all
  * the names of the partners who submitted a vote.
  *
- * ex: PATCH /finalize_votes/1
+ * ex: PATCH /api/votes-finalize/1
  * DATA:
  * {
  *    "vote_type": "final"
@@ -102,5 +102,5 @@ export default (app) => {
     },
   };
 
-  app.use('/finalize-votes', FinalizeVotesService);
+  app.use('/votes-finalize', FinalizeVotesService);
 };

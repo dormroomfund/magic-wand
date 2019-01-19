@@ -1,5 +1,9 @@
 import { fastJoin } from 'feathers-hooks-common';
 
+/*
+ * Uses fastJoin to query all the partners who have voted on the
+ * company.
+ */
 const votedPartners = {
   joins: {
     voters: () => async (company, context) => {
