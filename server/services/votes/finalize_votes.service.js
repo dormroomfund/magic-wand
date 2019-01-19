@@ -7,7 +7,7 @@ import errors from '@feathersjs/errors';
  * For example when considering company_id = 1 and vote_type = 'Final' it will return all
  * the names of the partners who submitted a vote.
  *
- * ex: PATCH /api/votes-finalize/1
+ * ex: PATCH /api/votes/finalize/1
  * DATA:
  * {
  *    "vote_type": "final"
@@ -23,7 +23,7 @@ export default (app) => {
         return new errors.BadRequest('Vote Type Not Specified');
       }
 
-      const votes = await app.service('votes').find({
+      const votes = await app.service('api/votes').find({
         query: {
           vote_type: data.vote_type,
           company_id: id,
@@ -76,12 +76,12 @@ export default (app) => {
       if (data.vote_type === 'final') {
         if (numYes > numNo) {
           status = 'Funded';
-          await app.service('companies').patch(id, {
+          await app.service('api/companies').patch(id, {
             status: 'Funded',
           });
         } else {
           status = 'Rejected';
-          await app.service('companies').patch(id, {
+          await app.service('api/companies').patch(id, {
             status: 'Rejected',
           });
         }
@@ -102,5 +102,5 @@ export default (app) => {
     },
   };
 
-  app.use('/votes-finalize', FinalizeVotesService);
+  app.use('api/votes/finalize', FinalizeVotesService);
 };

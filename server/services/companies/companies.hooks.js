@@ -7,7 +7,7 @@ import { fastJoin } from 'feathers-hooks-common';
 const votedPartners = {
   joins: {
     voters: () => async (company, context) => {
-      const votes = context.app.service('votes');
+      const votes = context.app.service('api/votes');
       const associatedVotes = (await votes.find({
         query: {
           company_id: company.id,
