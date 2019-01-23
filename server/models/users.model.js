@@ -1,5 +1,3 @@
-// See https://vincit.github.io/objection.js/#models
-// for more of what you can do here.
 import { Model } from 'objection';
 import schema from '../../shared/schema';
 
