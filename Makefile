@@ -39,6 +39,10 @@ production:
 lint:
 	npx eslint server/. client/. test/. --ext js,jsx --config .eslintrc.json
 
+# Runs the TypeScript type checker.
+typecheck:
+	npx tsc --noEmit
+
 # Runs prettier on the codebase.
 prettier:
 	npx prettier --write "{server,client,test}/**/*.js" "config/**/*.json"
