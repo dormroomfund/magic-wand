@@ -43,6 +43,10 @@ lint:
 typecheck:
 	npx tsc --noEmit
 
+# Runs a type coverage analysis of the codebase.
+type-coverage:
+	npx type-coverage --strict --at-least 50
+
 # Runs prettier on the codebase.
 prettier:
 	npx prettier --write "{server,client,test}/**/*.js" "config/**/*.json"
