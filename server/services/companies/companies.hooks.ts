@@ -33,7 +33,7 @@ const votedPartners = {
   },
 };
 
-module.exports = {
+export default {
   before: {
     all: [],
     find: [],
