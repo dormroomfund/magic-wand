@@ -26,6 +26,6 @@ export default (app) => {
   };
 
   // Initialize our service with any options it requires
-  app.use('api/votes', createObjectionService(options));
+  app.use('/api/votes', createObjectionService(options));
   app.service('api/votes').hooks(hooks);
 };

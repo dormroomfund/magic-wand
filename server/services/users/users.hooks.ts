@@ -1,5 +1,5 @@
 import { hooks as authHooks } from '@feathersjs/authentication';
-import { validateSchema } from 'feathers-hooks-common';
+import { AjvOrNewable, validateSchema } from 'feathers-hooks-common';
 import Ajv from 'ajv';
 import schema from '../../../client/shared/schema';
 
@@ -16,9 +16,9 @@ export default {
     all: [],
     find: [authenticate('jwt')],
     get: [authenticate('jwt')],
-    create: [validateSchema(schema.users, ajv)],
-    update: [authenticate('jwt'), validateSchema(partialSchema, ajv)],
-    patch: [authenticate('jwt'), validateSchema(partialSchema, ajv)],
+    create: [validateSchema(schema.users, <AjvOrNewable> ajv)],
+    update: [authenticate('jwt'), validateSchema(partialSchema, <AjvOrNewable> ajv)],
+    patch: [authenticate('jwt'), validateSchema(partialSchema, <AjvOrNewable> ajv)],
     remove: [authenticate('jwt')],
   },
 

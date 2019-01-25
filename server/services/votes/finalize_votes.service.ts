@@ -102,5 +102,5 @@ export default (app) => {
     },
   };
 
-  app.use('api/votes/finalize', FinalizeVotesService);
+  app.use('/api/votes/finalize', FinalizeVotesService);
 };
