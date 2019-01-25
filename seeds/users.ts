@@ -1,3 +1,5 @@
+import faker from 'faker';
+
 exports.seed = function(knex) {
   // Deletes ALL existing entries
   return knex('users')
@@ -9,8 +11,10 @@ exports.seed = function(knex) {
           id: 1,
           auth0: 'dasdasdasda',
           permissions: 'partner',
-          first_name: 'john',
-          last_name: 'doe',
+          first_name: faker.name.firstName(),
+          last_name: faker.name.lastName(),
+          school: 'School of Hard knocks',
+          email: faker.internet.email(),
           gender: 'male',
           ethnicity: 'Asian',
           partner_team: 'PHL',
@@ -20,8 +24,10 @@ exports.seed = function(knex) {
           id: 2,
           auth0: 'adasd',
           permissions: 'partner',
-          first_name: 'jane',
-          last_name: 'doe',
+          first_name: faker.name.firstName(),
+          last_name: faker.name.lastName(),
+          school: 'Harvard University',
+          email: faker.internet.email(),
           gender: 'female',
           ethnicity: 'African-American',
           partner_team: 'BOS',
@@ -31,9 +37,11 @@ exports.seed = function(knex) {
           id: 3,
           auth0: '23454342',
           permissions: 'founder',
-          first_name: 'Larry',
-          last_name: 'Page',
-          gender: 'Male',
+          first_name: faker.name.firstName(),
+          last_name: faker.name.lastName(),
+          school: 'University of Pennsylvania',
+          email: faker.internet.email(),
+          gender: 'male',
           ethnicity: 'White',
         },
       ])

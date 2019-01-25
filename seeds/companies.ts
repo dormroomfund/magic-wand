@@ -1,3 +1,5 @@
+import faker from 'faker';
+
 exports.seed = function(knex) {
   // Deletes ALL existing entries
   return knex('companies')
@@ -7,20 +9,20 @@ exports.seed = function(knex) {
       knex('companies').insert([
         {
           id: 1,
-          name: 'CompanyA',
-          description: 'Sells Apples',
+          name: faker.company.companyName(),
+          description: faker.company.catchPhrase(),
           industries: ['agtech'],
           status: ['applied'],
-          contact_email: ['hello@apple.com'],
+          contact_email: [faker.internet.email()],
           company_links: {},
         },
         {
           id: 2,
-          name: 'Google',
-          description: 'Sells your data',
+          name: faker.company.companyName(),
+          description: faker.company.catchPhrase(),
           industries: ['advertising'],
           status: ['funded'],
-          contact_email: ['hello@google.com'],
+          contact_email: [faker.internet.email()],
           company_links: {},
         },
       ])
