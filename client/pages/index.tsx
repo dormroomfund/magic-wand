@@ -1,3 +1,8 @@
 import React from 'react';
+import Layout from '../components/Layout/Layout';
 
-export default () => <div>Welcome to next.js!</div>;
+export default () => (
+  <Layout>
+    <div>Welcome to next.js!</div>
+  </Layout>
+);
