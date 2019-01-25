@@ -10,6 +10,7 @@ const ajv = new Ajv({ allErrors: true, $data: true });
 const partialSchema = {
   type: schema.companies.type,
   properties: schema.companies.properties,
+  additionalProperties: false,
 };
 
 /*

@@ -9,6 +9,7 @@ const ajv = new Ajv({ allErrors: true, $data: true });
 const partialSchema = {
   type: schema.users.type,
   properties: schema.users.properties,
+  additionalProperties: false,
 };
 
 export default {
