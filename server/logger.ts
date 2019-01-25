@@ -20,7 +20,9 @@ export const loggerOptions = {
     errorStackTracerFormat(),
     format.printf(
       (info) =>
-        `[${info.level}] ${colors.dim(`${info.timestamp}:`)} ${info.message}`
+        `[${info.level}] ${colors.dim(`${info.timestamp}:`)} ${
+          info.message
+        } \n ${info.meta && info.meta.join('\n')}`
     )
   ),
   transports: [new transports.Console()],

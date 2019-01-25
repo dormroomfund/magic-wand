@@ -13,11 +13,11 @@ install:
 
 # Starts the server in development mode, restarting when changes detected.
 dev:
-	npx nodemon --exec babel-node server/
+	npx nodemon --exec ts-node server/
 
 # Starts the server in development mode.
 start:
-	npx babel-node server/
+	npx ts-node server/
 
 ################################################################################
 
@@ -39,6 +39,14 @@ production:
 lint:
 	npx eslint server/. client/. test/. --ext js,jsx --config .eslintrc.json
 
+# Runs the TypeScript type checker.
+typecheck:
+	npx tsc --noEmit
+
+# Runs a type coverage analysis of the codebase.
+type-coverage:
+	npx type-coverage --strict --at-least 50
+
 # Runs prettier on the codebase.
 prettier:
 	npx prettier --write "{server,client,test}/**/*.js" "config/**/*.json"
@@ -58,12 +66,12 @@ test: lint jest
 
 # Make a migration from template.
 make-migration:
-	npx knex migrate:make
+	npx knex migrate:make --knexfile knexfile.ts
 
 # Migrate the database to the latest migration.
 migrate:
-	npx knex migrate:latest
+	npx knex migrate:latest --knexfile knexfile.ts
 
 # Roll back the database to before the latest mgiration.
 rollback:
-	npx knex mgirate:rollback
+	npx knex migrate:rollback --knexfile knexfile.ts
