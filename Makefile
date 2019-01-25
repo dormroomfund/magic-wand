@@ -75,3 +75,6 @@ migrate:
 # Roll back the database to before the latest mgiration.
 rollback:
 	npx knex migrate:rollback --knexfile knexfile.ts
+
+seed:
+	npx knex seed:run --knexfile knexfile.ts
