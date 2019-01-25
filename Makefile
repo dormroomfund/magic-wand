@@ -4,7 +4,7 @@
   lint prettier lint-fix jest test \
   make-migration migrate rollback
 
-default: start
+default: dev
 
 install:
 	npm install
