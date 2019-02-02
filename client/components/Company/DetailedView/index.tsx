@@ -33,7 +33,17 @@ const CompanyLayout = styled.div`
   }
 `;
 
-export default class CompanyDetails extends React.Component {
+interface CompanyProps {
+  match: any
+}
+
+interface CompanyState {
+  response: any,
+  loading: any
+}
+
+
+export default class CompanyDetails extends React.Component<CompanyProps, CompanyState> {
   constructor(props) {
     super(props);
     this.state = { response: "", loading: true };

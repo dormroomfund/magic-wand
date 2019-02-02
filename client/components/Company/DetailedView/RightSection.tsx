@@ -31,7 +31,7 @@ const Text = styled.span`
  * then you can conditionally render any button you want
  * *****************************************/
 
-const RightSection = () => {
+const RightSection = ({ props }) => {
   return (
     <StyledDiv>
       <div>

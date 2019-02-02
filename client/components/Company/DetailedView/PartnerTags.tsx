@@ -1,11 +1,13 @@
 import React from "react";
 import { Tag, Input, Tooltip, Icon } from "antd";
 
+
 class EditableTagGroup extends React.Component {
   state = {
     tags: ["Albert Dong", "Yoni Dejene"],
     inputVisible: false,
-    inputValue: ""
+    inputValue: "",
+    input: {focus}
   };
 
   handleClose = removedTag => {
@@ -15,7 +17,7 @@ class EditableTagGroup extends React.Component {
   };
 
   showInput = () => {
-    this.setState({ inputVisible: true }, () => this.input.focus());
+    this.setState({ inputVisible: true }, () => this.state.input.focus());
   };
 
   handleInputChange = e => {
@@ -37,7 +39,7 @@ class EditableTagGroup extends React.Component {
     });
   };
 
-  saveInputRef = input => (this.input = input);
+  saveInputRef = input => (this.setState({input: input}));
 
   render() {
     const { tags, inputVisible, inputValue } = this.state;
