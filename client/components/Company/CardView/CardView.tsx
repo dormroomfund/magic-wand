@@ -32,11 +32,11 @@ export default class CompanyCard extends React.Component<Company> {
               <Card>
                 <h3>{this.props.company.name} </h3>
                 <p>{this.props.company.description} </p>
-                {/*<Link to={`/company/${this.props.company.id}`}>*/}
-                  {/*<Button style={{ float: "right" }} type="primary">*/}
-                    {/*View*/}
-                  {/*</Button>*/}
-                {/*</Link>*/}
+                <Link to={`/company/${this.props.company.id}`}>
+                  <Button style={{ float: "right" }} type="primary">
+                    View
+                  </Button>
+                </Link>
               </Card>
             </CompanyContainer>
           )}
