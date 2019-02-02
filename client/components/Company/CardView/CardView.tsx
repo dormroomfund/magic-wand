@@ -14,8 +14,6 @@ interface Company {
 }
 
 export default class CompanyCard extends React.Component<Company> {
-  index;
-  company;
   constructor(props) {
     super(props);
   };
@@ -28,17 +26,17 @@ export default class CompanyCard extends React.Component<Company> {
             <CompanyContainer
               {...provided.draggableProps}
               {...provided.dragHandleProps}
-              innerRef={provided.innerRef}
+              ref={provided.innerRef}
               isDragging={snapshot.isDragging}
             >
               <Card>
                 <h3>{this.props.company.name} </h3>
                 <p>{this.props.company.description} </p>
-                <Link to={`/company/${this.props.company.id}`}>
-                  <Button style={{ float: "right" }} type="primary">
-                    View
-                  </Button>
-                </Link>
+                {/*<Link to={`/company/${this.props.company.id}`}>*/}
+                  {/*<Button style={{ float: "right" }} type="primary">*/}
+                    {/*View*/}
+                  {/*</Button>*/}
+                {/*</Link>*/}
               </Card>
             </CompanyContainer>
           )}

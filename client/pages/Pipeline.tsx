@@ -1,20 +1,14 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import styled from 'styled-components';
 import { DragDropContext } from 'react-beautiful-dnd';
 import axios from 'axios';
 
-import Navbar from '../components/Navbar';
-import Column from '../components/Column.js';
-import Spinner from '../components/Spinner/Spinner.js';
+import Layout from '../components/Layout/Layout';
+import Column from '../components/Column';
 import transformData from './utils';
 
 const AppContainer = styled.div`
   display: flex;
-`;
-
-const Layout = styled.div`
-  display: grid;
-  justify-items: center;
 `;
 
 interface PipelineProps {
@@ -28,16 +22,36 @@ interface PipelineState {
   columnOrder: any
 }
 
-export default class Pipeline extends React.Component<PipelineProps, PipelineState> {
+const config = {
+  headers: {'Access-Control-Allow-Origin': '*'}
+};
+
+export default class Pipeline extends PureComponent<
+  PipelineProps,
+  PipelineState> {
+
+  state = {
+    loading: true,
+    columns: [],
+    companies: [],
+    columnOrder: []
+  };
+
   constructor(props) {
     super(props);
   }
 
   componentDidMount() {
     axios
-      .get('https://drfvote-magicwand.herokuapp.com/api/v2/companies')
+      .get('https://drfvote-magicwand.herokuapp.com/api/v2/companies', config)
       .then((response) => {
-        this.setState({ ...transformData(response.data.data), loading: false });
+        console.log(response);
+        const ret = transformData(response.data.data);
+        console.log(ret);
+        this.setState({ columnOrder: ret.columnOrder,
+                        columns: ret.columns,
+                        companies: ret.companies,
+                        loading: false });
       });
     // .catch(error => {
     //   console.log(error);
@@ -137,10 +151,9 @@ export default class Pipeline extends React.Component<PipelineProps, PipelineSta
 
   render() {
     return (
-      <Navbar>
         <Layout>
           {this.state.loading ? (
-            <Spinner />
+            <div> Loading </div>
           ) : (
             <DragDropContext onDragEnd={this.onDragEnd}>
               <AppContainer>
@@ -162,7 +175,6 @@ export default class Pipeline extends React.Component<PipelineProps, PipelineSta
             </DragDropContext>
           )}
         </Layout>
-      </Navbar>
     );
   }
 }

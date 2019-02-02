@@ -41,13 +41,13 @@ export default class Column extends React.Component<ColumnProps> {
         <Droppable droppableId={this.props.column.id}>
           {(provided, snapshot) => (
             <CompanyList
-              innerRef={provided.innerRef}
+              ref={provided.innerRef}
               {...provided.droppableProps}
               isDraggingOver={snapshot.isDraggingOver}
             >
-              {/*{this.props.companies.map((company, index) => (*/}
-                {/*<CompanyCard key={company.id} company={company} index={index} />*/}
-              {/*))}*/}
+              {this.props.companies.map((company, index) => (
+                <CompanyCard key={company.id} company={company} index={index} />
+              ))}
               {provided.placeholder}
             </CompanyList>
           )}

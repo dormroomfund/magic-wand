@@ -1,10 +1,10 @@
 import React from "react";
-import Navbar from "../components/Navbar";
+import Layout from '../components/Layout/Layout';
 
 const Research = () => (
-  <Navbar>
-    <h1> Research </h1>
-  </Navbar>
+  <Layout>
+    <div>Research</div>
+  </Layout>
 );
 
 export default Research;
