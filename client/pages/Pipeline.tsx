@@ -43,15 +43,15 @@ export default class Pipeline extends PureComponent<
 
   componentDidMount() {
     axios
-      .get('https://drfvote-magicwand.herokuapp.com/api/v2/companies', config)
+      .get('http://localhost:3000/api/companies', config)
       .then((response) => {
         console.log(response);
         const ret = transformData(response.data.data);
         console.log(ret);
-        this.setState({ columnOrder: ret.columnOrder,
-                        columns: ret.columns,
-                        companies: ret.companies,
-                        loading: false });
+        // this.setState({ columnOrder: ret.columnOrder,
+        //                 columns: ret.columns,
+        //                 companies: ret.companies,
+        //                 loading: false });
       });
     // .catch(error => {
     //   console.log(error);

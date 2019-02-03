@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Draggable } from "react-beautiful-dnd";
 import { Card, Button } from "antd";
+import Layout from '../../Layout/Layout';
 import { Link } from "react-router-dom";
 
 const CompanyContainer = styled.div`
@@ -20,6 +21,7 @@ export default class CompanyCard extends React.Component<Company> {
 
   render() {
     return (
+      <Layout>
       <div>
         <Draggable draggableId={this.props.company.id} index={this.props.index}>
           {(provided, snapshot) => (
@@ -32,16 +34,17 @@ export default class CompanyCard extends React.Component<Company> {
               <Card>
                 <h3>{this.props.company.name} </h3>
                 <p>{this.props.company.description} </p>
-                <Link to={`/company/${this.props.company.id}`}>
-                  <Button style={{ float: "right" }} type="primary">
-                    View
-                  </Button>
-                </Link>
+                {/*<Link to={`/company/${this.props.company.id}`}>*/}
+                  {/*<Button style={{ float: "right" }} type="primary">*/}
+                    {/*View*/}
+                  {/*</Button>*/}
+                {/*</Link>*/}
               </Card>
             </CompanyContainer>
           )}
         </Draggable>
       </div>
+      </Layout>
     );
   }
 }

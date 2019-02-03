@@ -1,12 +1,12 @@
 import React from "react";
-import Navbar from "../components/Navbar";
+import Layout from '../components/Layout/Layout';
 
 class PortfolioSuccesss extends React.Component {
   render() {
     return (
-      <Navbar>
+      <Layout>
         <h1> Portfolio </h1>
-      </Navbar>
+      </Layout>
     );
   }
 }
