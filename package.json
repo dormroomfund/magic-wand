@@ -64,6 +64,7 @@
     "compression": "^1.7.3",
     "config": "^3.0.1",
     "cors": "^2.8.5",
+    "faker": "^4.1.0",
     "feathers-hooks-common": "^4.20.2",
     "feathers-objection": "^2.0.0",
     "feathers-sequelize": "^4.0.7",
@@ -76,6 +77,7 @@
     "passport-auth0": "^1.1.0",
     "pg": "^7.7.1",
     "react": "^16.7.0",
+    "react-bootstrap": "^1.0.0-beta.4",
     "react-dom": "^16.7.0",
     "serve-favicon": "^2.5.0",
     "tcomb": "^3.2.29",
@@ -86,6 +88,7 @@
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/node": "^7.2.2",
+    "babel-eslint": "^10.0.1",
     "eslint": "^5.11.1",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^3.3.0",
