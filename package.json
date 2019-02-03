@@ -72,6 +72,7 @@
     "knex": "^0.16.3",
     "next": "^7.0.2",
     "next-routes": "^1.4.2",
+    "node-config": "0.0.2",
     "objection": "^1.4.0",
     "passport-auth0": "^1.1.0",
     "pg": "^7.7.1",
@@ -82,6 +83,7 @@
     "tcomb": "^3.2.29",
     "ts-node": "^8.0.1",
     "tslint": "^5.12.1",
+    "unstated": "^2.1.1",
     "winston": "^3.1.0"
   },
   "devDependencies": {
