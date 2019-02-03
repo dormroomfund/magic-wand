@@ -1,5 +1,6 @@
 import React from 'react';
 import NavDropdown from 'react-bootstrap/lib/NavDropdown';
+<<<<<<< HEAD
 import UserContainer, { AuthState } from '../../containers/UserContainer';
 import { Subscribe } from 'unstated';
 import Nav from 'react-bootstrap/lib/Nav';
@@ -39,4 +40,11 @@ export default () => (
       }
     }}
   </Subscribe>
+=======
+
+export default () => (
+  <NavDropdown title="<e-mail address>" id="user-actions-drop">
+    <NavDropdown.Item>Log Out</NavDropdown.Item>
+  </NavDropdown>
+>>>>>>> master
 );
