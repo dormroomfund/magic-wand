@@ -1,5 +1,5 @@
 import { Model } from 'objection';
-import schema from '../../shared/schema';
+import schema from '../../client/shared/schema';
 
 export default class Vote extends Model {
   static get tableName() {
