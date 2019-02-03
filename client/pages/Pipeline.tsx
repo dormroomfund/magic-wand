@@ -48,10 +48,10 @@ export default class Pipeline extends PureComponent<
         console.log(response);
         const ret = transformData(response.data.data);
         console.log(ret);
-        // this.setState({ columnOrder: ret.columnOrder,
-        //                 columns: ret.columns,
-        //                 companies: ret.companies,
-        //                 loading: false });
+        this.setState({ columnOrder: ret.columnOrder,
+                        columns: ret.columns,
+                        companies: ret.companies,
+                        loading: false });
       });
     // .catch(error => {
     //   console.log(error);
@@ -111,25 +111,7 @@ export default class Pipeline extends PureComponent<
       companyIds: homeCompanyIds,
     };
 
-    axios
-      .patch(
-        `https://drfvote-magicwand.herokuapp.com/api/v2/companies/${draggableId}`,
-        {
-          data: {
-            type: 'companies',
-            id: '5',
-            attributes: {
-              stage: 'pre-pitch',
-            },
-          },
-        }
-      )
-      .then((response) => {
-        this.setState({ ...transformData(response.data.data), loading: false });
-      });
-    // .catch(error => {
-    //   console.log(error);
-    // });
+    console.log(newHome);
 
     const foreignCompanyIds = Array.from(foreign.companyIds);
     foreignCompanyIds.splice(destination.index, 0, draggableId);
@@ -137,6 +119,22 @@ export default class Pipeline extends PureComponent<
       ...foreign,
       companyIds: foreignCompanyIds,
     };
+    console.log(newForeign);
+
+    axios
+      .patch(
+        `http://localhost:3000/api/companies/${draggableId}`,
+        {
+            status: newForeign.id
+          }
+      )
+      // .then((response) => {
+      //   this.setState({ ...transformData(response.data.data), loading: false });
+      // });
+    .catch(error => {
+      console.log(error);
+    });
+
 
     const newState = {
       ...this.state,
@@ -146,6 +144,7 @@ export default class Pipeline extends PureComponent<
         [newForeign.id]: newForeign,
       },
     };
+
     this.setState(newState);
   };
 
