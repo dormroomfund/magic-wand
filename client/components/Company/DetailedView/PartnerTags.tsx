@@ -16,9 +16,9 @@ class EditableTagGroup extends React.Component {
     this.setState({ tags });
   };
 
-  // showInput = () => {
-  //   this.setState({ inputVisible: true }, () => this.state.input.focus());
-  // };
+  showInput = () => {
+    this.setState({ inputVisible: true });
+  };
 
   handleInputChange = e => {
     this.setState({ inputValue: e.target.value });
