@@ -3,6 +3,7 @@ import axios from "axios";
 import styled from "styled-components";
 
 import Spinner from "../components/Spinner/Spinner";
+import Layout from '../components/Layout/Layout';
 import LeftSection from "../components/Company/DetailedView/LeftSection";
 import RightSection from "../components/Company/DetailedView/RightSection";
 
@@ -34,7 +35,8 @@ const CompanyLayout = styled.div`
 `;
 
 interface CompanyProps {
-  match: any
+  match: any,
+  id: any
 }
 
 interface CompanyState {
@@ -42,43 +44,50 @@ interface CompanyState {
   loading: any
 }
 
-// TODO: Needs to be integrated with Next routing. Not sure how to do this yet.
+const axios_config = {
+  headers: {'Access-Control-Allow-Origin': '*'}
+};
+
 export default class Company extends React.Component<CompanyProps, CompanyState> {
   static async getInitialProps({query}) {
-    console.log(query);
+    return query
   }
 
+  state = {
+    response: {},
+    loading: false
+  }
   constructor(props) {
     super(props);
-    this.state = { response: "", loading: true };
   }
 
   componentDidMount() {
     axios
       .get(
-        `https://drfvote-magicwand.herokuapp.com/api/v2/companies/1?include=team,pitches,partners,founders`
+        `http://localhost:3000/api/companies/${this.props.id}`, axios_config
       )
       .then(response => {
-        this.setState({ response: response.data.data, loading: false });
-      });
-    // .catch(error => {
-    //   console.log(error);
-    // });
+        this.setState({ response: response.data, loading: false });
+      })
+    .catch(error => {
+      console.log(error);
+    });
   }
 
   render() {
     return (
-      <div>
-        <NavLine />
-        {this.state.loading ? (
-          {/*<Spinner />*/}
-        ) : (
-          <CompanyLayout>
-            <LeftSection props={this.state.response} />
-            <RightSection props={this.state.response} />
-          </CompanyLayout>
-        )}
-      </div>
+      <Layout>
+        <div>
+          {this.state.loading ?
+            <div> Loading </div>
+           : (
+            <CompanyLayout>
+              <LeftSection props={this.state.response} />
+              <RightSection props={this.state.response} />
+            </CompanyLayout>
+          )}
+        </div>
+      </Layout>
     );
   }
 }

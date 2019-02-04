@@ -6,8 +6,7 @@ class EditableTagGroup extends React.Component {
   state = {
     tags: ["Albert Dong", "Yoni Dejene"],
     inputVisible: false,
-    inputValue: "",
-    input: {focus}
+    inputValue: ""
   };
 
   handleClose = removedTag => {
