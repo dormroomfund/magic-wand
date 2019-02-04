@@ -1,8 +1,6 @@
 /*
-@params array of companies
-returns formatted data for Kanban board
-*/
-
+ * Takes Company Data and converts to Trello Style Board.
+ */
 const transformData = arr => {
   let company_list = {};
 
@@ -29,23 +27,27 @@ const transformData = arr => {
     },
   };
 
-  for (let i in arr) {
-    let id = arr[i]["id"];
+  arr.forEach(elt => {
+    const id = elt['id'];
     company_list[id] = {
       id: id,
-      name: arr[i]["name"],
-      description: arr[i]["description"]
+      name: elt['name'],
+      description: elt['description']
     };
 
-    if (arr[i]['status'] in columns) {
-      columns[arr[i]["status"]]["companyIds"].push(id);
+    /*
+     * If the company's status fits in one of the columns add it
+     * to that column.
+     */
+    if (elt['status'] in columns) {
+      columns[elt["status"]]['companyIds'].push(id);
     }
-  }
+  });
 
   return {
     columns: columns,
     companies: company_list,
-    columnOrder: ["applied", "pre_pitch", "deferred", "pitch"]
+    columnOrder: ['applied', 'pre_pitch', 'deferred', 'pitch']
   };
 };
 

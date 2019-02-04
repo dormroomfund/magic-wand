@@ -30,10 +30,10 @@ app.configure(socketio());
 
 app.configure(objection);
 
-// Configure other middleware (see `middleware/index.tsx`)
+// Configure other middleware (see `middleware/Company.tsx`)
 app.configure(middleware);
 app.configure(authentication);
-// Set up our services (see `services/index.tsx`)
+// Set up our services (see `services/Company.tsx`)
 app.configure(services);
 // Set up next.js hooks
 app.configure(nextMiddleware);

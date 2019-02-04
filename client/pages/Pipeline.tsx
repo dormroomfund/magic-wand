@@ -17,19 +17,16 @@ interface PipelineProps {
 
 interface PipelineState {
   loading: boolean,
-  columns: any,
-  companies: any
-  columnOrder: any
+  columns: Object,
+  companies: Object
+  columnOrder: Array<string>
 }
 
-const config = {
+const axios_config = {
   headers: {'Access-Control-Allow-Origin': '*'}
 };
 
-export default class Pipeline extends PureComponent<
-  PipelineProps,
-  PipelineState> {
-
+export default class Pipeline extends PureComponent<PipelineProps, PipelineState> {
   state = {
     loading: true,
     columns: [],
@@ -43,19 +40,18 @@ export default class Pipeline extends PureComponent<
 
   componentDidMount() {
     axios
-      .get('http://localhost:3000/api/companies', config)
+      .get('http://localhost:3000/api/companies', axios_config)
       .then((response) => {
-        console.log(response);
         const ret = transformData(response.data.data);
-        console.log(ret);
         this.setState({ columnOrder: ret.columnOrder,
                         columns: ret.columns,
                         companies: ret.companies,
                         loading: false });
-      });
-    // .catch(error => {
-    //   console.log(error);
-    // });
+      })
+    .catch(error => {
+      // TODO: Add error handling
+      console.log(error);
+    });
   }
 
   onDragEnd = (result) => {
@@ -111,16 +107,17 @@ export default class Pipeline extends PureComponent<
       companyIds: homeCompanyIds,
     };
 
-    console.log(newHome);
-
     const foreignCompanyIds = Array.from(foreign.companyIds);
     foreignCompanyIds.splice(destination.index, 0, draggableId);
     const newForeign = {
       ...foreign,
       companyIds: foreignCompanyIds,
     };
-    console.log(newForeign);
 
+    /*
+     * Update the database with the new status of the company.
+     * Note that draggableId is equivalent to the companyID.
+     */
     axios
       .patch(
         `http://localhost:3000/api/companies/${draggableId}`,
@@ -128,13 +125,9 @@ export default class Pipeline extends PureComponent<
             status: newForeign.id
           }
       )
-      // .then((response) => {
-      //   this.setState({ ...transformData(response.data.data), loading: false });
-      // });
     .catch(error => {
       console.log(error);
     });
-
 
     const newState = {
       ...this.state,
@@ -161,7 +154,6 @@ export default class Pipeline extends PureComponent<
                   const companies = column.companyIds.map(
                     (companyId) => this.state.companies[companyId]
                   );
-
                   return (
                     <Column
                       key={column.id}

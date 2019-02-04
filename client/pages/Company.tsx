@@ -2,9 +2,9 @@ import React from "react";
 import axios from "axios";
 import styled from "styled-components";
 
-import Spinner from "../../Spinner/Spinner.js";
-import LeftSection from "./LeftSection";
-import RightSection from "./RightSection";
+import Spinner from "../components/Spinner/Spinner";
+import LeftSection from "../components/Company/DetailedView/LeftSection";
+import RightSection from "../components/Company/DetailedView/RightSection";
 
 const NavLine = styled.hr`
   width: 90vw;
@@ -42,8 +42,12 @@ interface CompanyState {
   loading: any
 }
 
+// TODO: Needs to be integrated with Next routing. Not sure how to do this yet.
+export default class Company extends React.Component<CompanyProps, CompanyState> {
+  static async getInitialProps({query}) {
+    console.log(query);
+  }
 
-export default class CompanyDetails extends React.Component<CompanyProps, CompanyState> {
   constructor(props) {
     super(props);
     this.state = { response: "", loading: true };
@@ -52,9 +56,7 @@ export default class CompanyDetails extends React.Component<CompanyProps, Compan
   componentDidMount() {
     axios
       .get(
-        `https://drfvote-magicwand.herokuapp.com/api/v2/companies/${
-          this.props.match.params.id
-        }?include=team,pitches,partners,founders`
+        `https://drfvote-magicwand.herokuapp.com/api/v2/companies/1?include=team,pitches,partners,founders`
       )
       .then(response => {
         this.setState({ response: response.data.data, loading: false });
@@ -69,7 +71,7 @@ export default class CompanyDetails extends React.Component<CompanyProps, Compan
       <div>
         <NavLine />
         {this.state.loading ? (
-          <Spinner />
+          {/*<Spinner />*/}
         ) : (
           <CompanyLayout>
             <LeftSection props={this.state.response} />
