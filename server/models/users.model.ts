@@ -6,9 +6,9 @@ export default class User extends Model {
     return 'users';
   }
 
-  static get jsonSchema() {
-    return schema.users;
-  }
+  // static get jsonSchema() {
+  //   return schema.users;
+  // }
 
   static get relationMappings() {
     return {

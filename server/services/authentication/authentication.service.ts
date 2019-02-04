@@ -16,11 +16,12 @@ export default function(app) {
       name: 'auth0',
       Strategy: Auth0Strategy,
       ...config.auth0,
+      state: true,
     })
   );
 
   // The `authentication` service is used to create a JWT.
   // The before `create` hook registers strategies that can be used
   // to create a new valid JWT (e.g. local or oauth2)
-  app.service('authentication').hooks(authenticationHooks);
+  app.service('api/authentication').hooks(authenticationHooks);
 }

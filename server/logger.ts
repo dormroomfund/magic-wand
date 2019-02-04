@@ -18,12 +18,16 @@ export const loggerOptions = {
     format.timestamp({ format: 'HH:mm:ss' }),
     format.splat(),
     errorStackTracerFormat(),
-    format.printf(
-      (info) =>
-        `[${info.level}] ${colors.dim(`${info.timestamp}:`)} ${
-          info.message
-        } \n ${info.meta && info.meta.join('\n')}`
-    )
+    format.printf((info) => {
+      let out = `[${info.level}] ${colors.dim(`${info.timestamp}:`)} ${
+        info.message
+      } `;
+      if (info.meta && info.meta.join) {
+        out += `\n${info.meta.join('\n')}`;
+      }
+
+      return out;
+    })
   ),
   transports: [new transports.Console()],
 };

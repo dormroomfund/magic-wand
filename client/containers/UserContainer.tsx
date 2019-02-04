@@ -2,8 +2,6 @@ import getConfig from 'next/config';
 import { Container } from 'unstated';
 import { getUser } from '../lib/authentication';
 import client from '../lib/client';
-import { User } from '../shared/interfaces/User';
-import { nextUserState, UserEvent, UserState } from '../shared/state/UserState';
 
 const { publicRuntimeConfig } = getConfig();
 const auth0domain = publicRuntimeConfig.authentication.auth0.domain;
@@ -15,6 +13,9 @@ export enum AuthState {
   LoggingIn = 'logging-in',
   LoggedIn = 'logged-in',
 }
+
+// TODO: Generate more granular types.
+export type User = any;
 
 export interface UserContainerState {
   authState: AuthState;
@@ -65,18 +66,6 @@ export default class UserContainer extends Container<UserContainerState> {
 
     const returnTo = encodeURIComponent(logoutRedirect);
     window.location.href = `https://${auth0domain}/v2/logout?returnTo=${returnTo}`;
-  }
-
-  async sendUserEvent(event: UserEvent) {
-    const { user } = this.state;
-    if (!user) {
-      throw new Error('no user found');
-    }
-
-    const newUser = await client.service('api/users').patch(user.id || null, {
-      state: nextUserState(user.state as UserState, event),
-    });
-    this.setState({ user: newUser });
   }
 
   // PRIVATE

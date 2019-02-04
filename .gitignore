@@ -114,3 +114,6 @@ dist/
 
 # Next.js
 .next/
+
+# Config Defaults
+config/local.json

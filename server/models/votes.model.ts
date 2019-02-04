@@ -6,9 +6,9 @@ export default class Vote extends Model {
     return 'votes';
   }
 
-  static get jsonSchema() {
-    return schema.votes;
-  }
+  // static get jsonSchema() {
+  //   return schema.votes;
+  // }
 
   static get relationMappings() {
     return {
