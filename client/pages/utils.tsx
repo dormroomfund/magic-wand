@@ -41,6 +41,8 @@ const transformData = arr => {
      */
     if (elt['status'] in columns) {
       columns[elt["status"]]['companyIds'].push(id);
+    } else {
+      throw "Status is not valid.";
     }
   });
 

@@ -15,6 +15,7 @@ exports.seed = function(knex) {
           status: 'applied',
           contact_email: [faker.internet.email()],
           company_links: {},
+          archived: false
         },
         {
           id: 2,
@@ -24,6 +25,7 @@ exports.seed = function(knex) {
           status: 'funded',
           contact_email: [faker.internet.email()],
           company_links: {},
+          archived: true
         },
       ])
     );

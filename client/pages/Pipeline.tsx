@@ -40,7 +40,7 @@ export default class Pipeline extends PureComponent<PipelineProps, PipelineState
 
   componentDidMount() {
     axios
-      .get('http://localhost:3000/api/companies', axios_config)
+      .get('http://localhost:3000/api/companies?archived=false', axios_config)
       .then((response) => {
         const ret = transformData(response.data.data);
         this.setState({ columnOrder: ret.columnOrder,
@@ -120,7 +120,7 @@ export default class Pipeline extends PureComponent<PipelineProps, PipelineState
      */
     axios
       .patch(
-        `http://localhost:3000/api/companies/${draggableId}`,
+        `https://magic-wand.herokuapp.com/api/companies/${draggableId}`,
         {
             status: newForeign.id
           }
