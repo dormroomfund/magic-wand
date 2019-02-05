@@ -17,6 +17,11 @@ export default () => {
             </Navbar.Brand>
           </a>
         </Link>
+        <Link href="/pipeline">
+          <a>
+            Pipeline
+          </a>
+        </Link>
         <Navbar.Toggle className="mr-2" />
         <Navbar.Collapse>
           <Nav navbar className="ml-auto">
