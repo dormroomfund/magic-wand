@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
-import Navigation from './Navigation';
 import Container from 'react-bootstrap/lib/Container';
+import Navigation from './Navigation';
 
 export interface LayoutProps {
   children: ReactNode;

@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import { DragDropContext } from 'react-beautiful-dnd';
 import axios from 'axios';
@@ -12,46 +12,47 @@ const AppContainer = styled.div`
 `;
 
 interface PipelineProps {
-  state: any,
+  state: any;
 }
 
 interface PipelineState {
-  loading: boolean,
-  columns: Object,
-  companies: Object
-  columnOrder: Array<string>
+  loading: boolean;
+  columns: Object;
+  companies: Object;
+  columnOrder: Array<string>;
 }
 
-const axios_config = {
-  headers: {'Access-Control-Allow-Origin': '*'}
+const axiosConfig = {
+  headers: { 'Access-Control-Allow-Origin': '*' },
 };
 
-export default class Pipeline extends PureComponent<PipelineProps, PipelineState> {
+export default class Pipeline extends PureComponent<
+  PipelineProps,
+  PipelineState
+> {
   state = {
     loading: true,
     columns: [],
     companies: [],
-    columnOrder: []
+    columnOrder: [],
   };
-
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount() {
     axios
-      .get('http://localhost:3000/api/companies?archived=false', axios_config)
+      .get('http://localhost:3000/api/companies?archived=false', axiosConfig)
       .then((response) => {
         const ret = transformData(response.data.data);
-        this.setState({ columnOrder: ret.columnOrder,
-                        columns: ret.columns,
-                        companies: ret.companies,
-                        loading: false });
+        this.setState({
+          columnOrder: ret.columnOrder,
+          columns: ret.columns,
+          companies: ret.companies,
+          loading: false,
+        });
       })
-    .catch(error => {
-      // TODO: Add error handling
-      console.log(error);
-    });
+      .catch((error) => {
+        // TODO: Add error handling
+        console.log(error);
+      });
   }
 
   onDragEnd = (result) => {
@@ -119,15 +120,12 @@ export default class Pipeline extends PureComponent<PipelineProps, PipelineState
      * Note that draggableId is equivalent to the companyID.
      */
     axios
-      .patch(
-        `https://magic-wand.herokuapp.com/api/companies/${draggableId}`,
-        {
-            status: newForeign.id
-          }
-      )
-    .catch(error => {
-      console.log(error);
-    });
+      .patch(`https://magic-wand.herokuapp.com/api/companies/${draggableId}`, {
+        status: newForeign.id,
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     const newState = {
       ...this.state,
@@ -143,29 +141,29 @@ export default class Pipeline extends PureComponent<PipelineProps, PipelineState
 
   render() {
     return (
-        <Layout>
-          {this.state.loading ? (
-            <div> Loading </div>
-          ) : (
-            <DragDropContext onDragEnd={this.onDragEnd}>
-              <AppContainer>
-                {this.state.columnOrder.map((columnId) => {
-                  const column = this.state.columns[columnId];
-                  const companies = column.companyIds.map(
-                    (companyId) => this.state.companies[companyId]
-                  );
-                  return (
-                    <Column
-                      key={column.id}
-                      column={column}
-                      companies={companies}
-                    />
-                  );
-                })}
-              </AppContainer>
-            </DragDropContext>
-          )}
-        </Layout>
+      <Layout>
+        {this.state.loading ? (
+          <div> Loading </div>
+        ) : (
+          <DragDropContext onDragEnd={this.onDragEnd}>
+            <AppContainer>
+              {this.state.columnOrder.map((columnId) => {
+                const column = this.state.columns[columnId];
+                const companies = column.companyIds.map(
+                  (companyId) => this.state.companies[companyId]
+                );
+                return (
+                  <Column
+                    key={column.id}
+                    column={column}
+                    companies={companies}
+                  />
+                );
+              })}
+            </AppContainer>
+          </DragDropContext>
+        )}
+      </Layout>
     );
   }
 }

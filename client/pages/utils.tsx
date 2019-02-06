@@ -1,55 +1,55 @@
 /*
  * Takes Company Data and converts to Trello Style Board.
  */
-const transformData = arr => {
-  let company_list = {};
+const transformData = (arr) => {
+  const company_list = {};
 
-  let columns = {
+  const columns = {
     applied: {
-      id: "applied",
-      title: "New Applications",
-      companyIds: []
+      id: 'applied',
+      title: 'New Applications',
+      companyIds: [],
     },
     pre_pitch: {
-      id: "pre_pitch",
-      title: "Pre Pitch",
-      companyIds: []
+      id: 'pre_pitch',
+      title: 'Pre Pitch',
+      companyIds: [],
     },
     deferred: {
-      id: "deferred",
-      title: "Check In Later",
-      companyIds: []
+      id: 'deferred',
+      title: 'Check In Later',
+      companyIds: [],
     },
     pitch: {
-      id: "pitch",
-      title: "Pitching",
-      companyIds: []
+      id: 'pitch',
+      title: 'Pitching',
+      companyIds: [],
     },
   };
 
-  arr.forEach(elt => {
-    const id = elt['id'];
+  arr.forEach((elt) => {
+    const id = elt.id;
     company_list[id] = {
-      id: id,
-      name: elt['name'],
-      description: elt['description']
+      id,
+      name: elt.name,
+      description: elt.description,
     };
 
     /*
      * If the company's status fits in one of the columns add it
      * to that column.
      */
-    if (elt['status'] in columns) {
-      columns[elt["status"]]['companyIds'].push(id);
+    if (elt.status in columns) {
+      columns[elt.status].companyIds.push(id);
     } else {
-      throw "Status is not valid.";
+      throw 'Status is not valid.';
     }
   });
 
   return {
-    columns: columns,
+    columns,
     companies: company_list,
-    columnOrder: ['applied', 'pre_pitch', 'deferred', 'pitch']
+    columnOrder: ['applied', 'pre_pitch', 'deferred', 'pitch'],
   };
 };
 
