@@ -1,6 +1,11 @@
 /*
  * Takes Company Data and converts to Trello Style Board.
  */
+
+/*
+@params array of companies
+returns formatted data for Kanban board
+*/
 const transformData = arr => {
   let company_list = {};
 
