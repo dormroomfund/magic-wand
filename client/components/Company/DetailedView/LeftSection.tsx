@@ -17,7 +17,7 @@ const LeftSection = ({ props }) => {
     <StyledDiv>
       {/* Title Section */}
       <div>
-        <h1> {props.attributes.name} </h1>
+        <h1> {props.name} </h1>
       </div>
 
       {/* Tags Section  */}
@@ -36,7 +36,7 @@ const LeftSection = ({ props }) => {
       </div>
 
       {/* Description Section  */}
-      <TextItem title={"Description"} value={props.attributes.description} />
+      <TextItem title={"Description"} value={props.description} />
 
       {/* Founder Section  */}
       <div>
@@ -51,7 +51,7 @@ const LeftSection = ({ props }) => {
         ))}
       </div>
 
-      {/* WIP: Typeform Responses  
+      {/* WIP: Typeform Responses
             Need to get Typeform data to DB and API
         */}
 
@@ -59,12 +59,12 @@ const LeftSection = ({ props }) => {
         <TextItem
           key={i}
           title={"Placeholder"}
-          value={`Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-          sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut 
-          aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in 
-          voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia 
+          value={`Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+          sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+          voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
           deserunt mollit anim id est laborum.`}
         />
       ))}

@@ -12,18 +12,20 @@ exports.seed = function(knex) {
           name: faker.company.companyName(),
           description: faker.company.catchPhrase(),
           industries: ['agtech'],
-          status: ['applied'],
+          status: 'applied',
           contact_email: [faker.internet.email()],
           company_links: {},
+          archived: false
         },
         {
           id: 2,
           name: faker.company.companyName(),
           description: faker.company.catchPhrase(),
           industries: ['advertising'],
-          status: ['funded'],
+          status: 'funded',
           contact_email: [faker.internet.email()],
           company_links: {},
+          archived: true
         },
       ])
     );

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Draggable } from "react-beautiful-dnd";
 import { Card, Button } from "antd";
 import { Link } from "react-router-dom";
+import Layout from '../../Layout/Layout';
 
 const CompanyContainer = styled.div`
   margin: 10px;
@@ -20,6 +21,7 @@ export default class CompanyCard extends React.Component<Company> {
 
   render() {
     return (
+      <Layout>
       <div>
         <Draggable draggableId={this.props.company.id} index={this.props.index}>
           {(provided, snapshot) => (
@@ -42,6 +44,7 @@ export default class CompanyCard extends React.Component<Company> {
           )}
         </Draggable>
       </div>
+      </Layout>
     );
   }
 }

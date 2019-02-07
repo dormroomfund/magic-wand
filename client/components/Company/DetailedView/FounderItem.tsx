@@ -1,5 +1,5 @@
 import React from "react";
-import Emoji from "../../Emoji.js";
+import Emoji from "../../Emoji";
 import { Icon } from "antd";
 
 const FounderItem = ({ name, linkedIn, school }) => {

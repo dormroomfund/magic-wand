@@ -1,5 +1,5 @@
 import { Model } from 'objection';
-import schema from '../../shared/schema';
+import schema from '../../client/shared/schema';
 
 export default class User extends Model {
   static get tableName() {

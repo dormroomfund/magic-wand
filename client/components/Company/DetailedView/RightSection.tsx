@@ -1,5 +1,5 @@
 import React from "react";
-import Emoji from "../../Emoji.js";
+import Emoji from "../../Emoji";
 import { Button } from "antd";
 import styled from "styled-components";
 

@@ -7,7 +7,7 @@ class EditableTagGroup extends React.Component {
     tags: ["Albert Dong", "Yoni Dejene"],
     inputVisible: false,
     inputValue: "",
-    input: {focus}
+    input: {}
   };
 
   handleClose = removedTag => {
@@ -17,7 +17,7 @@ class EditableTagGroup extends React.Component {
   };
 
   showInput = () => {
-    this.setState({ inputVisible: true }, () => this.state.input.focus());
+    this.setState({ inputVisible: true });
   };
 
   handleInputChange = e => {

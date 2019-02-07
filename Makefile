@@ -8,6 +8,7 @@ default: dev
 
 install:
 	npm install
+	npx npm-merge-driver install -g
 
 ################################################################################
 
