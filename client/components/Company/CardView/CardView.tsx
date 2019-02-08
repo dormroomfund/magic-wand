@@ -1,8 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import { Draggable } from "react-beautiful-dnd";
-import { Card, Button } from "antd";
-import { Link } from "react-router-dom";
+import React from 'react';
+import Link from 'next/link';
+import styled from 'styled-components';
+import { Draggable } from 'react-beautiful-dnd';
+import Button from 'react-bootstrap/lib/Button';
+import Card from 'react-bootstrap/lib/Card';
 import Layout from '../../Layout/Layout';
 
 const CompanyContainer = styled.div`
@@ -10,40 +11,41 @@ const CompanyContainer = styled.div`
 `;
 
 interface Company {
-  company: any,
-  index: any
+  company: any;
+  index: any;
 }
 
 export default class CompanyCard extends React.Component<Company> {
-  constructor(props) {
-    super(props);
-  };
-
   render() {
     return (
       <Layout>
-      <div>
-        <Draggable draggableId={this.props.company.id} index={this.props.index}>
-          {(provided, snapshot) => (
-            <CompanyContainer
-              {...provided.draggableProps}
-              {...provided.dragHandleProps}
-              ref={provided.innerRef}
-              isDragging={snapshot.isDragging}
-            >
-              <Card>
-                <h3>{this.props.company.name} </h3>
-                <p>{this.props.company.description} </p>
-                <Link to={`/company/${this.props.company.id}`}>
-                  <Button style={{ float: "right" }} type="primary">
-                    View
-                  </Button>
-                </Link>
-              </Card>
-            </CompanyContainer>
-          )}
-        </Draggable>
-      </div>
+        <div>
+          <Draggable
+            draggableId={this.props.company.id}
+            index={this.props.index}
+          >
+            {(provided, snapshot) => (
+              <CompanyContainer
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+                ref={provided.innerRef}
+                isDragging={snapshot.isDragging}
+              >
+                <Card>
+                  <Card.Body>
+                    <Card.Title>{this.props.company.name}</Card.Title>
+                    <Card.Text>{this.props.company.description}</Card.Text>
+                    <Link href={`/company/${this.props.company.id}`}>
+                      <Button style={{ float: 'right' }} variant="primary">
+                        View
+                      </Button>
+                    </Link>
+                  </Card.Body>
+                </Card>
+              </CompanyContainer>
+            )}
+          </Draggable>
+        </div>
       </Layout>
     );
   }
