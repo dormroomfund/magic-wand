@@ -7,7 +7,6 @@ import Form from 'react-jsonschema-form';
 import axios from 'axios';
 import CompanyCard from './Company/CardView/CardView';
 import schema from '../shared/schema';
-import transformData from '../pages/utils';
 
 const cschema = schema.companies;
 

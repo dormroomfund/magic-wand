@@ -10,6 +10,6 @@ export default (app) => {
     paginate,
   };
 
-  app.use('users', createObjectionService(options));
-  app.service('users').hooks(hooks);
+  app.use('/api/users', createObjectionService(options));
+  app.service('api/users').hooks(hooks);
 };

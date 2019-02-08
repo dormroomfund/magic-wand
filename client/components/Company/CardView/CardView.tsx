@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Draggable } from "react-beautiful-dnd";
 import { Card, Button } from "antd";
+import { Link } from "react-router-dom";
 import Layout from '../../Layout/Layout';
 
 const CompanyContainer = styled.div`
@@ -33,9 +34,11 @@ export default class CompanyCard extends React.Component<Company> {
               <Card>
                 <h3>{this.props.company.name} </h3>
                 <p>{this.props.company.description} </p>
+                <Link to={`/company/${this.props.company.id}`}>
                   <Button style={{ float: "right" }} type="primary">
                     View
                   </Button>
+                </Link>
               </Card>
             </CompanyContainer>
           )}

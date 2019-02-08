@@ -12,6 +12,14 @@ const partialSchema = {
   additionalProperties: false,
 };
 
+const customizeOAuthProfile = () => async (context) => {
+  if (context.data.auth0) {
+    context.data.email = context.data.auth0.profile.emails[0].value;
+  }
+
+  return context;
+};
+
 export default {
   before: {
     all: [],
