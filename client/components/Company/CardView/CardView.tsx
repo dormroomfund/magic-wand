@@ -31,14 +31,12 @@ export default class CompanyCard extends React.Component<Company> {
                 ref={provided.innerRef}
                 isDragging={snapshot.isDragging}
               >
-                <Card>
+                <Card style={{ width: '13rem' }}>
                   <Card.Body>
-                    <Card.Title>{this.props.company.name}</Card.Title>
-                    <Card.Text>{this.props.company.description}</Card.Text>
                     <Link href={`/company/${this.props.company.id}`}>
-                      <Button style={{ float: 'right' }} variant="primary">
-                        View
-                      </Button>
+                      <Card.Link href={`/company/${this.props.company.id}`}>
+                          {this.props.company.name}
+                      </Card.Link>
                     </Link>
                   </Card.Body>
                 </Card>
