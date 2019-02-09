@@ -24,5 +24,4 @@ const knexConfig = {
   useNullAsDefault: false,
 };
 
-export default knexConfig;
 module.exports = knexConfig;

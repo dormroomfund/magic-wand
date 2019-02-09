@@ -23,16 +23,13 @@ start:
 ################################################################################
 
 build:
-	npx babel server --out-dir dist/server
-	npx babel client --out-dir dist/client
-	npx next build client
+	npx next build ./client
 
 clean:
 	rm -rf client/.next
-	rm -rf dist/
 
 production:
-	node dist/server
+	npx ts-node -T server
 
 ################################################################################
 
@@ -67,15 +64,15 @@ test: lint jest
 
 # Make a migration from template.
 make-migration:
-	npx knex migrate:make --knexfile knexfile.ts
+	npx knex migrate:make
 
 # Migrate the database to the latest migration.
 migrate:
-	npx knex migrate:latest --knexfile knexfile.ts
+	npx knex migrate:latest
 
 # Roll back the database to before the latest mgiration.
 rollback:
-	npx knex migrate:rollback --knexfile knexfile.ts
+	npx knex migrate:rollback
 
 seed:
 	npx knex seed:run --knexfile knexfile.ts
