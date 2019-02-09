@@ -75,4 +75,4 @@ rollback:
 	npx knex migrate:rollback
 
 seed:
-	npx knex seed:run --knexfile knexfile.ts
+	npx knex seed:run
