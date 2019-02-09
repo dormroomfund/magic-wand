@@ -21,6 +21,7 @@
     "test": "make test",
     "lint": "make lint",
     "build": "make build",
+    "heroku-prebuild": "npm i -g npx",
     "heroku-postbuild": "make build",
     "start": "make start",
     "jest": "jest"
