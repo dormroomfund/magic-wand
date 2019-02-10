@@ -3,9 +3,13 @@ import styled from 'styled-components';
 import { DragDropContext } from 'react-beautiful-dnd';
 import axios from 'axios';
 
+import { Subscribe } from 'unstated';
+import Dropdown from 'react-bootstrap/lib/Dropdown';
 import Layout from '../components/Layout/Layout';
 import Column from '../components/Column';
 import transformData from './utils';
+import UserContainer, { AuthState } from '../containers/UserContainer';
+import { UnreachableCaseError } from '../lib/errors';
 
 const AppContainer = styled.div`
   display: flex;
@@ -35,6 +39,7 @@ export default class Pipeline extends PureComponent<
     columns: [],
     companies: [],
     columnOrder: [],
+    phillyParners: [],
   };
 
   componentDidMount() {
@@ -141,29 +146,70 @@ export default class Pipeline extends PureComponent<
 
   render() {
     return (
-      <Layout>
-        {this.state.loading ? (
-          <div> Loading </div>
-        ) : (
-          <DragDropContext onDragEnd={this.onDragEnd}>
-            <AppContainer>
-              {this.state.columnOrder.map((columnId) => {
-                const column = this.state.columns[columnId];
-                const companies = column.companyIds.map(
-                  (companyId) => this.state.companies[companyId]
-                );
-                return (
-                  <Column
-                    key={column.id}
-                    column={column}
-                    companies={companies}
-                  />
-                );
-              })}
-            </AppContainer>
-          </DragDropContext>
-        )}
-      </Layout>
+      <Subscribe to={[UserContainer]}>
+        {(uc: UserContainer) => {
+          switch (uc.authState) {
+            case AuthState.LoggedOut:
+              return null;
+            case AuthState.LoggingIn:
+              return null;
+            case AuthState.LoggedIn:
+              return (
+                <Layout>
+                  <h3> {uc.state.user.id} </h3>
+                  {this.state.loading ? (
+                    <div> Loading </div>
+                  ) : (
+                    <DragDropContext onDragEnd={this.onDragEnd}>
+                      <AppContainer>
+                        {this.state.columnOrder.map((columnId) => {
+                          const column = this.state.columns[columnId];
+                          const companies = column.companyIds.map(
+                            (companyId) => this.state.companies[companyId]
+                          );
+                          return (
+                            <Column
+                              key={column.id}
+                              column={column}
+                              companies={companies}
+                            />
+                          );
+                        })}
+                      </AppContainer>
+                    </DragDropContext>
+                  )}
+                </Layout>
+              );
+            default:
+              throw new UnreachableCaseError(uc.authState);
+          }
+        }}
+      </Subscribe>
     );
+    // return (
+    //   <Layout>
+    //     {this.state.loading ? (
+    //       <div> Loading </div>
+    //     ) : (
+    //       <DragDropContext onDragEnd={this.onDragEnd}>
+    //         <AppContainer>
+    //           {this.state.columnOrder.map((columnId) => {
+    //             const column = this.state.columns[columnId];
+    //             const companies = column.companyIds.map(
+    //               (companyId) => this.state.companies[companyId]
+    //             );
+    //             return (
+    //               <Column
+    //                 key={column.id}
+    //                 column={column}
+    //                 companies={companies}
+    //               />
+    //             );
+    //           })}
+    //         </AppContainer>
+    //       </DragDropContext>
+    //     )}
+    //   </Layout>
+    // );
   }
 }
