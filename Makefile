@@ -1,3 +1,5 @@
+NPX = ./node_modules/.bin/npx
+
 .PHONY: \
   dev start \
   build production \
@@ -8,7 +10,7 @@ default: dev
 
 install:
 	npm install
-	npx npm-merge-driver install -g
+	$(NPX) npm-merge-driver install -g
 
 ################################################################################
 
@@ -18,44 +20,44 @@ dev:
 
 # Starts the server in development mode.
 start:
-	npx ts-node server/
+	$(NPX) ts-node server/
 
 ################################################################################
 
 build:
-	npx next build ./client
+	$(NPX) next build ./client
 
 clean:
 	rm -rf client/.next
 
 production:
-	npx ts-node -T server
+	$(NPX) ts-node -T server
 
 ################################################################################
 
 # Checks for style issues.
 lint:
-	npx eslint server/. client/. test/. --ext js,jsx --config .eslintrc.json
+	$(NPX) eslint server/. client/. test/. --ext js,jsx --config .eslintrc.json
 
 # Runs the TypeScript type checker.
 typecheck:
-	npx tsc --noEmit
+	$(NPX) tsc --noEmit
 
 # Runs a type coverage analysis of the codebase.
 type-coverage:
-	npx type-coverage --strict --at-least 50
+	$(NPX) type-coverage --strict --at-least 50
 
 # Runs prettier on the codebase.
 prettier:
-	npx prettier --write "{server,client,test}/**/*.js" "config/**/*.json"
+	$(NPX) prettier --write "{server,client,test}/**/*.js" "config/**/*.json"
 
 # Lint, format, and fix style issues.
 lint-fix:
-	npx eslint --fix server/. client/. test/. --ext js,jsx --config .eslintrc.json
+	$(NPX) eslint --fix server/. client/. test/. --ext js,jsx --config .eslintrc.json
 
 # Runs the test suite.
 jest:
-	npx jest
+	$(NPX) jest
 
 # Runs the full test suite.
 test: lint jest
@@ -68,12 +70,11 @@ make-migration:
 
 # Migrate the database to the latest migration.
 migrate:
-	npx -v
-	npx knex migrate:latest
+	$(NPX) knex migrate:latest
 
 # Roll back the database to before the latest mgiration.
 rollback:
-	npx knex migrate:rollback
+	$(NPX) knex migrate:rollback
 
 seed:
-	npx knex seed:run
+	$(NPX)  knex seed:run
