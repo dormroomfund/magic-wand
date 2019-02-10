@@ -22,7 +22,7 @@ export const loggerOptions = {
       let out = `[${info.level}] ${colors.dim(`${info.timestamp}:`)} ${
         info.message
       } `;
-      if (info.meta && info.meta.join) {
+      if (info.meta && Array.isArray(info.meta)) {
         out += `\n${info.meta.join('\n')}`;
       }
 

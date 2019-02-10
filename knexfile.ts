@@ -14,6 +14,9 @@ const knexConfig = {
     directory: './server/migrations',
     tableName: 'knex_migrations',
   },
+  seeds: {
+    directory: './server/seeds',
+  },
   pool: {
     min: 2,
     max: 10,

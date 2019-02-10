@@ -12,6 +12,7 @@ export default {
     properties: {
       id: { type: 'integer' },
       auth0: { type: 'string' },
+      auth0Id: { type: 'string' },
       email: { type: 'string', format: 'email' },
       permissions: { type: 'string' },
       first_name: { type: 'string' },
