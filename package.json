@@ -21,7 +21,6 @@
     "test": "make test",
     "lint": "make lint",
     "build": "make build",
-    "heroku-prebuild": "npm i -g npx",
     "heroku-postbuild": "make build",
     "start": "make start",
     "jest": "jest"
@@ -82,7 +81,6 @@
     "next": "^7.0.2",
     "next-routes": "^1.4.2",
     "node-config": "0.0.2",
-    "npx": "^10.2.0",
     "objection": "^1.4.0",
     "passport-auth0": "^1.1.0",
     "pg": "^7.7.1",

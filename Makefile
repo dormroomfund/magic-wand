@@ -1,4 +1,4 @@
-NPX = ./node_modules/.bin/npx
+NPX = npx
 
 .PHONY: \
   dev start \
@@ -70,11 +70,11 @@ make-migration:
 
 # Migrate the database to the latest migration.
 migrate:
-	$(NPX) knex migrate:latest
+	$(NPX) knex migrate:latest --knexfile knexfile.ts
 
 # Roll back the database to before the latest mgiration.
 rollback:
-	$(NPX) knex migrate:rollback
+	$(NPX) knex migrate:rollback --knexfile knexfile.ts
 
 seed:
-	$(NPX)  knex seed:run
+	$(NPX)  knex seed:run --knexfile knexfile.ts
