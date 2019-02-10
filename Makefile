@@ -68,6 +68,7 @@ make-migration:
 
 # Migrate the database to the latest migration.
 migrate:
+	npx -v
 	npx knex migrate:latest
 
 # Roll back the database to before the latest mgiration.
