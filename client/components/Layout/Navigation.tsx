@@ -1,29 +1,29 @@
-import Link from 'next/link';
 import React from 'react';
 import Badge from 'react-bootstrap/lib/Badge';
+import Container from 'react-bootstrap/lib/Container';
 import Nav from 'react-bootstrap/lib/Nav';
 import Navbar from 'react-bootstrap/lib/Navbar';
+import { Link } from '../../routes';
 import UserActions from './UserActions';
-import Container from 'react-bootstrap/lib/Container';
 
 export default () => {
   return (
     <Navbar variant="dark" bg="dark" fixed="top">
       <Container>
-        <Link href="/">
+        <Link route="/">
           <a>
             <Navbar.Brand>
               Magic Wand <Badge variant="primary">v0</Badge>
             </Navbar.Brand>
           </a>
         </Link>
-        <Link href="/pipeline">
-          <a>
-            Pipeline
-          </a>
-        </Link>
         <Navbar.Toggle className="mr-2" />
         <Navbar.Collapse>
+          <Nav navbar>
+            <Link route="/pipeline">
+              <Nav.Link href="/pipeline">Pipeline</Nav.Link>
+            </Link>
+          </Nav>
           <Nav navbar className="ml-auto">
             <UserActions />
           </Nav>
