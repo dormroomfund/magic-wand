@@ -5,7 +5,7 @@
 export default {
   users: {
     type: 'object',
-    required: ['id', 'permissions', 'first_name', 'last_name', 'email'],
+    required: ['permissions', 'first_name', 'last_name', 'email'],
     description:
       'Object that defines a user of Magic Wand. Either a partner or founder',
 
@@ -14,7 +14,7 @@ export default {
       auth0: { type: 'string' },
       auth0Id: { type: 'string' },
       email: { type: 'string', format: 'email' },
-      permissions: { type: 'string' },
+      permissions: { type: 'string', default: '' },
       first_name: { type: 'string' },
       last_name: { type: 'string' },
       school: { type: 'string' },
