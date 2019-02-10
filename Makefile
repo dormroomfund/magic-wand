@@ -1,3 +1,5 @@
+NPX = npx
+
 .PHONY: \
   dev start \
   build production \
@@ -8,7 +10,7 @@ default: dev
 
 install:
 	npm install
-	npx npm-merge-driver install -g
+	$(NPX) npm-merge-driver install -g
 
 ################################################################################
 
@@ -18,47 +20,44 @@ dev:
 
 # Starts the server in development mode.
 start:
-	npx ts-node server/
+	$(NPX) ts-node server/
 
 ################################################################################
 
 build:
-	npx babel server --out-dir dist/server
-	npx babel client --out-dir dist/client
-	npx next build client
+	$(NPX) next build ./client
 
 clean:
 	rm -rf client/.next
-	rm -rf dist/
 
 production:
-	node dist/server
+	$(NPX) ts-node -T server
 
 ################################################################################
 
 # Checks for style issues.
 lint:
-	npx eslint server/. client/. test/. --ext js,jsx --config .eslintrc.json
+	$(NPX) eslint server/. client/. test/. --ext js,jsx --config .eslintrc.json
 
 # Runs the TypeScript type checker.
 typecheck:
-	npx tsc --noEmit
+	$(NPX) tsc --noEmit
 
 # Runs a type coverage analysis of the codebase.
 type-coverage:
-	npx type-coverage --strict --at-least 50
+	$(NPX) type-coverage --strict --at-least 50
 
 # Runs prettier on the codebase.
 prettier:
-	npx prettier --write "{server,client,test}/**/*.js" "config/**/*.json"
+	$(NPX) prettier --write "{server,client,test}/**/*.js" "config/**/*.json"
 
 # Lint, format, and fix style issues.
 lint-fix:
-	npx eslint --fix server/. client/. test/. --ext js,jsx --config .eslintrc.json
+	$(NPX) eslint --fix server/. client/. test/. --ext js,jsx --config .eslintrc.json
 
 # Runs the test suite.
 jest:
-	npx jest
+	$(NPX) jest
 
 # Runs the full test suite.
 test: lint jest
@@ -67,15 +66,15 @@ test: lint jest
 
 # Make a migration from template.
 make-migration:
-	npx knex migrate:make --knexfile knexfile.ts
+	npx knex migrate:make
 
 # Migrate the database to the latest migration.
 migrate:
-	npx knex migrate:latest --knexfile knexfile.ts
+	$(NPX) knex migrate:latest --knexfile knexfile.ts
 
 # Roll back the database to before the latest mgiration.
 rollback:
-	npx knex migrate:rollback --knexfile knexfile.ts
+	$(NPX) knex migrate:rollback --knexfile knexfile.ts
 
 seed:
-	npx knex seed:run --knexfile knexfile.ts
+	$(NPX)  knex seed:run --knexfile knexfile.ts

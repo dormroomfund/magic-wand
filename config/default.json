@@ -31,7 +31,7 @@
       "logoutRedirect": "http://localhost:3000",
       "successRedirect": "/",
       "domain": "mydomain.auth0.com",
-      "scopes": ["profile"]
+      "scopes": ["profile openid"]
     },
     "cookie": {
       "enabled": true,
