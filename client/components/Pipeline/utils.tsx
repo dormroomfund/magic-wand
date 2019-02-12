@@ -2,55 +2,65 @@
  * @params array of companies
  * returns formatted data for Kanban board
  */
+
 const transformData = (arr) => {
-  const company_list = {};
+  const partnerNames = new Set([]);
 
   const columns = {
     applied: {
       id: 'applied',
       title: 'New Applications',
-      companyIds: [],
+      companies: [],
     },
     pre_pitch: {
       id: 'pre_pitch',
       title: 'Pre Pitch',
-      companyIds: [],
+      companies: [],
     },
     deferred: {
       id: 'deferred',
       title: 'Check In Later',
-      companyIds: [],
+      companies: [],
     },
     pitch: {
       id: 'pitch',
       title: 'Pitching',
-      companyIds: [],
+      companies: [],
     },
   };
 
   arr.forEach((elt) => {
-    const id = elt.id;
-    company_list[id] = {
-      id,
+    const companyObj = {
+      id: elt.id,
       name: elt.name,
       description: elt.description,
+      pointPartnersNames: elt.pointPartnerNames
+        ? new Set(elt.pointPartnerNames)
+        : new Set([]),
     };
+
+    /*
+     * Compile a list of all the partnerNames
+     */
+    companyObj.pointPartnersNames.forEach((name) => {
+      partnerNames.add(name);
+    });
 
     /*
      * If the company's status fits in one of the columns add it
      * to that column.
      */
     if (elt.status in columns) {
-      columns[elt.status].companyIds.push(id);
+      columns[elt.status].companies.push(companyObj);
     } else {
-      throw 'Status is not valid.';
+      throw Error('Status is not valid.');
     }
   });
 
   return {
     columns,
-    companies: company_list,
     columnOrder: ['applied', 'pre_pitch', 'deferred', 'pitch'],
+    partnerNames,
   };
 };
 

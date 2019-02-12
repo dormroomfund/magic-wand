@@ -46,18 +46,42 @@ const votedPartners = {
   },
 };
 
+const pointPartners = {
+  joins: {
+    partners: () => async (company, context) => {
+      const users = context.app.service('api/users');
+      if (company.point_partners) {
+        const pointPartnerObjs = (await users.find({
+          query: {
+            id: { $in: company.point_partners },
+            $select: ['first_name', 'last_name'],
+          },
+        })).data;
+
+        /*
+         * Convert to actual first names
+         */
+        company.pointPartnerNames = [];
+        pointPartnerObjs.forEach((obj) => {
+          const partnerName = `${obj.first_name} ${obj.last_name}`;
+          company.pointPartnerNames.push(partnerName);
+        })
+      }
+    }
+  }
+};
 export default {
   before: {
     all: [],
     find: [],
     get: [],
-    create: [validateSchema(schema.companies, <AjvOrNewable> ajv)],
+    create: [/*validateSchema(schema.companies, <AjvOrNewable> ajv)*/],
     update: [validateSchema(partialSchema, <AjvOrNewable> ajv)],
     patch: [validateSchema(partialSchema, <AjvOrNewable> ajv)],
     remove: [],
   },
   after: {
-    all: [fastJoin(votedPartners)],
+    all: [fastJoin(votedPartners), fastJoin(pointPartners)],
     find: [],
     get: [],
     create: [],

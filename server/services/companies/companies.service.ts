@@ -9,6 +9,7 @@ export default (app) => {
   const options = {
     model: Company,
     paginate,
+    whitelist: ['$eager', '$pick'],
   };
 
   // Initialize our service with any options it requires

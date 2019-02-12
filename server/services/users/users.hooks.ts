@@ -14,6 +14,8 @@ const partialSchema = {
 const customizeOAuthProfile = () => async (context) => {
   if (context.data.auth0) {
     context.data.email = context.data.auth0.profile.emails[0].value;
+    context.data.first_name = context.data.auth0.profile.name.givenName;
+    context.data.last_name = context.data.auth0.profile.name.familyName;
   }
 
   return context;
@@ -25,6 +27,7 @@ export default {
     find: [authenticate('jwt')],
     get: [authenticate('jwt')],
     create: [
+      customizeOAuthProfile(),
       // validateSchema(schema.users, <AjvOrNewable>ajv),
     ],
     update: [

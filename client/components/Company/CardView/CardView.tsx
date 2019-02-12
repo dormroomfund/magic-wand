@@ -35,7 +35,7 @@ export default class CompanyCard extends React.Component<Company> {
                   <Card.Body>
                     <Link href={`/company/${this.props.company.id}`}>
                       <Card.Link href={`/company/${this.props.company.id}`}>
-                          {this.props.company.name}
+                        {this.props.company.name}
                       </Card.Link>
                     </Link>
                   </Card.Body>
