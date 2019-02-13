@@ -1,5 +1,5 @@
-const config = require('config');
-const t = require('tcomb');
+import config from 'config';
+import t from 'tcomb';
 
 const client = config.get('postgres.client');
 t.String(client);
@@ -24,5 +24,4 @@ const knexConfig = {
   useNullAsDefault: false,
 };
 
-export default knexConfig;
 module.exports = knexConfig;
