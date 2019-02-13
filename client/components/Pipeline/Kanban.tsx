@@ -3,9 +3,12 @@ import styled from 'styled-components';
 import { DragDropContext } from 'react-beautiful-dnd';
 import Modal from 'react-bootstrap/lib/Modal';
 import Button from 'react-bootstrap/lib/Button';
+import Row from 'react-bootstrap/lib/Row';
 import Form from 'react-jsonschema-form';
 import axios from 'axios';
 import CustomDropdown from './Dropdown';
+import GroupButton from './GroupButton';
+import IndividualButton from './IndividualButton';
 import Column from './Column';
 import transformData from './utils';
 import schema from '../../shared/schema';
@@ -207,7 +210,15 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
   render() {
     return (
       <div>
-        <CustomDropdown partners={this.state.partnerNames} />
+        <Row>
+          <CustomDropdown partners={this.state.partnerNames} />
+          <GroupButton />
+          <IndividualButton
+            loggedInPartnerName={`${this.props.userc.first_name} ${
+              this.props.userc.last_name
+            }`}
+          />
+        </Row>
         {this.state.loading ? (
           <div> Loading </div>
         ) : (

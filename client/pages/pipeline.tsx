@@ -14,9 +14,9 @@ export default class Pipeline extends PureComponent {
         {(uc: UserContainer) => {
           switch (uc.authState) {
             case AuthState.LoggedOut:
-              return <p> Log in </p>;
+              return null;
             case AuthState.LoggingIn:
-              return <p> Login </p>;
+              return null;
             case AuthState.LoggedIn:
               return (
                 <Layout>
