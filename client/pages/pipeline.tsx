@@ -1,33 +1,27 @@
 import React, { PureComponent } from 'react';
-import { DragDropContext } from 'react-beautiful-dnd';
-
 import { Subscribe } from 'unstated';
 import Layout from '../components/Layout/Layout';
 import UserContainer, { AuthState } from '../containers/UserContainer';
 import { UnreachableCaseError } from '../lib/errors';
 import Kanban from '../components/Pipeline/Kanban';
 
-export default class Pipeline extends PureComponent {
-  render() {
-    return (
-      <Subscribe to={[UserContainer]}>
-        {(uc: UserContainer) => {
-          switch (uc.authState) {
-            case AuthState.LoggedOut:
-              return null;
-            case AuthState.LoggingIn:
-              return null;
-            case AuthState.LoggedIn:
-              return (
-                <Layout>
-                  <Kanban userc={uc.user} />
-                </Layout>
-              );
-            default:
-              throw new UnreachableCaseError(uc.authState);
-          }
-        }}
-      </Subscribe>
-    );
-  }
-}
+export default () => (
+  <Subscribe to={[UserContainer]}>
+    {(uc: UserContainer) => {
+      switch (uc.authState) {
+        case AuthState.LoggedOut:
+          return null;
+        case AuthState.LoggingIn:
+          return null;
+        case AuthState.LoggedIn:
+          return (
+            <Layout>
+              <Kanban userc={uc.user} />
+            </Layout>
+          );
+        default:
+          throw new UnreachableCaseError(uc.authState);
+      }
+    }}
+  </Subscribe>
+);

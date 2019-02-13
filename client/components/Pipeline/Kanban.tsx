@@ -33,6 +33,10 @@ const AppContainer = styled.div`
   display: flex;
 `;
 
+const axiosConfig = {
+  headers: { 'Access-Control-Allow-Origin': '*' },
+};
+
 interface KanbanProps {
   userc: any;
 }
@@ -44,10 +48,6 @@ interface KanbanState {
   partnerNames: Set<string>;
   visible: boolean /* modal */;
 }
-
-const axiosConfig = {
-  headers: { 'Access-Control-Allow-Origin': '*' },
-};
 
 export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
   state = {
@@ -109,7 +109,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
       newColumns[source.droppableId] = newHome;
 
       const newState = {
-        columns: newColumns
+        columns: newColumns,
       };
 
       this.setState(newState);

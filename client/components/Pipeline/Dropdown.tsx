@@ -10,7 +10,10 @@ interface DropdownProps {
 
 export default class CustomDropdown extends PureComponent<DropdownProps> {
   renderItems = (partner, pipe) => (
-    <Dropdown.Item key={partner} onSelect={() => pipe.setCurrentPartner(partner)}>
+    <Dropdown.Item
+      key={partner}
+      onSelect={() => pipe.setCurrentPartner(partner)}
+    >
       {partner}
     </Dropdown.Item>
   );
