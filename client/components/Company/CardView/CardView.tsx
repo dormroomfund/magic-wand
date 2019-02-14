@@ -1,10 +1,11 @@
 import React from 'react';
-import Link from 'next/link';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
-import Button from 'react-bootstrap/lib/Button';
 import Card from 'react-bootstrap/lib/Card';
+import routes from '../../../routes';
 import Layout from '../../Layout/Layout';
+
+const { Link, _ } = routes;
 
 const CompanyContainer = styled.div`
   margin: 10px;
@@ -33,7 +34,10 @@ export default class CompanyCard extends React.Component<Company> {
               >
                 <Card style={{ width: '13rem' }}>
                   <Card.Body>
-                    <Link href={`/company/${this.props.company.id}`}>
+                    <Link
+                      route="company"
+                      params={{ id: this.props.company.id }}
+                    >
                       <Card.Link href={`/company/${this.props.company.id}`}>
                         {this.props.company.name}
                       </Card.Link>

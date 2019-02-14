@@ -27,6 +27,7 @@
     "no-param-reassign": "off",
     "global-require": "off",
     "react/destructuring-assignment": "off",
-    "react/jsx-filename-extension": "off"
+    "react/jsx-filename-extension": "off",
+    "react/prop-types": "off"
   }
 }

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { Subscribe } from 'unstated';
 import Layout from '../components/Layout/Layout';
 import UserContainer, { AuthState } from '../containers/UserContainer';
@@ -16,7 +16,7 @@ export default () => (
         case AuthState.LoggedIn:
           return (
             <Layout>
-              <Kanban userc={uc.user} />
+              <Kanban user={uc.user} />
             </Layout>
           );
         default:

@@ -10,19 +10,23 @@ import CustomDropdown from './Dropdown';
 import GroupButton from './GroupButton';
 import IndividualButton from './IndividualButton';
 import Column from './Column';
-import transformData from './utils';
+import transformData from '../../lib/utils';
 import schema from '../../shared/schema';
 
-const cschema = schema.companies;
+const companySchema = schema.companies;
 
 const companyPartialSchema = {
-  type: cschema.type,
-  required: cschema.required,
+  type: companySchema.type,
+  required: companySchema.required,
   properties: {},
 };
 
+/*
+ * Create a partial schema that is used for the react-json form. It grabs all the required properties
+ * from the actual schema.
+ */
 companyPartialSchema.required.forEach((property) => {
-  companyPartialSchema.properties[property] = cschema.properties[property];
+  companyPartialSchema.properties[property] = companySchema.properties[property];
 });
 
 const formData = {
@@ -38,24 +42,24 @@ const axiosConfig = {
 };
 
 interface KanbanProps {
-  userc: any;
+  user: any; // Defines the User object
 }
 
 interface KanbanState {
-  loading: boolean;
+  isLoading: boolean /* True if we are still grabbing data from api */;
   columns: Object;
   columnOrder: Array<string>;
   partnerNames: Set<string>;
-  visible: boolean /* modal */;
+  isVisible: boolean /* True if the "Add" company modal is open */;
 }
 
 export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
   state = {
-    loading: true,
+    isLoading: true,
     columns: {},
     columnOrder: [],
     partnerNames: new Set([]),
-    visible: false,
+    isVisible: false,
   };
 
   componentDidMount() {
@@ -67,7 +71,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
           columnOrder: ret.columnOrder,
           columns: ret.columns,
           partnerNames: ret.partnerNames,
-          loading: false,
+          isLoading: false,
         });
       })
       .catch((error) => {
@@ -169,13 +173,13 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
 
   showModal = () => {
     this.setState({
-      visible: true,
+      isVisible: true,
     });
   };
 
   handleClose = () => {
     this.setState({
-      visible: false,
+      isVisible: false,
     });
   };
 
@@ -197,7 +201,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
         newColumns[status].companies.push(newCompany);
 
         this.setState({
-          visible: false,
+          isVisible: false,
           columns: newColumns,
         });
       })
@@ -214,12 +218,12 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
           <CustomDropdown partners={this.state.partnerNames} />
           <GroupButton />
           <IndividualButton
-            loggedInPartnerName={`${this.props.userc.first_name} ${
-              this.props.userc.last_name
+            loggedInPartnerName={`${this.props.user.first_name} ${
+              this.props.user.last_name
             }`}
           />
         </Row>
-        {this.state.loading ? (
+        {this.state.isLoading ? (
           <div> Loading </div>
         ) : (
           <div>
@@ -242,7 +246,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
               <Button variant="primary" onClick={this.showModal}>
                 Add Company
               </Button>
-              <Modal show={this.state.visible} onHide={this.handleClose}>
+              <Modal show={this.state.isVisible} onHide={this.handleClose}>
                 <Modal.Header closeButton>
                   <Modal.Title>Add a Company</Modal.Title>
                 </Modal.Header>

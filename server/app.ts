@@ -42,6 +42,7 @@ app.configure(nextMiddleware);
 app.use(express.notFound());
 app.use(express.errorHandler({ logger }));
 
+
 app.hooks(appHooks);
 
 export default app;

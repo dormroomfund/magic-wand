@@ -37,7 +37,7 @@ interface ColumnProps {
 }
 
 interface ColumnState {
-  companies: any;
+  companies: any[];
 }
 
 export default class Column extends React.Component<ColumnProps, ColumnState> {
