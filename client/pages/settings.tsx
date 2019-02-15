@@ -7,7 +7,7 @@ import { Subscribe } from 'unstated';
 import Layout from '../components/Layout/Layout';
 import UserContainer from '../containers/UserContainer';
 import client from '../lib/client';
-import schema from '../shared/schema';
+import schema, { userSchema } from '../shared/schema';
 
 const log = (type) => console.log.bind(console, type);
 
@@ -56,7 +56,7 @@ export default () => {
           <Subscribe to={[UserContainer]}>
             {(uc: UserContainer) => (
               <Form
-                schema={schema.users}
+                schema={userSchema}
                 uiSchema={uiSchema}
                 formData={pickBy(uc.user, identity)}
                 onChange={log('changed')}

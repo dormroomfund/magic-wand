@@ -5,35 +5,6 @@ import { JSONSchema6 } from 'json-schema';
  */
 
 export default {
-  users: {
-    type: 'object',
-    required: ['permissions', 'first_name', 'last_name', 'email'],
-    description:
-      'Object that defines a user of Magic Wand. Either a partner or founder',
-
-    properties: {
-      id: { type: 'integer' },
-      auth0: { type: 'string' },
-      auth0Id: { type: 'string' },
-      email: { type: 'string', format: 'email' },
-      permissions: { type: 'string', default: '' },
-      first_name: { type: 'string' },
-      last_name: { type: 'string' },
-      school: { type: 'string' },
-      photo: { type: 'string' },
-      linkedin: { type: 'string' },
-      gender: { type: 'string' },
-      ethnicity: { type: 'string' },
-      partner_team: {
-        type: 'string',
-        enum: ['Philadelphia', 'Boston', 'New York', 'San Francisco'],
-      },
-      partner_position: {
-        type: 'string',
-        enum: ['', 'Investment Partner', 'Managing Partner', 'HQ Partner'],
-      },
-    },
-  },
   votes: {
     type: 'object',
     required: [
@@ -59,6 +30,35 @@ export default {
       team_score: { type: 'real' },
       fit_score: { type: 'real' },
       comment: { type: 'string' },
+    },
+  },
+};
+
+export const userSchema = {
+  type: 'object',
+  required: ['permissions', 'first_name', 'last_name', 'email'],
+  description:
+    'Object that defines a user of Magic Wand. Either a partner or founder',
+  properties: {
+    id: { type: 'integer' },
+    auth0: { type: 'string' },
+    auth0Id: { type: 'string' },
+    email: { type: 'string', format: 'email' },
+    permissions: { type: 'string', default: '' },
+    first_name: { type: 'string' },
+    last_name: { type: 'string' },
+    school: { type: 'string' },
+    photo: { type: 'string' },
+    linkedin: { type: 'string' },
+    gender: { type: 'string' },
+    ethnicity: { type: 'string' },
+    partner_team: {
+      type: 'string',
+      enum: ['Philadelphia', 'Boston', 'New York', 'San Francisco'],
+    },
+    partner_position: {
+      type: 'string',
+      enum: ['', 'Investment Partner', 'Managing Partner', 'HQ Partner'],
     },
   },
 };
