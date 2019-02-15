@@ -9,7 +9,7 @@ export interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => (
   <>
     <Navigation />
-    <Container className="mt-5">{children}</Container>
+    <Container className="mt-5 pt-4">{children}</Container>
   </>
 );
 
