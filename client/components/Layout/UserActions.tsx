@@ -11,11 +11,7 @@ export default () => (
     {(uc: UserContainer) => {
       switch (uc.authState) {
         case AuthState.LoggedOut:
-          return (
-            <Link route="/auth/auth0">
-              <Nav.Link>Log In</Nav.Link>
-            </Link>
-          );
+          return <Nav.Link href="/auth/auth0">Log In</Nav.Link>;
         case AuthState.LoggingIn:
           return null;
         case AuthState.LoggedIn:
