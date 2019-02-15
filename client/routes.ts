@@ -6,7 +6,8 @@ const routes = new Routes() //
   .add('pipeline')
   .add('portfoliosuccess')
   .add('settings')
-  .add('company', '/company/:id', 'company');
+  .add('company', '/company/:id', 'company')
+  .add('vote', '/vote/:id', 'vote');
 
 export default routes;
 export const Router = routes.Router;
