@@ -4,6 +4,7 @@ import { Draggable } from 'react-beautiful-dnd';
 import Card from 'react-bootstrap/lib/Card';
 import routes from '../../../routes';
 import Layout from '../../Layout/Layout';
+import Button from 'react-bootstrap/lib/Button';
 
 const { Link } = routes;
 
@@ -11,12 +12,25 @@ const CompanyContainer = styled.div`
   margin: 10px;
 `;
 
-interface Company {
+interface CompanyCardProps {
   company: any;
   index: any;
+  status: any /* The status of the company */;
 }
 
-export default class CompanyCard extends React.Component<Company> {
+export default class CompanyCard extends React.Component<CompanyCardProps> {
+  renderVotingButton() {
+    if (this.props.status === 'pitch') {
+      return (
+        <Link route="vote" params={{ id: this.props.company.id }}>
+          <Button>Vote!</Button>
+        </Link>
+      );
+    }
+
+    return null;
+  }
+
   render() {
     return (
       <Layout>
@@ -34,14 +48,17 @@ export default class CompanyCard extends React.Component<Company> {
               >
                 <Card style={{ width: '13rem' }}>
                   <Card.Body>
-                    <Link
-                      route="company"
-                      params={{ id: this.props.company.id }}
-                    >
-                      <Card.Link href={`/company/${this.props.company.id}`}>
-                        {this.props.company.name}
-                      </Card.Link>
-                    </Link>
+                    <Card.Text>
+                      <Link
+                        route="company"
+                        params={{ id: this.props.company.id }}
+                      >
+                        <Card.Link href={`/company/${this.props.company.id}`}>
+                          {this.props.company.name}
+                        </Card.Link>
+                      </Link>
+                    </Card.Text>
+                    {this.renderVotingButton()}
                   </Card.Body>
                 </Card>
               </CompanyContainer>
