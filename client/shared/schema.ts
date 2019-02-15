@@ -1,3 +1,5 @@
+import { JSONSchema6 } from 'json-schema';
+
 /*
  * Describes JSON validation schema for each model.
  */
@@ -32,23 +34,6 @@ export default {
       },
     },
   },
-  companies: {
-    type: 'object',
-    required: ['name', 'description', 'contact_email', 'status'],
-    description: 'Defines a company that DRF encounters',
-    properties: {
-      id: { type: 'integer' },
-      name: { type: 'string' },
-      description: { type: 'string' },
-      point_partners: { type: 'array', items: { type: 'integer' } },
-      industries: { type: 'array', items: { type: 'string' } },
-      tags: { type: 'array', items: { type: 'string' } },
-      archived: { type: 'boolean' },
-      status: { type: 'string' },
-      contact_email: { type: 'string', format: 'email' },
-      company_links: { type: 'object' },
-    },
-  },
   votes: {
     type: 'object',
     required: [
@@ -74,6 +59,33 @@ export default {
       team_score: { type: 'real' },
       fit_score: { type: 'real' },
       comment: { type: 'string' },
+    },
+  },
+};
+
+export const companySchema = {
+  type: 'object',
+  required: ['name', 'description', 'contact_email', 'status'],
+  description: 'Defines a company that DRF encounters',
+  properties: {
+    id: { type: 'integer' },
+    name: { type: 'string' },
+    description: { type: 'string' },
+    point_partners: { type: 'array', items: { type: 'integer' } },
+    industries: { type: 'array', items: { type: 'string' } },
+    tags: { type: 'array', items: { type: 'string' } },
+    archived: { type: 'boolean' },
+    status: { type: 'string' },
+    contact_email: { type: 'string', format: 'email' },
+    company_links: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          name: { type: 'string' },
+          url: { type: 'string' },
+        },
+      },
     },
   },
 };

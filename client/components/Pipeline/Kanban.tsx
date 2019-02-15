@@ -11,9 +11,7 @@ import GroupButton from './GroupButton';
 import IndividualButton from './IndividualButton';
 import Column from './Column';
 import transformData from '../../lib/utils';
-import schema from '../../shared/schema';
-
-const companySchema = schema.companies;
+import schema, { companySchema } from '../../shared/schema';
 
 const companyPartialSchema = {
   type: companySchema.type,

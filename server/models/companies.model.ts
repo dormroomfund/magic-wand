@@ -1,13 +1,14 @@
 import { Model } from 'objection';
-import schema from '../../client/shared/schema';
+import { companySchema } from '../../client/shared/schema';
+import BaseModel from './base.model';
 
-export default class Company extends Model {
+export default class Company extends BaseModel {
   static get tableName() {
     return 'companies';
   }
 
   static get jsonSchema() {
-    return schema.companies;
+    return companySchema;
   }
 
   static get relationMappings() {

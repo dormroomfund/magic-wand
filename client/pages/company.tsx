@@ -1,90 +1,78 @@
-import React from "react";
-import axios from "axios";
-import styled from "styled-components";
-
-import Spinner from "../components/Spinner/Spinner";
+import Head from 'next/head';
+import React from 'react';
+import Form, { ISubmitEvent } from 'react-jsonschema-form-bs4';
 import Layout from '../components/Layout/Layout';
-import LeftSection from "../components/Company/DetailedView/LeftSection";
-import RightSection from "../components/Company/DetailedView/RightSection";
-
-const NavLine = styled.hr`
-  width: 90vw;
-  display: block;
-  height: 1px;
-  border: 0;
-  border-top: 2px solid black;
-  padding: 0;
-`;
-
-const CompanyLayout = styled.div`
-  &&& {
-    font-size: 16px;
-    color: black;
-  }
-
-  display: grid;
-  margin: 1% 5% 1% 5%;
-  grid-template-columns: 55vw 40vw;
-  align-items: center;
-
-  &&& .tag {
-    height: 26px;
-    padding: 2px 9px;
-    font-size: 16px;
-  }
-`;
+import client from '../lib/client';
+import schema, { companySchema } from '../shared/schema';
+import { JSONSchema6 } from 'json-schema';
 
 interface CompanyProps {
-  match: any,
-  id: any
+  match: any;
+  id: any;
 }
 
 interface CompanyState {
-  response: any,
-  loading: any
+  company: any;
+  loading: any;
 }
 
-const axios_config = {
-  headers: {'Access-Control-Allow-Origin': '*'}
-};
-
-export default class Company extends React.Component<CompanyProps, CompanyState> {
-  static async getInitialProps({query}) {
-    return query
+export default class Company extends React.Component<
+  CompanyProps,
+  CompanyState
+> {
+  static async getInitialProps({ query }) {
+    return query;
   }
 
   state = {
-    response: {},
-    loading: false
-  }
-  constructor(props) {
-    super(props);
+    company: {},
+    loading: false,
+  };
+
+  async componentDidMount() {
+    const company = await client.service('api/companies').get(this.props.id);
+    this.setState({ company, loading: false });
+    // TODO: Error Handling
   }
 
-  componentDidMount() {
-    axios
-      .get(
-        `http://localhost:3000/api/companies/${this.props.id}`, axios_config
-      )
-      .then(response => {
-        this.setState({ response: response.data, loading: false });
-      })
-    .catch(error => {
-      console.log(error);
-    });
-  }
+  handleSubmit = async (evt: ISubmitEvent<any>) => {
+    try {
+      const res = await client
+        .service('api/companies')
+        .patch(this.props.id, evt.formData);
+      console.dir('handleSubmit', res);
+    } catch (e) {
+      console.error(e);
+    }
+
+    alert('done');
+  };
 
   render() {
+    // TODO: Fancier loading screen.
+    const { company, loading } = this.state;
+
+    console.log('render', loading, company);
+
     return (
       <Layout>
+        <Head>
+          <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+          />
+        </Head>
         <div>
-          {this.state.loading ?
-            <div> Loading </div>
-           : (
-            <CompanyLayout>
-              <LeftSection props={this.state.response} />
-              <RightSection props={this.state.response} />
-            </CompanyLayout>
+          {loading ? (
+            <div>Loading...</div>
+          ) : company ? (
+            <Form
+              schema={companySchema as JSONSchema6}
+              formData={company}
+              onSubmit={this.handleSubmit}
+            />
+          ) : (
+            'Error'
           )}
         </div>
       </Layout>

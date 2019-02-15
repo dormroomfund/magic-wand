@@ -5,7 +5,7 @@ import Card from 'react-bootstrap/lib/Card';
 import routes from '../../../routes';
 import Layout from '../../Layout/Layout';
 
-const { Link, _ } = routes;
+const { Link } = routes;
 
 const CompanyContainer = styled.div`
   margin: 10px;
