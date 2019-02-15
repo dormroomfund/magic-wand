@@ -26,7 +26,8 @@ const companyPartialSchema = {
  * from the actual schema.
  */
 companyPartialSchema.required.forEach((property) => {
-  companyPartialSchema.properties[property] = companySchema.properties[property];
+  companyPartialSchema.properties[property] =
+    companySchema.properties[property];
 });
 
 const formData = {
@@ -153,7 +154,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
      * Note that draggableId is equivalent to the companyID.
      */
     axios
-      .patch(`https://magic-wand.herokuapp.com/api/companies/${draggableId}`, {
+      .patch(`http://localhost:3000/api/companies/${draggableId}`, {
         status: newForeign.id,
       })
       .catch((error) => {
