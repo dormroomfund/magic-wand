@@ -34,7 +34,7 @@ export default {
   },
   companies: {
     type: 'object',
-    required: ['id', 'name', 'contact_email'],
+    required: ['name', 'description', 'contact_email', 'status'],
     description: 'Defines a company that DRF encounters',
     properties: {
       id: { type: 'integer' },
