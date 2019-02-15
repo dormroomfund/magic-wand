@@ -1,7 +1,8 @@
 import { Model } from 'objection';
 import schema from '../../client/shared/schema';
+import BaseModel from './base.model';
 
-export default class Vote extends Model {
+export default class Vote extends BaseModel {
   static get tableName() {
     return 'votes';
   }

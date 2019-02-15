@@ -1,7 +1,6 @@
-import { Model } from 'objection';
-import schema from '../../client/shared/schema';
+import BaseModel from './base.model';
 
-export default class User extends Model {
+export default class User extends BaseModel {
   static get tableName() {
     return 'users';
   }
