@@ -1,4 +1,5 @@
 import BaseModel from './base.model';
+import { Model } from 'objection';
 
 export default class User extends BaseModel {
   static get tableName() {

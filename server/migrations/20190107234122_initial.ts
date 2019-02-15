@@ -1,13 +1,30 @@
-exports.up = function(knex, Promise) {
+import Knex from 'knex';
+
+exports.up = function(knex: Knex) {
   return Promise.all([
     knex.schema.createTable('companies', (table) => {
       table.increments('id').primary();
       table.text('name').notNullable();
       table.text('description').notNullable();
-      table.specificType('industries', 'text ARRAY');
       table.text('status').notNullable();
       table.text('contact_email').notNullable();
-      table.json('company_links').defaultTo('{}');
+      table.boolean('archived').defaultTo(false);
+      table
+        .jsonb('point_partners')
+        .notNullable()
+        .defaultTo('[]');
+      table
+        .jsonb('industries')
+        .notNullable()
+        .defaultTo('[]');
+      table
+        .jsonb('tags')
+        .notNullable()
+        .defaultTo('[]');
+      table
+        .jsonb('company_links')
+        .notNullable()
+        .defaultTo('[]');
       table.timestamps();
     }),
     knex.schema.createTable('users', (table) => {
@@ -51,10 +68,8 @@ exports.up = function(knex, Promise) {
   ]);
 };
 
-exports.down = function(knex, Promise) {
-  return Promise.all([
-    knex.schema.dropTable('companies'),
-    knex.schema.dropTable('users'),
-    knex.schema.dropTable('votes'),
-  ]);
+exports.down = async function(knex: Knex) {
+  await knex.schema.dropTable('votes');
+  await knex.schema.dropTable('users');
+  await knex.schema.dropTable('companies');
 };
