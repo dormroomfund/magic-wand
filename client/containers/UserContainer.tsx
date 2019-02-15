@@ -2,6 +2,8 @@ import getConfig from 'next/config';
 import { Container } from 'unstated';
 import { getUser } from '../lib/authentication';
 import client from '../lib/client';
+import Ajv from 'ajv';
+import schema, { userSchema } from '../shared/schema';
 
 const { publicRuntimeConfig } = getConfig();
 const auth0domain = publicRuntimeConfig.authentication.auth0.domain;
@@ -55,6 +57,16 @@ export default class UserContainer extends Container<UserContainerState> {
 
   get authState() {
     return this.state.authState;
+  }
+
+  get isInitialized() {
+    if (!this.user) return false;
+
+    const ajv = new Ajv({ coerceTypes: true });
+    const valid = ajv.validate(userSchema, this.user);
+
+    console.dir(ajv);
+    return valid;
   }
 
   // ACTIONS
