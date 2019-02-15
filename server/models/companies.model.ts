@@ -1,5 +1,5 @@
-import { Model } from 'objection';
-import schema from '../../client/shared/schema';
+import { JsonSchema, Model } from 'objection';
+import { companySchema } from '../../client/shared/schema';
 
 export default class Company extends Model {
   static get tableName() {
@@ -7,7 +7,7 @@ export default class Company extends Model {
   }
 
   static get jsonSchema() {
-    return schema.companies;
+    return companySchema;
   }
 
   static get relationMappings() {

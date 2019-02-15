@@ -1,12 +1,6 @@
-import {
-  AjvOrNewable,
-  validateSchema,
-  fastJoin,
-  alterItems,
-  keep,
-} from 'feathers-hooks-common';
 import Ajv from 'ajv';
-import schema from '../../../client/shared/schema';
+import { alterItems, fastJoin, keep } from 'feathers-hooks-common';
+import schema, { companySchema } from '../../../client/shared/schema';
 
 const ajv = new Ajv({ allErrors: true, $data: true });
 
@@ -14,8 +8,8 @@ const ajv = new Ajv({ allErrors: true, $data: true });
  * Partial Schema needed for PATCH and UPDATE calls.
  */
 const partialSchema = {
-  type: schema.companies.type,
-  properties: schema.companies.properties,
+  type: companySchema.type,
+  properties: companySchema.properties,
   additionalProperties: false,
 };
 
@@ -88,14 +82,14 @@ export default {
         company.tags = company.tags || [];
         company.company_links = company.company_links || [];
       }),
-      /*validateSchema(schema.companies, <AjvOrNewable> ajv)*/
+      /*validateSchema(companies, <AjvOrNewable> ajv)*/
     ],
     update: [
-      keep(...Object.keys(schema.companies.properties)),
+      keep(...Object.keys(companySchema.properties)),
       /*validateSchema(partialSchema, <AjvOrNewable>ajv)*/
     ],
     patch: [
-      keep(...Object.keys(schema.companies.properties)),
+      keep(...Object.keys(companySchema.properties)),
       /*validateSchema(partialSchema, <AjvOrNewable>ajv)*/
     ],
     remove: [],

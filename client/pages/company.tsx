@@ -3,7 +3,8 @@ import React from 'react';
 import Form, { ISubmitEvent } from 'react-jsonschema-form-bs4';
 import Layout from '../components/Layout/Layout';
 import client from '../lib/client';
-import schema from '../shared/schema';
+import schema, { companySchema } from '../shared/schema';
+import { JSONSchema6 } from 'json-schema';
 
 interface CompanyProps {
   match: any;
@@ -66,7 +67,7 @@ export default class Company extends React.Component<
             <div>Loading...</div>
           ) : company ? (
             <Form
-              schema={schema.companies}
+              schema={companySchema as JSONSchema6}
               formData={company}
               onSubmit={this.handleSubmit}
             />
