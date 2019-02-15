@@ -16,7 +16,7 @@ install:
 
 # Starts the server in development mode, restarting when changes detected.
 dev:
-	npx nodemon --exec ts-node server/
+	DEBUG=knex:query npx nodemon --exec ts-node server/
 
 # Starts the server in development mode.
 start:

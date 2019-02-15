@@ -1,4 +1,10 @@
-import {  AjvOrNewable, validateSchema, fastJoin } from 'feathers-hooks-common';
+import {
+  AjvOrNewable,
+  validateSchema,
+  fastJoin,
+  alterItems,
+  keep,
+} from 'feathers-hooks-common';
 import Ajv from 'ajv';
 import schema from '../../../client/shared/schema';
 
@@ -65,19 +71,33 @@ const pointPartners = {
         pointPartnerObjs.forEach((obj) => {
           const partnerName = `${obj.first_name} ${obj.last_name}`;
           company.pointPartnerNames.push(partnerName);
-        })
+        });
       }
-    }
-  }
+    },
+  },
 };
 export default {
   before: {
     all: [],
     find: [],
     get: [],
-    create: [/*validateSchema(schema.companies, <AjvOrNewable> ajv)*/],
-    update: [validateSchema(partialSchema, <AjvOrNewable> ajv)],
-    patch: [validateSchema(partialSchema, <AjvOrNewable> ajv)],
+    create: [
+      alterItems((company) => {
+        company.point_partners = company.point_partners || [];
+        company.industries = company.industries || [];
+        company.tags = company.tags || [];
+        company.company_links = company.company_links || [];
+      }),
+      /*validateSchema(schema.companies, <AjvOrNewable> ajv)*/
+    ],
+    update: [
+      keep(...Object.keys(schema.companies.properties)),
+      /*validateSchema(partialSchema, <AjvOrNewable>ajv)*/
+    ],
+    patch: [
+      keep(...Object.keys(schema.companies.properties)),
+      /*validateSchema(partialSchema, <AjvOrNewable>ajv)*/
+    ],
     remove: [],
   },
   after: {

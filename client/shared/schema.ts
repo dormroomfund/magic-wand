@@ -46,7 +46,16 @@ export default {
       archived: { type: 'boolean' },
       status: { type: 'string' },
       contact_email: { type: 'string', format: 'email' },
-      company_links: { type: 'object' },
+      company_links: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            name: { type: 'string' },
+            url: { type: 'string' },
+          },
+        },
+      },
     },
   },
   votes: {
