@@ -3,6 +3,7 @@ import getConfig from 'next/config';
 import React from 'react';
 import { Provider } from 'unstated';
 import UNSTATED from 'unstated-debug';
+import '../stylesheets/bootstrap.scss';
 import '../stylesheets/application.scss';
 
 const config = getConfig().publicRuntimeConfig;
