@@ -20,15 +20,13 @@ interface CompanyCardProps {
 
 export default class CompanyCard extends React.Component<CompanyCardProps> {
   renderVotingButton() {
-    if (this.props.status === 'pitch') {
-      return (
-        <Link route="vote" params={{ id: this.props.company.id }}>
-          <Button>Vote!</Button>
-        </Link>
-      );
-    }
+    if (this.props.status !== 'pitch') return null;
 
-    return null;
+    return (
+      <Link route="vote" params={{ id: this.props.company.id }}>
+        <Button>Vote!</Button>
+      </Link>
+    );
   }
 
   render() {

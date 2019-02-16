@@ -4,8 +4,8 @@ import client from '../../lib/client';
 import { voteSchema } from '../../shared/schema';
 import { makeRequired, pick } from '../../shared/schemaUtils';
 import vote from '../../pages/vote';
-import {JSONSchema6} from "json-schema";
-import Button from "react-bootstrap/lib/Button";
+import { JSONSchema6 } from 'json-schema';
+import Button from 'react-bootstrap/lib/Button';
 
 interface VotingProps {
   companyID: number;
@@ -28,14 +28,17 @@ const requiredFields = [
   'team_score',
 ];
 
-const voteFormSchema = makeRequired( pick(voteSchema as JSONSchema6, requiredFields), requiredFields);
+const voteFormSchema = makeRequired(
+  pick(voteSchema as JSONSchema6, requiredFields),
+  requiredFields
+);
 
 export default class VotingForms extends React.Component<
   VotingProps,
   VotingState
 > {
   state = {
-    company: {name: '', status: ''},
+    company: { name: '', status: '' },
     prevoteData: {
       fit_score: 1,
       market_score: 1,
@@ -61,24 +64,23 @@ export default class VotingForms extends React.Component<
       .service('api/companies')
       .get(this.props.companyID);
 
-    const votingFinalized = company.status === 'rejected' ||  company.status === 'funded';
+    const votingFinalized =
+      company.status === 'rejected' || company.status === 'funded';
 
     /*
      * Determine whether this user has done a prevote or not on this company
      */
     let prevote;
     try {
-       prevote = await client.service('api/votes').find( {
-         query: {
-             company_id: this.props.companyID,
-             partner_id: this.props.user.id,
-             vote_type: 'final',
-           }
-         }
-       );
-       console.log(prevote);
+      prevote = await client.service('api/votes').find({
+        query: {
+          company_id: this.props.companyID,
+          partner_id: this.props.user.id,
+          vote_type: 'final',
+        },
+      });
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
 
     const didPrevote = prevote.total > 0; /* Did this user prevote */
@@ -86,15 +88,13 @@ export default class VotingForms extends React.Component<
     /*
      * Determine whether this user has dones a final or not on this company
      */
-    const finalvote = await client.service('api/votes').find(
-      {
-        query: {
-          company_id: this.props.companyID,
-          partner_id: this.props.user.id,
-          vote_type: 'final',
-        }
-      }
-    );
+    const finalvote = await client.service('api/votes').find({
+      query: {
+        company_id: this.props.companyID,
+        partner_id: this.props.user.id,
+        vote_type: 'final',
+      },
+    });
 
     const didFinalvote = finalvote.total > 0;
 
@@ -102,7 +102,9 @@ export default class VotingForms extends React.Component<
       company,
       prevoteData: didPrevote ? prevote.data[0] : this.state.prevoteData,
       didPrevote,
-      finalvoteData: didFinalvote ? finalvote.data[0] : this.state.finalvoteData,
+      finalvoteData: didFinalvote
+        ? finalvote.data[0]
+        : this.state.finalvoteData,
       didFinalvote,
       votingFinalized,
     });
@@ -114,14 +116,12 @@ export default class VotingForms extends React.Component<
      */
     const handleVotingSubmit = async (evt: ISubmitEvent<any>) => {
       try {
-        const res = await client.service('api/votes').create(
-          {
-            company_id: this.props.companyID,
-            partner_id: this.props.user.id,
-            vote_type: vote_type,
-            ...evt.formData,
-          }
-        );
+        const res = await client.service('api/votes').create({
+          company_id: this.props.companyID,
+          partner_id: this.props.user.id,
+          vote_type: vote_type,
+          ...evt.formData,
+        });
         this.setState({
           didPrevote: vote_type === 'prevote' ? true : this.state.didPrevote,
           didFinalvote: vote_type === 'final' ? true : this.state.didFinalvote,
@@ -129,7 +129,7 @@ export default class VotingForms extends React.Component<
         });
         alert('Submitted ' + vote_type);
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
     };
 
@@ -139,8 +139,12 @@ export default class VotingForms extends React.Component<
   renderPrevoteForm() {
     const formData = {
       fit_score: this.state.didPrevote ? this.state.prevoteData.fit_score : 1,
-      market_score: this.state.didPrevote ? this.state.prevoteData.market_score : 1,
-      product_score: this.state.didPrevote ? this.state.prevoteData.product_score : 1,
+      market_score: this.state.didPrevote
+        ? this.state.prevoteData.market_score
+        : 1,
+      product_score: this.state.didPrevote
+        ? this.state.prevoteData.product_score
+        : 1,
       team_score: this.state.didPrevote ? this.state.prevoteData.team_score : 1,
     };
 
@@ -148,23 +152,31 @@ export default class VotingForms extends React.Component<
 
     /* Disabling the form when done. */
     const uiSchema = {
-      fit_score:  {
-        'ui:disabled': this.state.didPrevote
+      fit_score: {
+        'ui:disabled': this.state.didPrevote,
       },
-      market_score:  {
-        'ui:disabled': this.state.didPrevote
+      market_score: {
+        'ui:disabled': this.state.didPrevote,
       },
-      product_score:  {
-        'ui:disabled': this.state.didPrevote
+      product_score: {
+        'ui:disabled': this.state.didPrevote,
       },
-      team_score:  {
-        'ui:disabled': this.state.didPrevote
-      }
+      team_score: {
+        'ui:disabled': this.state.didPrevote,
+      },
     };
 
     return (
-      <Form uiSchema={uiSchema} schema={voteFormSchema} formData={formData} onSubmit={this.handleVotingSubmitClosure('prevote')}>
-        <Button disabled={this.state.didPrevote} type="submit"> Submit</Button>
+      <Form
+        uiSchema={uiSchema}
+        schema={voteFormSchema}
+        formData={formData}
+        onSubmit={this.handleVotingSubmitClosure('prevote')}
+      >
+        <Button disabled={this.state.didPrevote} type="submit">
+          {' '}
+          Submit
+        </Button>
       </Form>
     );
   }
@@ -175,65 +187,91 @@ export default class VotingForms extends React.Component<
     }
 
     const formData = {
-      fit_score: this.state.didFinalvote ? this.state.finalvoteData.fit_score : 1,
-      market_score: this.state.didFinalvote ? this.state.finalvoteData.market_score : 1,
-      product_score: this.state.didFinalvote ? this.state.finalvoteData.product_score : 1,
-      team_score: this.state.didFinalvote ? this.state.finalvoteData.team_score : 1,
+      fit_score: this.state.didFinalvote
+        ? this.state.finalvoteData.fit_score
+        : 1,
+      market_score: this.state.didFinalvote
+        ? this.state.finalvoteData.market_score
+        : 1,
+      product_score: this.state.didFinalvote
+        ? this.state.finalvoteData.product_score
+        : 1,
+      team_score: this.state.didFinalvote
+        ? this.state.finalvoteData.team_score
+        : 1,
     };
 
     /* Disabling the form when done. */
     const uiSchema = {
-      fit_score:  {
-        'ui:disabled': this.state.didFinalvote
+      fit_score: {
+        'ui:disabled': this.state.didFinalvote,
       },
-      market_score:  {
-        'ui:disabled': this.state.didFinalvote
+      market_score: {
+        'ui:disabled': this.state.didFinalvote,
       },
-      product_score:  {
-        'ui:disabled': this.state.didFinalvote
+      product_score: {
+        'ui:disabled': this.state.didFinalvote,
       },
-      team_score:  {
-        'ui:disabled': this.state.didFinalvote
-      }
+      team_score: {
+        'ui:disabled': this.state.didFinalvote,
+      },
     };
 
     return (
-      <Form key="final" uiSchema={uiSchema} schema={voteFormSchema} formData={formData} onSubmit={this.handleVotingSubmitClosure('final')}>
-        <Button disabled={this.state.didFinalvote} type="submit">Submit</Button>
+      <Form
+        key="final"
+        uiSchema={uiSchema}
+        schema={voteFormSchema}
+        formData={formData}
+        onSubmit={this.handleVotingSubmitClosure('final')}
+      >
+        <Button disabled={this.state.didFinalvote} type="submit">
+          Submit
+        </Button>
       </Form>
     );
   }
 
   async finalizeVotes() {
     try {
-      const res = await client.service('api/votes/finalize').patch(this.props.companyID,
-        {
-          vote_type: 'final'
-        }
-      );
+      const res = await client
+        .service('api/votes/finalize')
+        .patch(this.props.companyID, {
+          vote_type: 'final',
+        });
       console.log(res);
-      const newCompany = {...this.state.company};
+      const newCompany = { ...this.state.company };
       newCompany.status = res.status;
-      this.setState({votingFinalized: true, company: newCompany});
-      alert("This company was " + res.status);
-
+      this.setState({ votingFinalized: true, company: newCompany });
+      alert('This company was ' + res.status);
     } catch (e) {
       alert('Missing votes');
     }
   }
 
   renderFinalizeVotesButton() {
-    if (!this.state.didFinalvote || this.props.user.partner_position !== 'Managing Partner') {
+    if (
+      !this.state.didFinalvote ||
+      this.props.user.partner_position !== 'Managing Partner'
+    ) {
       return null;
     }
-    return <Button onClick={() => this.finalizeVotes()} disabled={this.state.votingFinalized}> Finalize Votes </Button>
-  };
+    return (
+      <Button
+        onClick={() => this.finalizeVotes()}
+        disabled={this.state.votingFinalized}
+      >
+        {' '}
+        Finalize Votes{' '}
+      </Button>
+    );
+  }
 
   render() {
     return (
       <div>
         <h1> {this.state.company.name} </h1>
-        <h2> Status: { this.state.company.status } </h2>
+        <h2> Status: {this.state.company.status} </h2>
         {this.renderPrevoteForm()}
         {this.renderFinalVoteForm()}
         {this.renderFinalizeVotesButton()}
