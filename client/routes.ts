@@ -3,8 +3,8 @@ import Routes from 'next-routes';
 const routes = new Routes() //
   .add('index')
   .add('archive')
+  .add('pipeline-success', '/pipeline/success', 'pipeline-success')
   .add('pipeline')
-  .add('portfoliosuccess')
   .add('settings')
   .add('company', '/company/:id', 'company');
 
