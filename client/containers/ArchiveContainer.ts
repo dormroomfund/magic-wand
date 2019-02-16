@@ -1,7 +1,7 @@
 import { cloneDeep } from 'lodash';
 import { Container } from 'unstated';
 import client from '../lib/client';
-import { Company } from '../schemas/company';
+import { Company, Status } from '../schemas/company';
 import { Paginated } from '@feathersjs/feathers';
 
 export interface ArchiveContainerState {
@@ -28,10 +28,12 @@ export default class ArchiveContainer extends Container<ArchiveContainerState> {
 
   archiveCompany = async (id: number) => {
     try {
-      await client.service('api/companies').patch(id, { archived: true });
+      await client
+        .service('api/companies')
+        .patch(id, { status: Status.Archived });
       this.setState((state) => {
         const newState = cloneDeep(state);
-        newState.companies.find((co) => co.id === id).archived = true;
+        newState.companies.find((co) => co.id === id).status = Status.Archived;
         return newState;
       });
     } catch (e) {
@@ -41,10 +43,12 @@ export default class ArchiveContainer extends Container<ArchiveContainerState> {
 
   restoreCompany = async (id: number) => {
     try {
-      await client.service('api/companies').patch(id, { archived: false });
+      await client
+        .service('api/companies')
+        .patch(id, { status: Status.Pipeline });
       this.setState((state) => {
         const newState = cloneDeep(state);
-        newState.companies.find((co) => co.id === id).archived = false;
+        newState.companies.find((co) => co.id === id).status = Status.Pipeline;
         return newState;
       });
     } catch (e) {
