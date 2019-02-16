@@ -3,9 +3,12 @@
   "postgres": {
     "connection": "DATABASE_URL"
   },
-  "auth0": {
-    "clientID": "AUTH0_CLIENT_ID",
-    "clientSecret": "AUTH0_CLIENT_SECRET",
-    "domain": "AUTH0_DOMAIN"
+  "rootUrl": "ROOT_URL",
+  "authentication": {
+    "auth0": {
+      "clientID": "AUTH0_CLIENT_ID",
+      "clientSecret": "AUTH0_CLIENT_SECRET",
+      "domain": "AUTH0_DOMAIN"
+    }
   }
 }
