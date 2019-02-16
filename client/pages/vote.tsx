@@ -3,8 +3,13 @@ import { Subscribe } from 'unstated';
 import Layout from '../components/Layout/Layout';
 import UserContainer, { AuthState } from '../containers/UserContainer';
 import { UnreachableCaseError } from '../lib/errors';
+import VotingForms from '../components/Voting/voting';
 
-export default class Vote extends React.Component {
+interface VoteProps {
+  id: number /* Company Id */;
+}
+
+export default class Vote extends React.Component<VoteProps> {
   static async getInitialProps({ query }) {
     return query;
   }
@@ -21,7 +26,7 @@ export default class Vote extends React.Component {
             case AuthState.LoggedIn:
               return (
                 <Layout>
-                  <p> Hello!!!! </p>
+                  <VotingForms companyID={this.props.id} user={uc.user} />
                 </Layout>
               );
             default:

@@ -20,7 +20,7 @@ export default (app) => {
        * If the vote type is not specified throw an error.
        */
       if (!('vote_type' in data)) {
-        return new errors.BadRequest('Vote Type Not Specified');
+        throw new errors.BadRequest('Vote Type Not Specified');
       }
 
       const votes = await app.service('api/votes').find({
@@ -74,15 +74,33 @@ export default (app) => {
       let status = 'N/A';
 
       if (data.vote_type === 'final') {
+        /*
+         * Get the number of prevote and make sure it is the same amout
+         * as the number of final votes. If it's not return an error
+         * indicating there not enough final votes.
+         */
+        const prevotes = await app.service('api/votes').find({
+          query: {
+            vote_type: 'prevote',
+            company_id: id,
+          },
+        });
+
+        if (prevotes.total !== votes.total) {
+          throw new errors.BadRequest('Missing final votes');
+        }
+
         if (numYes > numNo) {
           status = 'Funded';
           await app.service('api/companies').patch(id, {
             status: 'Funded',
+            archived: true,
           });
         } else {
           status = 'Rejected';
           await app.service('api/companies').patch(id, {
             status: 'Rejected',
+            archived: true,
           });
         }
       }
