@@ -20,6 +20,7 @@ module.exports = withTypescript({
         logoutRedirect: config.get('authentication.auth0.logoutRedirect'),
       },
     },
+    sentryDsn: config.get('sentryDsn'),
   },
 
   webpack(cfg, options) {
