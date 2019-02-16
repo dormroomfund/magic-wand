@@ -1,10 +1,11 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
-import Card from 'react-bootstrap/lib/Card';
-import routes from '../../../routes';
-import Layout from '../../Layout/Layout';
 import Button from 'react-bootstrap/lib/Button';
+import Card from 'react-bootstrap/lib/Card';
+import styled from 'styled-components';
+import routes from '../../../routes';
+import { Company } from '../../../schemas/company';
+import Layout from '../../Layout/Layout';
 
 const { Link } = routes;
 
@@ -13,7 +14,7 @@ const CompanyContainer = styled.div`
 `;
 
 interface CompanyCardProps {
-  company: any;
+  company: Company;
   index: any;
   status: any /* The status of the company */;
 }

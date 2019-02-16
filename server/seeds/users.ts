@@ -1,6 +1,7 @@
 import faker from 'faker';
+import Knex from 'knex';
 
-exports.seed = function(knex) {
+exports.seed = function(knex: Knex) {
   // Deletes ALL existing entries
   return knex('users')
     .del()

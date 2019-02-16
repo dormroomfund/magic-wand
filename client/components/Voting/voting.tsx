@@ -1,11 +1,12 @@
+import { Paginated } from '@feathersjs/feathers';
+import { JSONSchema6 } from 'json-schema';
 import React from 'react';
+import Button from 'react-bootstrap/lib/Button';
 import Form, { ISubmitEvent } from 'react-jsonschema-form-bs4';
 import client from '../../lib/client';
-import { voteSchema } from '../../shared/schema';
-import { makeRequired, pick } from '../../shared/schemaUtils';
-import vote from '../../pages/vote';
-import { JSONSchema6 } from 'json-schema';
-import Button from 'react-bootstrap/lib/Button';
+import { Company } from '../../schemas/company';
+import { Vote, voteSchema } from '../../schemas/vote';
+import { makeRequired, pick } from '../../schemas/_utils';
 
 interface VotingProps {
   companyID: number;
@@ -13,7 +14,7 @@ interface VotingProps {
 }
 
 interface VotingState {
-  company: any;
+  company?: Company;
   prevoteData: object;
   didPrevote: boolean;
   finalvoteData: object;
@@ -38,7 +39,7 @@ export default class VotingForms extends React.Component<
   VotingState
 > {
   state = {
-    company: { name: '', status: '' },
+    company: null,
     prevoteData: {
       fit_score: 1,
       market_score: 1,
@@ -88,13 +89,13 @@ export default class VotingForms extends React.Component<
     /*
      * Determine whether this user has dones a final or not on this company
      */
-    const finalvote = await client.service('api/votes').find({
+    const finalvote = (await client.service('api/votes').find({
       query: {
         company_id: this.props.companyID,
         partner_id: this.props.user.id,
         vote_type: 'final',
       },
-    });
+    })) as Paginated<Vote>;
 
     const didFinalvote = finalvote.total > 0;
 
@@ -268,10 +269,11 @@ export default class VotingForms extends React.Component<
   }
 
   render() {
+    const { company } = this.state;
     return (
       <div>
-        <h1> {this.state.company.name} </h1>
-        <h2> Status: {this.state.company.status} </h2>
+        <h1> {company && company.name} </h1>
+        <h2> Status: {company && company.status} </h2>
         {this.renderPrevoteForm()}
         {this.renderFinalVoteForm()}
         {this.renderFinalizeVotesButton()}

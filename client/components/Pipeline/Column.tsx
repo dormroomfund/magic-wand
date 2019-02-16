@@ -4,6 +4,7 @@ import { Droppable } from 'react-beautiful-dnd';
 import { Subscribe } from 'unstated';
 import CompanyCard from '../Company/CardView/CardView';
 import PipelineContainer from '../../containers/PipelineContainer';
+import { Company } from '../../schemas/company';
 
 const Container = styled.div`
   margin: 8px;
@@ -31,13 +32,13 @@ const CompanyList = styled.div`
 `;
 
 interface ColumnProps {
-  title: any;
-  id: any;
-  companies: any;
+  title: string;
+  id: string;
+  companies: Company[];
 }
 
 interface ColumnState {
-  companies: any[];
+  companies: Company[];
 }
 
 export default class Column extends React.Component<ColumnProps, ColumnState> {
@@ -55,7 +56,14 @@ export default class Column extends React.Component<ColumnProps, ColumnState> {
     );
     const shouldDisplay2 = shouldDisplay || pipe.state.currentPartner === 'ALL';
     if (shouldDisplay2) {
-      return <CompanyCard key={company.id} company={company} index={index} status={status} />;
+      return (
+        <CompanyCard
+          key={company.id}
+          company={company}
+          index={index}
+          status={status}
+        />
+      );
     }
 
     return null;

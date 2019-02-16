@@ -2,9 +2,10 @@ import authentication from '@feathersjs/authentication';
 import jwt from '@feathersjs/authentication-jwt';
 import oauth2 from '@feathersjs/authentication-oauth2';
 import Auth0Strategy from 'passport-auth0';
+import App from '../../../client/schemas/app';
 import authenticationHooks from './authentication.hooks';
 
-export default function(app) {
+export default function(app: App) {
   const config = app.get('authentication');
 
   // Set up authentication with the secret

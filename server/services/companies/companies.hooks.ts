@@ -1,6 +1,6 @@
 import Ajv from 'ajv';
 import { alterItems, fastJoin, keep } from 'feathers-hooks-common';
-import schema, { companySchema } from '../../../client/shared/schema';
+import { companySchema } from '../../../client/schemas/company';
 
 const ajv = new Ajv({ allErrors: true, $data: true });
 

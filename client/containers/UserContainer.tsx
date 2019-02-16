@@ -1,23 +1,19 @@
+import Ajv from 'ajv';
 import getConfig from 'next/config';
 import { Container } from 'unstated';
 import { getUser } from '../lib/authentication';
 import client from '../lib/client';
-import Ajv from 'ajv';
-import schema, { userSchema } from '../shared/schema';
+import { User, userSchema } from '../schemas/user';
 
 const { publicRuntimeConfig } = getConfig();
 const auth0domain = publicRuntimeConfig.authentication.auth0.domain;
 const logoutRedirect = publicRuntimeConfig.authentication.auth0.logoutRedirect;
-const host = publicRuntimeConfig.host;
 
 export enum AuthState {
   LoggedOut = 'logged-out',
   LoggingIn = 'logging-in',
   LoggedIn = 'logged-in',
 }
-
-// TODO: Generate more granular types.
-export type User = any;
 
 export interface UserContainerState {
   authState: AuthState;
@@ -72,16 +68,13 @@ export default class UserContainer extends Container<UserContainerState> {
   // ACTIONS
   //////////////////////////////////////////////////
 
-  async logOut() {
-    client.logout();
+  logOut = async () => {
+    await client.logout();
     this.setLoggedOut();
 
     const returnTo = encodeURIComponent(logoutRedirect);
     window.location.href = `https://${auth0domain}/v2/logout?returnTo=${returnTo}`;
-  }
-
-  // PRIVATE
-  //////////////////////////////////////////////////
+  };
 
   retrieveUser = async () => {
     const user = await getUser();
@@ -93,6 +86,18 @@ export default class UserContainer extends Container<UserContainerState> {
 
     return user;
   };
+
+  updateUser = async (patch) => {
+    try {
+      const res = await client.service('api/users').patch(this.user.id, patch);
+      this.setState({ user: res });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  // PRIVATE
+  //////////////////////////////////////////////////
 
   private setLoggedIn = async (user: User) => {
     this.setState({ authState: AuthState.LoggedIn, user });

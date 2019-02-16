@@ -1,6 +1,5 @@
 import { JSONSchema6 } from 'json-schema';
-import { cloneDeep, uniq } from 'lodash';
-import { UniqueArgumentNames } from 'graphql/validation/rules/UniqueArgumentNames';
+import { uniq } from 'lodash';
 
 /**
  * Takes a schema and produces a new schema consisting only of the specified keys.
@@ -18,6 +17,7 @@ export const pick = (schema: JSONSchema6, keys: string[]) => ({
   required: schema.required.filter((req) => keys.includes(req)),
 });
 
+/** Given a schema, makes the specified keys required. */
 export const makeRequired = (schema: JSONSchema6, keys: string[]) => ({
   ...schema,
   required: uniq(keys.concat(schema.required)),

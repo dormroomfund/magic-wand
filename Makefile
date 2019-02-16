@@ -45,7 +45,7 @@ typecheck:
 
 # Runs a type coverage analysis of the codebase.
 type-coverage:
-	$(NPX) type-coverage --strict --at-least 50
+	$(NPX) type-coverage --strict --at-least 70
 
 # Runs prettier on the codebase.
 prettier:

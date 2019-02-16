@@ -2,8 +2,9 @@
 import createObjectionService from 'feathers-objection';
 import Company from '../../models/companies.model';
 import hooks from './companies.hooks';
+import App from '../../../client/schemas/app';
 
-export default (app) => {
+export default (app: App) => {
   const paginate = app.get('paginate');
 
   const options = {

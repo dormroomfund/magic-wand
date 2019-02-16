@@ -1,5 +1,5 @@
 import { Model } from 'objection';
-import { companySchema } from '../../client/shared/schema';
+import { companySchema } from '../../client/schemas/company';
 import BaseModel from './base.model';
 
 export default class Company extends BaseModel {

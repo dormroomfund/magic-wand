@@ -1,5 +1,5 @@
 import { Model } from 'objection';
-import { userSchema } from '../../client/shared/schema';
+import { userSchema } from '../../client/schemas/user';
 import BaseModel from './base.model';
 
 export default class User extends BaseModel {
