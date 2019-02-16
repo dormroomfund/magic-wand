@@ -1,7 +1,7 @@
 import Knex from 'knex';
 
-exports.up = function(knex: Knex) {
-  return Promise.all([
+export const up = (knex: Knex) =>
+  Promise.all([
     knex.schema.createTable('companies', (table) => {
       table.increments('id').primary();
       table.text('name').notNullable();
@@ -66,9 +66,8 @@ exports.up = function(knex: Knex) {
       table.timestamps();
     }),
   ]);
-};
 
-exports.down = async function(knex: Knex) {
+export const down = async (knex: Knex) => {
   await knex.schema.dropTable('votes');
   await knex.schema.dropTable('users');
   await knex.schema.dropTable('companies');

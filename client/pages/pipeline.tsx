@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from 'react-bootstrap/lib/Button';
 import { Subscribe } from 'unstated';
 import Layout from '../components/Layout/Layout';
 import Onboarding from '../components/Onboarding/Onboarding';
@@ -7,6 +8,7 @@ import UserContainer, { AuthState } from '../containers/UserContainer';
 import { getUser } from '../lib/authentication';
 import { UnreachableCaseError } from '../lib/errors';
 import { redirect } from '../lib/routing';
+import { Link } from '../routes';
 
 const PipelinePage = ({ id }) => (
   <Subscribe to={[UserContainer]}>
@@ -19,6 +21,9 @@ const PipelinePage = ({ id }) => (
         case AuthState.LoggedIn:
           return (
             <Layout>
+              <Link route="pipeline-success">
+                <Button>My Portfolio Successes</Button>
+              </Link>
               {uc.isInitialized ? <Kanban user={uc.user} /> : <Onboarding />}
             </Layout>
           );

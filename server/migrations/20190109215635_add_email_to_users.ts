@@ -1,5 +1,7 @@
-exports.up = function(knex) {
-  return knex.schema.table('users', (table) => {
+import Knex from 'knex';
+
+export const up = async (knex: Knex) => {
+  await knex.schema.table('users', (table) => {
     table
       .text('email')
       .notNullable()
@@ -7,8 +9,8 @@ exports.up = function(knex) {
   });
 };
 
-exports.down = function(knex) {
-  return knex.schema.table('users', (table) => {
+export const down = async (knex: Knex) => {
+  await knex.schema.table('users', (table) => {
     table.dropColumn('email');
   });
 };
