@@ -59,7 +59,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
 
   async componentDidMount() {
     try {
-      const res = await client.service('/api/companies').find({
+      const res = await client.service('api/companies').find({
         query: {
           archived: false,
         },
@@ -149,7 +149,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
      * Note that draggableId is equivalent to the companyID.
      */
     try {
-      client.service('/api/companies/').patch(draggableId, {
+      client.service('api/companies').patch(draggableId, {
         status: newForeign.id,
       });
     } catch (e) {
@@ -183,7 +183,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
     const status = data.formData.status;
     try {
       const response = await client
-        .service('/api/companies/')
+        .service('api/companies')
         .create(data.formData);
       const newCompany = {
         id: response.id,
