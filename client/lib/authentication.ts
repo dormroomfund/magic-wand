@@ -1,6 +1,6 @@
 import { IncomingMessage } from 'http';
 import client from './client';
-import { User } from '../containers/UserContainer';
+import { User } from '../schemas/user';
 
 /**
  * If not yet attempted, authenticates the user. Returns a JWT if
@@ -47,7 +47,7 @@ export async function getUser(
 
   try {
     const payload = await client.passport.verifyJWT(token);
-    const { userId } = payload;
+    const { userId } = payload as { userId: number };
     const user = await client.service('api/users').get(userId);
     return user;
   } catch (e) {

@@ -1,12 +1,12 @@
+import { JSONSchema6 } from 'json-schema';
 import Head from 'next/head';
 import React from 'react';
 import Form, { ISubmitEvent } from 'react-jsonschema-form-bs4';
 import Layout from '../components/Layout/Layout';
-import client from '../lib/client';
-import schema, { companySchema } from '../shared/schema';
-import { JSONSchema6 } from 'json-schema';
-import { redirect } from '../lib/routing';
 import { getUser } from '../lib/authentication';
+import client from '../lib/client';
+import { redirect } from '../lib/routing';
+import { companySchema } from '../schemas/company';
 
 interface CompanyProps {
   match: any;

@@ -3,9 +3,10 @@ import React, { PureComponent } from 'react';
 import Dropdown from 'react-bootstrap/lib/Dropdown';
 import { Subscribe } from 'unstated';
 import PipelineContainer from '../../containers/PipelineContainer';
+import { User } from '../../schemas/user';
 
 interface DropdownProps {
-  partners: Set<any>;
+  partners: Set<User>;
 }
 
 export default class CustomDropdown extends PureComponent<DropdownProps> {
@@ -28,9 +29,9 @@ export default class CustomDropdown extends PureComponent<DropdownProps> {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              {[...this.props.partners].map((partner) => (
+              {[...this.props.partners].map((partner) =>
                 this.renderItems(partner, pipe)
-              ))}
+              )}
             </Dropdown.Menu>
           </Dropdown>
         )}

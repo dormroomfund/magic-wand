@@ -1,9 +1,11 @@
 import { cloneDeep } from 'lodash';
 import { Container } from 'unstated';
 import client from '../lib/client';
+import { Company } from '../schemas/company';
+import { Paginated } from '@feathersjs/feathers';
 
 export interface ArchiveContainerState {
-  companies: any[];
+  companies: Company[];
 }
 
 export default class ArchiveContainer extends Container<ArchiveContainerState> {
@@ -18,7 +20,9 @@ export default class ArchiveContainer extends Container<ArchiveContainerState> {
   }
 
   async retrieveCompanies() {
-    const companies = (await client.service('api/companies').find({})).data;
+    const companies = ((await client
+      .service('api/companies')
+      .find({})) as Paginated<Company>).data;
     this.setState({ companies });
   }
 

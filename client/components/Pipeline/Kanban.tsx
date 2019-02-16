@@ -1,17 +1,18 @@
 import React, { PureComponent } from 'react';
-import styled from 'styled-components';
 import { DragDropContext } from 'react-beautiful-dnd';
-import Modal from 'react-bootstrap/lib/Modal';
 import Button from 'react-bootstrap/lib/Button';
+import Modal from 'react-bootstrap/lib/Modal';
 import Row from 'react-bootstrap/lib/Row';
 import Form from 'react-jsonschema-form';
+import styled from 'styled-components';
 import client from '../../lib/client';
+import transformData from '../../lib/pipelineUtils';
+import { companySchema, Company } from '../../schemas/company';
+import Column from './Column';
 import CustomDropdown from './Dropdown';
 import GroupButton from './GroupButton';
 import IndividualButton from './IndividualButton';
-import Column from './Column';
-import transformData from '../../lib/utils';
-import schema, { companySchema } from '../../shared/schema';
+import { Paginated } from '@feathersjs/feathers';
 
 const companyPartialSchema = {
   type: companySchema.type,
@@ -59,11 +60,11 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
 
   async componentDidMount() {
     try {
-      const res = await client.service('api/companies').find({
+      const res = (await client.service('api/companies').find({
         query: {
           archived: false,
         },
-      });
+      })) as Paginated<Company>;
       const ret = transformData(res.data);
       this.setState({
         columnOrder: ret.columnOrder,
@@ -182,9 +183,10 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
   submitModal = async (data) => {
     const status = data.formData.status;
     try {
-      const response = await client
+      const response = (await client
         .service('api/companies')
-        .create(data.formData);
+        .create(data.formData))[0];
+
       const newCompany = {
         id: response.id,
         name: response.name,

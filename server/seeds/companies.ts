@@ -1,6 +1,7 @@
 import faker from 'faker';
+import Knex from 'knex';
 
-exports.seed = function(knex) {
+exports.seed = function(knex: Knex) {
   // Deletes ALL existing entries
   return knex('companies')
     .del()
@@ -15,7 +16,7 @@ exports.seed = function(knex) {
           status: 'applied',
           contact_email: [faker.internet.email()],
           company_links: {},
-          archived: false
+          archived: false,
         },
         {
           id: 2,
@@ -25,7 +26,7 @@ exports.seed = function(knex) {
           status: 'funded',
           contact_email: [faker.internet.email()],
           company_links: {},
-          archived: true
+          archived: true,
         },
       ])
     );

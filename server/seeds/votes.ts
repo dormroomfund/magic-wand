@@ -1,4 +1,6 @@
-exports.seed = function(knex) {
+import Knex from 'knex';
+
+exports.seed = function(knex: Knex) {
   // Deletes ALL existing entries
   return knex('votes')
     .del()

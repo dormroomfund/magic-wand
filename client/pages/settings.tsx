@@ -6,10 +6,10 @@ import Form from 'react-jsonschema-form';
 import { Subscribe } from 'unstated';
 import Layout from '../components/Layout/Layout';
 import UserContainer from '../containers/UserContainer';
-import client from '../lib/client';
-import schema, { userSchema } from '../shared/schema';
 import { getUser } from '../lib/authentication';
+import client from '../lib/client';
 import { redirect } from '../lib/routing';
+import { userSchema } from '../schemas/user';
 
 const log = (type) => console.log.bind(console, type);
 

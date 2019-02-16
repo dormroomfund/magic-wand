@@ -1,4 +1,8 @@
 import errors from '@feathersjs/errors';
+import App from '../../../client/schemas/app';
+import { Status } from '../../../client/schemas/company';
+import { Paginated } from '@feathersjs/feathers';
+import { Vote } from '../../../client/schemas/vote';
 
 /*
  * This service is used to determine for a given voteType and voteType who
@@ -13,7 +17,7 @@ import errors from '@feathersjs/errors';
  *    "vote_type": "final"
  * }
  */
-export default (app) => {
+export default (app: App) => {
   const FinalizeVotesService = {
     async patch(id, data) {
       /*
@@ -23,12 +27,12 @@ export default (app) => {
         throw new errors.BadRequest('Vote Type Not Specified');
       }
 
-      const votes = await app.service('api/votes').find({
+      const votes = (await app.service('api/votes').find({
         query: {
           vote_type: data.vote_type,
           company_id: id,
         },
-      });
+      })) as Paginated<Vote>;
 
       /*
        * Go through each of the votes and determine the number of yes
@@ -42,16 +46,16 @@ export default (app) => {
       let fitScoreAvg = 0;
 
       votes.data.forEach((vote) => {
-        marketScoreAvg += parseFloat(vote.market_score);
-        productScoreAvg += parseFloat(vote.product_score);
-        teamScoreAvg += parseFloat(vote.team_score);
-        fitScoreAvg += parseFloat(vote.fit_score);
+        marketScoreAvg += vote.market_score;
+        productScoreAvg += vote.product_score;
+        teamScoreAvg += vote.team_score;
+        fitScoreAvg += vote.fit_score;
 
         const currAvg =
-          (parseFloat(vote.market_score) +
-            parseFloat(vote.product_score) +
-            parseFloat(vote.team_score) +
-            parseFloat(vote.fit_score)) /
+          (vote.market_score +
+            vote.product_score +
+            vote.team_score +
+            vote.fit_score) /
           4;
 
         if (currAvg > 3.0) {
@@ -79,27 +83,27 @@ export default (app) => {
          * as the number of final votes. If it's not return an error
          * indicating there not enough final votes.
          */
-        const prevotes = await app.service('api/votes').find({
+        const prevotes = (await app.service('api/votes').find({
           query: {
             vote_type: 'prevote',
             company_id: id,
           },
-        });
+        })) as Paginated<Vote>;
 
         if (prevotes.total !== votes.total) {
           throw new errors.BadRequest('Missing final votes');
         }
 
         if (numYes > numNo) {
-          status = 'funded';
+          status = Status.Funded;
           await app.service('api/companies').patch(id, {
-            status: 'funded',
+            status: Status.Funded,
             archived: true,
           });
         } else {
-          status = 'rejected';
+          status = Status.Rejected;
           await app.service('api/companies').patch(id, {
-            status: 'rejected',
+            status: Status.Rejected,
             archived: true,
           });
         }

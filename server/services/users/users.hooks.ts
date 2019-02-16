@@ -1,6 +1,6 @@
 import { hooks as authHooks } from '@feathersjs/authentication';
 import Ajv from 'ajv';
-import schema, { userSchema } from '../../../client/shared/schema';
+import { userSchema } from '../../../client/schemas/user';
 
 const { authenticate } = authHooks;
 const ajv = new Ajv({ allErrors: true, $data: true });

@@ -1,5 +1,4 @@
 import { Model } from 'objection';
-import schema from '../../client/shared/schema';
 import BaseModel from './base.model';
 
 export default class Vote extends BaseModel {
@@ -8,7 +7,7 @@ export default class Vote extends BaseModel {
   }
 
   // static get jsonSchema() {
-  //   return schema.votes;
+  //   return voteSchema;
   // }
 
   static get relationMappings() {
