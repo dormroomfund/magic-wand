@@ -1,7 +1,6 @@
+import { cloneDeep } from 'lodash';
 import { Container } from 'unstated';
 import client from '../lib/client';
-import { createObjectionService } from 'feathers-objection';
-import { cloneDeep } from 'lodash';
 
 export interface ArchiveContainerState {
   companies: any[];

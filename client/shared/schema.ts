@@ -75,7 +75,19 @@ export const companySchema = {
     industries: { type: 'array', items: { type: 'string' } },
     tags: { type: 'array', items: { type: 'string' } },
     archived: { type: 'boolean' },
-    status: { type: 'string' },
+    status: {
+      type: 'string',
+      enum: [
+        'applied',
+        'pipeline',
+        'rejected',
+        'pitching',
+        'waiting',
+        'funded',
+        'deferred',
+        'not-funded',
+      ],
+    },
     contact_email: { type: 'string', format: 'email' },
     company_links: {
       type: 'array',

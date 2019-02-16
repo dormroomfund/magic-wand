@@ -5,6 +5,8 @@ import Onboarding from '../components/Onboarding/Onboarding';
 import Kanban from '../components/Pipeline/Kanban';
 import UserContainer, { AuthState } from '../containers/UserContainer';
 import { UnreachableCaseError } from '../lib/errors';
+import Button from 'react-bootstrap/lib/Button';
+import { Link } from '../routes';
 
 export default ({ id }) => (
   <Subscribe to={[UserContainer]}>
@@ -17,6 +19,9 @@ export default ({ id }) => (
         case AuthState.LoggedIn:
           return (
             <Layout>
+              <Link route="pipeline-success">
+                <Button>My Portfolio Successes</Button>
+              </Link>
               {uc.isInitialized ? <Kanban user={uc.user} /> : <Onboarding />}
             </Layout>
           );
