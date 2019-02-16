@@ -12,10 +12,12 @@ const partialSchema = {
 };
 
 const customizeOAuthProfile = () => async (context) => {
-  if (context.data.auth0) {
-    context.data.email = context.data.auth0.profile.emails[0].value;
-    context.data.first_name = context.data.auth0.profile.name.givenName;
-    context.data.last_name = context.data.auth0.profile.name.familyName;
+  if (context.data.auth0 && context.data.auth0.profile) {
+    const { profile } = context.data.auth0;
+    context.data.email = profile.emails[0].value;
+    context.data.first_name = profile.name.givenName;
+    context.data.last_name = profile.name.familyName;
+    context.data.photo = profile.picture;
   }
 
   return context;

@@ -11,5 +11,6 @@
       "domain": "AUTH0_DOMAIN",
       "logoutRedirect": "AUTH0_LOGOUT_REDIRECT"
     }
-  }
+  },
+  "sentryDsn": "SENTRY_DSN"
 }

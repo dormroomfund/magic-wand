@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/lib/Button';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import Card from 'react-bootstrap/lib/Card';
 import { Link } from '../../routes';
-import { Company, Status, archivedStates } from '../../schemas/company';
+import { archivedStates, Company } from '../../schemas/company';
 
 export interface ArchiveListProps {
   companies: Company[];

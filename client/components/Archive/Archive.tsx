@@ -46,13 +46,13 @@ export default class Archive extends Component<{}, ArchiveState> {
           active={filter === Filter.None}
           onClick={() => this.setState({ filter: Filter.None })}
         >
-          No Filter
+          All Companies
         </Button>
         <Button
           active={filter === Filter.MySuccess}
           onClick={() => this.setState({ filter: Filter.MySuccess })}
         >
-          My Portfolio Successes
+          My Portfolio
         </Button>
       </ButtonGroup>
     );

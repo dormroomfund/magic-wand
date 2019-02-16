@@ -1,8 +1,9 @@
-import UNSTATED from 'unstated-debug';
-import React from 'react';
 import App, { Container } from 'next/app';
-import { Provider } from 'unstated';
 import getConfig from 'next/config';
+import React from 'react';
+import { Provider } from 'unstated';
+import UNSTATED from 'unstated-debug';
+import '../stylesheets/application.scss';
 
 const config = getConfig().publicRuntimeConfig;
 if (config.env === 'development' && process.browser) {
