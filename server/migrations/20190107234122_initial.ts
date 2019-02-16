@@ -58,10 +58,10 @@ exports.up = function(knex: Knex) {
         .foreign('company_id')
         .references('companies.id')
         .onDelete('CASCADE');
-      table.decimal('market_score');
-      table.decimal('product_score');
-      table.decimal('team_score');
-      table.decimal('fit_score');
+      table.integer('market_score');
+      table.integer('product_score');
+      table.integer('team_score');
+      table.integer('fit_score');
       table.text('comment');
       table.timestamps();
     }),
