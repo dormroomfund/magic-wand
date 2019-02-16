@@ -4,6 +4,7 @@ import feathers from '@feathersjs/feathers';
 import socketio from '@feathersjs/socketio';
 import compress from 'compression';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import appHooks from './app.hooks';
 import logger from './logger';
@@ -21,6 +22,7 @@ app.configure(configuration());
 app.use(helmet());
 app.use(cors());
 app.use(compress());
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -41,7 +43,6 @@ app.configure(nextMiddleware);
 // Configure a middleware for 404s and the error handler
 app.use(express.notFound());
 app.use(express.errorHandler({ logger }));
-
 
 app.hooks(appHooks);
 

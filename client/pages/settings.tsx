@@ -8,6 +8,8 @@ import Layout from '../components/Layout/Layout';
 import UserContainer from '../containers/UserContainer';
 import client from '../lib/client';
 import schema, { userSchema } from '../shared/schema';
+import { getUser } from '../lib/authentication';
+import { redirect } from '../lib/routing';
 
 const log = (type) => console.log.bind(console, type);
 
@@ -38,7 +40,7 @@ const uiSchema = {
   partner_position: {},
 };
 
-export default () => {
+const SettingsPage = () => {
   const submitForm = async ({ formData }) => {
     await client.service('api/users').patch(formData.id, formData);
     alert('Updated');
@@ -70,3 +72,13 @@ export default () => {
     </Layout>
   );
 };
+
+SettingsPage.getInitialProps = async ({ req, res }) => {
+  const user = await getUser(req);
+  if (!user) {
+    redirect('/', res);
+    return;
+  }
+};
+
+export default SettingsPage;

@@ -5,6 +5,8 @@ import Layout from '../components/Layout/Layout';
 import client from '../lib/client';
 import schema, { companySchema } from '../shared/schema';
 import { JSONSchema6 } from 'json-schema';
+import { redirect } from '../lib/routing';
+import { getUser } from '../lib/authentication';
 
 interface CompanyProps {
   match: any;
@@ -20,7 +22,13 @@ export default class Company extends React.Component<
   CompanyProps,
   CompanyState
 > {
-  static async getInitialProps({ query }) {
+  static async getInitialProps({ query, req, res }) {
+    const user = await getUser(req);
+    if (!user) {
+      redirect('/', res);
+      return;
+    }
+
     return query;
   }
 
