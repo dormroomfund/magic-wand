@@ -72,7 +72,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
         isLoading: false,
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -149,11 +149,11 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
      * Note that draggableId is equivalent to the companyID.
      */
     try {
-      client.service('/api/companies').patch(draggableId, {
+      client.service('/api/companies/').patch(draggableId, {
         status: newForeign.id,
       });
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
 
     const newState = {
@@ -183,7 +183,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
     const status = data.formData.status;
     try {
       const response = await client
-        .service('/api/companies')
+        .service('/api/companies/')
         .create(data.formData);
       const newCompany = {
         id: response.id,
@@ -200,7 +200,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
         columns: newColumns,
       });
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   };
 
