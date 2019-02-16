@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/lib/Button';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import Card from 'react-bootstrap/lib/Card';
 import { Link } from '../../routes';
-import { Company } from '../../schemas/company';
+import { Company, Status, archivedStates } from '../../schemas/company';
 
 export interface ArchiveListProps {
   companies: Company[];
@@ -27,7 +27,7 @@ export default ({
               <Link route="company" params={{ id: company.id }}>
                 <Button variant="primary">View</Button>
               </Link>
-              {company.archived
+              {archivedStates.includes(company.status)
                 ? onRestoreCompany && (
                     <Button
                       variant="info"

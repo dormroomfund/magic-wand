@@ -6,6 +6,7 @@ import ArchiveList from './ArchiveList';
 import Button from 'react-bootstrap/lib/Button';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import { UnreachableCaseError } from '../../lib/errors';
+import { Status } from '../../schemas/company';
 
 enum Filter {
   None,
@@ -29,7 +30,8 @@ export default class Archive extends Component<{}, ArchiveState> {
       case Filter.MySuccess:
         return ac.companies.filter(
           (co) =>
-            co.status === 'funded' && co.point_partners.includes(uc.user.id)
+            co.status === Status.Funded &&
+            co.point_partners.includes(uc.user.id)
         );
       default:
         throw new UnreachableCaseError(filter);

@@ -22,7 +22,17 @@ export enum Status {
 
   /** The company has received a check from us. */
   Funded = 'funded',
+
+  /** The company was archived without consideration. */
+  Archived = 'archived',
 }
+
+export const archivedStates = [
+  Status.Rejected,
+  Status.RejectedWithPitch,
+  Status.Accepted,
+  Status.Funded,
+];
 
 export interface Company {
   id?: number;
