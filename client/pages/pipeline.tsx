@@ -1,11 +1,12 @@
 import React from 'react';
 import { Subscribe } from 'unstated';
 import Layout from '../components/Layout/Layout';
+import Onboarding from '../components/Onboarding/Onboarding';
+import Kanban from '../components/Pipeline/Kanban';
 import UserContainer, { AuthState } from '../containers/UserContainer';
 import { UnreachableCaseError } from '../lib/errors';
-import Kanban from '../components/Pipeline/Kanban';
 
-export default () => (
+export default ({ id }) => (
   <Subscribe to={[UserContainer]}>
     {(uc: UserContainer) => {
       switch (uc.authState) {
@@ -16,7 +17,7 @@ export default () => (
         case AuthState.LoggedIn:
           return (
             <Layout>
-              <Kanban user={uc.user} />
+              {uc.isInitialized ? <Kanban user={uc.user} /> : <Onboarding />}
             </Layout>
           );
         default:

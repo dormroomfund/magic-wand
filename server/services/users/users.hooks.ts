@@ -1,13 +1,13 @@
 import { hooks as authHooks } from '@feathersjs/authentication';
 import Ajv from 'ajv';
-import schema from '../../../client/shared/schema';
+import schema, { userSchema } from '../../../client/shared/schema';
 
 const { authenticate } = authHooks;
 const ajv = new Ajv({ allErrors: true, $data: true });
 
 const partialSchema = {
-  type: schema.users.type,
-  properties: schema.users.properties,
+  type: userSchema.type,
+  properties: userSchema.properties,
   additionalProperties: false,
 };
 
@@ -28,7 +28,7 @@ export default {
     get: [authenticate('jwt')],
     create: [
       customizeOAuthProfile(),
-      // validateSchema(schema.users, <AjvOrNewable>ajv),
+      // validateSchema(userSchema, <AjvOrNewable>ajv),
     ],
     update: [
       authenticate('jwt'),

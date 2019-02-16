@@ -29,7 +29,7 @@
       "clientSecret": "your auth0 client secret",
       "callbackURL": "/auth/auth0/callback",
       "logoutRedirect": "http://localhost:3000",
-      "successRedirect": "/",
+      "successRedirect": "/pipeline",
       "domain": "mydomain.auth0.com",
       "scopes": ["profile openid"]
     },
