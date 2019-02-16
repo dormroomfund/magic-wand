@@ -1,3 +1,5 @@
+import { Team } from './user';
+
 export enum Status {
   /** The company has applied. */
   Applied = 'applied',
@@ -38,6 +40,7 @@ export interface Company {
   id?: number;
   name: string;
   description: string;
+  team: Team;
   point_partners?: number[];
   industries?: string[];
   tags?: string[];
@@ -59,6 +62,7 @@ export const companySchema = {
     name: { type: 'string' },
     description: { type: 'string' },
     point_partners: { type: 'array', items: { type: 'integer' } },
+    team: { type: 'string', enum: Object.values(Team) },
     industries: { type: 'array', items: { type: 'string' } },
     tags: { type: 'array', items: { type: 'string' } },
     status: {
