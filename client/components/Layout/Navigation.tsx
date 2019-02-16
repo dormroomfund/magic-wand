@@ -23,6 +23,9 @@ export default () => {
             <Link route="/pipeline">
               <Nav.Link href="/pipeline">Pipeline</Nav.Link>
             </Link>
+            <Link route="/archive">
+              <Nav.Link href="/archive">Archive</Nav.Link>
+            </Link>
           </Nav>
           <Nav navbar className="ml-auto">
             <UserActions />

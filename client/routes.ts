@@ -2,7 +2,7 @@ import Routes from 'next-routes';
 
 const routes = new Routes() //
   .add('index')
-  .add('research')
+  .add('archive')
   .add('pipeline')
   .add('portfoliosuccess')
   .add('settings')
