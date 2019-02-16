@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import styled from "styled-components";
 
 import Spinner from "../../Spinner/Spinner.js";
@@ -42,26 +41,10 @@ interface CompanyState {
   loading: any
 }
 
-
 export default class CompanyDetails extends React.Component<CompanyProps, CompanyState> {
   constructor(props) {
     super(props);
     this.state = { response: "", loading: true };
-  }
-
-  componentDidMount() {
-    axios
-      .get(
-        `https://drfvote-magicwand.herokuapp.com/api/v2/companies/${
-          this.props.match.params.id
-        }?include=team,pitches,partners,founders`
-      )
-      .then(response => {
-        this.setState({ response: response.data.data, loading: false });
-      });
-    // .catch(error => {
-    //   console.log(error);
-    // });
   }
 
   render() {

@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/lib/Modal';
 import Button from 'react-bootstrap/lib/Button';
 import Row from 'react-bootstrap/lib/Row';
 import Form from 'react-jsonschema-form';
-import axios from 'axios';
+import client from '../../lib/client';
 import CustomDropdown from './Dropdown';
 import GroupButton from './GroupButton';
 import IndividualButton from './IndividualButton';
@@ -36,10 +36,6 @@ const AppContainer = styled.div`
   display: flex;
 `;
 
-const axiosConfig = {
-  headers: { 'Access-Control-Allow-Origin': '*' },
-};
-
 interface KanbanProps {
   user: any; // Defines the User object
 }
@@ -61,22 +57,23 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
     isVisible: false,
   };
 
-  componentDidMount() {
-    axios
-      .get('http://localhost:3000/api/companies?archived=false', axiosConfig)
-      .then((response) => {
-        const ret = transformData(response.data.data);
-        this.setState({
-          columnOrder: ret.columnOrder,
-          columns: ret.columns,
-          partnerNames: ret.partnerNames,
-          isLoading: false,
-        });
-      })
-      .catch((error) => {
-        // TODO: Add error handling
-        console.log(error);
+  async componentDidMount() {
+    try {
+      const res = await client.service('/api/companies').find({
+        query: {
+          archived: false,
+        },
       });
+      const ret = transformData(res.data);
+      this.setState({
+        columnOrder: ret.columnOrder,
+        columns: ret.columns,
+        partnerNames: ret.partnerNames,
+        isLoading: false,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   onDragEnd = (result) => {
@@ -151,13 +148,13 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
      * Update the database with the new status of the company.
      * Note that draggableId is equivalent to the companyID.
      */
-    axios
-      .patch(`http://localhost:3000/api/companies/${draggableId}`, {
+    try {
+      client.service('/api/companies').patch(draggableId, {
         status: newForeign.id,
-      })
-      .catch((error) => {
-        console.log(error);
       });
+    } catch (e) {
+      console.log(e);
+    }
 
     const newState = {
       columns: {
@@ -182,32 +179,29 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
     });
   };
 
-  submitModal = (data) => {
+  submitModal = async (data) => {
     const status = data.formData.status;
-    axios
-      .post('http://localhost:3000/api/companies', data.formData)
-      .then((response) => {
-        console.log(response);
+    try {
+      const response = await client
+        .service('/api/companies')
+        .create(data.formData);
+      const newCompany = {
+        id: response.id,
+        name: response.name,
+        description: response.description,
+        pointPartnersNames: new Set([]),
+      };
 
-        const newCompany = {
-          id: response.data.id,
-          name: response.data.name,
-          description: response.data.description,
-          pointPartnersNames: new Set([]),
-        };
+      const newColumns = this.state.columns;
+      newColumns[status].companies.push(newCompany);
 
-        const newColumns = this.state.columns;
-        newColumns[status].companies.push(newCompany);
-
-        this.setState({
-          isVisible: false,
-          columns: newColumns,
-        });
-      })
-      .catch((error) => {
-        // TODO: Add error handling
-        console.log(error);
+      this.setState({
+        isVisible: false,
+        columns: newColumns,
       });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   render() {
