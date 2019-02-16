@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/lib/Button';
 import Card from 'react-bootstrap/lib/Card';
 import styled from 'styled-components';
 import routes from '../../../routes';
-import { Company } from '../../../schemas/company';
+import { Company, Status } from '../../../schemas/company';
 import Layout from '../../Layout/Layout';
 
 const { Link } = routes;
@@ -15,13 +15,13 @@ const CompanyContainer = styled.div`
 
 interface CompanyCardProps {
   company: Company;
-  index: any;
-  status: any /* The status of the company */;
+  index: number;
+  status: Status;
 }
 
 export default class CompanyCard extends React.Component<CompanyCardProps> {
   renderVotingButton() {
-    if (this.props.status !== 'pitch') return null;
+    if (this.props.status !== Status.Pitching) return null;
 
     return (
       <Link route="vote" params={{ id: this.props.company.id }}>

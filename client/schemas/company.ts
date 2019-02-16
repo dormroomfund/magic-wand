@@ -1,14 +1,27 @@
 export enum Status {
+  /** The company has applied. */
   Applied = 'applied',
-  Pipeline = 'pipeline',
-  Rejected = 'rejected',
-  Pitching = 'pitching',
-  Waiting = 'waiting',
 
-  // Exit States
-  Funded = 'funded',
+  /** The company was allocated a point partner. */
+  Pipeline = 'pipeline',
+
+  /** The company was rejected without a pitch. */
+  Rejected = 'rejected',
+
+  /** The company is about to pitch. */
+  Pitching = 'pitching',
+
+  /** We decided to hold off on getting a pitch from this company. */
   Deferred = 'deferred',
-  NotFunded = 'not-funded',
+
+  /** The company was approved for funding. */
+  Accepted = 'accepted',
+
+  /** The company pitched, but was ultimately rejected. */
+  RejectedWithPitch = 'rejected-with-pitch',
+
+  /** The company has received a check from us. */
+  Funded = 'funded',
 }
 
 export interface Company {
@@ -18,7 +31,6 @@ export interface Company {
   point_partners?: number[];
   industries?: string[];
   tags?: string[];
-  archived?: boolean;
   status: Status;
   contact_email: string;
   company_links?: {
@@ -39,7 +51,6 @@ export const companySchema = {
     point_partners: { type: 'array', items: { type: 'integer' } },
     industries: { type: 'array', items: { type: 'string' } },
     tags: { type: 'array', items: { type: 'string' } },
-    archived: { type: 'boolean' },
     status: {
       type: 'string',
       enum: Object.values(Status),

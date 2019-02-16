@@ -1,3 +1,5 @@
+import { Status } from '../schemas/company';
+
 /*
  * @params array of companies
  * returns formatted data for Kanban board
@@ -8,22 +10,22 @@ const transformData = (arr) => {
 
   const columns = {
     applied: {
-      id: 'applied',
+      id: Status.Applied,
       title: 'New Applications',
       companies: [],
     },
-    pre_pitch: {
-      id: 'pre_pitch',
-      title: 'Pre Pitch',
+    pipeline: {
+      id: Status.Pipeline,
+      title: 'Pipeline',
       companies: [],
     },
     deferred: {
-      id: 'deferred',
+      id: Status.Deferred,
       title: 'Check In Later',
       companies: [],
     },
     pitch: {
-      id: 'pitch',
+      id: Status.Pitching,
       title: 'Pitching',
       companies: [],
     },
@@ -59,7 +61,7 @@ const transformData = (arr) => {
 
   return {
     columns,
-    columnOrder: ['applied', 'pre_pitch', 'deferred', 'pitch'],
+    columnOrder: ['applied', 'pipeline', 'deferred', 'pitch'],
     partnerNames,
   };
 };
