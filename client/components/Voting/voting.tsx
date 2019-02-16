@@ -61,7 +61,7 @@ export default class VotingForms extends React.Component<
       .service('api/companies')
       .get(this.props.companyID);
 
-    const votingFinalized = company.status === 'Rejected' ||  company.status === 'Funded';
+    const votingFinalized = company.status === 'rejected' ||  company.status === 'funded';
 
     /*
      * Determine whether this user has done a prevote or not on this company

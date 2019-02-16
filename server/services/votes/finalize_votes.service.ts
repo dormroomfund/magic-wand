@@ -91,15 +91,15 @@ export default (app) => {
         }
 
         if (numYes > numNo) {
-          status = 'Funded';
+          status = 'funded';
           await app.service('api/companies').patch(id, {
-            status: 'Funded',
+            status: 'funded',
             archived: true,
           });
         } else {
-          status = 'Rejected';
+          status = 'rejected';
           await app.service('api/companies').patch(id, {
-            status: 'Rejected',
+            status: 'rejected',
             archived: true,
           });
         }
