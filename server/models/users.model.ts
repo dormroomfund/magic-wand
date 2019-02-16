@@ -1,5 +1,6 @@
-import BaseModel from './base.model';
 import { Model } from 'objection';
+import { userSchema } from '../../client/shared/schema';
+import BaseModel from './base.model';
 
 export default class User extends BaseModel {
   static get tableName() {
@@ -7,7 +8,7 @@ export default class User extends BaseModel {
   }
 
   // static get jsonSchema() {
-  //   return schema.users;
+  //   return userSchema;
   // }
 
   static get relationMappings() {
