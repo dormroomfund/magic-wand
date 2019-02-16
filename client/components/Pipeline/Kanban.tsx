@@ -183,9 +183,9 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
   submitModal = async (data) => {
     const status = data.formData.status;
     try {
-      const response = (await client
+      const response = await client
         .service('api/companies')
-        .create(data.formData))[0];
+        .create(data.formData as Company);
 
       const newCompany = {
         id: response.id,
