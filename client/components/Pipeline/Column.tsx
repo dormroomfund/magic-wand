@@ -48,13 +48,14 @@ export default class Column extends React.Component<ColumnProps, ColumnState> {
     };
   }
 
-  renderCard = (company, pipe, index) => {
+  renderCard = (company, pipe, index, status) => {
+    console.log(status);
     const shouldDisplay = company.pointPartnersNames.has(
       pipe.state.currentPartner
     );
     const shouldDisplay2 = shouldDisplay || pipe.state.currentPartner === 'ALL';
     if (shouldDisplay2) {
-      return <CompanyCard key={company.id} company={company} index={index} />;
+      return <CompanyCard key={company.id} company={company} index={index} status={status} />;
     }
 
     return null;
@@ -74,7 +75,7 @@ export default class Column extends React.Component<ColumnProps, ColumnState> {
                   isDraggingOver={snapshot.isDraggingOver}
                 >
                   {this.state.companies.map((company, index) =>
-                    this.renderCard(company, pipe, index)
+                    this.renderCard(company, pipe, index, this.props.id)
                   )}
                   {provided.placeholder}
                 </CompanyList>

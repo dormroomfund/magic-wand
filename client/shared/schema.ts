@@ -4,33 +4,31 @@ import { JSONSchema6 } from 'json-schema';
  * Describes JSON validation schema for each model.
  */
 
-export default {
-  votes: {
-    type: 'object',
-    required: [
-      'company_id',
-      'partner_id',
-      'vote_type',
-      'market_score',
-      'product_score',
-      'fit_score',
-      'team_score',
-    ],
+export const voteSchema = {
+  type: 'object',
+  required: [
+    'company_id',
+    'partner_id',
+    'vote_type',
+    'market_score',
+    'product_score',
+    'fit_score',
+    'team_score',
+  ],
 
-    properties: {
-      id: { type: 'integer' },
-      vote_type: {
-        type: 'string',
-        enum: ['prevote', 'final'],
-      },
-      partner_id: { type: 'integer' },
-      company_id: { type: 'integer' },
-      market_score: { type: 'real' },
-      product_score: { type: 'real' },
-      team_score: { type: 'real' },
-      fit_score: { type: 'real' },
-      comment: { type: 'string' },
+  properties: {
+    id: { type: 'integer' },
+    vote_type: {
+      type: 'string',
+      enum: ['prevote', 'final'],
     },
+    partner_id: { type: 'integer' },
+    company_id: { type: 'integer' },
+    market_score: { type: 'integer', enum: [1, 2, 3, 4, 5] },
+    product_score: { type: 'integer', enum: [1, 2, 3, 4, 5] },
+    team_score: { type: 'integer', enum: [1, 2, 3, 4, 5] },
+    fit_score: { type: 'integer', enum: [1, 2, 3, 4, 5] },
+    comment: { type: 'string' },
   },
 };
 
@@ -101,3 +99,5 @@ export const companySchema = {
     },
   },
 };
+
+export default null;
