@@ -3,8 +3,10 @@ import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 import Archive from '../components/Archive/Archive';
 import Layout from '../components/Layout/Layout';
+import { getUser } from '../lib/authentication';
+import { redirect } from '../lib/routing';
 
-export default () => (
+const ArchivePage = () => (
   <Layout>
     <Row>
       <Col md={{ offset: 2, width: 8 }}>
@@ -13,3 +15,13 @@ export default () => (
     </Row>
   </Layout>
 );
+
+ArchivePage.getInitialProps = async ({ req, res }) => {
+  const user = await getUser(req);
+  if (!user) {
+    redirect('/', res);
+    return;
+  }
+};
+
+export default ArchivePage;
