@@ -8,7 +8,7 @@ import { Company } from '../../schemas/company';
 
 const Container = styled.div`
   margin-right: 1.5%;
-  border-radius: 2%;
+  border-radius: 5px;
   width: 20vw;
   display: flex;
   flex-direction: column;
@@ -21,7 +21,7 @@ const Title = styled.h3`
   margin-bottom: 0px;
   background-color: #0702D1;
   color: white;
-  border-radius: 5% 5% 0% 0%;
+  border-radius: 5px 5px 0% 0%;
 `;
 
 const CompanyList = styled.div`

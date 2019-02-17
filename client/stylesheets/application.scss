@@ -68,3 +68,15 @@ body {
 		cursor: pointer;
 	}
 }
+
+.topNav a{
+
+	border-bottom: 3px solid white;
+	border-top: 3px solid white;
+
+	&:hover{
+		border-bottom: 3px solid blue;
+		padding: 0 !important;
+		margin: .5rem;
+	}
+}

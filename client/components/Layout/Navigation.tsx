@@ -33,7 +33,7 @@ export default () => {
         </Link>
         <StyledNavbar.Toggle className="mr-2" />
         <StyledNavbar.Collapse>
-          <StyledNav navbar>
+          <StyledNav navbar className="topNav">
             <Link route="/pipeline">
               <StyledNav.Link href="/pipeline">Pipeline</StyledNav.Link>
             </Link>
