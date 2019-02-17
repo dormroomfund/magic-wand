@@ -9,19 +9,19 @@ class CompaniesWebhookService {
   }
 
   async create(data) {
+    // TODO: Authenticate against Typeform.
+
     const answers = data.form_response.answers;
     const company: Company = {
       name: answers[1].text,
       description: answers[6].text,
-      industries: answers[7].choice.label,
+      industries: [answers[7].choice.label],
       team: answers[12].choice.label,
       status: Status.Applied,
-      contact_email: answers[8].email,
+      contact_email: answers[13].email,
     };
 
-    console.dir(company);
-
-    return company;
+    return await this.app.service('api/companies').create(company);
   }
 }
 
