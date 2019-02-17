@@ -9,7 +9,7 @@ import { redirect } from '../lib/routing';
 const ArchivePage = () => (
   <PipelineLayout>
     <Row>
-      <Col md={{width: 8}}>
+      <Col>
         <Archive />
       </Col>
     </Row>
