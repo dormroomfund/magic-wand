@@ -13,7 +13,7 @@ const StyledButton = styled(Button)`
 export default () => (
   <Subscribe to={[PipelineContainer]}>
     {(pipe: PipelineContainer) => (
-      <StyledButton onClick={() => pipe.setCurrentPartner('ALL')}>All</StyledButton>
+    	<img onClick={() => pipe.setCurrentPartner('ALL')} src="/static/Team_Button.png"/>
     )}
   </Subscribe>
 );

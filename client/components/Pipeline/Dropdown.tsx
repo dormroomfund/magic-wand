@@ -30,7 +30,7 @@ export default class CustomDropdown extends PureComponent<DropdownProps> {
       <Subscribe to={[PipelineContainer]}>
         {(pipe: PipelineContainer) => (
           <StyledDropdown>
-            <StyledDropdown.Toggle variant="success" id="dropdown-basic">
+            <StyledDropdown.Toggle variant="secondary" id="dropdown-basic" size="sm">
               Partner
             </StyledDropdown.Toggle>
 
@@ -45,3 +45,4 @@ export default class CustomDropdown extends PureComponent<DropdownProps> {
     );
   }
 }
+

@@ -48,3 +48,23 @@ body {
 		}
 	}
 }
+
+.pipelineButtons{
+	display: flex;
+	position: relative;
+	width: 100%;
+	align-items: center;
+	justify-content: flex-start;
+
+	div{
+		margin: 0 .75% .5% 0;
+	}
+
+	img{
+		border-radius: 5%;
+		width: 2%;
+		height: 2%;
+		margin-right: .75%;
+		cursor: pointer;
+	}
+}

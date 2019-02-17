@@ -20,11 +20,9 @@ const IndividualButton: React.FunctionComponent<DropdownProps> = (props) => {
   return (
     <Subscribe to={[PipelineContainer]}>
       {(pipe: PipelineContainer) => (
-        <StyledButton
+        <img src="/static/Individual_Button.png"
           onClick={() => pipe.setCurrentPartner(props.loggedInPartnerName)}
-        >
-          Individual
-        </StyledButton>
+        />
       )}
     </Subscribe>
   );
