@@ -1,0 +1,55 @@
+//Fonts
+
+@font-face {
+  font-family: 'CircularStd-Black';
+  font-style: normal;
+  src: url('/static/CircularStd-Black.otf');
+}
+
+@font-face {
+  font-family: 'CircularStd-Bold';
+  font-style: normal;
+  src: url('/static/CircularStd-Bold.otf');
+}
+
+@font-face {
+  font-family: 'CircularStd-Medium';
+  font-style: normal;
+  src: url('/static/CircularStd-Medium.otf');
+}
+
+@font-face {
+  font-family: 'CircularStd-Book';
+  font-style: normal;
+  src: url('/static/CircularStd-Book.otf');
+}
+
+//-----------------------------
+
+h1, h2, h3, h4, h5, p{
+  font-family: CircularStd-Book, Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  color: $N90;
+  line-height: 150%;
+}
+
+h1{
+  font-family: CircularStd-Book, Helvetica, Arial, sans-serif;
+  font-size: 5rem;
+  color: $N90;
+  line-height: 150%;
+  }
+
+h2{
+  font-family: CircularStd-Bold, Helvetica, Arial, sans-serif !important;
+  font-size: 2.5rem !important;
+  color: $N90;
+  line-height: 150%;
+}
+
+h3{
+  font-family: CircularStd-Book, Helvetica, Arial, sans-serif !important;
+  font-size: 1.25rem !important;
+  color: $N90;
+  line-height: 150%;
+}

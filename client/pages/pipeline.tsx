@@ -21,9 +21,9 @@ const PipelinePage = ({ id }) => (
         case AuthState.LoggedIn:
           return (
             <Layout>
-              <Link route="pipeline-success">
-                <Button>My Portfolio Successes</Button>
-              </Link>
+              {/* <Link route="pipeline-success"> 
+                 <Button>My Portfolio Successes</Button>
+               </Link> */}
               {uc.isInitialized ? <Kanban user={uc.user} /> : <Onboarding />}
             </Layout>
           );

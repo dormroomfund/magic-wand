@@ -11,7 +11,13 @@ import PartnerAssigner from '../../Pipeline/PartnerAssigner/PartnerAssigner';
 const { Link } = routes;
 
 const CompanyContainer = styled.div`
-  margin: 10px;
+  margin: 0px 10px;
+`;
+
+const StyledCard = styled(Card)`
+  padding: 0;
+  width: 14rem;
+  box-shadow: 1px 1px 1px #A5ACB1;
 `;
 
 interface CompanyCardProps {
@@ -32,29 +38,28 @@ export default class CompanyCard extends React.Component<CompanyCardProps> {
 
     return (
       <Link route="vote" params={{ id: this.props.company.id }}>
-        <Button>Vote!</Button>
+        <Button>Vote</Button>
       </Link>
     );
   }
 
   render() {
     return (
-      <Layout>
-        <div>
+        <div className="cards">
           <Draggable
             draggableId={this.props.company.id}
             index={this.props.index}
           >
             {(provided, snapshot) => (
-              <CompanyContainer
+              <CompanyContainer 
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}
                 ref={provided.innerRef}
                 isDragging={snapshot.isDragging}
               >
-                <Card style={{ width: '13rem' }}>
-                  <Card.Body>
-                    <Card.Text>
+                <StyledCard>
+                  <StyledCard.Body>
+                    <StyledCard.Text>
                       <Link
                         route="company"
                         params={{ id: this.props.company.id }}
@@ -63,16 +68,15 @@ export default class CompanyCard extends React.Component<CompanyCardProps> {
                           {this.props.company.name}
                         </Card.Link>
                       </Link>
-                    </Card.Text>
+                    </StyledCard.Text>
                     {this.renderPartnerAssignmentButton()}
                     {this.renderVotingButton()}
-                  </Card.Body>
-                </Card>
+                  </StyledCard.Body>
+                </StyledCard>
               </CompanyContainer>
             )}
           </Draggable>
         </div>
-      </Layout>
     );
   }
 }

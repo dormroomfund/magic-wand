@@ -5,6 +5,7 @@ import { Subscribe } from 'unstated';
 import UserContainer, { AuthState } from '../../containers/UserContainer';
 import { UnreachableCaseError } from '../../lib/errors';
 import { Link, Router } from '../../routes';
+import styled from 'styled-components'
 
 export default () => (
   <Subscribe to={[UserContainer]}>
