@@ -10,7 +10,11 @@ import Layout from '../../Layout/Layout';
 const { Link } = routes;
 
 const CompanyContainer = styled.div`
-  margin: 10px;
+  margin: 0px 10px;
+`;
+
+const StyledCard = styled(Card)`
+  padding: 0;
 `;
 
 interface CompanyCardProps {
@@ -45,8 +49,8 @@ export default class CompanyCard extends React.Component<CompanyCardProps> {
                 ref={provided.innerRef}
                 isDragging={snapshot.isDragging}
               >
-                <Card style={{ width: '13rem' }}>
-                  <Card.Body>
+                <StyledCard style={{ width: '13rem' }}>
+                  <StyledCard.Body>
                     <Card.Text>
                       <Link
                         route="company"
@@ -58,8 +62,8 @@ export default class CompanyCard extends React.Component<CompanyCardProps> {
                       </Link>
                     </Card.Text>
                     {this.renderVotingButton()}
-                  </Card.Body>
-                </Card>
+                  </StyledCard.Body>
+                </StyledCard>
               </CompanyContainer>
             )}
           </Draggable>

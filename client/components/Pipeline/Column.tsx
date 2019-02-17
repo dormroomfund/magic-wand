@@ -7,7 +7,7 @@ import PipelineContainer from '../../containers/PipelineContainer';
 import { Company } from '../../schemas/company';
 
 const Container = styled.div`
-  margin: 8px;
+  margin-right: 16px;
   npmborder-radius: 2px;
   width: 20vw;
   display: flex;
@@ -22,13 +22,14 @@ const Title = styled.h3`
   background-color: #0702d1;
   color: white;
 `;
+
 const CompanyList = styled.div`
   height: 70vh;
   overflow-y: scroll;
   flex-grow: 1;
   transition: background-color 0.2s ease;
   background-color: ${(props) =>
-    props.isDraggingOver ? 'lightgrey' : 'inherit'};
+    props.isDraggingOver ? '#DADDE0' : 'inherit'};
 `;
 
 interface ColumnProps {
@@ -85,7 +86,7 @@ export default class Column extends React.Component<ColumnProps, ColumnState> {
                   {this.state.companies.map((company, index) =>
                     this.renderCard(company, pipe, index, this.props.id)
                   )}
-                  {provided.placeholder}
+                  {provided.placeholderf}
                 </CompanyList>
               )}
             </Droppable>

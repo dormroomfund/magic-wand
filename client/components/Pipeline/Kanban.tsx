@@ -209,6 +209,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
   render() {
     return (
       <div>
+      <h2>{this.props.user.first_name + " " + this.props.user.last_name}</h2>
         <Row>
           <CustomDropdown partners={this.state.partnerNames} />
           <GroupButton />
@@ -238,21 +239,9 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
               </AppContainer>
             </DragDropContext>
             <div>
-              <Button variant="primary" onClick={this.showModal}>
+              <Button variant="primary" onClick={() => window.open("https://www.dormroomfund.com/apply", "_blank")}>
                 Add Company
               </Button>
-              <Modal show={this.state.isVisible} onHide={this.handleClose}>
-                <Modal.Header closeButton>
-                  <Modal.Title>Add a Company</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <Form
-                    schema={companyPartialSchema}
-                    formData={formData}
-                    onSubmit={this.submitModal}
-                  />
-                </Modal.Body>
-              </Modal>
             </div>
           </div>
         )}

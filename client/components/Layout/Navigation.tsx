@@ -10,7 +10,7 @@ export default () => {
   return (
     <Navbar variant="dark" bg="dark" fixed="top">
       <Container>
-        <Link route="/">
+        <Link route="/pipeline">
           <a>
             <Navbar.Brand>
               Magic Wand <Badge variant="primary">v0</Badge>
