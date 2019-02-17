@@ -98,13 +98,11 @@ export default (app: App) => {
           status = Status.Funded;
           await app.service('api/companies').patch(id, {
             status: Status.Funded,
-            archived: true,
           });
         } else {
           status = Status.Rejected;
           await app.service('api/companies').patch(id, {
-            status: Status.Rejected,
-            archived: true,
+            status: Status.RejectedWithPitch,
           });
         }
       }

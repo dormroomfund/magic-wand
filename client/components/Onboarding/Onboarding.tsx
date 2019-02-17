@@ -8,17 +8,8 @@ import { userSchema } from '../../schemas/user';
 import { makeRequired, pick } from '../../schemas/_utils';
 
 const onboardingSchema = makeRequired(
-  pick(userSchema as JSONSchema6, [
-    'first_name',
-    'last_name',
-    'school',
-    'linkedin',
-    'gender',
-    'ethnicity',
-    'partner_team',
-    'partner_position',
-  ]),
-  ['school', 'partner_team', 'partner_position']
+  pick(userSchema as JSONSchema6, ['partner_team', 'partner_position']),
+  ['partner_team', 'partner_position']
 );
 
 export default () => {
