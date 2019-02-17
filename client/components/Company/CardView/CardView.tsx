@@ -16,8 +16,9 @@ const CompanyContainer = styled.div`
 
 const StyledCard = styled(Card)`
   padding: 0;
-  width: 14rem;
+  width: 17rem;
   box-shadow: 1px 1px 1px #A5ACB1;
+  margin: 0;
 `;
 
 interface CompanyCardProps {

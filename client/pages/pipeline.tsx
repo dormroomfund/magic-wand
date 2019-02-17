@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import { Subscribe } from 'unstated';
-import Layout from '../components/Layout/Layout';
+import PipelineLayout from '../components/Layout/PipelineLayout';
 import Onboarding from '../components/Onboarding/Onboarding';
 import Kanban from '../components/Pipeline/Kanban';
 import UserContainer, { AuthState } from '../containers/UserContainer';
@@ -9,6 +9,7 @@ import { getUser } from '../lib/authentication';
 import { UnreachableCaseError } from '../lib/errors';
 import { redirect } from '../lib/routing';
 import { Link } from '../routes';
+import styled from 'styled-components';
 
 const PipelinePage = ({ id }) => (
   <Subscribe to={[UserContainer]}>
@@ -20,12 +21,9 @@ const PipelinePage = ({ id }) => (
           return null;
         case AuthState.LoggedIn:
           return (
-            <Layout>
-              {/* <Link route="pipeline-success"> 
-                 <Button>My Portfolio Successes</Button>
-               </Link> */}
+            <PipelineLayout>
               {uc.isInitialized ? <Kanban user={uc.user} /> : <Onboarding />}
-            </Layout>
+            </PipelineLayout>
           );
         default:
           throw new UnreachableCaseError(uc.authState);
