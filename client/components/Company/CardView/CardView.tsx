@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import routes from '../../../routes';
 import { Company, Status } from '../../../schemas/company';
 import Layout from '../../Layout/Layout';
+import PartnerAssigner from '../../Pipeline/PartnerAssigner/PartnerAssigner';
 
 const { Link } = routes;
 
@@ -20,6 +21,12 @@ interface CompanyCardProps {
 }
 
 export default class CompanyCard extends React.Component<CompanyCardProps> {
+  renderPartnerAssignmentButton() {
+    if (this.props.status !== Status.Applied) return null;
+
+    return <PartnerAssigner company={this.props.company} />;
+  }
+
   renderVotingButton() {
     if (this.props.status !== Status.Pitching) return null;
 
@@ -57,6 +64,7 @@ export default class CompanyCard extends React.Component<CompanyCardProps> {
                         </Card.Link>
                       </Link>
                     </Card.Text>
+                    {this.renderPartnerAssignmentButton()}
                     {this.renderVotingButton()}
                   </Card.Body>
                 </Card>
