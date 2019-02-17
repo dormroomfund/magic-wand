@@ -7,7 +7,7 @@ import Kanban from '../components/Pipeline/Kanban';
 import UserContainer, { AuthState } from '../containers/UserContainer';
 import { getUser } from '../lib/authentication';
 import { UnreachableCaseError } from '../lib/errors';
-import { redirect } from '../lib/routing';
+import { redirect, requireLoggedIn } from '../lib/routing';
 import { Link } from '../routes';
 
 const PipelinePage = ({ id }) => (
@@ -31,12 +31,6 @@ const PipelinePage = ({ id }) => (
   </Subscribe>
 );
 
-PipelinePage.getInitialProps = async ({ req, res }) => {
-  const user = await getUser(req);
-  if (!user) {
-    redirect('/', res);
-    return;
-  }
-};
+PipelinePage.getInitialProps = requireLoggedIn();
 
 export default PipelinePage;
