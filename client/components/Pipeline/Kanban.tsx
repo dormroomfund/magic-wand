@@ -7,7 +7,7 @@ import Form from 'react-jsonschema-form';
 import styled from 'styled-components';
 import client from '../../lib/client';
 import transformData from '../../lib/pipelineUtils';
-import { companySchema, Company } from '../../schemas/company';
+import {  archivedStates, companySchema, Company } from '../../schemas/company';
 import Column from './Column';
 import CustomDropdown from './Dropdown';
 import GroupButton from './GroupButton';
@@ -60,9 +60,12 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
 
   async componentDidMount() {
     try {
+      /* Get all companies that are not in archived state */
       const res = (await client.service('api/companies').find({
         query: {
-          archived: false,
+          status: {
+            $nin: archivedStates
+          },
         },
       })) as Paginated<Company>;
       const ret = transformData(res.data);
