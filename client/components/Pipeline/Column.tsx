@@ -7,8 +7,8 @@ import PipelineContainer from '../../containers/PipelineContainer';
 import { Company } from '../../schemas/company';
 
 const Container = styled.div`
-  margin-right: 16px;
-  npmborder-radius: 2px;
+  margin-right: 1%;
+  border-radius: 2%;
   width: 20vw;
   display: flex;
   flex-direction: column;
@@ -17,9 +17,9 @@ const Container = styled.div`
 `;
 
 const Title = styled.h3`
-  padding: 15px;
+  padding: 10px 15px;
   margin-bottom: 0px;
-  background-color: #0702d1;
+  background-color: #0702D1;
   color: white;
 `;
 

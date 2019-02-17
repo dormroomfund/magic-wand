@@ -15,6 +15,8 @@ const CompanyContainer = styled.div`
 
 const StyledCard = styled(Card)`
   padding: 0;
+  width: 14rem;
+  box-shadow: 1px 1px 1px #A5ACB1;
 `;
 
 interface CompanyCardProps {
@@ -29,29 +31,28 @@ export default class CompanyCard extends React.Component<CompanyCardProps> {
 
     return (
       <Link route="vote" params={{ id: this.props.company.id }}>
-        <Button>Vote!</Button>
+        <Button>Vote</Button>
       </Link>
     );
   }
 
   render() {
     return (
-      <Layout>
-        <div>
+        <div className="cards">
           <Draggable
             draggableId={this.props.company.id}
             index={this.props.index}
           >
             {(provided, snapshot) => (
-              <CompanyContainer
+              <CompanyContainer 
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}
                 ref={provided.innerRef}
                 isDragging={snapshot.isDragging}
               >
-                <StyledCard style={{ width: '13rem' }}>
+                <StyledCard>
                   <StyledCard.Body>
-                    <Card.Text>
+                    <StyledCard.Text>
                       <Link
                         route="company"
                         params={{ id: this.props.company.id }}
@@ -60,7 +61,7 @@ export default class CompanyCard extends React.Component<CompanyCardProps> {
                           {this.props.company.name}
                         </Card.Link>
                       </Link>
-                    </Card.Text>
+                    </StyledCard.Text>
                     {this.renderVotingButton()}
                   </StyledCard.Body>
                 </StyledCard>
@@ -68,7 +69,6 @@ export default class CompanyCard extends React.Component<CompanyCardProps> {
             )}
           </Draggable>
         </div>
-      </Layout>
     );
   }
 }

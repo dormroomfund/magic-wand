@@ -8,3 +8,26 @@
 body {
 	background-color: $N5;
 }
+
+.cards{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	margin: 10% 0%;
+	padding: 0;
+}
+
+.rowa{
+	margin: 0;
+}
+
+.navbar{
+	a{
+		color: #050B1A !important;
+	    font-family: CircularStd-Bold, Helvetica, Arial, sans-serif;
+	    font-size: 1rem;
+	    color: $N90;
+	    line-height: 150%;
+	}
+}
