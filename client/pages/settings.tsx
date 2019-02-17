@@ -8,7 +8,7 @@ import Layout from '../components/Layout/Layout';
 import UserContainer from '../containers/UserContainer';
 import { getUser } from '../lib/authentication';
 import client from '../lib/client';
-import { redirect } from '../lib/routing';
+import { redirect, requireLoggedIn } from '../lib/routing';
 import { userSchema } from '../schemas/user';
 
 const log = (type) => console.log.bind(console, type);
@@ -73,12 +73,6 @@ const SettingsPage = () => {
   );
 };
 
-SettingsPage.getInitialProps = async ({ req, res }) => {
-  const user = await getUser(req);
-  if (!user) {
-    redirect('/', res);
-    return;
-  }
-};
+SettingsPage.getInitialProps = requireLoggedIn();
 
 export default SettingsPage;

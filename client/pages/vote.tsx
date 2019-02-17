@@ -1,17 +1,20 @@
+import { NextContext } from 'next';
 import React from 'react';
 import { Subscribe } from 'unstated';
 import Layout from '../components/Layout/Layout';
+import VotingForms from '../components/Voting/voting';
 import UserContainer, { AuthState } from '../containers/UserContainer';
 import { UnreachableCaseError } from '../lib/errors';
-import VotingForms from '../components/Voting/voting';
+import { requireLoggedIn } from '../lib/routing';
 
 interface VoteProps {
   id: number /* Company Id */;
 }
 
 export default class Vote extends React.Component<VoteProps> {
-  static async getInitialProps({ query }) {
-    return query;
+  static async getInitialProps(ctx: NextContext) {
+    if (requireLoggedIn()(ctx)) return;
+    return ctx.query;
   }
 
   render() {
