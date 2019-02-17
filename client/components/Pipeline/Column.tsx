@@ -52,7 +52,6 @@ export default class Column extends React.Component<ColumnProps, ColumnState> {
   }
 
   renderCard = (company, pipe, index, status) => {
-    console.log(status);
     const shouldDisplay = company.pointPartnersNames.has(
       pipe.state.currentPartner
     );

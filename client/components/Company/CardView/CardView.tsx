@@ -4,8 +4,9 @@ import Button from 'react-bootstrap/lib/Button';
 import Card from 'react-bootstrap/lib/Card';
 import styled from 'styled-components';
 import routes from '../../../routes';
-import { Company } from '../../../schemas/company';
+import { Company, Status } from '../../../schemas/company';
 import Layout from '../../Layout/Layout';
+import PartnerAssigner from '../../Pipeline/PartnerAssigner/PartnerAssigner';
 
 const { Link } = routes;
 
@@ -21,13 +22,19 @@ const StyledCard = styled(Card)`
 
 interface CompanyCardProps {
   company: Company;
-  index: any;
-  status: any /* The status of the company */;
+  index: number;
+  status: Status;
 }
 
 export default class CompanyCard extends React.Component<CompanyCardProps> {
+  renderPartnerAssignmentButton() {
+    if (this.props.status !== Status.Applied) return null;
+
+    return <PartnerAssigner company={this.props.company} />;
+  }
+
   renderVotingButton() {
-    if (this.props.status !== 'pitch') return null;
+    if (this.props.status !== Status.Pitching) return null;
 
     return (
       <Link route="vote" params={{ id: this.props.company.id }}>
@@ -62,6 +69,7 @@ export default class CompanyCard extends React.Component<CompanyCardProps> {
                         </Card.Link>
                       </Link>
                     </StyledCard.Text>
+                    {this.renderPartnerAssignmentButton()}
                     {this.renderVotingButton()}
                   </StyledCard.Body>
                 </StyledCard>
