@@ -24,7 +24,7 @@ export default class Company extends React.Component<
   CompanyState
 > {
   static async getInitialProps(ctx: NextContext) {
-    if (requireLoggedIn()(ctx)) return;
+    requireLoggedIn()(ctx);
     return ctx.query;
   }
 
