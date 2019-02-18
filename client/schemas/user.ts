@@ -7,12 +7,14 @@ export enum Ethnicity {
   HispanicOrLatinx = "Hispanic or Latinx",
   Mixed = 'Mixed',
   Other = 'Other',
+  NoResponse = '',
 }
 
 export enum Gender {
   Male = 'Male',
   Female = 'Female',
   Other = 'Other',
+  NoResponse = '',
 }
 
 export enum Team {
@@ -69,7 +71,7 @@ export const userSchema = {
     ethnicity: { 
       type: 'string',
       enum: Object.values(Ethnicity), 
-      defrault: '',
+      default: '',
     },
     partner_team: {
       type: 'string',
