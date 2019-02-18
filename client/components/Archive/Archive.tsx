@@ -67,8 +67,6 @@ export default class Archive extends Component<{}, ArchiveState> {
             {this.renderButtonBar()}
             <ArchiveList
               companies={this.getFilteredCompanies(ac, uc)}
-              onArchiveCompany={ac.archiveCompany}
-              onRestoreCompany={ac.restoreCompany}
             />
           </>
         )}
