@@ -1,7 +1,8 @@
 import { Paginated } from '@feathersjs/feathers';
 import { JSONSchema6 } from 'json-schema';
 import React from 'react';
-import Button from 'react-bootstrap/lib/Button';
+import Button from 'react-bootstrap/lib/Button'
+import Table from 'react-bootstrap/lib/Table';
 import Form, { ISubmitEvent } from 'react-jsonschema-form-bs4';
 import client from '../../lib/client';
 import { archivedStates, Company } from '../../schemas/company';
@@ -233,16 +234,85 @@ export default class VotingForms extends React.Component<
   }
 
   async renderWaitingOnPeopleandFinalize() {
-
     /* Get all the names of the partners who submitted a final vote */
-    const finalvotePartners = this.state.company.partnerVotes.final;
-    const prevoteParners = this.state.company.partnerVotes.prevote;
+    const finalvotePartners = new Set(this.state.company.partnerVotes.final);
+    const prevotePartners = new Set(this.state.company.partnerVotes.prevote);
+
+    /*
+     * Create a table of all the people who submitted a final vote along with the people who
+     */
+    const finalVotesTables = <Table striped bordered hover>
+                              <thead>
+                              <tr>
+                                <th>#</th>
+                                <th>Partner</th>
+                                <th>Delete?</th>
+                              </tr>
+                              <tbody>
+                              {
+                                this.state.company.partnerVotes.final.map( (partner) =>
+                                  <tr>
+                                      <td>Partner</td>
+                                      <td> <Button variant="danger"> Delete Vote </Button></td>
+                                  </tr>
+
+                                )
+                              }
+                              </tbody>
+                              </thead>
+                          </Table>;
 
     /* Get the names of the partners who submitted a pre vote but not
-     * a final vote.
+     * a final vote with a set difference operation
      */
+    const preVoteButNoFinalVotePartners = new Set([...prevotePartners].filter(x => !finalvotePartners.has(x)));
 
+    const prevoteButNoFinalVotesTable = <Table striped bordered hover>
+                                          <thead>
+                                          <tr>
+                                            <th>#</th>
+                                            <th>Partner</th>
+                                            <th>Delete?</th>
+                                          </tr>
+                                          <tbody>
+                                          {
+                                            [...preVoteButNoFinalVotePartners].map( (partner) =>
+                                              <tr>
+                                                <td>Partner</td>
+                                                <td> <Button variant="danger"> Delete Vote </Button></td>
+                                              </tr>
+                                            )
+                                          }
+                                          </tbody>
+                                          </thead>
+                                        </Table>;
 
+    /*
+     * If people have submitted votes and the number of prevotes = number of postVotes list all the all people
+     * who voted and give the option of the mp of to finalize the votes.
+     */
+    if (preVoteButNoFinalVotePartners.size === 0 && finalvotePartners.size > 0 && prevotePartners.size > 0) {
+      return <div> {finalvotePartners} {this.renderFinalizeVotesButton()} </div>
+    } else {
+      return <div> {finalvotePartners} <p> The following partners have submitted a prevote but not a final vote</p> {prevoteButNoFinalVotesTable} </div>
+    }
+  }
+
+  renderFinalizeVotesButton() {
+    if (
+      !this.state.didFinalvote ||
+      this.props.user.partner_position !== 'Managing Partner'
+    ) {
+      return null;
+    }
+    return (
+      <Button
+        onClick={() => this.finalizeVotes()}
+        disabled={this.state.votingFinalized}
+      >
+        Finalize Votes
+      </Button>
+    );
   }
 
   async finalizeVotes() {
@@ -262,24 +332,6 @@ export default class VotingForms extends React.Component<
     }
   }
 
-  renderFinalizeVotesButton() {
-    if (
-      !this.state.didFinalvote ||
-      this.props.user.partner_position !== 'Managing Partner'
-    ) {
-      return null;
-    }
-    return (
-      <Button
-        onClick={() => this.finalizeVotes()}
-        disabled={this.state.votingFinalized}
-      >
-        {' '}
-        Finalize Votes{' '}
-      </Button>
-    );
-  }
-
   render() {
     const { company } = this.state;
     return (
@@ -288,7 +340,7 @@ export default class VotingForms extends React.Component<
         <h2> Status: {company && company.status} </h2>
         {this.renderPrevoteForm()}
         {this.renderFinalVoteForm()}
-        {this.renderFinalizeVotesButton()}
+        {this.renderWaitingOnPeopleandFinalize()}
       </div>
     );
   }
