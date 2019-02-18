@@ -6,7 +6,7 @@ import Table from 'react-bootstrap/lib/Table';
 import Form, { ISubmitEvent } from 'react-jsonschema-form-bs4';
 import client from '../../lib/client';
 import { archivedStates, PartnerVoteObj, Company } from '../../schemas/company';
-import { Vote, voteSchema } from '../../schemas/vote';
+import { OverallVote, Vote, voteSchema } from '../../schemas/vote';
 import { makeRequired, pick } from '../../schemas/_utils';
 
 interface VotingProps {
@@ -30,6 +30,7 @@ const requiredFields = [
   'market_score',
   'product_score',
   'team_score',
+  'overall_vote'
 ];
 
 const voteFormSchema = makeRequired(
@@ -48,6 +49,7 @@ export default class VotingForms extends React.Component<
       market_score: 1,
       product_score: 1,
       team_score: 1,
+      overall_vote: OverallVote.DontFund
     },
     didPrevote: false,
     finalvoteData: {
@@ -55,6 +57,7 @@ export default class VotingForms extends React.Component<
       market_score: 1,
       product_score: 1,
       team_score: 1,
+      overall_vote: OverallVote.DontFund
     },
     didFinalvote: false,
     votingFinalized: false,
@@ -73,8 +76,9 @@ export default class VotingForms extends React.Component<
     /*
      * Determine if we need to update our didPrevote or didFinalVoteStew
      */
-    let newDidPrevote = this.state.didPrevote;
-    let newDidFinalvote = this.state.didFinalvote;
+    let newDidPrevote = false;
+    let newDidFinalvote = false;
+
     updatedCompany.partnerVotes.prevote.forEach((partnerObj: PartnerVoteObj) => {
       newDidPrevote = newDidPrevote || (partnerObj.partner_id == this.props.user.id);
     });
@@ -83,10 +87,13 @@ export default class VotingForms extends React.Component<
       newDidFinalvote = newDidFinalvote || (partnerObj.partner_id == this.props.user.id);
     });
 
+    const newDidFinalizeVotes = archivedStates.includes(updatedCompany.status);
+
     this.setState({prevotedPartners: updatedCompany.partnerVotes.prevote,
       finalvotedPartners: updatedCompany.partnerVotes.final,
       didPrevote: newDidPrevote,
       didFinalvote: newDidFinalvote,
+      votingFinalized: newDidFinalizeVotes,
     });
 
     setTimeout(() => this.updateCompanyState(), 3000);
@@ -201,6 +208,9 @@ export default class VotingForms extends React.Component<
       team_score: {
         'ui:disabled': this.state.didPrevote,
       },
+      overall_vote: {
+        'ui: disabled': this.state.didPrevote,
+      }
     };
 
     return (
