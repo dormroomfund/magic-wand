@@ -61,7 +61,12 @@ const transformData = (arr) => {
 
   return {
     columns,
-    columnOrder: ['applied', 'pipeline', 'deferred', 'pitching'],
+    columnOrder: [
+      Status.Applied,
+      Status.Pipeline,
+      Status.Deferred,
+      Status.Pitching,
+    ],
     partnerNames,
   };
 };
