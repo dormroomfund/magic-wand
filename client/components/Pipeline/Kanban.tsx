@@ -222,14 +222,12 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
           />
           <GroupButton />
         </div>
-        <Row>
-        </Row>
         {this.state.isLoading ? (
           <div> Loading </div>
         ) : (
           <div>
             <DragDropContext onDragEnd={this.onDragEnd}>
-              <AppContainer>
+              <AppContainer className="pipelineColumns">
                 {this.state.columnOrder.map((columnId) => {
                   const column = this.state.columns[columnId];
                   return (

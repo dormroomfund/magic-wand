@@ -10,12 +10,14 @@ body {
 }
 
 .cards{
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: flex-start;
 	margin: 10% 0%;
 	padding: 0;
+	width: 100%;
 }
 
 .rowa{
@@ -34,8 +36,8 @@ body {
 
 .addCompanyDiv{
 	position: absolute;
-	margin-left: 14vw;
-	margin-top: 69vh;
+	margin-left: 18vw;
+	margin-top: 70vh;
 
 	img{
 		width: 2.5vw;
@@ -73,10 +75,22 @@ body {
 
 	border-bottom: 3px solid white;
 	border-top: 3px solid white;
+	padding: 0 !important;
+	margin: .5rem 1rem .5rem .5rem;
 
 	&:hover{
 		border-bottom: 3px solid blue;
-		padding: 0 !important;
-		margin: .5rem;
 	}
+}
+
+.pipelineLayout{
+	margin: 11vh 5vw 0vh 5vw;
+	padding: 0;
+}
+
+.pipelineColumns{
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row;
+	width: 100%;
 }

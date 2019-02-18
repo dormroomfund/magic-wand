@@ -7,9 +7,8 @@ import PipelineContainer from '../../containers/PipelineContainer';
 import { Company } from '../../schemas/company';
 
 const Container = styled.div`
-  margin-right: 1.5%;
   border-radius: 5px;
-  width: 20vw;
+  width: 24%;
   display: flex;
   flex-direction: column;
   border: 1px solid #e8e8e8;

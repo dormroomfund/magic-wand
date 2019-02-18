@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import styled from 'styled-components'
+import styled from 'styled-components';
 import Dropdown from 'react-bootstrap/lib/Dropdown';
 import { Subscribe } from 'unstated';
 import PipelineContainer from '../../containers/PipelineContainer';

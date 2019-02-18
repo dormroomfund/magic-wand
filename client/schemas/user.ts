@@ -1,3 +1,26 @@
+
+export enum Ethnicity {
+  White = 'White',
+  BlackOrAfricanAmerican = 'Black or African American',
+  AmericanIndianOrAlaskanNative = 'American Indian or Alaskan Native',
+  Asian = 'Asian',
+  HispanicOrLatinx = "Hispanic or Latinx",
+  Mixed = 'Mixed',
+  Other = 'Other',
+}
+
+export enum Sex {
+  Male = 'Male',
+  Female = 'Female',
+  Other = 'Other',
+}
+
+export enum Gender {
+  Heterosexual = 'Heterosexual',
+  Queer = 'Queer',
+  Other = 'Other', 
+}
+
 export enum Team {
   Philadelphia = 'Philadelphia',
   Boston = 'Boston',
@@ -22,8 +45,9 @@ export interface User {
   school?: string;
   photo?: string;
   linkedin?: string;
-  gender?: string;
-  ethnicity?: string;
+  sex?: Sex;
+  gender?: Gender;
+  ethnicity?: Ethnicity;
   partner_team?: Team;
   partner_position?: Position;
 }
@@ -44,8 +68,18 @@ export const userSchema = {
     school: { type: 'string' },
     photo: { type: 'string' },
     linkedin: { type: 'string' },
-    gender: { type: 'string' },
-    ethnicity: { type: 'string' },
+    sex: { 
+      type: 'string',
+      enum: Object.values(Sex), 
+    },
+    gender: {
+      type: 'string',
+      enum: Object.values(Gender),
+    },
+    ethnicity: { 
+      type: 'string',
+      enum: Object.values(Ethnicity), 
+    },
     partner_team: {
       type: 'string',
       enum: Object.values(Team),
