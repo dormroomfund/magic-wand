@@ -5,8 +5,9 @@ import Form, { ISubmitEvent } from 'react-jsonschema-form-bs4';
 import Layout from '../components/Layout/Layout';
 import { getUser } from '../lib/authentication';
 import client from '../lib/client';
-import { redirect } from '../lib/routing';
+import { redirect, requireLoggedIn } from '../lib/routing';
 import { companySchema } from '../schemas/company';
+import { NextContext } from 'next';
 
 interface CompanyProps {
   match: any;
@@ -22,14 +23,9 @@ export default class Company extends React.Component<
   CompanyProps,
   CompanyState
 > {
-  static async getInitialProps({ query, req, res }) {
-    const user = await getUser(req);
-    if (!user) {
-      redirect('/', res);
-      return;
-    }
-
-    return query;
+  static async getInitialProps(ctx: NextContext) {
+    if (requireLoggedIn()(ctx)) return;
+    return ctx.query;
   }
 
   state = {

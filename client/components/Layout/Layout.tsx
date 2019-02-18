@@ -1,10 +1,7 @@
 import React, { ReactNode } from 'react';
 import Container from 'react-bootstrap/lib/Container';
 import Navigation from './Navigation';
-
-// const StyledContainer = styled(Container)`
-//   margin-top: 0 !important;
-// `;
+import styled from 'styled-components';
 
 export interface LayoutProps {
   children: ReactNode;

@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/lib/Row';
 import Archive from '../components/Archive/Archive';
 import PipelineLayout from '../components/Layout/PipelineLayout';
 import { getUser } from '../lib/authentication';
-import { redirect } from '../lib/routing';
+import { redirect, requireLoggedIn } from '../lib/routing';
 
 const ArchivePage = () => (
   <PipelineLayout>
@@ -16,12 +16,6 @@ const ArchivePage = () => (
   </PipelineLayout>
 );
 
-ArchivePage.getInitialProps = async ({ req, res }) => {
-  const user = await getUser(req);
-  if (!user) {
-    redirect('/', res);
-    return;
-  }
-};
+ArchivePage.getInitialProps = requireLoggedIn();
 
 export default ArchivePage;
