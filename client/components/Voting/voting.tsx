@@ -6,7 +6,7 @@ import Table from 'react-bootstrap/lib/Table';
 import Form, { ISubmitEvent } from 'react-jsonschema-form-bs4';
 import client from '../../lib/client';
 import { archivedStates, PartnerVoteObj, Company } from '../../schemas/company';
-import { Vote, voteSchema } from '../../schemas/vote';
+import { OverallVote, Vote, voteSchema } from '../../schemas/vote';
 import { makeRequired, pick } from '../../schemas/_utils';
 
 interface VotingProps {
@@ -30,6 +30,7 @@ const requiredFields = [
   'market_score',
   'product_score',
   'team_score',
+  'overall_vote'
 ];
 
 const voteFormSchema = makeRequired(
@@ -48,6 +49,7 @@ export default class VotingForms extends React.Component<
       market_score: 1,
       product_score: 1,
       team_score: 1,
+      overall_vote: OverallVote.DontFund
     },
     didPrevote: false,
     finalvoteData: {
@@ -55,6 +57,7 @@ export default class VotingForms extends React.Component<
       market_score: 1,
       product_score: 1,
       team_score: 1,
+      overall_vote: OverallVote.DontFund
     },
     didFinalvote: false,
     votingFinalized: false,
@@ -204,6 +207,9 @@ export default class VotingForms extends React.Component<
       team_score: {
         'ui:disabled': this.state.didPrevote,
       },
+      overall_vote: {
+        'ui: disabled': this.state.didPrevote,
+      }
     };
 
     return (

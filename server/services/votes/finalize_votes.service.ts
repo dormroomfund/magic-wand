@@ -2,7 +2,7 @@ import errors from '@feathersjs/errors';
 import App from '../../../client/schemas/app';
 import { Status } from '../../../client/schemas/company';
 import { Paginated } from '@feathersjs/feathers';
-import { Vote } from '../../../client/schemas/vote';
+import { OverallVote, Vote } from '../../../client/schemas/vote';
 
 /*
  * This service is used to determine for a given voteType and voteType who
@@ -51,14 +51,7 @@ export default (app: App) => {
         teamScoreAvg += vote.team_score;
         fitScoreAvg += vote.fit_score;
 
-        const currAvg =
-          (vote.market_score +
-            vote.product_score +
-            vote.team_score +
-            vote.fit_score) /
-          4;
-
-        if (currAvg > 3.0) {
+        if (vote.overall_vote === OverallVote.Fund) {
           numYes += 1;
         } else {
           numNo += 1;
