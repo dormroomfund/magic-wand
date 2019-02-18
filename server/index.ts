@@ -1,13 +1,13 @@
-import Sentry from '@sentry/node';
+// import Sentry from '@sentry/node';
 import t from 'tcomb';
 import util from 'util';
 import app from './app';
 import logger from './logger';
 import { nextApp } from './next';
 
-if (app.get('sentryDsn')) {
-  Sentry.init({ dsn: app.get('sentryDsn') });
-}
+// if (app.get('sentryDsn')) {
+//   Sentry.init({ dsn: app.get('sentryDsn') });
+// }
 
 const port = app.get('port');
 t.Integer(port);
