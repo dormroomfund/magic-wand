@@ -3,6 +3,8 @@ import Container from 'react-bootstrap/lib/Container';
 import Navigation from './Navigation';
 import styled from 'styled-components';
 
+
+
 export interface LayoutProps {
   children: ReactNode;
 }
@@ -10,7 +12,7 @@ export interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => (
   <>
     <Navigation />
-    <Container className="mt-5 pt-4">{children}</Container>
+    <div className="pipelineLayout">{children}</div>
   </>
 );
 

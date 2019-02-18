@@ -1,0 +1,57 @@
+//SCSS Color Style Guide for DRF
+
+//Main Colors --------------------------------------------------------------------------------------
+$DRFBlue: #0702D1;
+$DRFRed: #DA1301;
+$DRFYellow: #FEAB06;
+$DRFGreen: #1DD79D;
+
+//Neutral Tones --------------------------------------------------------------------------------------
+$N0: #FFFFFF;
+$N3: #F7F7F8;			//used for white text on a black background or gray backgrounds
+$N5: #F2F2F4;			//off-white background
+$N10: #DADDE0;
+$N30: #A5ACB1;			//used as gray text on a black background
+$N40: #858E94;			//used when we need a gray background
+$N50: #6D757E;			//used as gray text on a white background
+$N80: #313543;
+$N90: #1B202D;             	//used for black text on a white background
+$N100: #050B1A;
+
+//Feedback Colors --------------------------------------------------------------------------------------
+//We use these 4 colors to give the user knowledge of the range of possible actions and their results. 
+//They should be used only as this and nowhere else.
+
+$informational: #1C37C5;        		//a shade of blue used to indicate hyperlinks + positive feedback 
+$error: #EO3229;					//a shade of red used to indicate failure
+$warning: #FFE23D;				//a shade of yellow used for feedback text 
+$success: #12A577;				//a shade of green used to indicate success
+
+
+//Blues--------------------------------------------------------------------------------------
+$B90: #0503A6;
+$B70: #0702D1; //same as $DRFBlue
+$B50: #040BEC;
+$B40: #2439F5;
+$B5: #D8DDFD;
+
+//Reds--------------------------------------------------------------------------------------
+$R90: #B80F00;
+$R70: #DA1301; //same as $DRFRed
+$R50: #F11809;
+$R40: #F24E45;
+$R5: #FBDDDA;
+
+//Yellows--------------------------------------------------------------------------------------
+$Y90: #EB9C00;
+$Y70: #FEAB06; //same as $DRFYellow
+$Y50: #FEC025;
+$Y40: #FAD552;
+$Y5: #FEF8D8;
+
+//Greens--------------------------------------------------------------------------------------
+$Y90: #15B784;
+$Y70: #1DD79D; //same as $DRFGreen
+$Y50: #35E3AC;
+$Y40: #70E6C0;
+$G5: #DAFBF1;

@@ -5,33 +5,58 @@ import Nav from 'react-bootstrap/lib/Nav';
 import Navbar from 'react-bootstrap/lib/Navbar';
 import { Link } from '../../routes';
 import UserActions from './UserActions';
+import styled from 'styled-components'
+
+const StyledContainer = styled(Container)`
+  margin: 0 5vw;
+  width: 100%;
+  max-width: none;
+`;
+
+
+const StyledNavbar = styled(Navbar)`
+  background-color: white;
+  box-shadow: 0px 0px 2px 2px #A5ACB1;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  max-width: none;
+`;
+
+const StyledNav = styled(Nav)`
+  color: #050B1A;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: flex-end !important;
+  width: 100%;
+`;
 
 export default () => {
   return (
-    <Navbar variant="dark" bg="dark" fixed="top">
-      <Container>
-        <Link route="/">
+    <StyledNavbar fixed="top">
+      <StyledContainer>
+        <Link route="/pipeline">
           <a>
-            <Navbar.Brand>
+            <StyledNavbar.Brand>
               Magic Wand <Badge variant="primary">v0</Badge>
-            </Navbar.Brand>
+            </StyledNavbar.Brand>
           </a>
         </Link>
-        <Navbar.Toggle className="mr-2" />
-        <Navbar.Collapse>
-          <Nav navbar>
+        <StyledNavbar.Toggle className="mr-2" />
+        <StyledNavbar.Collapse>
+          <StyledNav navbar className="topNav">
             <Link route="/pipeline">
-              <Nav.Link href="/pipeline">Pipeline</Nav.Link>
+              <StyledNav.Link href="/pipeline">Pipeline</StyledNav.Link>
             </Link>
             <Link route="/archive">
-              <Nav.Link href="/archive">Archive</Nav.Link>
+              <StyledNav.Link href="/archive">Portfolio Success</StyledNav.Link>
             </Link>
-          </Nav>
+          </StyledNav>
           <Nav navbar className="ml-auto">
             <UserActions />
           </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+        </StyledNavbar.Collapse>
+      </StyledContainer>
+    </StyledNavbar>
   );
 };

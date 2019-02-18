@@ -63,6 +63,7 @@ export default class Archive extends Component<{}, ArchiveState> {
       <Subscribe to={[ArchiveContainer, UserContainer]}>
         {(ac: ArchiveContainer, uc: UserContainer) => (
           <>
+            <h2>Portfolio Success</h2>
             {this.renderButtonBar()}
             <ArchiveList
               companies={this.getFilteredCompanies(ac, uc)}

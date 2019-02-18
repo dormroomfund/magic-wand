@@ -1,9 +1,15 @@
 import React, { PureComponent } from 'react';
-
+import styled from 'styled-components';
 import Dropdown from 'react-bootstrap/lib/Dropdown';
 import { Subscribe } from 'unstated';
 import PipelineContainer from '../../containers/PipelineContainer';
 import { User } from '../../schemas/user';
+
+
+const StyledDropdown = styled(Dropdown)`
+  border: none;
+  margin: .5% 1%;
+`;
 
 interface DropdownProps {
   partners: Set<User>;
@@ -11,31 +17,32 @@ interface DropdownProps {
 
 export default class CustomDropdown extends PureComponent<DropdownProps> {
   renderItems = (partner, pipe) => (
-    <Dropdown.Item
+    <StyledDropdown.Item
       key={partner}
       onSelect={() => pipe.setCurrentPartner(partner)}
     >
       {partner}
-    </Dropdown.Item>
+    </StyledDropdown.Item>
   );
 
   render() {
     return (
       <Subscribe to={[PipelineContainer]}>
         {(pipe: PipelineContainer) => (
-          <Dropdown>
-            <Dropdown.Toggle variant="success" id="dropdown-basic">
-              Dropdown Button
-            </Dropdown.Toggle>
+          <StyledDropdown>
+            <StyledDropdown.Toggle variant="secondary" id="dropdown-basic" size="sm">
+              Partner
+            </StyledDropdown.Toggle>
 
-            <Dropdown.Menu>
+            <StyledDropdown.Menu>
               {[...this.props.partners].map((partner) =>
                 this.renderItems(partner, pipe)
               )}
-            </Dropdown.Menu>
-          </Dropdown>
+            </StyledDropdown.Menu>
+          </StyledDropdown>
         )}
       </Subscribe>
     );
   }
 }
+

@@ -212,21 +212,22 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
   render() {
     return (
       <div>
-        <Row>
+        <h2>{this.props.user.first_name + " " + this.props.user.last_name}</h2>
+        <div className="pipelineButtons">
           <CustomDropdown partners={this.state.partnerNames} />
-          <GroupButton />
           <IndividualButton
             loggedInPartnerName={`${this.props.user.first_name} ${
               this.props.user.last_name
             }`}
           />
-        </Row>
+          <GroupButton />
+        </div>
         {this.state.isLoading ? (
           <div> Loading </div>
         ) : (
           <div>
             <DragDropContext onDragEnd={this.onDragEnd}>
-              <AppContainer>
+              <AppContainer className="pipelineColumns">
                 {this.state.columnOrder.map((columnId) => {
                   const column = this.state.columns[columnId];
                   return (
@@ -238,25 +239,11 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
                     />
                   );
                 })}
+                <div className="addCompanyDiv">
+                  <img onClick={() => window.open("https://www.dormroomfund.com/apply", "_blank")} src="/static/Add_Company_Button.png"/>
+                </div>
               </AppContainer>
             </DragDropContext>
-            <div>
-              <Button variant="primary" onClick={this.showModal}>
-                Add Company
-              </Button>
-              <Modal show={this.state.isVisible} onHide={this.handleClose}>
-                <Modal.Header closeButton>
-                  <Modal.Title>Add a Company</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <Form
-                    schema={companyPartialSchema}
-                    formData={formData}
-                    onSubmit={this.submitModal}
-                  />
-                </Modal.Body>
-              </Modal>
-            </div>
           </div>
         )}
       </div>
