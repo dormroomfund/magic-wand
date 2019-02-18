@@ -22,12 +22,13 @@ export enum Team {
   Boston = 'Boston',
   NewYork = 'New York',
   SanFrancisco = 'San Francisco',
+  SummerSF = 'Summer SF',
+  SummerNYC = 'Summer NYC',
 }
 
 export enum Position {
   InvestmentPartner = 'Investment Partner',
   ManagingPartner = 'Managing Partner',
-  HQPartner = 'HQ Partner',
 }
 
 export interface User {
