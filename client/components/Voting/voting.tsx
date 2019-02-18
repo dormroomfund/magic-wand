@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/lib/Button'
 import Table from 'react-bootstrap/lib/Table';
 import Form, { ISubmitEvent } from 'react-jsonschema-form-bs4';
 import client from '../../lib/client';
-import { archivedStates, Company } from '../../schemas/company';
+import { archivedStates, PartnerVoteObj, Company } from '../../schemas/company';
 import { Vote, voteSchema } from '../../schemas/vote';
 import { makeRequired, pick } from '../../schemas/_utils';
 
@@ -130,11 +130,11 @@ export default class VotingForms extends React.PureComponent<
        */
       let newDidPrevote = this.state.didPrevote;
       let newDidFinalvote = this.state.didFinalvote;
-      updatedCompany.partnerVotes.prevote.forEach((partnerObj) => {
+      updatedCompany.partnerVotes.prevote.forEach((partnerObj: PartnerVoteObj) => {
         newDidPrevote = newDidPrevote || (partnerObj.partner_id == this.props.user.id);
       });
 
-      updatedCompany.partnerVotes.final.forEach((partnerObj) => {
+      updatedCompany.partnerVotes.final.forEach((partnerObj: PartnerVoteObj) => {
         newDidFinalvote = newDidFinalvote || (partnerObj.partner_id == this.props.user.id);
       });
 

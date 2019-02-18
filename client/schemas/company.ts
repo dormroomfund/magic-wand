@@ -36,6 +36,12 @@ export const archivedStates = [
   Status.Funded,
 ];
 
+export interface PartnerVoteObj {
+  vote_id: number;
+  partner_id: number;
+  name: string
+}
+
 export interface Company {
   id?: number;
   name: string;
@@ -50,9 +56,9 @@ export interface Company {
     name?: string;
     url?: string;
   }[];
-  parnter_votes? : { /* Note that is not db level but from a feathers hook */
-    final: Array<object>;
-    prevote: Array<object>
+  partnerVotes? : { /* Note that is not db level but from a feathers hook */
+    final: Array<PartnerVoteObj>;
+    prevote: Array<PartnerVoteObj>
   }
 }
 
@@ -84,7 +90,7 @@ export const companySchema = {
         },
       },
     },
-    partner_votes: {
+    partnerVotes: {
       type: 'object',
       properties: {
         final: { type: 'array' },
