@@ -62,6 +62,35 @@ export default class VotingForms extends React.Component<
     finalvotedPartners: [],
   };
   private interval: NodeJS.Timeout;
+    /*
+     * Runs every 3 second to update company state.
+     */
+  async updateCompanyState() {
+    const updatedCompany = await client
+      .service('api/companies')
+      .get(this.props.companyID);
+
+    /*
+     * Determine if we need to update our didPrevote or didFinalVoteStew
+     */
+    let newDidPrevote = this.state.didPrevote;
+    let newDidFinalvote = this.state.didFinalvote;
+    updatedCompany.partnerVotes.prevote.forEach((partnerObj: PartnerVoteObj) => {
+      newDidPrevote = newDidPrevote || (partnerObj.partner_id == this.props.user.id);
+    });
+
+    updatedCompany.partnerVotes.final.forEach((partnerObj: PartnerVoteObj) => {
+      newDidFinalvote = newDidFinalvote || (partnerObj.partner_id == this.props.user.id);
+    });
+
+    this.setState({prevotedPartners: updatedCompany.partnerVotes.prevote,
+      finalvotedPartners: updatedCompany.partnerVotes.final,
+      didPrevote: newDidPrevote,
+      didFinalvote: newDidFinalvote,
+    });
+
+    setTimeout(() => this.updateCompanyState(), 3000);
+  }
 
   async componentDidMount() {
     /*
@@ -75,8 +104,6 @@ export default class VotingForms extends React.Component<
 
     /*
      * Determine whether this user has done a prevote or not on this company
-     *
-     * TODO: Switch to eager loading
      */
     let prevote;
     try {
@@ -122,34 +149,13 @@ export default class VotingForms extends React.Component<
     });
 
     // Setup autorefresh every 3 seconds to pull updated company information
-    this.interval = setInterval( async() => {
-      const updatedCompany = await client
-        .service('api/companies')
-        .get(this.props.companyID);
-
-      /*
-       * Determine if we need to update our didPrevote or didFinalVoteStew
-       */
-      let newDidPrevote = this.state.didPrevote;
-      let newDidFinalvote = this.state.didFinalvote;
-      updatedCompany.partnerVotes.prevote.forEach((partnerObj: PartnerVoteObj) => {
-        newDidPrevote = newDidPrevote || (partnerObj.partner_id == this.props.user.id);
-      });
-
-      updatedCompany.partnerVotes.final.forEach((partnerObj: PartnerVoteObj) => {
-        newDidFinalvote = newDidFinalvote || (partnerObj.partner_id == this.props.user.id);
-      });
-
-      this.setState({prevotedPartners: updatedCompany.partnerVotes.prevote,
-        finalvotedPartners: updatedCompany.partnerVotes.final,
-        didPrevote: newDidPrevote,
-        didFinalvote: newDidFinalvote,
-      });
+    this.interval = setTimeout( () => {
+      this.updateCompanyState();
     }, 3000)
   }
 
   componentWillUnmount() {
-    clearInterval(this.interval);
+    clearTimeout(this.interval);
   }
 
   handleVotingSubmitClosure(vote_type: String) {
