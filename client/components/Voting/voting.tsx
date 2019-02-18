@@ -4,7 +4,7 @@ import React from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import Form, { ISubmitEvent } from 'react-jsonschema-form-bs4';
 import client from '../../lib/client';
-import { Company } from '../../schemas/company';
+import { archivedStates, Company } from '../../schemas/company';
 import { Vote, voteSchema } from '../../schemas/vote';
 import { makeRequired, pick } from '../../schemas/_utils';
 
@@ -65,8 +65,7 @@ export default class VotingForms extends React.Component<
       .service('api/companies')
       .get(this.props.companyID);
 
-    const votingFinalized =
-      company.status === 'rejected' || company.status === 'funded';
+    const votingFinalized = archivedStates.includes(company.status);
 
     /*
      * Determine whether this user has done a prevote or not on this company
@@ -231,6 +230,19 @@ export default class VotingForms extends React.Component<
         </Button>
       </Form>
     );
+  }
+
+  async renderWaitingOnPeopleandFinalize() {
+
+    /* Get all the names of the partners who submitted a final vote */
+    const finalvotePartners = this.state.company.partnerVotes.final;
+    const prevoteParners = this.state.company.partnerVotes.prevote;
+
+    /* Get the names of the partners who submitted a pre vote but not
+     * a final vote.
+     */
+
+
   }
 
   async finalizeVotes() {
