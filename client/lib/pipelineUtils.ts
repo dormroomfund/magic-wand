@@ -55,7 +55,8 @@ const transformData = (arr) => {
     if (elt.status in columns) {
       columns[elt.status].companies.push(companyObj);
     } else {
-      throw Error('Status is not valid.');
+      // TODO: FIX THIS BUG - Deals with how we determine archived state in ArchiveContainer
+      // throw Error('Status is not valid.');
     }
   });
 
