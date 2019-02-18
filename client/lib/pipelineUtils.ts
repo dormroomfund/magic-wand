@@ -9,22 +9,22 @@ const transformData = (arr) => {
   const partnerNames = new Set([]);
 
   const columns = {
-    applied: {
+    [Status.Applied]: {
       id: Status.Applied,
       title: 'New Applications',
       companies: [],
     },
-    pipeline: {
+    [Status.Pipeline]: {
       id: Status.Pipeline,
       title: 'Pipeline',
       companies: [],
     },
-    deferred: {
+    [Status.Deferred]: {
       id: Status.Deferred,
       title: 'Check In Later',
       companies: [],
     },
-    pitch: {
+    [Status.Pitching]: {
       id: Status.Pitching,
       title: 'Pitching',
       companies: [],
@@ -62,7 +62,12 @@ const transformData = (arr) => {
 
   return {
     columns,
-    columnOrder: ['applied', 'pipeline', 'deferred', 'pitch'],
+    columnOrder: [
+      Status.Applied,
+      Status.Pipeline,
+      Status.Deferred,
+      Status.Pitching,
+    ],
     partnerNames,
   };
 };

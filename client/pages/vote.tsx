@@ -12,9 +12,8 @@ interface VoteProps {
 }
 
 export default class Vote extends React.Component<VoteProps> {
-  static async getInitialProps(ctx: NextContext) {
-    if (requireLoggedIn()(ctx)) return;
-    return ctx.query;
+  static async getInitialProps({ query }) {
+    return query;
   }
 
   render() {

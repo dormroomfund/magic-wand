@@ -30,14 +30,15 @@ const votedPartners = {
 
       const partnerVotes = { prevote: [], final: [] };
       await associatedVotes.forEach((vote) => {
+        const partnerObj = {
+          name: `${vote.voted_users.first_name} ${vote.voted_users.last_name}`,
+          partner_id: vote.partner_id,
+          vote_id: vote.id,
+        };
         if (vote.vote_type === 'prevote') {
-          partnerVotes.prevote.push(
-            `${vote.voted_users.first_name} ${vote.voted_users.last_name}`
-          );
+          partnerVotes.prevote.push(partnerObj);
         } else {
-          partnerVotes.final.push(
-            `${vote.voted_users.first_name} ${vote.voted_users.last_name}`
-          );
+          partnerVotes.final.push(partnerObj);
         }
       });
 
