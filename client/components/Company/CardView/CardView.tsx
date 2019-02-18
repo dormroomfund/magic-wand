@@ -17,7 +17,7 @@ const CompanyContainer = styled.div`
 const StyledCard = styled(Card)`
   padding: 0;
   width: 17rem;
-  box-shadow: 1px 1px 1px #A5ACB1;
+  box-shadow: 1px 1px 1px #a5acb1;
   margin: 0;
 `;
 
@@ -29,7 +29,7 @@ interface CompanyCardProps {
 
 export default class CompanyCard extends React.Component<CompanyCardProps> {
   renderPartnerAssignmentButton() {
-    if (this.props.status !== Status.Applied) return null;
+    if (this.props.status === Status.Pitching) return null;
 
     return <PartnerAssigner company={this.props.company} />;
   }
@@ -46,38 +46,35 @@ export default class CompanyCard extends React.Component<CompanyCardProps> {
 
   render() {
     return (
-        <div className="cards">
-          <Draggable
-            draggableId={this.props.company.id}
-            index={this.props.index}
-          >
-            {(provided, snapshot) => (
-              <CompanyContainer 
-                {...provided.draggableProps}
-                {...provided.dragHandleProps}
-                ref={provided.innerRef}
-                isDragging={snapshot.isDragging}
-              >
-                <StyledCard>
-                  <StyledCard.Body>
-                    <StyledCard.Text>
-                      <Link
-                        route="company"
-                        params={{ id: this.props.company.id }}
-                      >
-                        <Card.Link href={`/company/${this.props.company.id}`}>
-                          {this.props.company.name}
-                        </Card.Link>
-                      </Link>
-                    </StyledCard.Text>
-                    {this.renderPartnerAssignmentButton()}
-                    {this.renderVotingButton()}
-                  </StyledCard.Body>
-                </StyledCard>
-              </CompanyContainer>
-            )}
-          </Draggable>
-        </div>
+      <div className="cards">
+        <Draggable draggableId={this.props.company.id} index={this.props.index}>
+          {(provided, snapshot) => (
+            <CompanyContainer
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              ref={provided.innerRef}
+              isDragging={snapshot.isDragging}
+            >
+              <StyledCard>
+                <StyledCard.Body>
+                  <StyledCard.Text>
+                    <Link
+                      route="company"
+                      params={{ id: this.props.company.id }}
+                    >
+                      <Card.Link href={`/company/${this.props.company.id}`}>
+                        {this.props.company.name}
+                      </Card.Link>
+                    </Link>
+                  </StyledCard.Text>
+                  {this.renderPartnerAssignmentButton()}
+                  {this.renderVotingButton()}
+                </StyledCard.Body>
+              </StyledCard>
+            </CompanyContainer>
+          )}
+        </Draggable>
+      </div>
     );
   }
 }
