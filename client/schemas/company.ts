@@ -50,6 +50,10 @@ export interface Company {
     name?: string;
     url?: string;
   }[];
+  parnter_votes? : { /* Note that is not db level but from a feathers hook */
+    final: Array<object>;
+    prevote: Array<object>
+  }
 }
 
 // IMPORTANT: This needs to be kept in sync with the Typescript interface above.
@@ -80,5 +84,12 @@ export const companySchema = {
         },
       },
     },
+    partner_votes: {
+      type: 'object',
+      properties: {
+        final: { type: 'array' },
+        url: { type: 'array' },
+      }
+    }
   },
 };
