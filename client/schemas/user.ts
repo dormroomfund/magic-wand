@@ -9,16 +9,10 @@ export enum Ethnicity {
   Other = 'Other',
 }
 
-export enum Sex {
+export enum Gender {
   Male = 'Male',
   Female = 'Female',
   Other = 'Other',
-}
-
-export enum Gender {
-  Heterosexual = 'Heterosexual',
-  Queer = 'Queer',
-  Other = 'Other', 
 }
 
 export enum Team {
@@ -45,7 +39,6 @@ export interface User {
   school?: string;
   photo?: string;
   linkedin?: string;
-  sex?: Sex;
   gender?: Gender;
   ethnicity?: Ethnicity;
   partner_team?: Team;
@@ -68,17 +61,15 @@ export const userSchema = {
     school: { type: 'string' },
     photo: { type: 'string' },
     linkedin: { type: 'string' },
-    sex: { 
-      type: 'string',
-      enum: Object.values(Sex), 
-    },
     gender: {
       type: 'string',
       enum: Object.values(Gender),
+      default: '',
     },
     ethnicity: { 
       type: 'string',
       enum: Object.values(Ethnicity), 
+      defrault: '',
     },
     partner_team: {
       type: 'string',
