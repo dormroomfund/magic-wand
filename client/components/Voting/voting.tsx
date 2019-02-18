@@ -21,8 +21,8 @@ interface VotingState {
   finalvoteData: object;
   didFinalvote: boolean;
   votingFinalized: boolean;
-  prevotedPartners: Array<object>;
-  finalvotedPartners: Array<object>;
+  prevotedPartners: Array<PartnerVoteObj>;
+  finalvotedPartners: Array<PartnerVoteObj>;
 }
 
 const requiredFields = [
@@ -37,7 +37,7 @@ const voteFormSchema = makeRequired(
   requiredFields
 );
 
-export default class VotingForms extends React.PureComponent<
+export default class VotingForms extends React.Component<
   VotingProps,
   VotingState
 > {
@@ -257,7 +257,6 @@ export default class VotingForms extends React.PureComponent<
       !this.state.didFinalvote ||
       this.props.user.partner_position !== 'Managing Partner'
     ) {
-      console.log('here');
       return null;
     }
     return (
