@@ -73,8 +73,8 @@ export default class VotingForms extends React.Component<
     /*
      * Determine if we need to update our didPrevote or didFinalVoteStew
      */
-    let newDidPrevote = this.state.didPrevote;
-    let newDidFinalvote = this.state.didFinalvote;
+    let newDidPrevote = false;
+    let newDidFinalvote = false;
     updatedCompany.partnerVotes.prevote.forEach((partnerObj: PartnerVoteObj) => {
       newDidPrevote = newDidPrevote || (partnerObj.partner_id == this.props.user.id);
     });
@@ -83,10 +83,13 @@ export default class VotingForms extends React.Component<
       newDidFinalvote = newDidFinalvote || (partnerObj.partner_id == this.props.user.id);
     });
 
+    const newDidFinalizeVotes = archivedStates.includes(updatedCompany.status);
+
     this.setState({prevotedPartners: updatedCompany.partnerVotes.prevote,
       finalvotedPartners: updatedCompany.partnerVotes.final,
       didPrevote: newDidPrevote,
       didFinalvote: newDidFinalvote,
+      votingFinalized: newDidFinalizeVotes,
     });
 
     setTimeout(() => this.updateCompanyState(), 3000);
