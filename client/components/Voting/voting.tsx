@@ -85,6 +85,7 @@ export default class VotingForms extends React.PureComponent<
           company_id: this.props.companyID,
           partner_id: this.props.user.id,
           vote_type: 'final',
+          $eager: 'voted_users',
         },
       });
     } catch (e) {
@@ -101,6 +102,7 @@ export default class VotingForms extends React.PureComponent<
         company_id: this.props.companyID,
         partner_id: this.props.user.id,
         vote_type: 'final',
+        $eager: 'voted_users',
       },
     })) as Paginated<Vote>;
 
