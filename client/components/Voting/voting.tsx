@@ -380,7 +380,11 @@ export default class VotingForms extends React.PureComponent<
       const newCompany = { ...this.state.company };
       newCompany.status = res.status;
       this.setState({ votingFinalized: true, company: newCompany });
-      alert('This company was ' + res.status);
+      alert('This company was ' + res.status + '\n' +
+            'Market Score: ' + res.marketScoreAvg + '\n' +
+            'Fit Score: ' + res.fitScoreAvg + '\n' +
+            'Product Score: ' + res.productScoreAvg + '\n' +
+            'Team Score: ' + res.teamScoreAvg);
     } catch (e) {
       alert('Missing votes');
     }
