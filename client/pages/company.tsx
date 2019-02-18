@@ -1,13 +1,18 @@
 import { JSONSchema6 } from 'json-schema';
+import { NextContext } from 'next';
 import Head from 'next/head';
 import React from 'react';
 import Form, { ISubmitEvent } from 'react-jsonschema-form-bs4';
 import Layout from '../components/Layout/Layout';
-import { getUser } from '../lib/authentication';
 import client from '../lib/client';
-import { redirect, requireLoggedIn } from '../lib/routing';
+import { requireLoggedIn } from '../lib/routing';
 import { companySchema } from '../schemas/company';
-import { NextContext } from 'next';
+
+const companyUiSchema = {
+  description: {
+    'ui:widget': 'textarea',
+  },
+};
 
 interface CompanyProps {
   match: any;
@@ -72,6 +77,7 @@ export default class Company extends React.Component<
           ) : company ? (
             <Form
               schema={companySchema as JSONSchema6}
+              uiSchema={companyUiSchema}
               formData={company}
               onSubmit={this.handleSubmit}
             />

@@ -39,7 +39,7 @@ export const archivedStates = [
 export interface PartnerVoteObj {
   vote_id: number;
   partner_id: number;
-  name: string
+  name: string;
 }
 
 export interface Company {
@@ -56,10 +56,11 @@ export interface Company {
     name?: string;
     url?: string;
   }[];
-  partnerVotes? : { /* Note that is not db level but from a feathers hook */
+  partnerVotes?: {
+    /* Note that is not db level but from a feathers hook */
     final: Array<PartnerVoteObj>;
-    prevote: Array<PartnerVoteObj>
-  }
+    prevote: Array<PartnerVoteObj>;
+  };
 }
 
 // IMPORTANT: This needs to be kept in sync with the Typescript interface above.
@@ -93,9 +94,9 @@ export const companySchema = {
     partnerVotes: {
       type: 'object',
       properties: {
-        final: { type: 'array' },
-        url: { type: 'array' },
-      }
-    }
+        final: { type: 'array', items: { type: 'boolean' } },
+        url: { type: 'array', items: { type: 'string', format: 'url' } },
+      },
+    },
   },
 };
