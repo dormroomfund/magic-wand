@@ -240,7 +240,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
                   );
                 })}
                 <div className="addCompanyDiv">
-                  <img onClick={() => window.open("https://www.dormroomfund.com/apply", "_blank")} src="/static/Add_Company_Button.png"/>
+                  <img onClick={() => window.open("https://dormroomfund.typeform.com/to/H90ZNU", "_blank")} src="/static/Add_Company_Button.png"/>
                 </div>
               </AppContainer>
             </DragDropContext>

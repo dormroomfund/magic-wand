@@ -52,7 +52,7 @@ export default class Archive extends Component<{}, ArchiveState> {
           active={filter === Filter.MySuccess}
           onClick={() => this.setState({ filter: Filter.MySuccess })}
         >
-          My Portfolio
+          My Companies
         </Button>
       </ButtonGroup>
     );
@@ -67,8 +67,6 @@ export default class Archive extends Component<{}, ArchiveState> {
             {this.renderButtonBar()}
             <ArchiveList
               companies={this.getFilteredCompanies(ac, uc)}
-              onArchiveCompany={ac.archiveCompany}
-              onRestoreCompany={ac.restoreCompany}
             />
           </>
         )}

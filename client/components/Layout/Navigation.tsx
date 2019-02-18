@@ -38,7 +38,7 @@ export default () => {
         <Link route="/pipeline">
           <a>
             <StyledNavbar.Brand>
-              Magic Wand <Badge variant="primary">v0</Badge>
+              MagicWand <Badge variant="primary">v0</Badge>
             </StyledNavbar.Brand>
           </a>
         </Link>

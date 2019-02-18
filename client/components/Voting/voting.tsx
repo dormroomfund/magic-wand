@@ -78,6 +78,7 @@ export default class VotingForms extends React.Component<
      */
     let newDidPrevote = false;
     let newDidFinalvote = false;
+
     updatedCompany.partnerVotes.prevote.forEach((partnerObj: PartnerVoteObj) => {
       newDidPrevote = newDidPrevote || (partnerObj.partner_id == this.props.user.id);
     });

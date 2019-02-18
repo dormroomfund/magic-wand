@@ -27,23 +27,6 @@ export default ({
               <Link route="company" params={{ id: company.id }}>
                 <Button variant="primary">View</Button>
               </Link>
-              {archivedStates.includes(company.status)
-                ? onRestoreCompany && (
-                    <Button
-                      variant="info"
-                      onClick={() => onRestoreCompany(company.id)}
-                    >
-                      Restore
-                    </Button>
-                  )
-                : onArchiveCompany && (
-                    <Button
-                      variant="danger"
-                      onClick={() => onArchiveCompany(company.id)}
-                    >
-                      Archive
-                    </Button>
-                  )}
             </ButtonGroup>
           </Card.Body>
         </Card>
