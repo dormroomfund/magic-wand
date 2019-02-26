@@ -6,7 +6,7 @@ import Form, { ISubmitEvent } from 'react-jsonschema-form-bs4';
 import Layout from '../components/Layout/Layout';
 import client from '../lib/client';
 import { requireLoggedIn } from '../lib/routing';
-import { companySchema } from '../schemas/company';
+import { companySchema, Company } from '../schemas/company';
 import CompanyProfile from '../components/CompanyProfile/CompanyProfile';
 
 const companyUiSchema = {
@@ -21,11 +21,11 @@ interface CompanyProps {
 }
 
 interface CompanyState {
-  company: any;
+  company: Company;
   loading: any;
 }
 
-export default class Company extends React.Component<
+export default class CompanyPage extends React.Component<
   CompanyProps,
   CompanyState
 > {
@@ -35,7 +35,7 @@ export default class Company extends React.Component<
   }
 
   state = {
-    company: {},
+    company: {} as Company,
     loading: false,
   };
 
