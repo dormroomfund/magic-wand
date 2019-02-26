@@ -7,6 +7,7 @@ import Layout from '../components/Layout/Layout';
 import client from '../lib/client';
 import { requireLoggedIn } from '../lib/routing';
 import { companySchema } from '../schemas/company';
+import CompanyProfile from '../components/CompanyProfile/CompanyProfile';
 
 const companyUiSchema = {
   description: {
@@ -61,30 +62,15 @@ export default class Company extends React.Component<
     // TODO: Fancier loading screen.
     const { company, loading } = this.state;
 
-    console.log('render', loading, company);
-
     return (
       <Layout>
-        <Head>
-          <link
-            rel="stylesheet"
-            href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-          />
-        </Head>
-        <div>
-          {loading ? (
-            <div>Loading...</div>
-          ) : company ? (
-            <Form
-              schema={companySchema as JSONSchema6}
-              uiSchema={companyUiSchema}
-              formData={company}
-              onSubmit={this.handleSubmit}
-            />
-          ) : (
-            'Error'
-          )}
-        </div>
+        {loading ? (
+          <div>Loading...</div>
+        ) : company ? (
+          <CompanyProfile company={company} />
+        ) : (
+          'Error'
+        )}
       </Layout>
     );
   }
