@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Droppable } from 'react-beautiful-dnd';
 import { Subscribe } from 'unstated';
-import CompanyCard from '../Company/CardView/CardView';
+import CompanyCard from '../CompanyCard/CompanyCard';
 import PipelineContainer from '../../containers/PipelineContainer';
 import { Company } from '../../schemas/company';
 
