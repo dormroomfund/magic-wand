@@ -32,10 +32,10 @@ app.configure(socketio());
 
 app.configure(objection);
 
-// Configure other middleware (see `middleware/Company.tsx`)
+// Configure other middleware (see `middleware/CompanyCard.tsx`)
 app.configure(middleware);
 app.configure(authentication);
-// Set up our services (see `services/Company.tsx`)
+// Set up our services (see `services/CompanyCard.tsx`)
 app.configure(services);
 // Set up next.js hooks
 app.configure(nextMiddleware);

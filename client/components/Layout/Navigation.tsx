@@ -43,17 +43,15 @@ export default () => {
         </Link>
         <StyledNavbar.Toggle className="mr-2" />
         <StyledNavbar.Collapse>
-          <StyledNav navbar className="topNav">
+          <StyledNav navbar className="topNav ml-auto">
             <StyledNav.Link onClick={() => Router.pushRoute('/pipeline')}>
               Pipeline
             </StyledNav.Link>
             <StyledNav.Link onClick={() => Router.pushRoute('/archive')}>
               Portfolio Success
             </StyledNav.Link>
-          </StyledNav>
-          <Nav navbar className="ml-auto">
             <UserActions />
-          </Nav>
+          </StyledNav>
         </StyledNavbar.Collapse>
       </StyledContainer>
     </StyledNavbar>

@@ -8,7 +8,7 @@ import { UnreachableCaseError } from '../lib/errors';
 import { requireLoggedIn } from '../lib/routing';
 
 interface VoteProps {
-  id: number /* Company Id */;
+  id: number /* CompanyCard Id */;
 }
 
 export default class Vote extends React.Component<VoteProps> {

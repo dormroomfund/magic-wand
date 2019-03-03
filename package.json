@@ -73,6 +73,7 @@
     "cookie-parser": "^1.4.4",
     "cookie-storage": "^3.2.0",
     "cors": "^2.8.5",
+    "dayjs": "^1.8.8",
     "express-session": "^1.15.6",
     "express-winston": "^3.0.1",
     "faker": "^4.1.0",

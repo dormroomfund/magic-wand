@@ -61,6 +61,8 @@ export interface Company {
     final: Array<PartnerVoteObj>;
     prevote: Array<PartnerVoteObj>;
   };
+  created_at?: string;
+  updated_at?: string;
 }
 
 // IMPORTANT: This needs to be kept in sync with the Typescript interface above.

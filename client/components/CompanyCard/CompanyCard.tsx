@@ -3,10 +3,10 @@ import { Draggable } from 'react-beautiful-dnd';
 import Button from 'react-bootstrap/lib/Button';
 import Card from 'react-bootstrap/lib/Card';
 import styled from 'styled-components';
-import routes from '../../../routes';
-import { Company, Status } from '../../../schemas/company';
-import Layout from '../../Layout/Layout';
-import PartnerAssigner from '../../Pipeline/PartnerAssigner/PartnerAssigner';
+import routes from '../../routes';
+import { Company, Status } from '../../schemas/company';
+import Layout from '../Layout/Layout';
+import PartnerAssigner from '../Pipeline/PartnerAssigner/PartnerAssigner';
 
 const { Link } = routes;
 
