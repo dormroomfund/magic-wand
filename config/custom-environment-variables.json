@@ -12,5 +12,22 @@
       "logoutRedirect": "AUTH0_LOGOUT_REDIRECT"
     }
   },
-  "sentryDsn": "SENTRY_DSN"
+  "sentryDsn": "SENTRY_DSN",
+  "googleDrive": {
+    "googleServiceEmail": "GOOGLE_SERVICE_EMAIL",
+    "googleServiceKey": "GOOGLE_SERVICE_KEY",
+    "googleServiceKeyId": "GOOGLE_SERVICE_KEY_ID",
+    "prevoteFolderIds": {
+      "Philadelphia": "PHILADELPHIA_PREVOTE_FOLDER_ID",
+      "Boston": "BOSTON_PREVOTE_FOLDER_ID",
+      "NewYork": "NEW_YORK_PREVOTE_FOLDER_ID",
+      "SanFrancisco": "SAN_FRANCISCO_PREVOTE_FOLDER_ID"
+    },
+    "snapshotFolderIds": {
+      "Philadelphia": "PHILADELPHIA_SNAPSHOT_FOLDER_ID",
+      "Boston": "BOSTON_SNAPSHOT_FOLDER_ID",
+      "NewYork": "NEW_YORK_SNAPSHOT_FOLDER_ID",
+      "SanFrancisco": "SAN_FRANCISCO_SNAPSHOT_FOLDER_ID"
+    }
+  }
 }

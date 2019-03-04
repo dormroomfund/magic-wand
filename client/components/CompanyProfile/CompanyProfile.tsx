@@ -2,8 +2,8 @@ import dayjs from 'dayjs';
 import React from 'react';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
-import { Company } from '../../schemas/company';
 import Button from 'react-bootstrap/lib/Button';
+import { Company } from '../../schemas/company';
 import PartnerAssigner from '../Pipeline/PartnerAssigner/PartnerAssigner';
 
 export interface CompanyProfileProps {
@@ -50,7 +50,12 @@ export default ({ company }: CompanyProfileProps) => {
           {company.company_links && (
             <p>
               {company.company_links.map(({ name, url }) => (
-                <a key={name} href={url}>
+                <a
+                  key={name}
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {name}
                 </a>
               ))}

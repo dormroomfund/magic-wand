@@ -8,6 +8,7 @@ import client from '../../lib/client';
 import { archivedStates, PartnerVoteObj, Company } from '../../schemas/company';
 import { OverallVote, Vote, voteSchema } from '../../schemas/vote';
 import { makeRequired, pick } from '../../schemas/_utils';
+import company from "../../pages/company";
 
 interface VotingProps {
   companyID: number;
@@ -182,7 +183,16 @@ export default class VotingForms extends React.Component<
           didFinalvote: vote_type === 'final' ? true : this.state.didFinalvote,
           ...evt.formData,
         });
+
         alert('Submitted ' + vote_type);
+
+        if (vote_type === 'prevote' && this.state.company.company_links.prevote) {
+          window.open(
+            this.state.company.company_links.prevote,
+            '_blank',
+          );
+        }
+
       } catch (e) {
         console.log(e);
       }
@@ -221,9 +231,9 @@ export default class VotingForms extends React.Component<
         formData={formData}
         onSubmit={this.handleVotingSubmitClosure('prevote')}
       >
+
         <Button disabled={this.state.didPrevote} type="submit">
-          {' '}
-          Submit
+          Submit and Open Prevote Document
         </Button>
       </Form>
     );
