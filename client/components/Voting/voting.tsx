@@ -324,7 +324,7 @@ export default class VotingForms extends React.Component<
         }
       },
       overall_vote: {
-        'ui:disabled': this.state.didFinalVote,
+        'ui:disabled': this.state.didFinalvote,
       }
     };
 
