@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/lib/Row';
 import styled from 'styled-components';
 import { Company } from '../../schemas/company';
 import colors from '../../stylesheets/colors.json';
+
 import PartnerAssigner from '../Pipeline/PartnerAssigner/PartnerAssigner';
 import FounderGroup from './FounderGroup';
 
@@ -79,7 +80,12 @@ export default ({ company }: CompanyProfileProps) => {
           {company.company_links && (
             <p>
               {company.company_links.map(({ name, url }) => (
-                <a key={name} href={url}>
+                <a
+                  key={name}
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {name}
                 </a>
               ))}

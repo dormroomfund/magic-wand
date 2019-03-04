@@ -1,13 +1,9 @@
 import React, { PureComponent } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
-import Button from 'react-bootstrap/lib/Button';
-import Modal from 'react-bootstrap/lib/Modal';
-import Row from 'react-bootstrap/lib/Row';
-import Form from 'react-jsonschema-form';
 import styled from 'styled-components';
 import client from '../../lib/client';
 import transformData from '../../lib/pipelineUtils';
-import {  archivedStates, companySchema, Company } from '../../schemas/company';
+import {  Status, archivedStates, companySchema, Company } from '../../schemas/company';
 import Column from './Column';
 import CustomDropdown from './Dropdown';
 import GroupButton from './GroupButton';
@@ -158,6 +154,20 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
       });
     } catch (e) {
       console.error(e);
+    }
+
+    /*
+     * Generate the snapshot and prevote documents.
+     */
+    if (newForeign.id === Status.Pitching) {
+      try {
+        client.service('api/gdrive').create({
+          document_type: 'both',
+          company_id: draggedObj.id,
+        })
+      } catch(e) {
+        console.log(e);
+      }
     }
 
     const newState = {
