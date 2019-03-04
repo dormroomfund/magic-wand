@@ -97,6 +97,7 @@
     "react-dom": "^16.7.0",
     "react-jsonschema-form": "^1.2.1",
     "react-jsonschema-form-bs4": "^1.0.6",
+    "react-numeric-input": "^2.2.3",
     "react-router-dom": "^4.3.1",
     "serve-favicon": "^2.5.0",
     "styled-components": "^4.1.3",

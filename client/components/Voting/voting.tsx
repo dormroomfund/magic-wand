@@ -8,6 +8,7 @@ import client from '../../lib/client';
 import { archivedStates, PartnerVoteObj, Company } from '../../schemas/company';
 import { OverallVote, Vote, voteSchema } from '../../schemas/vote';
 import { makeRequired, pick } from '../../schemas/_utils';
+import NumericInput from 'react-numeric-input';
 
 interface VotingProps {
   companyID: number;
@@ -118,7 +119,7 @@ export default class VotingForms extends React.Component<
         query: {
           company_id: this.props.companyID,
           partner_id: this.props.user.id,
-          vote_type: 'final',
+          vote_type: 'prevote',
           $eager: 'voted_users',
         },
       });
@@ -141,6 +142,7 @@ export default class VotingForms extends React.Component<
     })) as Paginated<Vote>;
 
     const didFinalvote = finalvote.total > 0;
+
 
     this.setState({
       company,
@@ -165,7 +167,7 @@ export default class VotingForms extends React.Component<
     clearTimeout(this.interval);
   }
 
-  handleVotingSubmitClosure(vote_type: String) {
+  handleVotingSubmitClosure(vote_type: string) {
     /*
      * Update the database with submitting the prevote
      */
@@ -180,7 +182,6 @@ export default class VotingForms extends React.Component<
         this.setState({
           didPrevote: vote_type === 'prevote' ? true : this.state.didPrevote,
           didFinalvote: vote_type === 'final' ? true : this.state.didFinalvote,
-          ...evt.formData,
         });
         alert('Submitted ' + vote_type);
       } catch (e) {
@@ -198,27 +199,63 @@ export default class VotingForms extends React.Component<
     const uiSchema = {
       fit_score: {
         'ui:disabled': this.state.didPrevote,
+        'ui:widget': (props) => {
+          return <NumericInput min={1}
+                               max={5}
+                               value={props.value}
+                               required={props.required}
+                               disabled={props.disabled}
+                               strict={true}
+                               onChange={ (newValue: number) => props.onChange(newValue)}/>
+        }
       },
       market_score: {
         'ui:disabled': this.state.didPrevote,
+        'ui:widget': (props) => {
+          return <NumericInput min={1}
+                               max={5}
+                               value={props.value}
+                               required={props.required}
+                               disabled={props.disabled}
+                               strict={true}
+                               onChange={ (newValue: number) => props.onChange(newValue)}/>
+        }
       },
       product_score: {
         'ui:disabled': this.state.didPrevote,
+        'ui:widget': (props) => {
+          return <NumericInput min={1}
+                               max={5}
+                               value={props.value}
+                               required={props.required}
+                               disabled={props.disabled}
+                               strict={true}
+                               onChange={ (newValue: number) => props.onChange(newValue)}/>
+        }
       },
       team_score: {
         'ui:disabled': this.state.didPrevote,
+        'ui:widget': (props) => {
+          return <NumericInput min={1}
+                               max={5}
+                               value={props.value}
+                               required={props.required}
+                               disabled={props.disabled}
+                               strict={true}
+                               onChange={ (newValue: number) => props.onChange(newValue)}/>
+        }
       },
       overall_vote: {
-        'ui: disabled': this.state.didPrevote,
+        'ui:disabled': this.state.didPrevote,
       }
     };
 
     return (
       <Form
         uiSchema={uiSchema}
-        schema={voteFormSchema}
-        onChange={ (evt) => this.setState( {prevoteData: evt.formData})}
         formData={formData}
+        schema={voteFormSchema}
+        onChange={(evt) => this.setState( {prevoteData: evt.formData})}
         onSubmit={this.handleVotingSubmitClosure('prevote')}
       >
         <Button disabled={this.state.didPrevote} type="submit">
@@ -240,16 +277,55 @@ export default class VotingForms extends React.Component<
     const uiSchema = {
       fit_score: {
         'ui:disabled': this.state.didFinalvote,
+        'ui:widget': (props) => {
+          return <NumericInput min={1}
+                               max={5}
+                               value={props.value}
+                               required={props.required}
+                               disabled={props.disabled}
+                               strict={true}
+                               onChange={ (newValue: number) => props.onChange(newValue)}/>
+        }
       },
       market_score: {
         'ui:disabled': this.state.didFinalvote,
+        'ui:widget': (props) => {
+          return <NumericInput min={1}
+                               max={5}
+                               value={props.value}
+                               required={props.required}
+                               disabled={props.disabled}
+                               strict={true}
+                               onChange={ (newValue: number) => props.onChange(newValue)}/>
+        }
       },
       product_score: {
         'ui:disabled': this.state.didFinalvote,
+        'ui:widget': (props) => {
+          return <NumericInput min={1}
+                               max={5}
+                               value={props.value}
+                               required={props.required}
+                               disabled={props.disabled}
+                               strict={true}
+                               onChange={ (newValue: number) => props.onChange(newValue)}/>
+        }
       },
       team_score: {
         'ui:disabled': this.state.didFinalvote,
+        'ui:widget': (props) => {
+          return <NumericInput min={1}
+                               max={5}
+                               value={props.value}
+                               required={props.required}
+                               disabled={props.disabled}
+                               strict={true}
+                               onChange={ (newValue: number) => props.onChange(newValue)}/>
+        }
       },
+      overall_vote: {
+        'ui:disabled': this.state.didFinalVote,
+      }
     };
 
     return (
@@ -295,7 +371,6 @@ export default class VotingForms extends React.Component<
     } else if (vote_type === 'prevote' && partner_id === this.props.user.id) {
       this.setState({didPrevote: false}); // should also disable your form
     }
-
   }
 
   renderWaitingOnPeopleandFinalize() {
@@ -391,7 +466,6 @@ export default class VotingForms extends React.Component<
         .patch(this.props.companyID, {
           vote_type: 'final',
         });
-      console.log(res);
       const newCompany = { ...this.state.company };
       newCompany.status = res.status;
       this.setState({ votingFinalized: true, company: newCompany });
