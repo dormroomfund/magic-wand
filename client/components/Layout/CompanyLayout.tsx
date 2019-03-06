@@ -10,7 +10,7 @@ export interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => (
   <>
     <Navigation />
-    <div className="pipelineLayout">{children}</div>
+    <Container className="companylayout">{children}</Container>
   </>
 );
 

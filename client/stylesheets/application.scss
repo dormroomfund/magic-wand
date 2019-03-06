@@ -25,6 +25,10 @@ body {
 }
 
 .navbar {
+
+    background: white;
+    box-shadow: 1px 3px 2px -2px rgba(0,0,0,0.4);
+
     a {
         color: #050B1A !important;
         font-family: CircularStd-Bold, Helvetica, Arial, sans-serif;
@@ -92,4 +96,84 @@ body {
     justify-content: space-between;
     flex-direction: row;
     width: 100%;
+}
+
+.companylayout{
+    margin: 0 !important;
+    width: 100vw !important;
+    max-width: none !important;
+}
+
+.cvheader{
+    width: 100vw !important;
+    max-width: none !important;
+    padding: 1vh 5vw;
+    background: $N5;
+}
+
+.cvbody{
+    width: 100vw !important;
+    max-width: none !important;
+    padding: 1vh 5vw;
+}
+
+.cvheader1{
+    padding-top: 12.5vh !important;
+}
+
+.questions_left{
+    padding-top: 1%;
+    padding-bottom: 1.5%;
+
+    small{
+        color: $N50;
+    }
+}
+
+.graywhite{
+    color: $N50;
+}
+
+.infoButton{
+    background-color: $informational !important;
+    border: none !important;
+}
+
+.warningButton{
+    background-color: $warning !important;
+    border: none !important;
+}
+
+.founderGroup{
+    background: $N5;
+    padding: 3%;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+
+    .founder{
+        width: 35%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        div{
+            width: 87.5%;
+        }
+
+        .imgDiv{
+            width: 7.5%;
+
+            img{
+                width: 100%;
+                margin-right: 5% !important;
+            }
+        }
+
+        p{
+            margin: 0 !important;
+        }
+    }   
 }
