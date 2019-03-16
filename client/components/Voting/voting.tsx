@@ -26,18 +26,33 @@ interface VotingState {
   finalvotedPartners: Array<PartnerVoteObj>;
 }
 
-const requiredFields = [
+const prevoteRequiredFields = [
   'fit_score',
   'market_score',
   'product_score',
   'team_score',
-  'overall_vote'
+  'comment',
 ];
 
-const voteFormSchema = makeRequired(
-  pick(voteSchema as JSONSchema6, requiredFields),
-  requiredFields
+const finalvoteRequiredFields = [
+  'fit_score',
+  'market_score',
+  'product_score',
+  'team_score',
+  'overall_vote',
+  'comment',
+];
+
+const prevoteFormSchema = makeRequired(
+  pick(voteSchema as JSONSchema6, prevoteRequiredFields),
+  prevoteRequiredFields
 );
+
+const finalvoteFormSchema = makeRequired(
+  pick(voteSchema as JSONSchema6, finalvoteRequiredFields),
+  finalvoteRequiredFields
+);
+
 
 export default class VotingForms extends React.Component<
   VotingProps,
@@ -50,7 +65,7 @@ export default class VotingForms extends React.Component<
       market_score: 1,
       product_score: 1,
       team_score: 1,
-      overall_vote: OverallVote.DontFund
+      comment: ''
     },
     didPrevote: false,
     finalvoteData: {
@@ -58,7 +73,8 @@ export default class VotingForms extends React.Component<
       market_score: 1,
       product_score: 1,
       team_score: 1,
-      overall_vote: OverallVote.DontFund
+      overall_vote: OverallVote.DontFund,
+      comment: ''
     },
     didFinalvote: false,
     votingFinalized: false,
@@ -245,8 +261,8 @@ export default class VotingForms extends React.Component<
                                onChange={ (newValue: number) => props.onChange(newValue)}/>
         }
       },
-      overall_vote: {
-        'ui:disabled': this.state.didPrevote,
+      comment: {
+        'ui:widget': "textarea"
       }
     };
 
@@ -254,7 +270,7 @@ export default class VotingForms extends React.Component<
       <Form
         uiSchema={uiSchema}
         formData={formData}
-        schema={voteFormSchema}
+        schema={prevoteFormSchema}
         onChange={(evt) => this.setState( {prevoteData: evt.formData})}
         onSubmit={this.handleVotingSubmitClosure('prevote')}
       >
@@ -325,6 +341,10 @@ export default class VotingForms extends React.Component<
       },
       overall_vote: {
         'ui:disabled': this.state.didFinalvote,
+      },
+      comment: {
+        'ui:widget': "textarea",
+        'ui:disabled': this.state.didFinalvote,
       }
     };
 
@@ -332,7 +352,7 @@ export default class VotingForms extends React.Component<
       <Form
         key="final"
         uiSchema={uiSchema}
-        schema={voteFormSchema}
+        schema={finalvoteFormSchema}
         formData={formData}
         onChange={ (evt) => this.setState( {finalvoteData: evt.formData})}
         onSubmit={this.handleVotingSubmitClosure('final')}
