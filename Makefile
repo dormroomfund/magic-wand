@@ -16,11 +16,15 @@ install:
 
 # Starts the server in development mode, restarting when changes detected.
 dev:
+	# TODO: Check if style variables have changed.
 	DEBUG=knex:query npx nodemon --exec ts-node server/
 
 # Starts the server in development mode.
-start:
+start: style-variables
 	$(NPX) ts-node server/
+
+style-variables:
+	$(NPX) scss-to-json client/stylesheets/_colors.scss > client/stylesheets/colors.json
 
 ################################################################################
 

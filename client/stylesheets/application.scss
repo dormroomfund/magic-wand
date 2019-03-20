@@ -25,6 +25,9 @@ body {
 }
 
 .navbar {
+    background: white;
+    box-shadow: 1px 3px 2px -2px rgba(0, 0, 0, 0.4);
+
     a {
         color: #050B1A !important;
         font-family: CircularStd-Bold, Helvetica, Arial, sans-serif;
@@ -92,4 +95,8 @@ body {
     justify-content: space-between;
     flex-direction: row;
     width: 100%;
+}
+
+.color-N50 {
+    color: $N50;
 }
