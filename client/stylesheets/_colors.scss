@@ -8,25 +8,24 @@ $DRFGreen: #1DD79D;
 
 //Neutral Tones --------------------------------------------------------------------------------------
 $N0: #FFFFFF;
-$N3: #F7F7F8;			//used for white text on a black background or gray backgrounds
-$N5: #F2F2F4;			//off-white background
+$N3: #F7F7F8; //used for white text on a black background or gray backgrounds
+$N5: #F2F2F4; //off-white background
 $N10: #DADDE0;
-$N30: #A5ACB1;			//used as gray text on a black background
-$N40: #858E94;			//used when we need a gray background
-$N50: #6D757E;			//used as gray text on a white background
+$N30: #A5ACB1; //used as gray text on a black background
+$N40: #858E94; //used when we need a gray background
+$N50: #6D757E; //used as gray text on a white background
 $N80: #313543;
-$N90: #1B202D;             	//used for black text on a white background
+$N90: #1B202D; //used for black text on a white background
 $N100: #050B1A;
 
 //Feedback Colors --------------------------------------------------------------------------------------
-//We use these 4 colors to give the user knowledge of the range of possible actions and their results. 
+//We use these 4 colors to give the user knowledge of the range of possible actions and their results.
 //They should be used only as this and nowhere else.
 
-$informational: #1C37C5;        		//a shade of blue used to indicate hyperlinks + positive feedback 
-$error: #EO3229;					//a shade of red used to indicate failure
-$warning: #F6B610;				//a shade of yellow used for feedback text 
-$success: #12A577;				//a shade of green used to indicate success
-
+$informational: #1C37C5; //a shade of blue used to indicate hyperlinks + positive feedback
+$error: #E03229; //a shade of red used to indicate failure
+$warning: #F6B610; //a shade of yellow used for feedback text
+$success: #12A577; //a shade of green used to indicate success
 
 //Blues--------------------------------------------------------------------------------------
 $B90: #0503A6;
