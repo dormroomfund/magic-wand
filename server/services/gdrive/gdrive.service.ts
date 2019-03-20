@@ -14,25 +14,23 @@ import { google } from 'googleapis';
 import config from 'config';
 import App from '../../../client/schemas/app';
 import hooks from './gdrive.hooks';
+import { DocumentTypes } from '../../../client/schemas/gdrive';
 
 export default (app: App) => {
-  const GDriveService = {
+  class GDriveService {
     async create(data) {
       /*
        * Get the documents we need to create
        */
       let toCreate;
-      if (data.document_type === 'both') {
-        toCreate = ['prevote', 'snapshot'];
-      } else if (data.document_type === 'snapshot') {
-        toCreate = ['snapshot'];
+      if (data.document_type === DocumentTypes.Both) {
+        toCreate = [DocumentTypes.Prevote, DocumentTypes.Snapshot];
+      } else if (data.document_type === DocumentTypes.Snapshot) {
+        toCreate = [DocumentTypes.Snapshot];
       } else {
-        toCreate = ['prevote'];
+        toCreate = [DocumentTypes.Prevote];
       }
 
-      /*
-       * Get the associated company
-       */
       let company;
       try {
         company = await app.service('api/companies').get(data.company_id);
@@ -52,7 +50,7 @@ export default (app: App) => {
       }
 
       /*
-       * Create the jwt client.
+       * Create and authenticate the jwt client.
        */
       const jwtClient = new google.auth.JWT(
         config.googleDrive.googleServiceEmail,
@@ -61,9 +59,6 @@ export default (app: App) => {
         ['https://www.googleapis.com/auth/drive']
       );
 
-      /*
-       * Authenticate the JWT request
-       */
       jwtClient.authorize((err) => {
         if (err) throw new errors.BadRequest('Google Drive Error');
       });
@@ -79,16 +74,9 @@ export default (app: App) => {
          */
         const folder = config.googleDrive[docType][company.team];
 
-        /*
-         * Create either a prevote document or a snapshot
-         */
         const documentName = `[${data.company_id}] ${
           company.name
         } ${docType.toUpperCase()}`;
-
-        /*
-         * Return array of ids.
-         */
 
         await drive.files.create(
           {
@@ -108,23 +96,20 @@ export default (app: App) => {
             company.company_links.push({ name: docType, url: docLink });
 
             /*
-             * Update the company
+             * Update the company links.
              */
-            try {
-              await app.service('api/companies').patch(data.company_id, {
-                company_links: company.company_links,
-              });
-            } catch (e) {
-              return e;
-            }
+
+            await app.service('api/companies').patch(data.company_id, {
+              company_links: company.company_links,
+            });
           }
         );
       });
 
       return data;
-    },
-  };
+    }
+  }
 
-  app.use('/api/gdrive', GDriveService);
+  app.use('/api/gdrive', new GDriveService());
   app.service('api/gdrive').hooks(hooks);
 };

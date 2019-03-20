@@ -8,6 +8,7 @@ import Column from './Column';
 import CustomDropdown from './Dropdown';
 import GroupButton from './GroupButton';
 import IndividualButton from './IndividualButton';
+import { DocumentTypes } from '../../schemas/gdrive';
 import { Paginated } from '@feathersjs/feathers';
 
 const companyPartialSchema = {
@@ -162,7 +163,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
     if (newForeign.id === Status.Pitching) {
       try {
         client.service('api/gdrive').create({
-          document_type: 'both',
+          document_type: DocumentTypes.Both,
           company_id: draggedObj.id,
         })
       } catch(e) {
