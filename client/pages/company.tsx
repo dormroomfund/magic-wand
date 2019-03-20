@@ -3,7 +3,7 @@ import { NextContext } from 'next';
 import Head from 'next/head';
 import React from 'react';
 import Form, { ISubmitEvent } from 'react-jsonschema-form-bs4';
-import CompanyLayout from '../components/Layout/CompanyLayout';
+import FullWidthLayout from '../components/Layout/FullWidthLayout';
 import client from '../lib/client';
 import { requireLoggedIn } from '../lib/routing';
 import { companySchema, Company } from '../schemas/company';
@@ -63,7 +63,7 @@ export default class CompanyPage extends React.Component<
     const { company, loading } = this.state;
 
     return (
-      <CompanyLayout>
+      <FullWidthLayout>
         {loading ? (
           <div>Loading...</div>
         ) : company ? (
@@ -71,7 +71,7 @@ export default class CompanyPage extends React.Component<
         ) : (
           'Error'
         )}
-      </CompanyLayout>
+      </FullWidthLayout>
     );
   }
 }

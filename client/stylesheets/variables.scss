@@ -1,3 +1,5 @@
+@import "colors";
+
 // Variables
 //
 // Variables should follow the `$component-state-property-size` formula for
@@ -68,10 +70,10 @@ $colors: map-merge(
 
 $primary:       $blue !default;
 $secondary:     $gray-600 !default;
-$success:       $green !default;
-$info:          $cyan !default;
+// $success:       $success;
+$info:          $informational !default;
 $warning:       $yellow !default;
-$danger:        $red !default;
+$danger:        $error;
 $light:         $gray-100 !default;
 $dark:          $gray-800 !default;
 
