@@ -31,7 +31,7 @@
       "logoutRedirect": "http://localhost:3000",
       "successRedirect": "/pipeline",
       "domain": "mydomain.auth0.com",
-      "scopes": ["profile openid"]
+      "scope": ["openid", "email", "profile"]
     },
     "cookie": {
       "enabled": true,
