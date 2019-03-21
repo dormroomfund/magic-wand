@@ -1,6 +1,6 @@
 export interface Vote {
   id?: number;
-  vote_type: 'prevote' | 'final';
+  vote_type: string;
   partner_id: number;
   company_id: number;
   market_score: number;
