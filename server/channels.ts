@@ -7,7 +7,6 @@ export default function(app: App) {
 
   app.on('login', (payload, { connection }) => {
     if (!connection) return;
-    console.log('user logged in', payload, connection);
 
     const { user } = connection;
 
