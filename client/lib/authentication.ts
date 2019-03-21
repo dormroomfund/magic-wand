@@ -3,20 +3,20 @@ import client from './client';
 import { User } from '../schemas/user';
 
 /**
- * If not yet attempted, authenticates the user. Returns a JWT if
+ * Isomorphically attempts to authenticate the user. Returns a JWT if
  * authenticated, else undefined.
  *
  * @param req The request object passed into `getInitialProps`.
  */
-export async function ensureAuthenticated(
+export async function authenticate(
   req?: IncomingMessage
 ): Promise<string | undefined> {
   // Snag the cookie from the request, if on server.
   // https://github.com/zeit/next.js/issues/2364
   if (req) {
     const jwt = req.cookies['feathers-jwt'];
-    client.set('accessToken', jwt);
     if (jwt && client.passport.payloadIsValid(jwt)) {
+      client.set('accessToken', jwt);
       return jwt;
     }
   }
@@ -38,7 +38,7 @@ export async function ensureAuthenticated(
 export async function getUser(
   req?: IncomingMessage
 ): Promise<User | undefined> {
-  const token = await ensureAuthenticated(req);
+  const token = await authenticate(req);
   if (!token) {
     return undefined;
   }
@@ -49,7 +49,7 @@ export async function getUser(
     const user = await client.service('api/users').get(userId);
     return user;
   } catch (e) {
-    console.error('error while getting user', e);
+    console.error('error while retrieving user', e);
     return undefined;
   }
 }
