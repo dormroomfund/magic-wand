@@ -5,7 +5,10 @@ import { Subscribe } from 'unstated';
 import UserContainer, { AuthState } from '../../containers/UserContainer';
 import { UnreachableCaseError } from '../../lib/errors';
 import { Link, Router } from '../../routes';
-import styled from 'styled-components'
+import styled from 'styled-components';
+import Dropdown from 'react-bootstrap/lib/Dropdown';
+import NavItem from 'react-bootstrap/lib/NavItem';
+import NavLink from 'react-bootstrap/lib/NavLink';
 
 export default () => (
   <Subscribe to={[UserContainer]}>
@@ -17,17 +20,19 @@ export default () => (
           return null;
         case AuthState.LoggedIn:
           return (
-            <NavDropdown
-              title={uc.state.user && uc.state.user.email}
-              id="navbar-auth-dropdown"
-            >
-              <NavDropdown.Item onClick={() => Router.pushRoute('/settings')}>
-                Settings
-              </NavDropdown.Item>
-              <NavDropdown.Item onClick={() => uc.logOut()}>
-                Log Out
-              </NavDropdown.Item>
-            </NavDropdown>
+            <Dropdown as={NavItem}>
+              <Dropdown.Toggle as={NavLink} id="navbar-auth-dropdown">
+                {uc.state.user && uc.state.user.email}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => Router.pushRoute('/settings')}>
+                  Settings
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => uc.logOut()}>
+                  Log Out
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           );
         default:
           throw new UnreachableCaseError(uc.authState);

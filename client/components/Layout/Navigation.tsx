@@ -28,6 +28,17 @@ const StyledNav = styled(Nav)`
   flex-direction: row !important;
   justify-content: flex-end !important;
   width: 100%;
+
+  a {
+    border-bottom: 3px solid white;
+    border-top: 3px solid white;
+    padding: 0 !important;
+    margin: 0.5rem 1rem 0.5rem 0.5rem;
+
+    &:hover {
+      border-bottom: 3px solid blue;
+    }
+  }
 `;
 
 export default () => {
