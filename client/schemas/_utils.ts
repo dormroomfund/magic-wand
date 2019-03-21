@@ -22,3 +22,9 @@ export const makeRequired = (schema: JSONSchema6, keys: string[]) => ({
   ...schema,
   required: uniq(keys.concat(schema.required)),
 });
+
+/** Given a schema, makes all fields optional. */
+export const makePartial = (schema: JSONSchema6) => ({
+  ...schema,
+  required: [],
+});
