@@ -10,7 +10,11 @@ export default function(app: App) {
 
   // Set up authentication with the secret
   app.configure(authentication(config));
-  app.configure(jwt());
+  app.configure(
+    jwt({
+      aud: 'magic-wand',
+    })
+  );
 
   app.configure(
     oauth2({

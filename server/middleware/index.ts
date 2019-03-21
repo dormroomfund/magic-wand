@@ -19,18 +19,18 @@ export default (app) => {
   );
 
   // Logger
-  app.use(
-    expressWinston.logger({
-      ...loggerOptions,
-      expressFormat: true,
-      colorize: true,
-      ignoreRoute: (req) => {
-        if (req.path.startsWith('/_next')) {
-          return true;
-        }
+  // app.use(
+  //   expressWinston.logger({
+  //     ...loggerOptions,
+  //     expressFormat: true,
+  //     colorize: true,
+  //     ignoreRoute: (req) => {
+  //       if (req.path.startsWith('/_next')) {
+  //         return true;
+  //       }
 
-        return false;
-      },
-    })
-  );
+  //       return false;
+  //     },
+  //   })
+  // );
 };

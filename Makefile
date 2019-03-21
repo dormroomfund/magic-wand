@@ -15,9 +15,12 @@ install:
 ################################################################################
 
 # Starts the server in development mode, restarting when changes detected.
+# TODO: Check if style variables have changed and regenerate.
 dev:
-	# TODO: Check if style variables have changed.
-	DEBUG=knex:query npx nodemon --exec ts-node server/
+	npx nodemon --exec ts-node server/
+
+dev-debug:
+	DEBUG=knex:query LOGLEVEL=debug npx nodemon --exec ts-node server/
 
 # Starts the server in development mode.
 start: style-variables

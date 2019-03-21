@@ -16,11 +16,9 @@ export async function ensureAuthenticated(
   if (req) {
     const jwt = req.cookies['feathers-jwt'];
     client.set('accessToken', jwt);
-  }
-
-  const jwt = await client.passport.getJWT();
-  if (jwt && client.passport.payloadIsValid(jwt)) {
-    return jwt;
+    if (jwt && client.passport.payloadIsValid(jwt)) {
+      return jwt;
+    }
   }
 
   try {
@@ -42,7 +40,7 @@ export async function getUser(
 ): Promise<User | undefined> {
   const token = await ensureAuthenticated(req);
   if (!token) {
-    return;
+    return undefined;
   }
 
   try {
@@ -51,7 +49,7 @@ export async function getUser(
     const user = await client.service('api/users').get(userId);
     return user;
   } catch (e) {
-    console.error(e);
-    return;
+    console.error('error while getting user', e);
+    return undefined;
   }
 }
