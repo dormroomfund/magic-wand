@@ -1,5 +1,6 @@
 import { HookContext } from '@feathersjs/feathers';
 import { iff, callingParams } from 'feathers-hooks-common';
+import { associateCurrentUser } from 'feathers-authentication-hooks';
 
 // const voteExists = async (context: HookContext<any>) => {
 //   console.log(context);
@@ -26,6 +27,7 @@ export default {
     find: [],
     get: [],
     create: [
+      associateCurrentUser({ idField: 'id', as: 'partner_id' }),
       /* iff(voteExists, upsertVote) */
     ],
     update: [],
