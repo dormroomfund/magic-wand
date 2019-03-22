@@ -8,10 +8,11 @@ import { OverallVote } from '../../schemas/vote';
 import VotingForm from './VotingForm';
 import { Subscribe } from 'unstated';
 import UserContainer from '../../containers/UserContainer';
+import CompanyRetriever from './CompanyRetriever';
+import Alert from 'react-bootstrap/lib/Alert';
 
 export interface VotingWorkflowProps {
   companyId: number;
-  votingContainer: VotingContainer;
 }
 
 interface VotingWorkflowState {
@@ -40,18 +41,13 @@ export default class VotingWorkflow extends Component<
     },
   };
 
-  componentDidMount() {
-    const { companyId, votingContainer: vc } = this.props;
-    vc.initialize(companyId);
-  }
-
   render() {
-    const { companyId, votingContainer: vc } = this.props;
+    const { companyId } = this.props;
     const { prevote, finalVote } = this.state;
 
     return (
-      <Subscribe to={[UserContainer]}>
-        {(uc: UserContainer) => {
+      <Subscribe to={[UserContainer, VotingContainer]}>
+        {(uc: UserContainer, vc: VotingContainer) => {
           const doingPrevote =
             vc.votingStatus(companyId, uc.user.id) ===
             VotingStatus.DoingPrevote;
@@ -61,23 +57,42 @@ export default class VotingWorkflow extends Component<
 
           return (
             <>
-              <VotingForm
-                formData={prevote}
-                onSubmit={(evt: ISubmitEvent<VoteFields>) =>
-                  vc.doPrevote(companyId, evt.formData)
-                }
-                disabled={!doingPrevote}
-                onChange={(evt) => this.setState({ prevote: evt.formData })}
-              />
-              {doingPrevote || (
-                <VotingForm
-                  formData={finalVote}
-                  onSubmit={(evt: ISubmitEvent<VoteFields>) =>
-                    vc.doFinalVote(companyId, evt.formData)
-                  }
-                  disabled={!doingFinalVote}
-                  onChange={(evt) => this.setState({ finalVote: evt.formData })}
-                />
+              <CompanyRetriever companyId={companyId} votingContainer={vc} />
+              {doingPrevote ? (
+                <>
+                  <h2>Prevote</h2>
+                  <VotingForm
+                    formData={prevote}
+                    onSubmit={(evt: ISubmitEvent<VoteFields>) =>
+                      vc.doPrevote(companyId, evt.formData)
+                    }
+                    disabled={!doingPrevote}
+                    onChange={(evt) => this.setState({ prevote: evt.formData })}
+                  />
+                </>
+              ) : (
+                <Alert variant="success">
+                  You have already cast a prevote.
+                </Alert>
+              )}
+              {doingFinalVote ? (
+                <>
+                  <h2>Final Vote</h2>
+                  <VotingForm
+                    formData={finalVote}
+                    onSubmit={(evt: ISubmitEvent<VoteFields>) =>
+                      vc.doFinalVote(companyId, evt.formData)
+                    }
+                    disabled={!doingFinalVote}
+                    onChange={(evt) =>
+                      this.setState({ finalVote: evt.formData })
+                    }
+                  />
+                </>
+              ) : (
+                <Alert variant="success">
+                  You have already cast a final vote.
+                </Alert>
               )}
             </>
           );

@@ -144,7 +144,7 @@ export default class VotingContainer extends Container<VotingContainerState> {
    * @param userId The ID of the current user. If the user deletes their own vote,
    *               allows them to recast it.
    */
-  async deleteVote(voteId: number, userId: number) {
+  async deleteVote(voteId: number) {
     const vote = await client.service('api/votes').remove(voteId);
     await this.retrieveCompany(vote.company_id);
 
