@@ -5,22 +5,30 @@ import { CookieStorage } from 'cookie-storage';
 import fetch from 'isomorphic-unfetch';
 import getConfig from 'next/config';
 import t from 'tcomb';
+import io from 'socket.io-client';
+import socketio from '@feathersjs/socketio-client';
 import App from '../schemas/app';
 
 const { publicRuntimeConfig } = getConfig();
 
-t.String(publicRuntimeConfig.rootUrl);
-const restClient = rest(publicRuntimeConfig.rootUrl);
 const client = feathers() as App;
 
 // Setup the transport (Rest, Socket, etc.) here
-client.configure(restClient.fetch(fetch));
+t.String(publicRuntimeConfig.rootUrl);
+if (typeof window !== 'undefined') {
+  const socket = io(publicRuntimeConfig.rootUrl, {
+    transports: ['websocket'],
+  });
+  console.log('connected using socket.io');
+  client.configure(socketio(socket));
+} else {
+  const restClient = rest(publicRuntimeConfig.rootUrl);
+  client.configure(restClient.fetch(fetch));
+}
 
-// Available options are listed in the "Options" section
-t.Object(publicRuntimeConfig.authentication);
 client.configure(
   auth({
-    ...publicRuntimeConfig.authentication,
+    cookie: 'feathers-jwt',
     storage: new CookieStorage(),
   })
 );

@@ -3,10 +3,11 @@ import express from '@feathersjs/express';
 import feathers from '@feathersjs/feathers';
 import socketio from '@feathersjs/socketio';
 import compress from 'compression';
-import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import helmet from 'helmet';
 import appHooks from './app.hooks';
+import channels from './channels';
 import logger from './logger';
 import middleware from './middleware';
 import { nextMiddleware } from './next';
@@ -37,6 +38,8 @@ app.configure(middleware);
 app.configure(authentication);
 // Set up our services (see `services/CompanyCard.tsx`)
 app.configure(services);
+// Set up event channels (see channels.ts)
+app.configure(channels);
 // Set up next.js hooks
 app.configure(nextMiddleware);
 
