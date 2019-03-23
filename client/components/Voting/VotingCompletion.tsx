@@ -1,16 +1,14 @@
-import React, { Component } from 'react';
+import { differenceWith } from 'lodash';
+import React from 'react';
+import Button from 'react-bootstrap/lib/Button';
+import { Subscribe } from 'unstated';
+import UserContainer from '../../containers/UserContainer';
 import VotingContainer, {
   VotingStatus,
 } from '../../containers/VotingContainer';
 import { VoteType } from '../../schemas/vote';
-import { differenceWith } from 'lodash';
-import Table from 'react-bootstrap/lib/Table';
-import { PartnerVoteObj, archivedStates } from '../../schemas/company';
-import Button from 'react-bootstrap/lib/Button';
-import UserContainer from '../../containers/UserContainer';
-import { Subscribe } from 'unstated';
-import VotingCompletionTable from './VotingCompletionTable';
 import CompanyRetriever from './CompanyRetriever';
+import VotingCompletionTable from './VotingCompletionTable';
 
 export interface VotingCompletionProps {
   companyId: number;
@@ -38,12 +36,11 @@ export default ({ companyId }: VotingCompletionProps) => (
 
       return (
         <>
-          <CompanyRetriever companyId={companyId} votingContainer={vc} />
+          <CompanyRetriever companyId={companyId} />
           <p>The following partners have submitted final votes.</p>
           <VotingCompletionTable
             companyId={companyId}
             votes={finalVotedPartners}
-            votingContainer={vc}
           />
           {waitingOnPartners.length > 0 ? (
             <>
@@ -54,7 +51,6 @@ export default ({ companyId }: VotingCompletionProps) => (
               <VotingCompletionTable
                 companyId={companyId}
                 votes={waitingOnPartners}
-                votingContainer={vc}
               />
             </>
           ) : (

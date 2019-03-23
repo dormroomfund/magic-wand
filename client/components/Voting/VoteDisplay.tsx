@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Vote, VoteType } from '../../schemas/vote';
 import Card from 'react-bootstrap/lib/Card';
 import VotingContainer from '../../containers/VotingContainer';
+import { withVotingContainer } from '../../lib/containers';
 
 export interface VoteDisplayProps {
   companyId: number;
@@ -14,10 +15,7 @@ interface VoteDisplayState {
   vote?: Vote;
 }
 
-export default class VoteDisplay extends Component<
-  VoteDisplayProps,
-  VoteDisplayState
-> {
+class VoteDisplay extends Component<VoteDisplayProps, VoteDisplayState> {
   state = { vote: undefined as Vote | undefined };
 
   async componentDidMount() {
@@ -61,3 +59,5 @@ export default class VoteDisplay extends Component<
     );
   }
 }
+
+export default withVotingContainer(VoteDisplay);

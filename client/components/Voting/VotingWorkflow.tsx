@@ -58,7 +58,7 @@ export default class VotingWorkflow extends Component<
 
           return (
             <>
-              <CompanyRetriever companyId={companyId} votingContainer={vc} />
+              <CompanyRetriever companyId={companyId} />
               {doingPrevote ? (
                 <>
                   <h2>Prevote</h2>
@@ -80,7 +80,6 @@ export default class VotingWorkflow extends Component<
                     companyId={companyId}
                     userId={uc.user.id}
                     voteType={VoteType.Prevote}
-                    votingContainer={vc}
                   />
                 </>
               )}
@@ -107,7 +106,6 @@ export default class VotingWorkflow extends Component<
                     companyId={companyId}
                     userId={uc.user.id}
                     voteType={VoteType.Final}
-                    votingContainer={vc}
                   />
                 </>
               )}
