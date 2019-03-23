@@ -1,15 +1,13 @@
 import { hooks as authHooks } from '@feathersjs/authentication';
 import Ajv from 'ajv';
+import { JSONSchema6 } from 'json-schema';
 import { userSchema } from '../../../client/schemas/user';
+import { makePartial } from '../../../client/schemas/_utils';
 
 const { authenticate } = authHooks;
-const ajv = new Ajv({ allErrors: true, $data: true });
 
-const partialSchema = {
-  type: userSchema.type,
-  properties: userSchema.properties,
-  additionalProperties: false,
-};
+const ajv = new Ajv({ allErrors: true, $data: true });
+const partialSchema = makePartial(userSchema as JSONSchema6);
 
 const customizeOAuthProfile = () => async (context) => {
   if (context.data.auth0 && context.data.auth0.profile) {
@@ -34,6 +32,7 @@ export default {
     ],
     update: [
       authenticate('jwt'),
+      customizeOAuthProfile(),
       // validateSchema(partialSchema, <AjvOrNewable>ajv),
     ],
     patch: [

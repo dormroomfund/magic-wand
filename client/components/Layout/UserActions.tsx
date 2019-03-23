@@ -1,11 +1,18 @@
 import React from 'react';
+import Dropdown from 'react-bootstrap/lib/Dropdown';
 import Nav from 'react-bootstrap/lib/Nav';
-import NavDropdown from 'react-bootstrap/lib/NavDropdown';
+import NavItem from 'react-bootstrap/lib/NavItem';
+import NavLink from 'react-bootstrap/lib/NavLink';
+import styled from 'styled-components';
+import Image from 'react-bootstrap/lib/Image';
 import { Subscribe } from 'unstated';
 import UserContainer, { AuthState } from '../../containers/UserContainer';
 import { UnreachableCaseError } from '../../lib/errors';
-import { Link, Router } from '../../routes';
-import styled from 'styled-components'
+import { Router } from '../../routes';
+
+const ProfileImage = styled(Image)`
+  max-height: 32px;
+`;
 
 export default () => (
   <Subscribe to={[UserContainer]}>
@@ -17,17 +24,23 @@ export default () => (
           return null;
         case AuthState.LoggedIn:
           return (
-            <NavDropdown
-              title={uc.state.user && uc.state.user.email}
-              id="navbar-auth-dropdown"
-            >
-              <NavDropdown.Item onClick={() => Router.pushRoute('/settings')}>
-                Settings
-              </NavDropdown.Item>
-              <NavDropdown.Item onClick={() => uc.logOut()}>
-                Log Out
-              </NavDropdown.Item>
-            </NavDropdown>
+            <Dropdown as={NavItem} alignRight>
+              <Dropdown.Toggle as={NavLink} id="navbar-auth-dropdown">
+                {uc.user && uc.user.photo ? (
+                  <ProfileImage src={uc.user.photo} roundedCircle />
+                ) : uc.user ? (
+                  uc.user.email
+                ) : null}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => Router.pushRoute('/settings')}>
+                  Settings
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => uc.logOut()}>
+                  Log Out
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           );
         default:
           throw new UnreachableCaseError(uc.authState);

@@ -28,6 +28,18 @@ const StyledNav = styled(Nav)`
   flex-direction: row !important;
   justify-content: flex-end !important;
   width: 100%;
+
+  & > a {
+    border-bottom: 2px solid white;
+    border-top: 2px solid white;
+    padding: 0 !important;
+    margin: 0.5rem 1rem 0.5rem 0.5rem;
+    transition: border 150ms ease;
+
+    &:hover {
+      border-bottom: 3px solid blue;
+    }
+  }
 `;
 
 export default () => {
@@ -43,7 +55,7 @@ export default () => {
         </Link>
         <StyledNavbar.Toggle className="mr-2" />
         <StyledNavbar.Collapse>
-          <StyledNav navbar className="topNav ml-auto">
+          <StyledNav navbar className="ml-auto">
             <StyledNav.Link onClick={() => Router.pushRoute('/pipeline')}>
               Pipeline
             </StyledNav.Link>

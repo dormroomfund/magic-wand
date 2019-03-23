@@ -74,17 +74,6 @@ body {
     }
 }
 
-.topNav a {
-    border-bottom: 3px solid white;
-    border-top: 3px solid white;
-    padding: 0 !important;
-    margin: .5rem 1rem .5rem .5rem;
-
-    &:hover {
-        border-bottom: 3px solid blue;
-    }
-}
-
 .pipelineLayout {
     margin: 5rem 5vw 0vh 5vw;
     padding: 0;
