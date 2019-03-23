@@ -14,12 +14,14 @@ export enum VotingStatus {
 
 export interface VotingContainerState {
   companies: Record<number, Company>;
+  votes: Record<number, Vote>;
 }
 
 /** Handles the data-flow and server interfacing for all votes occurring in a system. */
 export default class VotingContainer extends Container<VotingContainerState> {
   state = {
     companies: {} as Record<number, Company>,
+    votes: {} as Record<number, Vote>,
   };
 
   // GETTERS AND SETTERS
@@ -67,6 +69,24 @@ export default class VotingContainer extends Container<VotingContainerState> {
   votedPartners(companyId: number, voteType: VoteType) {
     const company = this.state.companies[companyId];
     return company ? company.partnerVotes[voteType] : [];
+  }
+
+  vote(voteId: number) {
+    this.retrieveVote(voteId);
+    return this.state.votes[voteId];
+  }
+
+  findVote(companyId: number, userId: number, voteType: VoteType) {
+    const company = this.company(companyId);
+    if (!company) {
+      this.retrieveCompany(companyId);
+      return undefined;
+    }
+
+    const voteId = company.partnerVotes[voteType].find(
+      (vote) => vote.partner_id === userId
+    ).vote_id;
+    return this.vote(voteId);
   }
 
   // VOTING PROCESS
@@ -173,6 +193,16 @@ export default class VotingContainer extends Container<VotingContainerState> {
       companies: {
         ...state.companies,
         [company.id]: company,
+      },
+    }));
+  }
+
+  async retrieveVote(voteId: number) {
+    const vote = await client.service('api/votes').get(voteId);
+    this.setState((state) => ({
+      votes: {
+        ...state.votes,
+        [vote.id]: vote,
       },
     }));
   }

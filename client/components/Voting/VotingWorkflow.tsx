@@ -3,13 +3,14 @@ import { ISubmitEvent } from 'react-jsonschema-form-bs4';
 import VotingContainer, {
   VotingStatus,
 } from '../../containers/VotingContainer';
-import { VoteFields } from '../../lib/voting';
-import { OverallVote } from '../../schemas/vote';
+import { VoteFields, voteFormSchema } from '../../lib/voting';
+import { OverallVote, VoteType } from '../../schemas/vote';
 import VotingForm from './VotingForm';
 import { Subscribe } from 'unstated';
 import UserContainer from '../../containers/UserContainer';
 import CompanyRetriever from './CompanyRetriever';
 import Alert from 'react-bootstrap/lib/Alert';
+import VoteDisplay from './VoteDisplay';
 
 export interface VotingWorkflowProps {
   companyId: number;
@@ -71,9 +72,14 @@ export default class VotingWorkflow extends Component<
                   />
                 </>
               ) : (
-                <Alert variant="success">
-                  You have already cast a prevote.
-                </Alert>
+                <>
+                  <Alert variant="success">
+                    You have already cast a prevote.
+                  </Alert>
+                  <VoteDisplay
+                    vote={vc.findVote(companyId, uc.user.id, VoteType.Prevote)}
+                  />
+                </>
               )}
               {doingFinalVote ? (
                 <>
@@ -90,9 +96,14 @@ export default class VotingWorkflow extends Component<
                   />
                 </>
               ) : (
-                <Alert variant="success">
-                  You have already cast a final vote.
-                </Alert>
+                <>
+                  <Alert variant="success">
+                    You have already cast a final vote.
+                  </Alert>
+                  <VoteDisplay
+                    vote={vc.findVote(companyId, uc.user.id, VoteType.Final)}
+                  />
+                </>
               )}
             </>
           );
