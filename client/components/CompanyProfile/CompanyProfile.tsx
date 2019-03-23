@@ -79,12 +79,7 @@ export default ({ company }: CompanyProfileProps) => {
           {company.company_links && (
             <p>
               {company.company_links.map(({ name, url }) => (
-                <a
-                  key={name}
-                  href={url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a key={name} href={url}>
                   {name}
                 </a>
               ))}

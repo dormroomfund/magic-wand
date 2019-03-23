@@ -52,8 +52,6 @@ export interface Company {
   tags?: string[];
   status: Status;
   contact_email: string;
-  snapshot?: string;
-  prevote?: string;
   company_links?: {
     name?: string;
     url?: string;
@@ -84,8 +82,6 @@ export const companySchema = {
       type: 'string',
       enum: Object.values(Status),
     },
-    snapshot: { type: 'string' },
-    prevote: { type: 'string' },
     contact_email: { type: 'string', format: 'email' },
     company_links: {
       type: 'array',
