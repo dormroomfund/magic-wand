@@ -44,22 +44,5 @@
     "client": "pg",
     "connection": "postgres://postgres:@localhost:5432/magic_wand"
   },
-  "sentryDsn": "your sentry dsn",
-  "googleDrive": {
-    "googleServiceEmail": "your GOOGLE SERVICE EMAIL",
-    "googleServiceKey": "your GOOGLE SERVICE KEY",
-    "googleServiceKeyId": "your GOOGLE SERVICE KEY ID",
-    "prevoteFolderIds": {
-      "Philadelphia": "your PHILADELPHIA_PREVOTE_FOLDER_ID",
-      "Boston": "your BOSTON_PREVOTE_FOLDER_ID",
-      "NewYork": "your NEW_YORK_PREVOTE_FOLDER_ID",
-      "SanFrancisco": "your SAN_FRANCISCO_PREVOTE_FOLDER_ID"
-    },
-    "snapshotFolderIds": {
-      "Philadelphia": "your PHILADELPHIA_SNAPSHOT_FOLDER_ID",
-      "Boston": "your BOSTON_SNAPSHOT_FOLDER_ID",
-      "NewYork": "your NEW_YORK_SNAPSHOT_FOLDER_ID",
-      "SanFrancisco": "your SAN_FRANCISCO_SNAPSHOT_FOLDER_ID"
-    }
-  }
+  "sentryDsn": "your sentry dsn"
 }
