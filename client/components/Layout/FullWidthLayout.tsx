@@ -7,10 +7,16 @@ export interface LayoutProps {
   children: ReactNode;
 }
 
+const StyledContainer = styled(Container)`
+  margin: 0 !important;
+  width: 100vw !important;
+  max-width: none !important;
+`;
+
 const Layout = ({ children }: LayoutProps) => (
   <>
     <Navigation />
-    <div className="pipelineLayout">{children}</div>
+    <StyledContainer>{children}</StyledContainer>
   </>
 );
 

@@ -1,4 +1,5 @@
 {
+  "loglevel": "LOGLEVEL",
   "port": "PORT",
   "postgres": {
     "connection": "DATABASE_URL"

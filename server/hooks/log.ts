@@ -2,20 +2,26 @@
 // See https://github.com/winstonjs/winston for documentation
 // about the logger.
 import util from 'util';
+import chalk from 'chalk';
 
 import logger from '../logger';
+import { HookContext } from '@feathersjs/feathers';
+
+const { gray, blue } = chalk;
 
 // To see more detailed messages, uncomment the following line:
 // logger.level = 'debug';
 
-export default () => (context) => {
+export default () => (context: HookContext) => {
   // This debugs the service call and a stringified version of the hook context
   // You can customize the message (and logger) to your needs
-  logger.debug(
-    `${context.type} app.service('${context.path}').${context.method}()`
+  logger.info(
+    `${context.type}: ${blue(context.method)} ${gray('on service')} ${
+      context.path
+    } ${gray('with provider')} ${context.params.provider}`
   );
 
-  if (typeof context.toJSON === 'function' && logger.level === 'debug') {
+  if (typeof (context as any).toJSON === 'function') {
     logger.debug('Hook Context', util.inspect(context, { colors: false }));
   }
 

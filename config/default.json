@@ -18,7 +18,7 @@
       "header": {
         "typ": "access"
       },
-      "audience": "https://yourdomain.com",
+      "audience": "magic-wand",
       "subject": "anonymous",
       "issuer": "feathers",
       "algorithm": "HS256",
