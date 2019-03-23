@@ -77,7 +77,10 @@ export default class VotingWorkflow extends Component<
                     You have already cast a prevote.
                   </Alert>
                   <VoteDisplay
-                    vote={vc.findVote(companyId, uc.user.id, VoteType.Prevote)}
+                    companyId={companyId}
+                    userId={uc.user.id}
+                    voteType={VoteType.Prevote}
+                    votingContainer={vc}
                   />
                 </>
               )}
@@ -101,7 +104,10 @@ export default class VotingWorkflow extends Component<
                     You have already cast a final vote.
                   </Alert>
                   <VoteDisplay
-                    vote={vc.findVote(companyId, uc.user.id, VoteType.Final)}
+                    companyId={companyId}
+                    userId={uc.user.id}
+                    voteType={VoteType.Final}
+                    votingContainer={vc}
                   />
                 </>
               )}

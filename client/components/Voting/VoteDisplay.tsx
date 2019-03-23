@@ -1,33 +1,63 @@
-import React from 'react';
-import { Vote } from '../../schemas/vote';
+import React, { Component } from 'react';
+import { Vote, VoteType } from '../../schemas/vote';
 import Card from 'react-bootstrap/lib/Card';
+import VotingContainer from '../../containers/VotingContainer';
 
 export interface VoteDisplayProps {
-  vote: Vote;
+  companyId: number;
+  userId: number;
+  voteType: VoteType;
+  votingContainer: VotingContainer;
 }
 
-export default ({ vote }: VoteDisplayProps) => {
-  if (!vote) {
-    return <span>Loading...</span>;
+interface VoteDisplayState {
+  vote?: Vote;
+}
+
+export default class VoteDisplay extends Component<
+  VoteDisplayProps,
+  VoteDisplayState
+> {
+  state = { vote: undefined as Vote | undefined };
+
+  async componentDidMount() {
+    const { votingContainer: vc, companyId, userId, voteType } = this.props;
+
+    const vote = await vc.findAndRetrieveVote(companyId, userId, voteType);
+    this.setState({ vote });
   }
 
-  return (
-    <Card>
-      <Card.Body>
-        <Card.Title>Vote</Card.Title>
-        <Card.Text>
-          <strong>Market:</strong> {vote.market_score}
-        </Card.Text>
-        <Card.Text>
-          <strong>Product:</strong> {vote.product_score}
-        </Card.Text>
-        <Card.Text>
-          <strong>Team:</strong> {vote.team_score}
-        </Card.Text>
-        <Card.Text>
-          <strong>Fit:</strong> {vote.team_score}
-        </Card.Text>
-      </Card.Body>
-    </Card>
-  );
-};
+  async componentDidUpdate() {
+    const { votingContainer: vc, companyId, userId, voteType } = this.props;
+
+    const vote = await vc.findAndRetrieveVote(companyId, userId, voteType);
+    this.setState({ vote });
+  }
+
+  render() {
+    const { vote } = this.state;
+    if (!vote) {
+      return <span>Loading...</span>;
+    }
+
+    return (
+      <Card>
+        <Card.Body>
+          <Card.Title>Vote</Card.Title>
+          <Card.Text>
+            <strong>Market:</strong> {vote.market_score}
+          </Card.Text>
+          <Card.Text>
+            <strong>Product:</strong> {vote.product_score}
+          </Card.Text>
+          <Card.Text>
+            <strong>Team:</strong> {vote.team_score}
+          </Card.Text>
+          <Card.Text>
+            <strong>Fit:</strong> {vote.team_score}
+          </Card.Text>
+        </Card.Body>
+      </Card>
+    );
+  }
+}

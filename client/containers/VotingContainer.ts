@@ -83,10 +83,6 @@ export default class VotingContainer extends Container<VotingContainerState> {
   }
 
   vote(voteId: number) {
-    if (!this.state.votes[voteId]) {
-      this.retrieveVote(voteId);
-    }
-
     return this.state.votes[voteId];
   }
 
@@ -204,6 +200,8 @@ export default class VotingContainer extends Container<VotingContainerState> {
         [company.id]: company,
       },
     }));
+
+    return company;
   }
 
   async retrieveVote(voteId: number) {
@@ -214,5 +212,21 @@ export default class VotingContainer extends Container<VotingContainerState> {
         [vote.id]: vote,
       },
     }));
+
+    return vote;
+  }
+
+  async findAndRetrieveVote(
+    companyId: number,
+    userId: number,
+    voteType: VoteType
+  ) {
+    const company =
+      this.company(companyId) || (await this.retrieveCompany(companyId));
+
+    const votes = company.partnerVotes[voteType];
+    const vote = votes && votes.find((vote) => vote.partner_id === userId);
+
+    return await this.retrieveVote(vote.vote_id);
   }
 }
