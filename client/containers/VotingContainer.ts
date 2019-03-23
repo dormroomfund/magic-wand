@@ -24,6 +24,17 @@ export default class VotingContainer extends Container<VotingContainerState> {
     votes: {} as Record<number, Vote>,
   };
 
+  constructor() {
+    super();
+
+    client.service('api/votes').on('created', async (vote: Vote) => {
+      await this.retrieveCompany(vote.company_id);
+    });
+    client.service('api/votes').on('removed', async (vote: Vote) => {
+      await this.retrieveCompany(vote.company_id);
+    });
+  }
+
   // GETTERS AND SETTERS
   ////////////////////////////////////////////////////////////////////////////////
 
@@ -72,7 +83,10 @@ export default class VotingContainer extends Container<VotingContainerState> {
   }
 
   vote(voteId: number) {
-    this.retrieveVote(voteId);
+    if (!this.state.votes[voteId]) {
+      this.retrieveVote(voteId);
+    }
+
     return this.state.votes[voteId];
   }
 
@@ -83,10 +97,9 @@ export default class VotingContainer extends Container<VotingContainerState> {
       return undefined;
     }
 
-    const voteId = company.partnerVotes[voteType].find(
-      (vote) => vote.partner_id === userId
-    ).vote_id;
-    return this.vote(voteId);
+    const votes = company.partnerVotes[voteType];
+    const vote = votes && votes.find((vote) => vote.partner_id === userId);
+    return vote && this.vote(vote.vote_id);
   }
 
   // VOTING PROCESS
@@ -110,8 +123,6 @@ export default class VotingContainer extends Container<VotingContainerState> {
       company_id: companyId,
       vote_type: VoteType.Prevote,
     });
-
-    this.retrieveCompany(companyId);
   }
 
   /** Records a final vote. */
@@ -121,8 +132,6 @@ export default class VotingContainer extends Container<VotingContainerState> {
       company_id: companyId,
       vote_type: VoteType.Final,
     });
-
-    this.retrieveCompany(companyId);
   }
 
   /** Finalizes votes. */

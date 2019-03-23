@@ -95,7 +95,7 @@ export default class VotingWorkflow extends Component<
                     }
                   />
                 </>
-              ) : (
+              ) : doingPrevote ? null : (
                 <>
                   <Alert variant="success">
                     You have already cast a final vote.
