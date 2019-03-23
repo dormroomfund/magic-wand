@@ -199,7 +199,16 @@ export default class VotingForms extends React.Component<
           didPrevote: vote_type === 'prevote' ? true : this.state.didPrevote,
           didFinalvote: vote_type === 'final' ? true : this.state.didFinalvote,
         });
+
         alert('Submitted ' + vote_type);
+
+        if (vote_type === 'prevote' && this.state.company.company_links.prevote) {
+          window.open(
+            this.state.company.company_links.prevote,
+            '_blank',
+          );
+        }
+
       } catch (e) {
         console.log(e);
       }
@@ -274,9 +283,9 @@ export default class VotingForms extends React.Component<
         onChange={(evt) => this.setState( {prevoteData: evt.formData})}
         onSubmit={this.handleVotingSubmitClosure('prevote')}
       >
+
         <Button disabled={this.state.didPrevote} type="submit">
-          {' '}
-          Submit
+          Submit and Open Prevote Document
         </Button>
       </Form>
     );
