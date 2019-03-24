@@ -2,7 +2,7 @@ import { NextContext } from 'next';
 import React from 'react';
 import { Subscribe } from 'unstated';
 import Layout from '../components/Layout/Layout';
-import VotingForms from '../components/Voting/voting';
+import Voting from '../components/Voting/Voting';
 import UserContainer, { AuthState } from '../containers/UserContainer';
 import { UnreachableCaseError } from '../lib/errors';
 import { requireLoggedIn } from '../lib/routing';
@@ -28,7 +28,7 @@ export default class Vote extends React.Component<VoteProps> {
             case AuthState.LoggedIn:
               return (
                 <Layout>
-                  <VotingForms companyID={this.props.id} user={uc.user} />
+                  <Voting companyID={this.props.id} />
                 </Layout>
               );
             default:

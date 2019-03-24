@@ -1,6 +1,10 @@
+export enum VoteType {
+  Prevote = 'prevote',
+  Final = 'final',
+}
 export interface Vote {
   id?: number;
-  vote_type: string;
+  vote_type: VoteType;
   partner_id: number;
   company_id: number;
   market_score: number;
@@ -12,10 +16,10 @@ export interface Vote {
 }
 
 export enum OverallVote {
-  DontFund = 'dont fund',
-
-  Fund = 'fund',
+  DontFund = "Don't Fund",
+  Fund = 'Fund',
 }
+
 /**
  * Describes JSON validation schema for each model.
  */
@@ -36,7 +40,7 @@ export const voteSchema = {
     id: { type: 'integer' },
     vote_type: {
       type: 'string',
-      enum: ['prevote', 'final'],
+      enum: Object.values(VoteType),
     },
     partner_id: { type: 'integer' },
     company_id: { type: 'integer' },
