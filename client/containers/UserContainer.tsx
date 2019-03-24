@@ -59,10 +59,9 @@ export default class UserContainer extends Container<UserContainerState> {
     if (!this.user) return false;
 
     const ajv = new Ajv({ coerceTypes: true });
-    // const valid = ajv.validate(userSchema, this.user);
+    const valid = ajv.validate(userSchema, this.user);
 
-    console.dir(ajv);
-    return true;
+    return valid;
   }
 
   // ACTIONS
