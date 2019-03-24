@@ -114,7 +114,7 @@ export default class VotingContainer extends Container<VotingContainerState> {
 
   /** Records a prevote. */
   async doPrevote(companyId: number, vote: VoteFields) {
-    const res = await client.service('api/votes').create({
+    return await client.service('api/votes').create({
       ...vote,
       company_id: companyId,
       vote_type: VoteType.Prevote,
@@ -123,7 +123,7 @@ export default class VotingContainer extends Container<VotingContainerState> {
 
   /** Records a final vote. */
   async doFinalVote(companyId: number, vote: VoteFields) {
-    const res = await client.service('api/votes').create({
+    return await client.service('api/votes').create({
       ...vote,
       company_id: companyId,
       vote_type: VoteType.Final,

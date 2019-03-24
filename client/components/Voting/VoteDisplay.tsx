@@ -25,11 +25,17 @@ class VoteDisplay extends Component<VoteDisplayProps, VoteDisplayState> {
     this.setState({ vote });
   }
 
-  async componentDidUpdate() {
+  async componentDidUpdate(prevProps) {
     const { votingContainer: vc, companyId, userId, voteType } = this.props;
 
-    const vote = await vc.findAndRetrieveVote(companyId, userId, voteType);
-    this.setState({ vote });
+    if (
+      companyId != prevProps.companyId ||
+      userId != prevProps.userId ||
+      voteType != prevProps.voteType
+    ) {
+      const vote = await vc.findAndRetrieveVote(companyId, userId, voteType);
+      this.setState({ vote });
+    }
   }
 
   render() {

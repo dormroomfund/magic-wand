@@ -11,6 +11,7 @@ import UserContainer from '../../containers/UserContainer';
 import CompanyRetriever from './CompanyRetriever';
 import Alert from 'react-bootstrap/lib/Alert';
 import VoteDisplay from './VoteDisplay';
+import Button from 'react-bootstrap/lib/Button';
 
 export interface VotingWorkflowProps {
   companyId: number;
@@ -74,7 +75,14 @@ export default class VotingWorkflow extends Component<
               ) : (
                 <>
                   <Alert variant="success">
-                    You have already cast a prevote.
+                    You have already cast a prevote. <br />
+                    {vc.company(companyId).company_links['prevote'] && (
+                      <Button
+                        href={vc.company(companyId).company_links['prevote']}
+                      >
+                        Open Prevote Discussion Document
+                      </Button>
+                    )}
                   </Alert>
                   <VoteDisplay
                     companyId={companyId}
