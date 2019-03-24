@@ -54,6 +54,9 @@ class VoteDisplay extends Component<VoteDisplayProps, VoteDisplayState> {
           <Card.Text>
             <strong>Fit:</strong> {vote.team_score}
           </Card.Text>
+          <Card.Text>
+            <strong>Overall Vote:</strong> {vote.overall_vote}
+          </Card.Text>
         </Card.Body>
       </Card>
     );

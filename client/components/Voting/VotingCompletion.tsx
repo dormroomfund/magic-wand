@@ -9,6 +9,7 @@ import VotingContainer, {
 import { VoteType } from '../../schemas/vote';
 import CompanyRetriever from './CompanyRetriever';
 import VotingCompletionTable from './VotingCompletionTable';
+import { Position } from '../../schemas/user';
 
 export interface VotingCompletionProps {
   companyId: number;
@@ -56,7 +57,7 @@ export default ({ companyId }: VotingCompletionProps) => (
           ) : (
             (vc.votingStatus(companyId, uc.user.id) !==
               VotingStatus.AwaitingFinalization ||
-              uc.user.partner_position !== 'Managing Partner') && (
+              uc.user.partner_position !== Position.ManagingPartner) && (
               <Button
                 onClick={() => vc.finalizeVotes(companyId)}
                 disabled={

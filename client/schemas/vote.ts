@@ -16,10 +16,10 @@ export interface Vote {
 }
 
 export enum OverallVote {
-  DontFund = 'dont fund',
-
-  Fund = 'fund',
+  DontFund = "Don't Fund",
+  Fund = 'Fund',
 }
+
 /**
  * Describes JSON validation schema for each model.
  */
