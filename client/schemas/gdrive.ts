@@ -11,7 +11,6 @@ export enum DocumentTypes {
 }
 
 export interface GoogleDriveDocument {
-  id?: number;
   document_type: DocumentTypes;
   company_id: number;
 }
@@ -21,7 +20,6 @@ export const gDriveSchema = {
   required: ['document_type', 'company_id'],
 
   properties: {
-    id: { type: 'integer' },
     document_type: {
       type: 'string',
       enum: Object.values(DocumentTypes),

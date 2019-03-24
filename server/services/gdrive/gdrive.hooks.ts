@@ -10,8 +10,8 @@ export default {
     find: [],
     get: [],
     create: [validateSchema(gDriveSchema, <AjvOrNewable>ajv)], // TODO: Validate Permissions
-    update: [],
-    patch: [],
+    update: [validateSchema(gDriveSchema, <AjvOrNewable>ajv)],
+    patch: [validateSchema(gDriveSchema, <AjvOrNewable>ajv)],
     remove: [],
   },
 

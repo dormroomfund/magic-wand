@@ -98,14 +98,16 @@ class GDriveService {
           }
 
           const docLink = `https://docs.google.com/document/d/${res.data.id}`;
-          company.company_links.push({ name: docType, url: docLink });
+
+          // Update company in case of stale data.
+          const company = await this.app.service('api/companies').get(data.company_id);
+          const newLinks = [...company.company_links, { name: docType, url: docLink }];
 
           /*
            * Update the company links.
            */
-
           await this.app.service('api/companies').patch(data.company_id, {
-            company_links: company.company_links,
+            company_links: newLinks,
           });
         }
       );
