@@ -19,6 +19,7 @@ class CompaniesWebhookService {
       team: answers[12].choice.label,
       status: Status.Applied,
       contact_email: answers[13].email,
+      typeform_data: data,
     };
 
     return await this.app.service('api/companies').create(company);

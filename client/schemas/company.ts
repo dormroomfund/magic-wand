@@ -56,13 +56,17 @@ export interface Company {
     name?: string;
     url?: string;
   }[];
+  created_at?: string;
+  updated_at?: string;
+
+  // Non-mutable fields
+  typeform_data?: object;
+
+  // Server-generated fields
   partnerVotes?: {
-    /* Note that is not db level but from a feathers hook */
     final: Array<PartnerVoteObj>;
     prevote: Array<PartnerVoteObj>;
   };
-  created_at?: string;
-  updated_at?: string;
 }
 
 // IMPORTANT: This needs to be kept in sync with the Typescript interface above.
