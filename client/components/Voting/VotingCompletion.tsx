@@ -55,9 +55,9 @@ export default ({ companyId }: VotingCompletionProps) => (
               />
             </>
           ) : (
-            (vc.votingStatus(companyId, uc.user.id) !==
+            (vc.votingStatus(companyId, uc.user.id) ===
               VotingStatus.AwaitingFinalization ||
-              uc.user.partner_position !== Position.ManagingPartner) && (
+              uc.user.partner_position === Position.ManagingPartner) && (
               <Button
                 onClick={() => vc.finalizeVotes(companyId)}
                 disabled={
