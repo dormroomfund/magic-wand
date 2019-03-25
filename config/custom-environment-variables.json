@@ -21,7 +21,7 @@
     "prevoteFolderIds": {
       "Philadelphia": "PHILADELPHIA_PREVOTE_FOLDER_ID",
       "Boston": "BOSTON_PREVOTE_FOLDER_ID",
-      "New York": "NEW_YORK_PREVOTE_FOLDER_ID",
+      "New York City": "NEW_YORK_PREVOTE_FOLDER_ID",
       "San Francisco": "SAN_FRANCISCO_PREVOTE_FOLDER_ID"
     },
     "snapshotFolderIds": {
