@@ -15,6 +15,7 @@ import { google } from 'googleapis';
 import App from '../../../client/schemas/app';
 import { DocumentTypes } from '../../../client/schemas/gdrive';
 import hooks from './gdrive.hooks';
+import logger from '../../logger';
 
 class GDriveService {
   private app!: App;
@@ -27,7 +28,7 @@ class GDriveService {
     /*
      * Get the documents we need to create
      */
-    let toCreate;
+    let toCreate: Array<DocumentTypes>;
     if (data.document_type === DocumentTypes.Both) {
       toCreate = [DocumentTypes.Prevote, DocumentTypes.Snapshot];
     } else if (data.document_type === DocumentTypes.Snapshot) {
@@ -65,7 +66,10 @@ class GDriveService {
     );
 
     jwtClient.authorize((err) => {
-      if (err) throw new errors.BadRequest('Google Drive Error');
+      if (err) {
+        logger.error('error while authorizing google drive client', err);
+        throw new errors.BadRequest('Google Drive Authentication Error');
+      }
     });
 
     const drive = google.drive({
@@ -74,10 +78,10 @@ class GDriveService {
     });
 
     toCreate.forEach(async (docType) => {
-      /*
-       * Get the relevant folder we want to store this document in
-       */
-      const folder = config.googleDrive[docType][company.team];
+      /* Get the relevant folder we want to store this document in. */
+      const folder = config.get(
+        `googleDrive.${docType}FolderIds.${company.team}`
+      );
 
       const documentName = `[${data.company_id}] ${
         company.name
@@ -94,18 +98,22 @@ class GDriveService {
         },
         async (err, res) => {
           if (err) {
-            throw new errors.BadRequest('Google Drive Error');
+            logger.error('error while creating file', err);
+            throw new errors.BadRequest('Google Drive File Error');
           }
 
           const docLink = `https://docs.google.com/document/d/${res.data.id}`;
 
           // Update company in case of stale data.
-          const company = await this.app.service('api/companies').get(data.company_id);
-          const newLinks = [...company.company_links, { name: docType, url: docLink }];
+          const company = await this.app
+            .service('api/companies')
+            .get(data.company_id);
+          const newLinks = [
+            ...company.company_links,
+            { name: docType, url: docLink },
+          ];
 
-          /*
-           * Update the company links.
-           */
+          /* Update the company links. */
           await this.app.service('api/companies').patch(data.company_id, {
             company_links: newLinks,
           });
