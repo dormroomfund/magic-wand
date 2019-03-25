@@ -77,7 +77,9 @@ class GDriveService {
       /*
        * Get the relevant folder we want to store this document in
        */
+      console.log(docType)
       const folder = config.googleDrive[docType][company.team];
+      console.log(folder)
 
       const documentName = `[${data.company_id}] ${
         company.name

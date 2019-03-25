@@ -1,4 +1,5 @@
 import App from '../../../client/schemas/app';
+import { refsMap, getAnswerValueFromRef } from '../../../client/lib/typeform';
 import { Company, Status } from '../../../client/schemas/company';
 
 class CompaniesWebhookService {
@@ -10,15 +11,15 @@ class CompaniesWebhookService {
 
   async create(data) {
     // TODO: Authenticate against Typeform.
+    const payload = data.form_response;
 
-    const answers = data.form_response.answers;
     const company: Company = {
-      name: answers[1].text,
-      description: answers[6].text,
-      industries: [answers[7].choice.label],
-      team: answers[12].choice.label,
+      name: getAnswerValueFromRef(payload, refsMap.name),
+      description:getAnswerValueFromRef(payload, refsMap.description),
+      industries: [getAnswerValueFromRef(payload, refsMap.industries)],
+      team: getAnswerValueFromRef(payload, refsMap.team),
       status: Status.Applied,
-      contact_email: answers[13].email,
+      contact_email: getAnswerValueFromRef(payload, refsMap.email),
       typeform_data: data,
     };
 
