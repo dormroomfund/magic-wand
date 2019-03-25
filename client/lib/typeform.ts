@@ -1,5 +1,6 @@
 // See https://github.com/jeremenichelli/typeform-payload-helpers
 
+// You can get these values by simulating a webhook request through the typeform interface
 export const refsMap = {
   founder_or_no: 'lY0j8jKVjWG2',
   name: 'f1f16b3a-a7f7-47c5-8aa9-f5943bc702a3',
@@ -22,7 +23,7 @@ export const refsMap = {
   race_or_ethnicity: '5658b90e-61c8-4f5c-bfd1-e9dd4f68e51e',
 };
 
-export const getAnswerValueFromRef = (payload, ref) => {
+export const getAnswerValueFromRef = (payload, ref: string) => {
   const id = payload.definition.fields.find((field) => field.ref === ref).id;
 
   const answer = payload.answers.find(
