@@ -76,9 +76,17 @@ export default class VotingWorkflow extends Component<
                 <>
                   <Alert variant="success">
                     You have already cast a prevote. <br />
-                    {vc.company(companyId).company_links['prevote'] && (
+                    {vc
+                      .company(companyId)
+                      .company_links.find((x) => x.name === 'prevote') && (
                       <Button
-                        href={vc.company(companyId).company_links['prevote']}
+                        as="a"
+                        href={
+                          vc
+                            .company(companyId)
+                            .company_links.find((x) => x.name === 'prevote').url
+                        }
+                        target="_blank"
                       >
                         Open Prevote Discussion Document
                       </Button>
