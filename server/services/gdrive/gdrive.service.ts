@@ -16,6 +16,7 @@ import App from '../../../client/schemas/app';
 import { DocumentTypes } from '../../../client/schemas/gdrive';
 import hooks from './gdrive.hooks';
 import logger from '../../logger';
+import { Company } from '../../../client/schemas/company';
 
 class GDriveService {
   private app!: App;
@@ -37,18 +38,14 @@ class GDriveService {
       toCreate = [DocumentTypes.Prevote];
     }
 
-    let company;
+    let company: Company;
     try {
       company = await this.app.service('api/companies').get(data.company_id);
 
-      /*
-       * Check if we already created any of these documents.
-       */
-      toCreate.forEach((doc) => {
-        if (company.company_links[doc]) {
-          toCreate.shift();
-        }
-      });
+      /* Check if we already created any of these documents. */
+      toCreate = toCreate.filter(
+        (doc) => !company.company_links || !company.company_links[doc]
+      );
 
       if (toCreate.length === 0) return;
     } catch (e) {
