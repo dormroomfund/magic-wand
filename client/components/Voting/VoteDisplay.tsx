@@ -63,6 +63,9 @@ class VoteDisplay extends Component<VoteDisplayProps, VoteDisplayState> {
           <Card.Text>
             <strong>Overall Vote:</strong> {vote.overall_vote}
           </Card.Text>
+          <Card.Text>
+            <strong>Comment:</strong> {vote.comment}
+          </Card.Text>
         </Card.Body>
       </Card>
     );
