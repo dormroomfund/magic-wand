@@ -42,6 +42,11 @@ export interface PartnerVoteObj {
   name: string;
 }
 
+export interface CompanyLink {
+  name?: string;
+  url?: string;
+}
+
 export interface Company {
   id?: number;
   name: string;
@@ -52,10 +57,7 @@ export interface Company {
   tags?: string[];
   status: Status;
   contact_email: string;
-  company_links?: {
-    name?: string;
-    url?: string;
-  }[];
+  company_links?: CompanyLink[];
   created_at?: string;
   updated_at?: string;
 

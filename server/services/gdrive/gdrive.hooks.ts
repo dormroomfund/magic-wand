@@ -1,8 +1,26 @@
 import Ajv from 'ajv';
-import { gDriveSchema } from '../../../client/schemas/gdrive';
-import {AjvOrNewable, validateSchema} from "feathers-hooks-common";
+import {
+  gDriveSchema,
+  GoogleDriveDocument,
+} from '../../../client/schemas/gdrive';
+import { AjvOrNewable, validateSchema } from 'feathers-hooks-common';
+import { HookContext } from '@feathersjs/feathers';
 
 const ajv = new Ajv({ allErrors: true, $data: true });
+
+const addLinkToCompany = async (ctx: HookContext<GoogleDriveDocument>) => {
+  const { document_id, document_type, company_id } = ctx.result;
+
+  const company = await ctx.app.service('api/companies').get(company_id);
+  const docLink = `https://docs.google.com/document/d/${document_id}`;
+
+  await ctx.app.service('api/companies').patch(company_id, {
+    company_links: [
+      ...company.company_links,
+      { name: document_type, url: docLink },
+    ],
+  });
+};
 
 export default {
   before: {
@@ -19,7 +37,7 @@ export default {
     all: [],
     find: [],
     get: [],
-    create: [],
+    create: [addLinkToCompany],
     update: [],
     patch: [],
     remove: [],
