@@ -1,18 +1,14 @@
-/*
- * Describes JSON validation schema for the gDriveService.
- */
-
 export enum DocumentTypes {
   Prevote = 'prevote',
-
   Snapshot = 'snapshot',
-
-  Both = 'both',
 }
 
+/* Describes JSON validation schema for the gDriveService. */
 export interface GoogleDriveDocument {
   document_type: DocumentTypes;
   company_id: number;
+
+  document_id?: string;
 }
 
 export const gDriveSchema = {

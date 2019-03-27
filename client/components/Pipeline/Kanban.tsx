@@ -3,7 +3,12 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import client from '../../lib/client';
 import transformData from '../../lib/pipelineUtils';
-import {  Status, archivedStates, companySchema, Company } from '../../schemas/company';
+import {
+  Status,
+  archivedStates,
+  companySchema,
+  Company,
+} from '../../schemas/company';
 import Column from './Column';
 import CustomDropdown from './Dropdown';
 import GroupButton from './GroupButton';
@@ -61,7 +66,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
       const res = (await client.service('api/companies').find({
         query: {
           status: {
-            $nin: archivedStates
+            $nin: archivedStates,
           },
         },
       })) as Paginated<Company>;
@@ -157,20 +162,6 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
       console.error(e);
     }
 
-    /*
-     * Generate the snapshot and prevote documents.
-     */
-    if (newForeign.id === Status.Pitching) {
-      try {
-        client.service('api/gdrive').create({
-          document_type: DocumentTypes.Both,
-          company_id: draggedObj.id,
-        })
-      } catch(e) {
-        console.log(e);
-      }
-    }
-
     const newState = {
       columns: {
         ...this.state.columns,
@@ -223,7 +214,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
   render() {
     return (
       <div>
-        <h2>{this.props.user.first_name + " " + this.props.user.last_name}</h2>
+        <h2>{this.props.user.first_name + ' ' + this.props.user.last_name}</h2>
         <div className="pipelineButtons">
           <CustomDropdown partners={this.state.partnerNames} />
           <IndividualButton
@@ -251,7 +242,15 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
                   );
                 })}
                 <div className="addCompanyDiv">
-                  <img onClick={() => window.open("https://dormroomfund.typeform.com/to/H90ZNU", "_blank")} src="/static/Add_Company_Button.png"/>
+                  <img
+                    onClick={() =>
+                      window.open(
+                        'https://dormroomfund.typeform.com/to/H90ZNU',
+                        '_blank'
+                      )
+                    }
+                    src="/static/Add_Company_Button.png"
+                  />
                 </div>
               </AppContainer>
             </DragDropContext>
