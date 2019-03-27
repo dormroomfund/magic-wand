@@ -3,7 +3,7 @@
  * snapshots or prevote documents.
  *
  * {
- *   document_type: 'prevote' or 'snapshot'
+ *   document_type: 'prevote' or 'snapshot' or 'both'
  *   company_id:
  * }
  *
@@ -12,14 +12,11 @@
 import errors from '@feathersjs/errors';
 import config from 'config';
 import { google } from 'googleapis';
-import util from 'util';
 import App from '../../../client/schemas/app';
-import { Company } from '../../../client/schemas/company';
-import { GoogleDriveDocument } from '../../../client/schemas/gdrive';
-import logger from '../../logger';
+import { DocumentTypes } from '../../../client/schemas/gdrive';
 import hooks from './gdrive.hooks';
-
-const cfg: Record<string, string> = config.get('googleDrive');
+import logger from '../../logger';
+import { Company } from '../../../client/schemas/company';
 
 class GDriveService {
   private app!: App;
@@ -28,80 +25,100 @@ class GDriveService {
     this.app = app;
   }
 
-  private async getDriveClient() {
-    /* Create and authenticate the jwt client. */
+  async create(data) {
+    /*
+     * Get the documents we need to create
+     */
+    let toCreate: Array<DocumentTypes>;
+    if (data.document_type === DocumentTypes.Both) {
+      toCreate = [DocumentTypes.Prevote, DocumentTypes.Snapshot];
+    } else if (data.document_type === DocumentTypes.Snapshot) {
+      toCreate = [DocumentTypes.Snapshot];
+    } else {
+      toCreate = [DocumentTypes.Prevote];
+    }
+
+    let company: Company;
+    try {
+      company = await this.app.service('api/companies').get(data.company_id);
+
+      /* Check if we already created any of these documents. */
+      toCreate = toCreate.filter(
+        (doc) => !company.company_links || !company.company_links[doc]
+      );
+
+      if (toCreate.length === 0) return;
+    } catch (e) {
+      throw new errors.BadRequest('Invalid Company Id');
+    }
+
+    /*
+     * Create and authenticate the jwt client.
+     */
     const jwtClient = new google.auth.JWT(
-      cfg.googleServiceEmail,
+      config.googleDrive.googleServiceEmail,
       null,
-      cfg.googleServiceKey,
+      config.googleDrive.googleServiceKey,
       ['https://www.googleapis.com/auth/drive']
     );
 
-    try {
-      await jwtClient.authorize();
-    } catch (e) {
-      logger.error('error while authorizing google drive client', e);
-      throw new errors.GeneralError('Google Drive Authentication Error');
-    }
+    jwtClient.authorize((err) => {
+      if (err) {
+        logger.error('error while authorizing google drive client', err);
+        throw new errors.BadRequest('Google Drive Authentication Error');
+      }
+    });
 
     const drive = google.drive({
       version: 'v3',
       auth: jwtClient,
     });
 
-    return drive;
-  }
+    toCreate.forEach(async (docType) => {
+      /* Get the relevant folder we want to store this document in. */
+      const folder = config.get(
+        `googleDrive.${docType}FolderIds.${company.team}`
+      );
 
-  async create(data: GoogleDriveDocument) {
-    const { document_type, company_id } = data;
-    let company: Company;
-    try {
-      company = await this.app.service('api/companies').get(company_id);
-    } catch (e) {
-      if (e.className !== 'not-found') {
-        throw new errors.BadRequest(`company with id ${company_id} not found`);
-      }
-      throw e;
-    }
+      const documentName = `[${data.company_id}] ${
+        company.name
+      } ${docType.toUpperCase()}`;
 
-    if (company.company_links.some(({ name }) => name === document_type)) {
-      return data;
-    }
-    if (!company.team) {
-      throw new errors.Unprocessable('company has no assigned team');
-    }
-
-    /* Get the relevant folder we want to store this document in. */
-    const folder = config.get(
-      `googleDrive.${document_type}FolderIds.${company.team}`
-    );
-
-    const documentName = `[${company_id}] ${
-      company.name
-    } ${document_type.toUpperCase()}`;
-
-    const drive = await this.getDriveClient();
-    const createDriveFile = util.promisify(drive.files.create);
-
-    let res;
-    try {
-      res = await createDriveFile({
-        supportsTeamDrives: true,
-        resource: {
-          name: documentName,
-          mimeType: 'application/vnd.google-apps.document',
-          parents: [folder],
+      await drive.files.create(
+        {
+          supportsTeamDrives: true,
+          resource: {
+            name: documentName,
+            mimeType: 'application/vnd.google-apps.document',
+            parents: [folder],
+          },
         },
-      });
-    } catch (e) {
-      logger.error('error while creating file', e);
-      throw new errors.BadRequest('Google Drive File Error');
-    }
+        async (err, res) => {
+          if (err) {
+            logger.error('error while creating file', err);
+            throw new errors.BadRequest('Google Drive File Error');
+          }
 
-    return {
-      ...data,
-      document_id: res.data.id,
-    };
+          const docLink = `https://docs.google.com/document/d/${res.data.id}`;
+
+          // Update company in case of stale data.
+          const company = await this.app
+            .service('api/companies')
+            .get(data.company_id);
+          const newLinks = [
+            ...company.company_links,
+            { name: docType, url: docLink },
+          ];
+
+          /* Update the company links. */
+          await this.app.service('api/companies').patch(data.company_id, {
+            company_links: newLinks,
+          });
+        }
+      );
+    });
+
+    return data;
   }
 }
 
