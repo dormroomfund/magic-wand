@@ -4,7 +4,7 @@ import expressWinston from 'express-winston';
 import t from 'tcomb';
 import { loggerOptions } from '../logger';
 
-const secret = config.get<string>('authentication.secret');
+const secret = config.get('authentication.secret');
 t.String(secret);
 
 export default (app) => {

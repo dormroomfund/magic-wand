@@ -12,7 +12,7 @@ const errorStackTracerFormat = format((info) => {
 });
 
 export const loggerOptions = {
-  level: config.get<string>('loglevel'),
+  level: config.get('loglevel'),
   format: format.combine(
     format.colorize(),
     format.timestamp({ format: 'HH:mm:ss' }),

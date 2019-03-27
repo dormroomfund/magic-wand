@@ -1,14 +1,14 @@
 import authentication, { hooks as authHooks } from '@feathersjs/authentication';
 import config from 'config';
 
-const strategies = config.get<string[]>('authentication.strategies');
+const cfg = config.get('authentication');
 
 export default {
   before: {
     all: [],
     find: [],
     get: [],
-    create: [authentication.hooks.authenticate(strategies)],
+    create: [authentication.hooks.authenticate(cfg.strategies)],
     update: [],
     patch: [],
     remove: [authentication.hooks.authenticate('jwt')],
