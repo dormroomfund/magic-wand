@@ -1,6 +1,12 @@
 import Ajv from 'ajv';
-import { alterItems, fastJoin, keep } from 'feathers-hooks-common';
-import { companySchema } from '../../../client/schemas/company';
+import { alterItems, fastJoin, keep, iff } from 'feathers-hooks-common';
+import {
+  companySchema,
+  Company,
+  Status,
+} from '../../../client/schemas/company';
+import { HookContext } from '@feathersjs/feathers';
+import { DocumentTypes } from '../../../client/schemas/gdrive';
 
 const ajv = new Ajv({ allErrors: true, $data: true });
 
@@ -71,6 +77,23 @@ const pointPartners = {
     },
   },
 };
+
+const isPitching = async (ctx: HookContext<Company>) =>
+  ctx.result.status === Status.Pitching;
+
+const generateGoogleDriveDocuments = async (ctx: HookContext<Company>) => {
+  await Promise.all([
+    ctx.app.service('api/gdrive').create({
+      document_type: DocumentTypes.Prevote,
+      company_id: ctx.result.id,
+    }),
+    ctx.app.service('api/gdrive').create({
+      document_type: DocumentTypes.Snapshot,
+      company_id: ctx.result.id,
+    }),
+  ]);
+};
+
 export default {
   before: {
     all: [],
@@ -99,9 +122,9 @@ export default {
     all: [fastJoin(votedPartners), fastJoin(pointPartners)],
     find: [],
     get: [],
-    create: [],
-    update: [],
-    patch: [],
+    create: [iff(isPitching, generateGoogleDriveDocuments)],
+    update: [iff(isPitching, generateGoogleDriveDocuments)],
+    patch: [iff(isPitching, generateGoogleDriveDocuments)],
     remove: [],
   },
 
