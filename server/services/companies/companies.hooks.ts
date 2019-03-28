@@ -123,8 +123,8 @@ export default {
     find: [],
     get: [],
     create: [iff(isPitching, generateGoogleDriveDocuments)],
-    update: [],
-    patch: [],
+    update: [iff(isPitching, generateGoogleDriveDocuments)],
+    patch: [iff(isPitching, generateGoogleDriveDocuments)],
     remove: [],
   },
 
