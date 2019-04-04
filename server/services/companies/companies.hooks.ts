@@ -30,14 +30,14 @@ const votedPartners = {
       const associatedVotes = (await votes.find({
         query: {
           company_id: company.id,
-          $eager: 'voted_users',
+          $eager: 'voter',
         },
       })).data;
 
       const partnerVotes = { prevote: [], final: [] };
       await associatedVotes.forEach((vote) => {
         const partnerObj = {
-          name: `${vote.voted_users.first_name} ${vote.voted_users.last_name}`,
+          name: `${vote.voter.first_name} ${vote.voter.last_name}`,
           partner_id: vote.partner_id,
           vote_id: vote.id,
         };

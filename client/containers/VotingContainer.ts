@@ -149,6 +149,8 @@ export default class VotingContainer extends Container<VotingContainerState> {
       },
     }));
 
+    this.retrieveCompany(companyId);
+
     alert(
       `This company was ${res.status}\n` +
         `Market Score: ${res.marketScoreAvg}\n` +
@@ -199,7 +201,14 @@ export default class VotingContainer extends Container<VotingContainerState> {
   }
 
   async retrieveVote(voteId: number) {
-    const vote = await client.service('api/votes').get(voteId);
+    const votes = (await client.service('api/votes').find({
+      query: {
+        id: voteId,
+        $eager: 'voter',
+      },
+    })) as Paginated<Vote>;
+    const vote = votes.data[0];
+
     this.setState((state) => ({
       votes: {
         ...state.votes,

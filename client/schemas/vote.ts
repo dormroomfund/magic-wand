@@ -1,3 +1,5 @@
+import { User } from './user';
+
 export enum VoteType {
   Prevote = 'prevote',
   Final = 'final',
@@ -13,6 +15,9 @@ export interface Vote {
   fit_score: number;
   overall_vote: string;
   comment?: string;
+
+  // Query-only Fields
+  voter: Pick<User, 'first_name' | 'last_name'>;
 }
 
 export enum OverallVote {
