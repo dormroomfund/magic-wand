@@ -66,6 +66,12 @@ lint-fix:
 jest:
 	$(NPX) jest
 
+# Opens Cypress
+cypress\:run:
+	$(NPX) cypress run
+cypress\:open:
+	$(NPX) cypress open
+
 # Runs the full test suite.
 test: lint jest
 
