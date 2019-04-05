@@ -1,56 +1,56 @@
 //SCSS Color Style Guide for DRF
 
 //Main Colors --------------------------------------------------------------------------------------
-$DRFBlue: #0702D1;
-$DRFRed: #DA1301;
-$DRFYellow: #FEAB06;
-$DRFGreen: #1DD79D;
+$DRFBlue: #0702d1;
+$DRFRed: #da1301;
+$DRFYellow: #feab06;
+$DRFGreen: #1dd79d;
 
 //Neutral Tones --------------------------------------------------------------------------------------
-$N0: #FFFFFF;
-$N3: #F7F7F8; //used for white text on a black background or gray backgrounds
-$N5: #F2F2F4; //off-white background
-$N10: #DADDE0;
-$N30: #A5ACB1; //used as gray text on a black background
-$N40: #858E94; //used when we need a gray background
-$N50: #6D757E; //used as gray text on a white background
+$N0: #ffffff;
+$N3: #f7f7f8; //used for white text on a black background or gray backgrounds
+$N5: #f2f2f4; //off-white background
+$N10: #dadde0;
+$N30: #a5acb1; //used as gray text on a black background
+$N40: #858e94; //used when we need a gray background
+$N50: #6d757e; //used as gray text on a white background
 $N80: #313543;
-$N90: #1B202D; //used for black text on a white background
-$N100: #050B1A;
+$N90: #1b202d; //used for black text on a white background
+$N100: #050b1a;
 
 //Feedback Colors --------------------------------------------------------------------------------------
 //We use these 4 colors to give the user knowledge of the range of possible actions and their results.
 //They should be used only as this and nowhere else.
 
-$informational: #1C37C5; //a shade of blue used to indicate hyperlinks + positive feedback
-$error: #E03229; //a shade of red used to indicate failure
-$warning: #F6B610; //a shade of yellow used for feedback text
-$success: #12A577; //a shade of green used to indicate success
+$informational: #1c37c5; //a shade of blue used to indicate hyperlinks + positive feedback
+$error: #e03229; //a shade of red used to indicate failure
+$warning: #f6b610; //a shade of yellow used for feedback text
+$success: #12a577; //a shade of green used to indicate success
 
 //Blues--------------------------------------------------------------------------------------
-$B90: #0503A6;
-$B70: #0702D1; //same as $DRFBlue
-$B50: #040BEC;
-$B40: #2439F5;
-$B5: #D8DDFD;
+$B90: #0503a6;
+$B70: #0702d1; //same as $DRFBlue
+$B50: #040bec;
+$B40: #2439f5;
+$B5: #d8ddfd;
 
 //Reds--------------------------------------------------------------------------------------
-$R90: #B80F00;
-$R70: #DA1301; //same as $DRFRed
-$R50: #F11809;
-$R40: #F24E45;
-$R5: #FBDDDA;
+$R90: #b80f00;
+$R70: #da1301; //same as $DRFRed
+$R50: #f11809;
+$R40: #f24e45;
+$R5: #fbddda;
 
 //Yellows--------------------------------------------------------------------------------------
-$Y90: #EB9C00;
-$Y70: #FEAB06; //same as $DRFYellow
-$Y50: #FEC025;
-$Y40: #FAD552;
-$Y5: #FEF8D8;
+$Y90: #eb9c00;
+$Y70: #feab06; //same as $DRFYellow
+$Y50: #fec025;
+$Y40: #fad552;
+$Y5: #fef8d8;
 
 //Greens--------------------------------------------------------------------------------------
-$Y90: #15B784;
-$Y70: #1DD79D; //same as $DRFGreen
-$Y50: #35E3AC;
-$Y40: #70E6C0;
-$G5: #DAFBF1;
+$Y90: #15b784;
+$Y70: #1dd79d; //same as $DRFGreen
+$Y50: #35e3ac;
+$Y40: #70e6c0;
+$G5: #dafbf1;

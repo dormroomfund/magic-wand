@@ -59,6 +59,9 @@ typecheck:
 type-coverage:
 	$(NPX) type-coverage --strict --at-least 85
 
+# Formats code to style and lint specifications.
+fmt: lint-fix prettier
+
 # Runs prettier on the codebase.
 prettier:
 	$(NPX) prettier --write \

@@ -7,15 +7,15 @@
 
 // Color system
 
-$white: #FFFFFF !default;
-$gray-100: #F8F9FA !default;
-$gray-200: #E9ECEF !default;
-$gray-300: #DEE2E6 !default;
-$gray-400: #CED4DA !default;
-$gray-500: #ADB5BD !default;
-$gray-600: #6C757D !default;
+$white: #ffffff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
 $gray-700: #495057 !default;
-$gray-800: #343A40 !default;
+$gray-800: #343a40 !default;
 $gray-900: #212529 !default;
 $black: #000000 !default;
 
@@ -36,16 +36,16 @@ $grays: map-merge(
   $grays
 );
 
-$blue: #007BFF !default;
-$indigo: #6610F2 !default;
-$purple: #6F42C1 !default;
-$pink: #E83E8C !default;
-$red: #DC3545 !default;
-$orange: #FD7E14 !default;
-$yellow: #FFC107 !default;
-$green: #28A745 !default;
-$teal: #20C997 !default;
-$cyan: #17A2B8 !default;
+$blue: #007bff !default;
+$indigo: #6610f2 !default;
+$purple: #6f42c1 !default;
+$pink: #e83e8c !default;
+$red: #dc3545 !default;
+$orange: #fd7e14 !default;
+$yellow: #ffc107 !default;
+$green: #28a745 !default;
+$teal: #20c997 !default;
+$cyan: #17a2b8 !default;
 
 $colors: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
@@ -338,7 +338,7 @@ $nested-kbd-font-weight: $font-weight-bold !default;
 
 $list-inline-padding: 0.5rem !default;
 
-$mark-bg: #FCF8E3 !default;
+$mark-bg: #fcf8e3 !default;
 
 $hr-margin-y: $spacer !default;
 
@@ -591,7 +591,7 @@ $custom-switch-width: $custom-control-indicator-size * 1.75 !default;
 $custom-switch-indicator-border-radius: $custom-control-indicator-size / 2 !default;
 $custom-switch-indicator-size: calc(
   #{$custom-control-indicator-size} - #{$custom-control-indicator-border-width *
-  4}
+    4}
 ) !default;
 
 $custom-select-padding-y: $input-padding-y !default;
@@ -618,7 +618,7 @@ $custom-select-background: $custom-select-indicator no-repeat right
 
 $custom-select-feedback-icon-padding-right: calc(
   (1em + #{2 * $custom-select-padding-y}) * 3 / 4 + #{$custom-select-padding-x +
-  $custom-select-indicator-padding}
+    $custom-select-indicator-padding}
 ) !default;
 $custom-select-feedback-icon-position: center right
   ($custom-select-padding-x + $custom-select-indicator-padding) !default;
