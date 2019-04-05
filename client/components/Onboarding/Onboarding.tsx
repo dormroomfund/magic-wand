@@ -12,20 +12,18 @@ const onboardingSchema = makeRequired(
   ['partner_team', 'partner_position']
 );
 
-export default () => {
-  return (
-    <div>
-      <h1>Before we begin...</h1>
-      <p>Help us sort you into the right place for Magic Wand.</p>
-      <Subscribe to={[UserContainer]}>
-        {(uc: UserContainer) => (
-          <Form
-            schema={onboardingSchema}
-            formData={uc.user}
-            onSubmit={({ formData }) => uc.updateUser(formData)}
-          />
-        )}
-      </Subscribe>
-    </div>
-  );
-};
+export default () => (
+  <div>
+    <h1>Before we begin...</h1>
+    <p>Help us sort you into the right place for Magic Wand.</p>
+    <Subscribe to={[UserContainer]}>
+      {(uc: UserContainer) => (
+        <Form
+          schema={onboardingSchema}
+          formData={uc.user}
+          onSubmit={({ formData }) => uc.updateUser(formData)}
+        />
+      )}
+    </Subscribe>
+  </div>
+);

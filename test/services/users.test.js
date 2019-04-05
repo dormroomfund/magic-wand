@@ -1,8 +1,8 @@
-const app = require('../../server/app');
+import { service as _service } from '../../server/app';
 
 describe("'users' service", () => {
   it('registered the service', () => {
-    const service = app.service('users');
+    const service = _service('users');
     expect(service).toBeTruthy();
   });
 });

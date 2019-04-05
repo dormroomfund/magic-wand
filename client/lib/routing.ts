@@ -1,7 +1,7 @@
 import { ServerResponse } from 'http';
 import Router from 'next/router';
-import { getUser } from './authentication';
 import { NextContext } from 'next';
+import { getUser } from './authentication';
 
 // https://medium.com/@positivecarlos/authentication-on-universal-react-with-next-js-b441ef458046
 export const redirect = (target: string, res: ServerResponse) => {

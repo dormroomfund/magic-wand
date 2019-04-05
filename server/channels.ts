@@ -27,7 +27,5 @@ export default function(app: App) {
   });
 
   // A global publisher that sends all events to all authenticated clients
-  app.publish((data, context) => {
-    return app.channel('authenticated');
-  });
+  app.publish((data, context) => app.channel('authenticated'));
 }

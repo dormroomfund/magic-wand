@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import styled from 'styled-components';
+import { Paginated } from '@feathersjs/feathers';
 import client from '../../lib/client';
 import transformData from '../../lib/pipelineUtils';
 import {
@@ -14,7 +15,7 @@ import CustomDropdown from './Dropdown';
 import GroupButton from './GroupButton';
 import IndividualButton from './IndividualButton';
 import { DocumentTypes } from '../../schemas/gdrive';
-import { Paginated } from '@feathersjs/feathers';
+import { User } from '../../schemas/user';
 
 const companyPartialSchema = {
   type: companySchema.type,
@@ -40,15 +41,14 @@ const AppContainer = styled.div`
 `;
 
 interface KanbanProps {
-  user: any; // Defines the User object
+  user: User;
 }
 
 interface KanbanState {
   isLoading: boolean /* True if we are still grabbing data from api */;
-  columns: Object;
-  columnOrder: Array<string>;
+  columns: Record<string, any>;
+  columnOrder: string[];
   partnerNames: Set<string>;
-  isVisible: boolean /* True if the "Add" company modal is open */;
 }
 
 export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
@@ -57,7 +57,6 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
     columns: {},
     columnOrder: [],
     partnerNames: new Set([]),
-    isVisible: false,
   };
 
   async componentDidMount() {
@@ -173,48 +172,10 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
     this.setState(newState);
   };
 
-  showModal = () => {
-    this.setState({
-      isVisible: true,
-    });
-  };
-
-  handleClose = () => {
-    this.setState({
-      isVisible: false,
-    });
-  };
-
-  submitModal = async (data) => {
-    const status = data.formData.status;
-    try {
-      const response = await client
-        .service('api/companies')
-        .create(data.formData as Company);
-
-      const newCompany = {
-        id: response.id,
-        name: response.name,
-        description: response.description,
-        pointPartnersNames: new Set([]),
-      };
-
-      const newColumns = this.state.columns;
-      newColumns[status].companies.push(newCompany);
-
-      this.setState({
-        isVisible: false,
-        columns: newColumns,
-      });
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
   render() {
     return (
       <div>
-        <h2>{this.props.user.first_name + ' ' + this.props.user.last_name}</h2>
+        <h2>{`${this.props.user.first_name} ${this.props.user.last_name}`}</h2>
         <div className="pipelineButtons">
           <CustomDropdown partners={this.state.partnerNames} />
           <IndividualButton
@@ -242,15 +203,13 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
                   );
                 })}
                 <div className="addCompanyDiv">
-                  <img
-                    onClick={() =>
-                      window.open(
-                        'https://dormroomfund.typeform.com/to/H90ZNU',
-                        '_blank'
-                      )
-                    }
-                    src="/static/Add_Company_Button.png"
-                  />
+                  <a
+                    href="https://dormroomfund.typeform.com/to/H90ZNU"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <img src="/static/Add_Company_Button.png" />
+                  </a>
                 </div>
               </AppContainer>
             </DragDropContext>

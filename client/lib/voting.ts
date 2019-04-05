@@ -1,6 +1,6 @@
+import { JSONSchema6 } from 'json-schema';
 import { pick, makeRequired } from '../schemas/_utils';
 import { voteSchema, Vote } from '../schemas/vote';
-import { JSONSchema6 } from 'json-schema';
 
 const requiredFields = [
   'fit_score',

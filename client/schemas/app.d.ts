@@ -11,4 +11,5 @@ export interface ServiceTypes {
   'api/votes': Vote;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export default interface App extends Application<ServiceTypes> {}

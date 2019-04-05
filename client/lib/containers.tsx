@@ -1,4 +1,4 @@
-import { Component, ComponentClass, ComponentType } from 'react';
+import React, { ComponentType } from 'react';
 import { Subscribe } from 'unstated';
 import { Subtract } from 'utility-types';
 import VotingContainer from '../containers/VotingContainer';

@@ -1,23 +1,14 @@
-import { JSONSchema6 } from 'json-schema';
 import { NextContext } from 'next';
-import Head from 'next/head';
 import React from 'react';
-import Form, { ISubmitEvent } from 'react-jsonschema-form-bs4';
+import { ISubmitEvent } from 'react-jsonschema-form-bs4';
+import CompanyProfile from '../components/CompanyProfile/CompanyProfile';
 import FullWidthLayout from '../components/Layout/FullWidthLayout';
 import client from '../lib/client';
 import { requireLoggedIn } from '../lib/routing';
-import { companySchema, Company } from '../schemas/company';
-import CompanyProfile from '../components/CompanyProfile/CompanyProfile';
-
-const companyUiSchema = {
-  description: {
-    'ui:widget': 'textarea',
-  },
-};
+import { Company } from '../schemas/company';
 
 interface CompanyProps {
-  match: any;
-  id: any;
+  id: string;
 }
 
 interface CompanyState {
@@ -34,11 +25,6 @@ export default class CompanyPage extends React.Component<
     return ctx.query;
   }
 
-  state = {
-    company: {} as Company,
-    loading: false,
-  };
-
   async componentDidMount() {
     const company = await client.service('api/companies').get(this.props.id);
     this.setState({ company, loading: false });
@@ -50,7 +36,6 @@ export default class CompanyPage extends React.Component<
       const res = await client
         .service('api/companies')
         .patch(this.props.id, evt.formData);
-      console.dir('handleSubmit', res);
     } catch (e) {
       console.error(e);
     }
@@ -64,13 +49,8 @@ export default class CompanyPage extends React.Component<
 
     return (
       <FullWidthLayout>
-        {loading ? (
-          <div>Loading...</div>
-        ) : company ? (
-          <CompanyProfile company={company} />
-        ) : (
-          'Error'
-        )}
+        {loading && <div>Loading...</div>}
+        {company ? <CompanyProfile company={company} /> : 'Error'}
       </FullWidthLayout>
     );
   }

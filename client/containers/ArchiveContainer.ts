@@ -1,9 +1,9 @@
 import { cloneDeep } from 'lodash';
 import { Container, Subscribe } from 'unstated';
-import client from '../lib/client';
-import { Company, Status } from '../schemas/company';
 import { Paginated } from '@feathersjs/feathers';
 import { ComponentType } from 'react';
+import client from '../lib/client';
+import { Company, Status } from '../schemas/company';
 
 export interface ArchiveContainerState {
   companies: Company[];

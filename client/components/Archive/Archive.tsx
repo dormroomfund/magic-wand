@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Subscribe } from 'unstated';
+import Button from 'react-bootstrap/lib/Button';
+import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import ArchiveContainer from '../../containers/ArchiveContainer';
 import UserContainer from '../../containers/UserContainer';
 import ArchiveList from './ArchiveList';
-import Button from 'react-bootstrap/lib/Button';
-import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import { UnreachableCaseError } from '../../lib/errors';
 import { Status } from '../../schemas/company';
 
@@ -65,9 +65,7 @@ export default class Archive extends Component<{}, ArchiveState> {
           <>
             <h2>Portfolio Success</h2>
             {this.renderButtonBar()}
-            <ArchiveList
-              companies={this.getFilteredCompanies(ac, uc)}
-            />
+            <ArchiveList companies={this.getFilteredCompanies(ac, uc)} />
           </>
         )}
       </Subscribe>

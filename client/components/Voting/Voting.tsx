@@ -16,7 +16,10 @@ export default ({ companyID }: VotingProps) => (
       return (
         <div>
           <h1>{company && company.name}</h1>
-          <h2>Status: {company && company.status}</h2>
+          <h2>
+            Status:
+            {company && company.status}
+          </h2>
           <VotingWorkflow companyId={companyID} />
           <VotingCompletion companyId={companyID} />
         </div>

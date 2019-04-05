@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const config = require('config');
 const path = require('path');
 const withTypescript = require('@zeit/next-typescript');
 const withSass = require('@zeit/next-sass');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+/* eslint-enable @typescript-eslint/no-var-requires */
 
 const env = process.env.NODE_ENV || 'development';
 

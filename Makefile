@@ -44,7 +44,7 @@ production:
 
 # Checks for style issues.
 lint:
-	$(NPX) eslint server/. client/. test/. --ext js,jsx --config .eslintrc.json
+	$(NPX) eslint server client test --ext js,jsx,ts,tsx --config .eslintrc.json
 
 # Runs the TypeScript type checker.
 typecheck:
@@ -52,15 +52,15 @@ typecheck:
 
 # Runs a type coverage analysis of the codebase.
 type-coverage:
-	$(NPX) type-coverage --strict --at-least 70
+	$(NPX) type-coverage --strict --at-least 85
 
 # Runs prettier on the codebase.
 prettier:
-	$(NPX) prettier --write "{server,client,test}/**/*.js" "config/**/*.json"
+	$(NPX) prettier --write "{server,client,test}/**/*.{js,jsx,ts,tsx}" "config/**/*.json"
 
 # Lint, format, and fix style issues.
 lint-fix:
-	$(NPX) eslint --fix server/. client/. test/. --ext js,jsx --config .eslintrc.json
+	$(NPX) eslint --fix server client test --ext js,jsx,ts,tsx --config .eslintrc.json
 
 # Runs the test suite.
 jest:

@@ -1,10 +1,10 @@
 import Ajv from 'ajv';
+import { AjvOrNewable, validateSchema } from 'feathers-hooks-common';
+import { HookContext } from '@feathersjs/feathers';
 import {
   gDriveSchema,
   GoogleDriveDocument,
 } from '../../../client/schemas/gdrive';
-import { AjvOrNewable, validateSchema } from 'feathers-hooks-common';
-import { HookContext } from '@feathersjs/feathers';
 
 const ajv = new Ajv({ allErrors: true, $data: true });
 
@@ -27,9 +27,9 @@ export default {
     all: [],
     find: [],
     get: [],
-    create: [validateSchema(gDriveSchema, <AjvOrNewable>ajv)], // TODO: Validate Permissions
-    update: [validateSchema(gDriveSchema, <AjvOrNewable>ajv)],
-    patch: [validateSchema(gDriveSchema, <AjvOrNewable>ajv)],
+    create: [validateSchema(gDriveSchema, ajv as AjvOrNewable)], // TODO: Validate Permissions
+    update: [validateSchema(gDriveSchema, ajv as AjvOrNewable)],
+    patch: [validateSchema(gDriveSchema, ajv as AjvOrNewable)],
     remove: [],
   },
 

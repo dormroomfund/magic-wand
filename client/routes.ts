@@ -10,5 +10,7 @@ const routes = new Routes() //
   .add('vote', '/vote/:id', 'vote');
 
 export default routes;
+// eslint-disable-next-line prefer-destructuring
 export const Router = routes.Router;
+// eslint-disable-next-line prefer-destructuring
 export const Link = routes.Link;

@@ -31,7 +31,7 @@ class GDriveService {
   /**
    * Creates a google drive client for usage.
    */
-  private async getDriveClient() {
+  private getDriveClient = async () => {
     /* Create and authenticate the jwt client. */
     const jwtClient = new google.auth.JWT(
       cfg.googleServiceEmail,
@@ -53,7 +53,7 @@ class GDriveService {
     });
 
     return drive;
-  }
+  };
 
   async create(data: GoogleDriveDocument) {
     const { document_type, company_id } = data;

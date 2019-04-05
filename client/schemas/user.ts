@@ -1,10 +1,9 @@
-
 export enum Ethnicity {
   White = 'White',
   BlackOrAfricanAmerican = 'Black or African American',
   AmericanIndianOrAlaskanNative = 'American Indian or Alaskan Native',
   Asian = 'Asian',
-  HispanicOrLatinx = "Hispanic or Latinx",
+  HispanicOrLatinx = 'Hispanic or Latinx',
   Mixed = 'Mixed',
   Other = 'Other',
   NoResponse = '',
@@ -69,9 +68,9 @@ export const userSchema = {
       enum: Object.values(Gender),
       default: '',
     },
-    ethnicity: { 
+    ethnicity: {
       type: 'string',
-      enum: Object.values(Ethnicity), 
+      enum: Object.values(Ethnicity),
       default: '',
     },
     partner_team: {
