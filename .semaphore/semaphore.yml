@@ -51,14 +51,23 @@ blocks:
       env_vars:
         - name: NODE_ENV
           value: production
+      prologue:
+        commands:
+          - checkout
+          - nvm use
+          - node --version
+          - npm --version
       jobs:
         - name: build client
           commands:
-            - checkout
+            - cache restore node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json)
             - make build
             - cache store client-build-$(git rev-parse HEAD) client/.next
   - name: Smoke Tests
     task:
+      env_vars:
+        - name: NODE_ENV
+          value: production
       prologue:
         commands:
           - checkout
@@ -68,6 +77,7 @@ blocks:
       jobs:
         - name: smoke
           commands:
+            - cache restore node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json)
             - cache restore client-build-$(git rev-parse HEAD)
             - make smoke
   # - name: Unit Tests
