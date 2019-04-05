@@ -6,6 +6,7 @@ import { Subscribe } from 'unstated';
 import Layout from '../components/Layout/Layout';
 import UserContainer, { AuthState } from '../containers/UserContainer';
 import { Router } from '../routes';
+import { UnreachableCaseError } from '../lib/errors';
 
 export default () => (
   <Layout>
@@ -34,6 +35,8 @@ export default () => (
                     Proceed to Pipeline
                   </Button>
                 );
+              default:
+                throw new UnreachableCaseError(uc.authState);
             }
           }}
         </Subscribe>

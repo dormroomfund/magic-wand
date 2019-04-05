@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
+import Alert from 'react-bootstrap/lib/Alert';
+import Button from 'react-bootstrap/lib/Button';
+import Col from 'react-bootstrap/lib/Col';
+import Row from 'react-bootstrap/lib/Row';
 import { ISubmitEvent } from 'react-jsonschema-form-bs4';
+import { Subscribe } from 'unstated';
+import UserContainer from '../../containers/UserContainer';
 import VotingContainer, {
   VotingStatus,
 } from '../../containers/VotingContainer';
-import { VoteFields, voteFormSchema } from '../../lib/voting';
+import { VoteFields } from '../../lib/voting';
 import { OverallVote, VoteType } from '../../schemas/vote';
-import VotingForm from './VotingForm';
-import { Subscribe } from 'unstated';
-import UserContainer from '../../containers/UserContainer';
 import CompanyRetriever from './CompanyRetriever';
-import Alert from 'react-bootstrap/lib/Alert';
 import VoteDisplay from './VoteDisplay';
-import Button from 'react-bootstrap/lib/Button';
+import VotingForm from './VotingForm';
 
 export interface VotingWorkflowProps {
   companyId: number;
@@ -56,13 +58,16 @@ export default class VotingWorkflow extends Component<
           const doingFinalVote =
             vc.votingStatus(companyId, uc.user.id) ===
             VotingStatus.DoingFinalVote;
+          const votingFinalized =
+            vc.votingStatus(companyId, uc.user.id) ===
+            VotingStatus.VotingFinalized;
 
           return (
             <>
               <CompanyRetriever companyId={companyId} />
+              <h2>Prevote</h2>
               {doingPrevote ? (
                 <>
-                  <h2>Prevote</h2>
                   <VotingForm
                     formData={prevote}
                     onSubmit={(evt: ISubmitEvent<VoteFields>) =>
@@ -76,6 +81,11 @@ export default class VotingWorkflow extends Component<
                 <>
                   <Alert variant="success">
                     You have already cast a prevote. <br />
+                    <VoteDisplay
+                      companyId={companyId}
+                      userId={uc.user.id}
+                      voteType={VoteType.Prevote}
+                    />
                     {vc
                       .company(companyId)
                       .company_links.find((x) => x.name === 'prevote') && (
@@ -92,11 +102,24 @@ export default class VotingWorkflow extends Component<
                       </Button>
                     )}
                   </Alert>
-                  <VoteDisplay
-                    companyId={companyId}
-                    userId={uc.user.id}
-                    voteType={VoteType.Prevote}
-                  />
+                  <Row>
+                    {vc
+                      .votedPartners(companyId, VoteType.Prevote)
+                      .map((voter) => (
+                        <Col key={voter.vote_id}>
+                          <VoteDisplay
+                            companyId={companyId}
+                            userId={voter.partner_id}
+                            voteType={VoteType.Prevote}
+                            border={
+                              voter.partner_id === uc.user.id
+                                ? 'primary'
+                                : undefined
+                            }
+                          />
+                        </Col>
+                      ))}
+                  </Row>
                 </>
               )}
               {doingFinalVote ? (
@@ -113,17 +136,35 @@ export default class VotingWorkflow extends Component<
                     }
                   />
                 </>
-              ) : doingPrevote ? null : (
-                <>
+              ) : (
+                doingPrevote || (
                   <Alert variant="success">
                     You have already cast a final vote.
+                    <VoteDisplay
+                      companyId={companyId}
+                      userId={uc.user.id}
+                      voteType={VoteType.Final}
+                    />
                   </Alert>
-                  <VoteDisplay
-                    companyId={companyId}
-                    userId={uc.user.id}
-                    voteType={VoteType.Final}
-                  />
-                </>
+                )
+              )}
+              {votingFinalized && (
+                <Row>
+                  {vc.votedPartners(companyId, VoteType.Final).map((voter) => (
+                    <Col key={voter.vote_id}>
+                      <VoteDisplay
+                        companyId={companyId}
+                        userId={voter.partner_id}
+                        voteType={VoteType.Final}
+                        border={
+                          voter.partner_id === uc.user.id
+                            ? 'primary'
+                            : undefined
+                        }
+                      />
+                    </Col>
+                  ))}
+                </Row>
               )}
             </>
           );

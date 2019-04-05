@@ -66,8 +66,8 @@ export interface Company {
 
   // Server-generated fields
   partnerVotes?: {
-    final: Array<PartnerVoteObj>;
-    prevote: Array<PartnerVoteObj>;
+    final: PartnerVoteObj[];
+    prevote: PartnerVoteObj[];
   };
 }
 

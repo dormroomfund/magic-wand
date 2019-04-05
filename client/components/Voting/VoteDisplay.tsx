@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Vote, VoteType } from '../../schemas/vote';
 import Card from 'react-bootstrap/lib/Card';
+import { Vote, VoteType } from '../../schemas/vote';
 import VotingContainer from '../../containers/VotingContainer';
 import { withVotingContainer } from '../../lib/containers';
 
-export interface VoteDisplayProps {
+export interface VoteDisplayProps extends React.ComponentProps<typeof Card> {
   companyId: number;
   userId: number;
   voteType: VoteType;
@@ -25,19 +25,6 @@ class VoteDisplay extends Component<VoteDisplayProps, VoteDisplayState> {
     this.setState({ vote });
   }
 
-  async componentDidUpdate(prevProps) {
-    const { votingContainer: vc, companyId, userId, voteType } = this.props;
-
-    if (
-      companyId != prevProps.companyId ||
-      userId != prevProps.userId ||
-      voteType != prevProps.voteType
-    ) {
-      const vote = await vc.findAndRetrieveVote(companyId, userId, voteType);
-      this.setState({ vote });
-    }
-  }
-
   render() {
     const { vote } = this.state;
     if (!vote) {
@@ -45,26 +32,18 @@ class VoteDisplay extends Component<VoteDisplayProps, VoteDisplayState> {
     }
 
     return (
-      <Card>
+      <Card {...this.props}>
         <Card.Body>
-          <Card.Title>Vote</Card.Title>
+          <Card.Title>
+            Vote by {vote.voter.first_name} {vote.voter.last_name}
+          </Card.Title>
           <Card.Text>
-            <strong>Market:</strong> {vote.market_score}
-          </Card.Text>
-          <Card.Text>
-            <strong>Product:</strong> {vote.product_score}
-          </Card.Text>
-          <Card.Text>
-            <strong>Team:</strong> {vote.team_score}
-          </Card.Text>
-          <Card.Text>
-            <strong>Fit:</strong> {vote.team_score}
-          </Card.Text>
-          <Card.Text>
-            <strong>Overall Vote:</strong> {vote.overall_vote}
-          </Card.Text>
-          <Card.Text>
-            <strong>Comment:</strong> {vote.comment}
+            <strong>Market:</strong> {vote.market_score} <br />
+            <strong>Product:</strong> {vote.product_score} <br />
+            <strong>Team:</strong> {vote.team_score} <br />
+            <strong>Fit:</strong> {vote.team_score} <br />
+            <strong>Overall Vote:</strong> {vote.overall_vote} <br />
+            <strong>Comment:</strong> {vote.comment} <br />
           </Card.Text>
         </Card.Body>
       </Card>

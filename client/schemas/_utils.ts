@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { JSONSchema6 } from 'json-schema';
 import { uniq } from 'lodash';
 

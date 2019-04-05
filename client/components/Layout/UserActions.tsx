@@ -26,11 +26,12 @@ export default () => (
           return (
             <Dropdown as={NavItem} alignRight>
               <Dropdown.Toggle as={NavLink} id="navbar-auth-dropdown">
-                {uc.user && uc.user.photo ? (
-                  <ProfileImage src={uc.user.photo} roundedCircle />
-                ) : uc.user ? (
-                  uc.user.email
-                ) : null}
+                {uc.user &&
+                  (uc.user.photo ? (
+                    <ProfileImage src={uc.user.photo} roundedCircle />
+                  ) : (
+                    uc.user.email
+                  ))}
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item onClick={() => Router.pushRoute('/settings')}>

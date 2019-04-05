@@ -1,11 +1,11 @@
-const rp = require('request-promise');
-const url = require('url');
-const app = require('../server/app');
+import rp from 'request-promise';
+import { format } from 'url';
+import { get, listen } from '../server/app';
 
-const port = app.get('port') || 3030;
+const port = get('port') || 3030;
 const getUrl = (pathname) =>
-  url.format({
-    hostname: app.get('host') || 'localhost',
+  format({
+    hostname: get('host') || 'localhost',
     protocol: 'http',
     port,
     pathname,
@@ -13,7 +13,7 @@ const getUrl = (pathname) =>
 
 describe('Feathers application tests (with jest)', () => {
   beforeAll((done) => {
-    this.server = app.listen(port);
+    this.server = listen(port);
     this.server.once('listening', () => done());
   });
 

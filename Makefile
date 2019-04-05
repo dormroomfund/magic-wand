@@ -43,8 +43,13 @@ production:
 ################################################################################
 
 # Checks for style issues.
-lint:
-	$(NPX) eslint server/. client/. test/. --ext js,jsx --config .eslintrc.json
+lint: lint-js lint-sass
+
+lint-js:
+	$(NPX) eslint server client test --ext js,jsx,ts,tsx --config .eslintrc.json
+
+lint-sass:
+	$(NPX) stylelint "client/stylesheets/**/*.scss"
 
 # Runs the TypeScript type checker.
 typecheck:
@@ -52,15 +57,29 @@ typecheck:
 
 # Runs a type coverage analysis of the codebase.
 type-coverage:
-	$(NPX) type-coverage --strict --at-least 70
+	$(NPX) type-coverage --strict --at-least 85 --detail --cache
+
+# Formats code to style and lint specifications.
+fmt: lint-fix prettier
 
 # Runs prettier on the codebase.
 prettier:
-	$(NPX) prettier --write "{server,client,test}/**/*.js" "config/**/*.json"
+	$(NPX) prettier --write \
+		"{server,client,test}/**/*.{js,jsx,ts,tsx}" \
+		"client/stylesheets/**/*.{css,sass,scss}" \
+		"config/**/*.json"
 
 # Lint, format, and fix style issues.
-lint-fix:
-	$(NPX) eslint --fix server/. client/. test/. --ext js,jsx --config .eslintrc.json
+lint-fix: lint-fix-js lint-fix-sass
+
+lint-fix-js:
+	$(NPX) eslint --fix server client test --ext js,jsx,ts,tsx --config .eslintrc.json
+
+lint-fix-sass:
+	$(NPX) stylelint "client/stylesheets/**/*.scss" --fix
+
+smoke:
+	timeout 1m make production | grep "application started"
 
 # Runs the test suite.
 jest:

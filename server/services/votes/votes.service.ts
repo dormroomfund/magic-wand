@@ -11,10 +11,10 @@ export default (app: App) => {
     model: Vote,
     paginate,
     whitelist: ['$eager', '$joinRelation', '$pick'],
-    allowedEager: 'voted_users',
+    allowedEager: 'voter',
     eagerFilters: [
       {
-        expression: 'voted_users',
+        expression: 'voter',
         filter(builder) {
           /*
            * Use the eager filter to only get the first_name

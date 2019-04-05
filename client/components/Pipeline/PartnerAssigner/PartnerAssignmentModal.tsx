@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import Modal from 'react-bootstrap/lib/Modal';
 import Button from 'react-bootstrap/lib/Button';
+import { Paginated } from '@feathersjs/feathers';
+import ListGroup from 'react-bootstrap/lib/ListGroup';
+import styled from 'styled-components';
 import { Company, companySchema } from '../../../schemas/company';
 import { PartnerAssignmentModalProps } from './PartnerAssignmentModal';
 import { User } from '../../../schemas/user';
 import client from '../../../lib/client';
-import { Paginated } from '@feathersjs/feathers';
-import ListGroup from 'react-bootstrap/lib/ListGroup';
-import styled from 'styled-components';
 
 const StyledListGroupItem = styled(ListGroup.Item)`
   cursor: pointer;
@@ -88,7 +88,7 @@ export default class PartnerAssignmentModal extends Component<
               assignedPartners.includes(partner.id)
             )}
           >
-            {partner.first_name} {partner.last_name}
+            {`${partner.first_name} ${partner.last_name}`}
           </StyledListGroupItem>
         ))}
       </ListGroup>
@@ -101,7 +101,10 @@ export default class PartnerAssignmentModal extends Component<
     return (
       <Modal show={show} size="sm" centered>
         <Modal.Header closeButton>
-          <Modal.Title>Partners for {company.name}</Modal.Title>
+          <Modal.Title>
+            Partners for
+            {company.name}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>{this.renderPartners()}</Modal.Body>
         <Modal.Footer>

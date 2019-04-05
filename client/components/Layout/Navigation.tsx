@@ -3,9 +3,9 @@ import Badge from 'react-bootstrap/lib/Badge';
 import Container from 'react-bootstrap/lib/Container';
 import Nav from 'react-bootstrap/lib/Nav';
 import Navbar from 'react-bootstrap/lib/Navbar';
+import styled from 'styled-components';
 import { Link, Router } from '../../routes';
 import UserActions from './UserActions';
-import styled from 'styled-components';
 
 const StyledContainer = styled(Container)`
   margin: 0 5vw;
@@ -42,30 +42,29 @@ const StyledNav = styled(Nav)`
   }
 `;
 
-export default () => {
-  return (
-    <StyledNavbar fixed="top">
-      <StyledContainer>
-        <Link route="/pipeline">
-          <a>
-            <StyledNavbar.Brand>
-              MagicWand <Badge variant="primary">v0</Badge>
-            </StyledNavbar.Brand>
-          </a>
-        </Link>
-        <StyledNavbar.Toggle className="mr-2" />
-        <StyledNavbar.Collapse>
-          <StyledNav navbar className="ml-auto">
-            <StyledNav.Link onClick={() => Router.pushRoute('/pipeline')}>
-              Pipeline
-            </StyledNav.Link>
-            <StyledNav.Link onClick={() => Router.pushRoute('/archive')}>
-              Portfolio Success
-            </StyledNav.Link>
-            <UserActions />
-          </StyledNav>
-        </StyledNavbar.Collapse>
-      </StyledContainer>
-    </StyledNavbar>
-  );
-};
+export default () => (
+  <StyledNavbar fixed="top">
+    <StyledContainer>
+      <Link route="/pipeline">
+        <a>
+          <StyledNavbar.Brand>
+            MagicWand
+            <Badge variant="primary">v0</Badge>
+          </StyledNavbar.Brand>
+        </a>
+      </Link>
+      <StyledNavbar.Toggle className="mr-2" />
+      <StyledNavbar.Collapse>
+        <StyledNav navbar className="ml-auto">
+          <StyledNav.Link onClick={() => Router.pushRoute('/pipeline')}>
+            Pipeline
+          </StyledNav.Link>
+          <StyledNav.Link onClick={() => Router.pushRoute('/archive')}>
+            Portfolio Success
+          </StyledNav.Link>
+          <UserActions />
+        </StyledNav>
+      </StyledNavbar.Collapse>
+    </StyledContainer>
+  </StyledNavbar>
+);

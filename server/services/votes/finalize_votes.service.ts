@@ -1,7 +1,7 @@
 import errors from '@feathersjs/errors';
+import { Paginated } from '@feathersjs/feathers';
 import App from '../../../client/schemas/app';
 import { Status } from '../../../client/schemas/company';
-import { Paginated } from '@feathersjs/feathers';
 import { OverallVote, Vote } from '../../../client/schemas/vote';
 
 /*

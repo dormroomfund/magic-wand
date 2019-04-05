@@ -4,8 +4,8 @@
 import util from 'util';
 import chalk from 'chalk';
 
-import logger from '../logger';
 import { HookContext } from '@feathersjs/feathers';
+import logger from '../logger';
 
 const { gray, blue } = chalk;
 

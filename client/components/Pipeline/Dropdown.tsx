@@ -5,10 +5,9 @@ import { Subscribe } from 'unstated';
 import PipelineContainer from '../../containers/PipelineContainer';
 import { User } from '../../schemas/user';
 
-
 const StyledDropdown = styled(Dropdown)`
   border: none;
-  margin: .5% 1%;
+  margin: 0.5% 1%;
 `;
 
 interface DropdownProps {
@@ -30,7 +29,11 @@ export default class CustomDropdown extends PureComponent<DropdownProps> {
       <Subscribe to={[PipelineContainer]}>
         {(pipe: PipelineContainer) => (
           <StyledDropdown>
-            <StyledDropdown.Toggle variant="secondary" id="dropdown-basic" size="sm">
+            <StyledDropdown.Toggle
+              variant="secondary"
+              id="dropdown-basic"
+              size="sm"
+            >
               Partner
             </StyledDropdown.Toggle>
 
@@ -45,4 +48,3 @@ export default class CustomDropdown extends PureComponent<DropdownProps> {
     );
   }
 }
-

@@ -15,7 +15,7 @@ class CompaniesWebhookService {
 
     const company: Company = {
       name: getAnswerValueFromRef(payload, refsMap.name),
-      description:getAnswerValueFromRef(payload, refsMap.description),
+      description: getAnswerValueFromRef(payload, refsMap.description),
       industries: [getAnswerValueFromRef(payload, refsMap.industries)],
       team: getAnswerValueFromRef(payload, refsMap.team),
       status: Status.Applied,

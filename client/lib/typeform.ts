@@ -24,7 +24,7 @@ export const refsMap = {
 };
 
 export const getAnswerValueFromRef = (payload, ref: string) => {
-  const id = payload.definition.fields.find((field) => field.ref === ref).id;
+  const { id } = payload.definition.fields.find((field) => field.ref === ref);
 
   const answer = payload.answers.find(
     (possibleAnswer) => possibleAnswer.field.id === id

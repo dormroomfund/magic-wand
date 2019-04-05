@@ -15,22 +15,20 @@ export default ({
   companies,
   onRestoreCompany,
   onArchiveCompany,
-}: ArchiveListProps) => {
-  return (
-    <>
-      {companies.map((company) => (
-        <Card key={company.id}>
-          <Card.Body>
-            <Card.Title>{company.name} </Card.Title>
-            <Card.Text>{company.description}</Card.Text>
-            <ButtonGroup>
-              <Link route="company" params={{ id: company.id }}>
-                <Button variant="primary">View</Button>
-              </Link>
-            </ButtonGroup>
-          </Card.Body>
-        </Card>
-      ))}
-    </>
-  );
-};
+}: ArchiveListProps) => (
+  <>
+    {companies.map((company) => (
+      <Card key={company.id}>
+        <Card.Body>
+          <Card.Title>{company.name}</Card.Title>
+          <Card.Text>{company.description}</Card.Text>
+          <ButtonGroup>
+            <Link route="company" params={{ id: company.id }}>
+              <Button variant="primary">View</Button>
+            </Link>
+          </ButtonGroup>
+        </Card.Body>
+      </Card>
+    ))}
+  </>
+);
