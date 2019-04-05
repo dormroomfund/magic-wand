@@ -57,7 +57,7 @@ typecheck:
 
 # Runs a type coverage analysis of the codebase.
 type-coverage:
-	$(NPX) type-coverage --strict --at-least 85
+	$(NPX) type-coverage --strict --at-least 85 --detail --cache
 
 # Formats code to style and lint specifications.
 fmt: lint-fix prettier
@@ -77,6 +77,9 @@ lint-fix-js:
 
 lint-fix-sass:
 	$(NPX) stylelint "client/stylesheets/**/*.scss" --fix
+
+smoke:
+	timeout 1m make production | grep "application started"
 
 # Runs the test suite.
 jest:

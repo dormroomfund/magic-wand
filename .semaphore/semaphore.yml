@@ -1,0 +1,102 @@
+version: v1.0
+name: Magic Wand Test Pipeline
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: Install Dependencies
+    task:
+      prologue:
+        commands:
+          - checkout
+          - nvm use
+          - node --version
+          - npm --version
+      jobs:
+        - name: npm install and cache
+          commands:
+            - cache restore npm-cache-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),npm-cache-$SEMAPHORE_GIT_BRANCH,npm-cache-master
+            - npm ci
+            - cache store npm-cache-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json) $HOME/.npm
+            - cache store node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json) node_modules
+  - name: Static Analysis
+    task:
+      env_vars:
+        - name: NODE_ENV
+          value: test
+        - name: CI
+          value: 'true'
+      prologue:
+        commands:
+          - checkout
+          - nvm use
+          - node --version
+          - npm --version
+      jobs:
+        - name: lint
+          commands:
+            - cache restore node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json)
+            - make lint
+        - name: typecheck
+          commands:
+            - cache restore node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json)
+            - make typecheck
+        - name: type coverage
+          commands:
+            - cache restore node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json)
+            - make type-coverage
+  - name: 'Build'
+    task:
+      env_vars:
+        - name: NODE_ENV
+          value: production
+      prologue:
+        commands:
+          - checkout
+          - nvm use
+          - node --version
+          - npm --version
+      jobs:
+        - name: build client
+          commands:
+            - cache restore node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json)
+            - make build
+            - cache store client-build-$(git rev-parse HEAD) client/.next
+  - name: Smoke Tests
+    task:
+      env_vars:
+        - name: NODE_ENV
+          value: production
+      prologue:
+        commands:
+          - checkout
+          - nvm use
+          - node --version
+          - npm --version
+      jobs:
+        - name: smoke
+          commands:
+            - cache restore node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json)
+            - cache restore client-build-$(git rev-parse HEAD)
+            - make smoke
+  # - name: Unit Tests
+  #   task:
+  #     prologue:
+  #       commands:
+  #         - checkout
+  #         - nvm use
+  #         - node --version
+  #         - npm --version
+  #     jobs:
+  #       - name: jest
+  #         commands:
+  #           - cache restore client-build-$(git rev-parse HEAD)
+  #           - make jest
+#   - name: "Integration tests"
+#     task:
+#       jobs:
+#       - name: Cucumber
+#         commands:
+#           - checkout
+#           - echo "make cucumber"
