@@ -1,8 +1,6 @@
 {
   "env": {
-    "es6": true,
-    "node": true,
-    "jest": true
+    "es6": true
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -15,14 +13,15 @@
   "plugins": ["react", "import"],
   "extends": [
     "airbnb",
-    "plugin:prettier/recommended",
     "plugin:eslint-comments/recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
   ],
   "rules": {
-    "@typescript-eslint/indent": ["error", 2],
+    "@typescript-eslint/indent": "off",
     "@typescript-eslint/camelcase": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-member-accessibility": "off",
     "@typescript-eslint/no-unused-vars": [
       "warning",
       {
@@ -30,10 +29,16 @@
         "caughtErrors": "none"
       }
     ],
+    "class-methods-use-this": "off",
+    "no-else-return": "off",
     "indent": "off",
     "import/no-unresolved": "off",
     "import/prefer-default-export": "off",
+    "jsx-a11y/alt-text": "off",
+    "jsx-a11y/anchor-is-valid": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
     "func-names": "off",
+    "no-return-await": "off",
     "prettier/prettier": "error",
     "require-jsdoc": "off",
     "valid-jsdoc": "off",

@@ -4,6 +4,7 @@ import client from '../lib/client';
 import { VoteFields } from '../lib/voting';
 import { archivedStates, Company } from '../schemas/company';
 import { Vote, VoteType } from '../schemas/vote';
+import { UnreachableCaseError } from '../lib/errors';
 
 export enum VotingStatus {
   DoingPrevote = 'doing-prevote',
@@ -19,9 +20,9 @@ export interface VotingContainerState {
 
 /** Handles the data-flow and server interfacing for all votes occurring in a system. */
 export default class VotingContainer extends Container<VotingContainerState> {
-  state = {
-    companies: {} as Record<number, Company>,
-    votes: {} as Record<number, Vote>,
+  state: VotingContainerState = {
+    companies: {},
+    votes: {},
   };
 
   constructor() {
@@ -36,7 +37,7 @@ export default class VotingContainer extends Container<VotingContainerState> {
   }
 
   // GETTERS AND SETTERS
-  ////////////////////////////////////////////////////////////////////////////////
+  // //////////////////////////////////////////////////////////////////////////////
 
   company(id: number): Company {
     return this.state.companies[id];
@@ -56,17 +57,19 @@ export default class VotingContainer extends Container<VotingContainerState> {
       company.partnerVotes.final.find((vote) => vote.partner_id === partnerId);
     const isFinalized = archivedStates.includes(company.status);
 
-    if (!didPrevote && !didFinalVote) {
-      return VotingStatus.DoingPrevote;
+    if (didPrevote && didFinalVote) {
+      if (!isFinalized) {
+        return VotingStatus.AwaitingFinalization;
+      } else {
+        return VotingStatus.VotingFinalized;
+      }
     } else if (didPrevote && !didFinalVote) {
       return VotingStatus.DoingFinalVote;
-    } else if (!didPrevote && didFinalVote) {
-      throw new Error('invalid voting state');
-    } else if (!isFinalized) {
-      return VotingStatus.AwaitingFinalization;
-    } else if (isFinalized) {
-      return VotingStatus.VotingFinalized;
+    } else if (!didPrevote && !didFinalVote) {
+      return VotingStatus.DoingPrevote;
     }
+
+    throw new Error('invalid voting state');
   }
 
   inVotingStatus(
@@ -94,12 +97,12 @@ export default class VotingContainer extends Container<VotingContainerState> {
     }
 
     const votes = company.partnerVotes[voteType];
-    const vote = votes && votes.find((vote) => vote.partner_id === userId);
+    const vote = votes && votes.find((v) => v.partner_id === userId);
     return vote && this.vote(vote.vote_id);
   }
 
   // VOTING PROCESS
-  ////////////////////////////////////////////////////////////////////////////////
+  // //////////////////////////////////////////////////////////////////////////////
 
   /** Prepare a company for voting. */
   async initialize(companyId: number) {
@@ -147,20 +150,11 @@ export default class VotingContainer extends Container<VotingContainerState> {
     }));
 
     alert(
-      'This company was ' +
-        res.status +
-        '\n' +
-        'Market Score: ' +
-        res.marketScoreAvg +
-        '\n' +
-        'Fit Score: ' +
-        res.fitScoreAvg +
-        '\n' +
-        'Product Score: ' +
-        res.productScoreAvg +
-        '\n' +
-        'Team Score: ' +
-        res.teamScoreAvg
+      `This company was ${res.status}\n` +
+        `Market Score: ${res.marketScoreAvg}\n` +
+        `Fit Score: ${res.fitScoreAvg}\n` +
+        `Product Score: ${res.productScoreAvg}\n` +
+        `Team Score: ${res.teamScoreAvg}`
     );
   }
 
@@ -225,7 +219,7 @@ export default class VotingContainer extends Container<VotingContainerState> {
       this.company(companyId) || (await this.retrieveCompany(companyId));
 
     const votes = company.partnerVotes[voteType];
-    const vote = votes && votes.find((vote) => vote.partner_id === userId);
+    const vote = votes && votes.find((v) => v.partner_id === userId);
 
     return await this.retrieveVote(vote.vote_id);
   }

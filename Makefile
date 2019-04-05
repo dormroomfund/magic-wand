@@ -56,7 +56,7 @@ type-coverage:
 
 # Runs prettier on the codebase.
 prettier:
-	$(NPX) prettier --write "{server,client,test}/**/*.js" "config/**/*.json"
+	$(NPX) prettier --write "{server,client,test}/**/*.{js,jsx,ts,tsx}" "config/**/*.json"
 
 # Lint, format, and fix style issues.
 lint-fix:

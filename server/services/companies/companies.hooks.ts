@@ -1,11 +1,11 @@
 import Ajv from 'ajv';
 import { alterItems, fastJoin, keep, iff } from 'feathers-hooks-common';
+import { HookContext } from '@feathersjs/feathers';
 import {
   companySchema,
   Company,
   Status,
 } from '../../../client/schemas/company';
-import { HookContext } from '@feathersjs/feathers';
 import { DocumentTypes } from '../../../client/schemas/gdrive';
 
 const ajv = new Ajv({ allErrors: true, $data: true });
@@ -106,15 +106,15 @@ export default {
         company.tags = company.tags || [];
         company.company_links = company.company_links || [];
       }),
-      /*validateSchema(companies, <AjvOrNewable> ajv)*/
+      /* validateSchema(companies, <AjvOrNewable> ajv) */
     ],
     update: [
       keep(...Object.keys(companySchema.properties)),
-      /*validateSchema(partialSchema, <AjvOrNewable>ajv)*/
+      /* validateSchema(partialSchema, <AjvOrNewable>ajv) */
     ],
     patch: [
       keep(...Object.keys(companySchema.properties)),
-      /*validateSchema(partialSchema, <AjvOrNewable>ajv)*/
+      /* validateSchema(partialSchema, <AjvOrNewable>ajv) */
     ],
     remove: [],
   },

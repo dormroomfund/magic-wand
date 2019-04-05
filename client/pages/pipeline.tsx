@@ -1,15 +1,11 @@
 import React from 'react';
-import Button from 'react-bootstrap/lib/Button';
 import { Subscribe } from 'unstated';
 import PipelineLayout from '../components/Layout/PipelineLayout';
 import Onboarding from '../components/Onboarding/Onboarding';
 import Kanban from '../components/Pipeline/Kanban';
 import UserContainer, { AuthState } from '../containers/UserContainer';
-import { getUser } from '../lib/authentication';
 import { UnreachableCaseError } from '../lib/errors';
-import { redirect, requireLoggedIn } from '../lib/routing';
-import { Link } from '../routes';
-import styled from 'styled-components';
+import { requireLoggedIn } from '../lib/routing';
 
 const PipelinePage = ({ id }) => (
   <Subscribe to={[UserContainer]}>

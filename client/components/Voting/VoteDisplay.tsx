@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Vote, VoteType } from '../../schemas/vote';
 import Card from 'react-bootstrap/lib/Card';
+import { Vote, VoteType } from '../../schemas/vote';
 import VotingContainer from '../../containers/VotingContainer';
 import { withVotingContainer } from '../../lib/containers';
 
@@ -25,19 +25,6 @@ class VoteDisplay extends Component<VoteDisplayProps, VoteDisplayState> {
     this.setState({ vote });
   }
 
-  async componentDidUpdate(prevProps) {
-    const { votingContainer: vc, companyId, userId, voteType } = this.props;
-
-    if (
-      companyId != prevProps.companyId ||
-      userId != prevProps.userId ||
-      voteType != prevProps.voteType
-    ) {
-      const vote = await vc.findAndRetrieveVote(companyId, userId, voteType);
-      this.setState({ vote });
-    }
-  }
-
   render() {
     const { vote } = this.state;
     if (!vote) {
@@ -49,22 +36,28 @@ class VoteDisplay extends Component<VoteDisplayProps, VoteDisplayState> {
         <Card.Body>
           <Card.Title>Vote</Card.Title>
           <Card.Text>
-            <strong>Market:</strong> {vote.market_score}
+            <strong>Market: </strong>
+            {vote.market_score}
           </Card.Text>
           <Card.Text>
-            <strong>Product:</strong> {vote.product_score}
+            <strong>Product: </strong>
+            {vote.product_score}
           </Card.Text>
           <Card.Text>
-            <strong>Team:</strong> {vote.team_score}
+            <strong>Team: </strong>
+            {vote.team_score}
           </Card.Text>
           <Card.Text>
-            <strong>Fit:</strong> {vote.team_score}
+            <strong>Fit: </strong>
+            {vote.team_score}
           </Card.Text>
           <Card.Text>
-            <strong>Overall Vote:</strong> {vote.overall_vote}
+            <strong>Overall Vote: </strong>
+            {vote.overall_vote}
           </Card.Text>
           <Card.Text>
-            <strong>Comment:</strong> {vote.comment}
+            <strong>Comment: </strong>
+            {vote.comment}
           </Card.Text>
         </Card.Body>
       </Card>

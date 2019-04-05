@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Company } from '../../../schemas/company';
 import Button from 'react-bootstrap/lib/Button';
+import { Company } from '../../../schemas/company';
 import PartnerAssignmentModal from './PartnerAssignmentModal';
 
 export interface PartnerAssignerProps {

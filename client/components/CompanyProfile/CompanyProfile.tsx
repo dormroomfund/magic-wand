@@ -40,90 +40,91 @@ const CompanyQuestion = styled.div`
   }
 `;
 
-export default ({ company }: CompanyProfileProps) => {
-  return (
-    <div>
-      <HeaderRow>
-        <Col md="8">
-          <h1>{company.name}</h1>
-          <small>
-            <em className="color-N50">
-              Last edited{' '}
-              {dayjs(company.updated_at).format('MMMM D, YYYY [at] h:mm a')}
-            </em>
-          </small>
-        </Col>
-        <Col md={{ offset: 2, width: 2 }}>
-          <Button variant="info">Edit</Button>
-          &nbsp;
-          <Button variant="warning">Archive</Button>
-        </Col>
-      </HeaderRow>
-      <HeaderRow>
-        <Col md="8">
-          {company.tags &&
-            company.tags.map((tag) => <span key={tag}>{tag}</span>)}
-        </Col>
-        <Col md="2">
-          <small>Application Date</small>
+export default ({ company }: CompanyProfileProps) => (
+  <div>
+    <HeaderRow>
+      <Col md="8">
+        <h1>{company.name}</h1>
+        <small>
+          <em className="color-N50">
+            Last edited &nbsp;
+            {dayjs(company.updated_at).format('MMMM D, YYYY [at] h:mm a')}
+          </em>
+        </small>
+      </Col>
+      <Col md={{ offset: 2, width: 2 }}>
+        <Button variant="info">Edit</Button>
+        &nbsp;
+        <Button variant="warning">Archive</Button>
+      </Col>
+    </HeaderRow>
+    <HeaderRow>
+      <Col md="8">
+        {company.tags &&
+          company.tags.map((tag) => <span key={tag}>{tag}</span>)}
+      </Col>
+      <Col md="2">
+        <small>Application Date</small>
+        <br />
+        <strong>{dayjs(company.created_at).format('MMMM D, YYYY')}</strong>
+      </Col>
+      <Col md="2">
+        <small>Pitch Date</small>
+        <br />
+        <strong>{dayjs(company.created_at).format('MMMM D, YYYY')}</strong>
+      </Col>
+    </HeaderRow>
+    <HeaderRow>
+      <Col md="8">
+        {company.company_links && (
+          <p>
+            {company.company_links.map(({ name, url }) => (
+              <a
+                key={name}
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {name}
+              </a>
+            ))}
+          </p>
+        )}
+      </Col>
+      <Col md="2">
+        <small>Links</small>
+      </Col>
+      <Col md="2">
+        <small>Partners</small>
+        <br />
+        <PartnerAssigner company={company} />
+      </Col>
+    </HeaderRow>
+    <BodyRow>
+      <Col md="8">
+        <CompanyQuestion>
+          <small>Description</small>
           <br />
-          <strong>{dayjs(company.created_at).format('MMMM D, YYYY')}</strong>
-        </Col>
-        <Col md="2">
-          <small>Pitch Date</small>
+          {company.description}
+        </CompanyQuestion>
+        <CompanyQuestion>
+          <small>What’s unique about your startup?</small>
           <br />
-          <strong>{dayjs(company.created_at).format('MMMM D, YYYY')}</strong>
-        </Col>
-      </HeaderRow>
-      <HeaderRow>
-        <Col md="8">
-          {company.company_links && (
-            <p>
-              {company.company_links.map(({ name, url }) => (
-                <a
-                  key={name}
-                  href={url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {name}
-                </a>
-              ))}
-            </p>
-          )}
-        </Col>
-        <Col md="2">
-          <small>Links</small>
-        </Col>
-        <Col md="2">
-          <small>Partners</small>
+        </CompanyQuestion>
+        <CompanyQuestion>
+          <small>Where are you in your fundraising process?</small>
           <br />
-          <PartnerAssigner company={company} />
-        </Col>
-      </HeaderRow>
-      <BodyRow>
-        <Col md="8">
-          <CompanyQuestion>
-            <small>Description</small>
-            <br />
-            {company.description}
-          </CompanyQuestion>
-          <CompanyQuestion>
-            <small>What’s unique about your startup?</small>
-            <br />
-          </CompanyQuestion>
-          <CompanyQuestion>
-            <small>Where are you in your fundraising process?</small>
-            <br />
-          </CompanyQuestion>
-          <CompanyQuestion>
-            <small>Were you referred by someone in the DRF community?</small>
-            <br />
-          </CompanyQuestion>
-          <FounderGroup />
-        </Col>
-        <Col md="4">Status: {company.status}</Col>
-      </BodyRow>
-    </div>
-  );
-};
+        </CompanyQuestion>
+        <CompanyQuestion>
+          <small>Were you referred by someone in the DRF community?</small>
+          <br />
+        </CompanyQuestion>
+        <FounderGroup />
+      </Col>
+      <Col md="4">
+        Status:
+        {company.status}
+      </Col>
+    </BodyRow>
+  </div>
+);

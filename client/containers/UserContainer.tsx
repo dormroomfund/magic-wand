@@ -6,8 +6,7 @@ import client from '../lib/client';
 import { User, userSchema } from '../schemas/user';
 
 const { publicRuntimeConfig } = getConfig();
-const auth0domain = publicRuntimeConfig.authentication.auth0.domain;
-const logoutRedirect = publicRuntimeConfig.authentication.auth0.logoutRedirect;
+const { auth0 } = publicRuntimeConfig.authentication;
 
 export enum AuthState {
   LoggedOut = 'logged-out',
@@ -27,7 +26,7 @@ export default class UserContainer extends Container<UserContainerState> {
     if (user) {
       this.state = {
         authState: AuthState.LoggedIn,
-        user: user,
+        user,
       };
     } else {
       this.state = {
@@ -45,7 +44,7 @@ export default class UserContainer extends Container<UserContainerState> {
   }
 
   // SETTERS AND GETTERS
-  //////////////////////////////////////////////////
+  // ////////////////////////////////////////////////
 
   get user() {
     return this.state.user;
@@ -65,14 +64,17 @@ export default class UserContainer extends Container<UserContainerState> {
   }
 
   // ACTIONS
-  //////////////////////////////////////////////////
+  // ////////////////////////////////////////////////
 
   logOut = async () => {
     await client.logout();
     this.setLoggedOut();
 
-    const returnTo = encodeURIComponent(logoutRedirect);
-    window.location.href = `https://${auth0domain}/v2/logout?returnTo=${returnTo}`;
+    const returnTo = encodeURIComponent(auth0.logoutRedirect);
+    // eslint-disable-next-line no-undef
+    window.location.href = `https://${
+      auth0.domain
+    }/v2/logout?returnTo=${returnTo}`;
   };
 
   retrieveUser = async () => {
@@ -96,7 +98,7 @@ export default class UserContainer extends Container<UserContainerState> {
   };
 
   // PRIVATE
-  //////////////////////////////////////////////////
+  // ////////////////////////////////////////////////
 
   private setLoggedIn = async (user: User) => {
     this.setState({ authState: AuthState.LoggedIn, user });

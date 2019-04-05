@@ -11,18 +11,16 @@ export interface VotingFormProps {
   disabled?: boolean;
 }
 
-export default ({ formData, onChange, onSubmit, disabled = false }) => {
-  return (
-    <Form
-      schema={voteFormSchema}
-      onChange={onChange}
-      disabled={disabled}
-      formData={formData}
-      onSubmit={onSubmit}
-    >
-      <Button disabled={disabled} type="submit">
-        Submit
-      </Button>
-    </Form>
-  );
-};
+export default ({ formData, onChange, onSubmit, disabled = false }) => (
+  <Form
+    schema={voteFormSchema}
+    onChange={onChange}
+    disabled={disabled}
+    formData={formData}
+    onSubmit={onSubmit}
+  >
+    <Button disabled={disabled} type="submit">
+      Submit
+    </Button>
+  </Form>
+);
