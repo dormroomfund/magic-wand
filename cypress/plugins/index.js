@@ -8,7 +8,7 @@
 // https://on.cypress.io/plugins-guide
 // ***********************************************************
 
-// eslint-disable-next-line import/no-extraneous-dependencies
+// eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-extraneous-dependencies
 const wp = require('@cypress/webpack-preprocessor');
 
 // This function is called when a project is opened or re-opened (e.g. due to

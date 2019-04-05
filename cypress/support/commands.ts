@@ -1,12 +1,21 @@
 // ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
+
 // For more comprehensive examples of custom
 // commands please read more here:
 // https://on.cypress.io/custom-commands
 // ***********************************************
+
+// see more example of adding custom commands to Cypress TS interface
+// in https://github.com/cypress-io/add-cypress-custom-command-in-typescript
+// add new command to the existing Cypress interface
+// eslint-disable-next-line @typescript-eslint/no-namespace
+declare namespace Cypress {
+  interface Chainable {
+    login: () => Chainable<void>;
+    hideSocketIo: () => Chainable<void>;
+  }
+}
+
 //
 //
 // -- This is a parent command --
@@ -53,13 +62,3 @@ Cypress.Commands.add('hideSocketIo', (overrides = {}) => {
     },
   });
 });
-
-// see more example of adding custom commands to Cypress TS interface
-// in https://github.com/cypress-io/add-cypress-custom-command-in-typescript
-// add new command to the existing Cypress interface
-declare namespace Cypress {
-  interface Chainable {
-    login: () => Chainable<void>;
-    hideSocketIo: () => Chainable<void>;
-  }
-}

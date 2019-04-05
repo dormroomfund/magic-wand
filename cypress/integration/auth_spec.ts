@@ -1,22 +1,22 @@
-describe('authentication', function() {
+describe('authentication', () => {
   beforeEach(() => {
     cy.hideSocketIo();
   });
 
-  it('is logged out by default', function() {
+  it('is logged out by default', () => {
     cy.visit('/')
       .contains('Log In')
       .should('be.visible');
   });
 
-  it('logs in', function() {
+  it('logs in', () => {
     cy.login()
       .visit('/')
       .contains('Proceed to Pipeline')
       .should('be.visible');
   });
 
-  it('logs out', function() {
+  it('logs out', () => {
     cy.login()
       .visit('/')
       .get('.dropdown.nav-item')
@@ -26,6 +26,8 @@ describe('authentication', function() {
       .should('be.visible')
       .click();
 
-    cy.visit('/');
+    cy.visit('/')
+      .contains('Log In')
+      .should('be.visible');
   });
 });

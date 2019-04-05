@@ -16,70 +16,48 @@ blocks:
       jobs:
         - name: npm install and cache
           commands:
-            - cache restore npm-cache-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),npm-cache-$SEMAPHORE_GIT_BRANCH,npm-cache-master
+            - (cd ~ && cache restore npm-cache-$SEMAPHORE_GIT_BRANCH-$(checksum $SEMAPHORE_GIT_DIR/package-lock.json),npm-cache-$SEMAPHORE_GIT_BRANCH,npm-cache-master)
             - npm ci
-            - cache store npm-cache-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json) $HOME/.npm
-            - cache store node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json) node_modules
+            - (cd ~ && cache store npm-cache-$SEMAPHORE_GIT_BRANCH-$(checksum $SEMAPHORE_GIT_DIR/package-lock.json) .npm)
+            - (cd ~ && cache store cypress-cache-$SEMAPHORE_GIT_BRANCH-$(checksum $SEMAPHORE_GIT_DIR/package-lock.json) .cache/Cypress)
+            - cache list
   - name: Static Analysis
     task:
-      env_vars:
-        - name: NODE_ENV
-          value: test
-        - name: CI
-          value: 'true'
       prologue:
         commands:
           - checkout
           - nvm use
           - node --version
           - npm --version
+          - (cd ~ && cache restore npm-cache-$SEMAPHORE_GIT_BRANCH-$(checksum $SEMAPHORE_GIT_DIR/package-lock.json))
+          - (cd ~ && cache restore cypress-cache-$SEMAPHORE_GIT_BRANCH-$(checksum $SEMAPHORE_GIT_DIR/package-lock.json))
+          - npm ci
       jobs:
         - name: lint
           commands:
-            - cache restore node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json)
             - make lint
         - name: typecheck
           commands:
-            - cache restore node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json)
             - make typecheck
         - name: type coverage
           commands:
-            - cache restore node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json)
             - make type-coverage
   - name: 'Build'
     task:
-      env_vars:
-        - name: NODE_ENV
-          value: production
       prologue:
         commands:
           - checkout
           - nvm use
           - node --version
           - npm --version
+          - (cd ~ && cache restore npm-cache-$SEMAPHORE_GIT_BRANCH-$(checksum $SEMAPHORE_GIT_DIR/package-lock.json))
+          - (cd ~ && cache restore cypress-cache-$SEMAPHORE_GIT_BRANCH-$(checksum $SEMAPHORE_GIT_DIR/package-lock.json))
+          - npm ci
       jobs:
         - name: build client
           commands:
-            - cache restore node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json)
             - make build
             - cache store client-build-$(git rev-parse HEAD) client/.next
-  - name: Smoke Tests
-    task:
-      env_vars:
-        - name: NODE_ENV
-          value: production
-      prologue:
-        commands:
-          - checkout
-          - nvm use
-          - node --version
-          - npm --version
-      jobs:
-        - name: smoke
-          commands:
-            - cache restore node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json)
-            - cache restore client-build-$(git rev-parse HEAD)
-            - make smoke
   # - name: Unit Tests
   #   task:
   #     prologue:
@@ -93,10 +71,26 @@ blocks:
   #         commands:
   #           - cache restore client-build-$(git rev-parse HEAD)
   #           - make jest
-#   - name: "Integration tests"
-#     task:
-#       jobs:
-#       - name: Cucumber
-#         commands:
-#           - checkout
-#           - echo "make cucumber"
+  - name: End-to-End Tests
+    task:
+      prologue:
+        commands:
+          - checkout
+          - nvm use
+          - node --version
+          - npm --version
+          - (cd ~ && cache restore npm-cache-$SEMAPHORE_GIT_BRANCH-$(checksum $SEMAPHORE_GIT_DIR/package-lock.json))
+          - (cd ~ && cache restore cypress-cache-$SEMAPHORE_GIT_BRANCH-$(checksum $SEMAPHORE_GIT_DIR/package-lock.json))
+          - npm ci
+          - cache restore client-build-$(git rev-parse HEAD)
+          - sem-service start postgres
+          - make ci-database
+          - sem-service status postgres
+      jobs:
+        - name: smoke test
+          commands:
+            - make smoke
+        - name: cypress test
+          commands:
+            - sudo apt-get install -y xvfb libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
+            - make ci-cypress

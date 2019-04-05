@@ -154,6 +154,7 @@
     "stylelint-prettier": "^1.0.6",
     "stylelint-scss": "^3.5.4",
     "ts-loader": "^5.3.3",
-    "type-coverage": "^1.7.0"
+    "type-coverage": "^1.7.0",
+    "wait-on": "^3.2.0"
   }
 }
