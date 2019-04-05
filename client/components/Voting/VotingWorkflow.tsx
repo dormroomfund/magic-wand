@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
-import { ISubmitEvent } from 'react-jsonschema-form-bs4';
-import { Subscribe } from 'unstated';
 import Alert from 'react-bootstrap/lib/Alert';
-import Button from 'react-bootstrap/lib/Button';
-import VotingContainer, {
-  VotingStatus,
-} from '../../containers/VotingContainer';
-import { VoteFields, voteFormSchema } from '../../lib/voting';
-import { OverallVote, VoteType } from '../../schemas/vote';
-import VotingForm from './VotingForm';
-import UserContainer from '../../containers/UserContainer';
-import CompanyRetriever from './CompanyRetriever';
-import VoteDisplay from './VoteDisplay';
 import Button from 'react-bootstrap/lib/Button';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
+import { ISubmitEvent } from 'react-jsonschema-form-bs4';
+import { Subscribe } from 'unstated';
+import UserContainer from '../../containers/UserContainer';
+import VotingContainer, {
+  VotingStatus,
+} from '../../containers/VotingContainer';
+import { VoteFields } from '../../lib/voting';
+import { OverallVote, VoteType } from '../../schemas/vote';
+import CompanyRetriever from './CompanyRetriever';
+import VoteDisplay from './VoteDisplay';
+import VotingForm from './VotingForm';
 
 export interface VotingWorkflowProps {
   companyId: number;
