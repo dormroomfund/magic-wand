@@ -27,8 +27,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "make typecheck && make type-coverage"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
