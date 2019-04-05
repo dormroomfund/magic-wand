@@ -1,4 +1,4 @@
-version: v0.1
+version: v1.0
 name: Magic Wand Test Pipeline
 agent:
   machine:
@@ -8,15 +8,17 @@ blocks:
   - name: Install Dependencies
     task:
       prologue:
-        - checkout # Get the latest version of our source code from GitHub
-        - node --version
-        - npm --version
+        commands:
+          - checkout
+          - node --version
+          - npm --version
       jobs:
         - name: npm install and cache
-          - cache restore npm-cache-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),npm-cache-$SEMAPHORE_GIT_BRANCH,npm-cache-master
-          - npm ci
-          - cache store npm-cache-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json) $HOME/.npm
-          - cache store node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json) node_modules
+          commands:
+            - cache restore npm-cache-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),npm-cache-$SEMAPHORE_GIT_BRANCH,npm-cache-master
+            - npm ci
+            - cache store npm-cache-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json) $HOME/.npm
+            - cache store node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json) node_modules
   - name: Static Analysis
     task:
       env_vars:
