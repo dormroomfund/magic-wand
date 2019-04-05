@@ -1,91 +1,90 @@
-@import "colors.scss";
-@import "fonts.scss";
+@import 'colors.scss';
+@import 'fonts.scss';
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-    background-color: $N5;
+  background-color: $N5;
 }
 
 .cards {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    margin: 10% 0%;
-    padding: 0;
-    width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 10% 0%;
+  padding: 0;
+  width: 100%;
 }
 
 .rowa {
-    margin: 0;
+  margin: 0;
 }
 
 .navbar {
-    background: white;
-    box-shadow: 1px 3px 2px -2px rgba(0, 0, 0, 0.4);
+  background: white;
+  box-shadow: 1px 3px 2px -2px rgba(0, 0, 0, 0.4);
 
-    a {
-        color: #050B1A !important;
-        font-family: CircularStd-Bold, Helvetica, Arial, sans-serif;
-        font-size: 1rem;
-        color: $N90;
-        line-height: 150%;
-    }
+  a {
+    color: #050B1A !important;
+    font-family: CircularStd-Bold, Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 150%;
+  }
 }
 
 .addCompanyDiv {
-    position: absolute;
-    margin-left: 18vw;
-    margin-top: 70vh;
+  position: absolute;
+  margin-left: 18vw;
+  margin-top: 70vh;
 
-    img {
-        width: 2.5vw;
-        border-radius: 5%;
-        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-        cursor: pointer;
+  img {
+    width: 2.5vw;
+    border-radius: 5%;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
 
-        &:hover {
-            transform: scale(1.05);
-        }
+    &:hover {
+      transform: scale(1.05);
     }
+  }
 }
 
 .pipelineButtons {
-    display: flex;
-    position: relative;
-    width: 100%;
-    align-items: center;
-    justify-content: flex-start;
+  display: flex;
+  position: relative;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
 
-    div {
-        margin: 0 .75% .5% 0;
-    }
+  div {
+    margin: 0 0.75% 0.5% 0;
+  }
 
-    img {
-        border-radius: 5%;
-        width: 2%;
-        height: 2%;
-        margin-right: .75%;
-        cursor: pointer;
-    }
+  img {
+    border-radius: 5%;
+    width: 2%;
+    height: 2%;
+    margin-right: 0.75%;
+    cursor: pointer;
+  }
 }
 
 .pipelineLayout {
-    margin: 5rem 5vw 0vh 5vw;
-    padding: 0;
+  margin: 5rem 5vw 0 5vw;
+  padding: 0;
 }
 
 .pipelineColumns {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
 }
 
 .color-N50 {
-    color: $N50;
+  color: $N50;
 }

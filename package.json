@@ -36,6 +36,11 @@
       "eslint --fix",
       "git add"
     ],
+    "*.{scss}": [
+      "stylelint --fix",
+      "prettier --write",
+      "git add"
+    ],
     "*.json": [
       "prettier --write",
       "git add"
@@ -141,6 +146,10 @@
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
     "scss-to-json": "^2.0.0",
+    "stylelint": "^9.10.1",
+    "stylelint-config-prettier": "^5.0.0",
+    "stylelint-config-standard": "^18.2.0",
+    "stylelint-scss": "^3.5.4",
     "type-coverage": "^1.7.0"
   }
 }
