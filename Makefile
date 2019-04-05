@@ -78,6 +78,9 @@ lint-fix-js:
 lint-fix-sass:
 	$(NPX) stylelint "client/stylesheets/**/*.scss" --fix
 
+smoke:
+	timeout 1m "make production" | grep "application started"
+
 # Runs the test suite.
 jest:
 	$(NPX) jest
