@@ -5,21 +5,43 @@ agent:
     type: e1-standard-2
     os_image: ubuntu1804
 blocks:
-  - name: "Static Analysis"
+  - name: Install Dependencies
     task:
+      prologue:
+        - checkout # Get the latest version of our source code from GitHub
+        - node --version
+        - npm --version
       jobs:
-      - name: Lint
+        - name: npm install and cache
+          - cache restore npm-cache-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),npm-cache-$SEMAPHORE_GIT_BRANCH,npm-cache-master
+          - npm ci
+          - cache store npm-cache-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json) $HOME/.npm
+          - cache store node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json) node_modules
+  - name: Static Analysis
+    task:
+      env_vars:
+        - name: NODE_ENV
+          value: test
+        - name: CI
+          value: 'true'
+      prologue:
         commands:
           - checkout
-          - ls -1
-          - make lint
-          - echo "done"
-      - name: Type Checking
-        commands:
-          - checkout
-          - ls -1
-          - make typecheck
-          - make type-coverage
+          - node --version
+          - npm --version
+      jobs:
+        - name: lint
+          commands:
+            - cache restore node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json)
+            - make lint
+        - name: type check
+          commands:
+            - cache restore node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json)
+            - make typecheck
+        - name: type coverage
+          commands:
+            - cache restore node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json)
+            - make type-coverage
 #   - name: "Build"
 #     task:
 #       env_vars:
