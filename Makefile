@@ -57,7 +57,7 @@ typecheck:
 
 # Runs a type coverage analysis of the codebase.
 type-coverage:
-	$(NPX) type-coverage --strict --at-least 85
+	$(NPX) type-coverage --strict --at-least 85 --detail --cache
 
 # Formats code to style and lint specifications.
 fmt: lint-fix prettier
