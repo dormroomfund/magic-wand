@@ -73,20 +73,17 @@ cypress\:open:
 	$(NPX) cypress open
 
 # Runs the full test suite.
-test: lint jest
+# test: lint jest cypress\:run
+test: cypress\:run
 
 ################################################################################
-
-# Make a migration from template.
-make-migration:
-	npx knex migrate:make
 
 # Migrate the database to the latest migration.
 migrate:
 	$(NPX) knex migrate:latest --knexfile knexfile.ts
 
 # Roll back the database to before the latest mgiration.
-rollback:
+migrate\:rollback:
 	$(NPX) knex migrate:rollback --knexfile knexfile.ts
 
 seed:
