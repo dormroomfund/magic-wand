@@ -20,7 +20,7 @@ export default class Vote extends BaseModel {
           to: 'companies.id',
         },
       },
-      voted_users: {
+      voter: {
         relation: Model.BelongsToOneRelation,
         modelClass: `${__dirname}/users.model`,
         join: {
