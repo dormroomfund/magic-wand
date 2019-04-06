@@ -9,10 +9,10 @@ import { Company } from '../schemas/company';
 
 interface CompanyProps {
   id: string;
+  company: Company;
 }
 
 interface CompanyState {
-  company: Company;
   loading: any;
 }
 
@@ -21,19 +21,17 @@ export default class CompanyPage extends React.Component<
   CompanyState
 > {
   state = {
-    company: {} as Company,
-    loading: false,
+    loading: true,
   };
 
   static async getInitialProps(ctx: NextContext) {
     requireLoggedIn()(ctx);
-    return ctx.query;
+    const company = await client.service('api/companies').get(+ctx.query.id);
+    return { ...ctx.query, company };
   }
 
   async componentDidMount() {
-    const company = await client.service('api/companies').get(this.props.id);
-    this.setState({ company, loading: false });
-    // TODO: Error Handling
+    this.setState({ loading: false });
   }
 
   handleSubmit = async (evt: ISubmitEvent<any>) => {
@@ -50,12 +48,15 @@ export default class CompanyPage extends React.Component<
 
   render() {
     // TODO: Fancier loading screen.
-    const { company, loading } = this.state;
+    const { loading } = this.state;
 
     return (
       <FullWidthLayout>
-        {loading && <div>Loading...</div>}
-        {company ? <CompanyProfile company={company} /> : 'Error'}
+        {this.props.company ? (
+          <CompanyProfile company={this.props.company} />
+        ) : (
+          'Error'
+        )}
       </FullWidthLayout>
     );
   }
