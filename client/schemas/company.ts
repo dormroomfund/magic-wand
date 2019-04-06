@@ -76,7 +76,7 @@ export interface Company {
     final: PartnerVoteObj[];
     prevote: PartnerVoteObj[];
   };
-  voteResults: {
+  voteResults?: {
     numYes: number;
     numNo: number;
     marketScoreAvg: number;
