@@ -4,7 +4,7 @@
 export const refsMap = {
   founder_or_no: 'lY0j8jKVjWG2',
   name: 'f1f16b3a-a7f7-47c5-8aa9-f5943bc702a3',
-  founders: 'uKr1M7EgfX6g',
+  founders: '9067d6d2-324a-4440-b1e9-dc48ec154aab',
   linkedins: '950d5a8a-e8d5-4096-b8e2-d72413be54d0',
   schools: 'f57370cb-554c-4b58-95a2-9bf6a21a8730',
   website: 'b7e6e51c-00a5-4db7-af16-77dd97203250',
@@ -24,18 +24,26 @@ export const refsMap = {
 };
 
 export const getAnswerValueFromRef = (payload, ref: string) => {
-  const { id } = payload.definition.fields.find((field) => field.ref === ref);
+  if (payload && 'form_response' in payload) {
+    payload = payload.form_response;
+  }
 
-  const answer = payload.answers.find(
-    (possibleAnswer) => possibleAnswer.field.id === id
-  );
+  try {
+    const { id } = payload.definition.fields.find((field) => field.ref === ref);
 
-  const { type } = answer;
-  const value = answer[type];
+    const answer = payload.answers.find(
+      (possibleAnswer) => possibleAnswer.field.id === id
+    );
 
-  if (type === 'choices') return value.labels;
+    const { type } = answer;
+    const value = answer[type];
 
-  if (type === 'choice') return value.label;
+    if (type === 'choices') return value.labels;
 
-  return value;
+    if (type === 'choice') return value.label;
+
+    return value;
+  } catch (e) {
+    return '';
+  }
 };

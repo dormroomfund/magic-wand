@@ -3,6 +3,7 @@ import { Paginated } from '@feathersjs/feathers';
 import App from '../../../client/schemas/app';
 import { Status } from '../../../client/schemas/company';
 import { OverallVote, Vote } from '../../../client/schemas/vote';
+import { computeVotingScores } from '../../../client/lib/voting';
 
 /*
  * This service is used to determine for a given voteType and voteType who
@@ -34,34 +35,7 @@ export default (app: App) => {
         },
       })) as Paginated<Vote>;
 
-      /*
-       * Go through each of the votes and determine the number of yes
-       * votes and the number of no votes.
-       */
-      let numYes = 0;
-      let numNo = 0;
-      let marketScoreAvg = 0;
-      let productScoreAvg = 0;
-      let teamScoreAvg = 0;
-      let fitScoreAvg = 0;
-
-      votes.data.forEach((vote) => {
-        marketScoreAvg += vote.market_score;
-        productScoreAvg += vote.product_score;
-        teamScoreAvg += vote.team_score;
-        fitScoreAvg += vote.fit_score;
-
-        if (vote.overall_vote === OverallVote.Fund) {
-          numYes += 1;
-        } else {
-          numNo += 1;
-        }
-      });
-
-      marketScoreAvg /= votes.data.length;
-      productScoreAvg /= votes.data.length;
-      teamScoreAvg /= votes.data.length;
-      fitScoreAvg /= votes.data.length;
+      const results = computeVotingScores(votes);
 
       /*
        * If there are enough yes votes mark the company as
@@ -87,7 +61,7 @@ export default (app: App) => {
           throw new errors.BadRequest('Missing final votes');
         }
 
-        if (numYes > numNo) {
+        if (results.numYes > results.numNo) {
           status = Status.Funded;
           await app.service('api/companies').patch(id, {
             status: Status.Funded,
@@ -105,12 +79,7 @@ export default (app: App) => {
        */
       return {
         status,
-        numYes,
-        numNo,
-        marketScoreAvg,
-        fitScoreAvg,
-        productScoreAvg,
-        teamScoreAvg,
+        ...results,
       };
     },
   };

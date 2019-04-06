@@ -4,11 +4,13 @@ import Button from 'react-bootstrap/lib/Button';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 import styled from 'styled-components';
-import { Company } from '../../schemas/company';
+import { Company, pitchedStates } from '../../schemas/company';
 import colors from '../../stylesheets/colors.json';
 
 import PartnerAssigner from '../Pipeline/PartnerAssigner/PartnerAssigner';
 import FounderGroup from './FounderGroup';
+import VoteResults from './VoteResults';
+import { refsMap, getAnswerValueFromRef } from '../../lib/typeform';
 
 export interface CompanyProfileProps {
   company: Company;
@@ -110,20 +112,29 @@ export default ({ company }: CompanyProfileProps) => (
         <CompanyQuestion>
           <small>What’s unique about your startup?</small>
           <br />
+          {getAnswerValueFromRef(company.typeform_data, refsMap.uniqueness)}
         </CompanyQuestion>
         <CompanyQuestion>
           <small>Where are you in your fundraising process?</small>
           <br />
+          {getAnswerValueFromRef(
+            company.typeform_data,
+            refsMap.fundraising_process
+          )}
         </CompanyQuestion>
         <CompanyQuestion>
           <small>Were you referred by someone in the DRF community?</small>
           <br />
+          {getAnswerValueFromRef(company.typeform_data, refsMap.referral)}
         </CompanyQuestion>
-        <FounderGroup />
+        <FounderGroup company={company} />
       </Col>
       <Col md="4">
         Status:
         {company.status}
+        {pitchedStates.includes(company.status) ? (
+          <VoteResults company={company} />
+        ) : null}
       </Col>
     </BodyRow>
   </div>

@@ -36,6 +36,13 @@ export const archivedStates = [
   Status.Funded,
 ];
 
+/* States for when a company Pitched */
+export const pitchedStates = [
+  Status.RejectedWithPitch,
+  Status.Accepted,
+  Status.Funded,
+];
+
 export interface PartnerVoteObj {
   vote_id: number;
   partner_id: number;
@@ -68,6 +75,14 @@ export interface Company {
   partnerVotes?: {
     final: PartnerVoteObj[];
     prevote: PartnerVoteObj[];
+  };
+  voteResults: {
+    numYes: number;
+    numNo: number;
+    marketScoreAvg: number;
+    fitScoreAvg: number;
+    productScoreAvg: number;
+    teamScoreAvg: number;
   };
 }
 

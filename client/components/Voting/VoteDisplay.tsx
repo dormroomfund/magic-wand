@@ -41,7 +41,7 @@ class VoteDisplay extends Component<VoteDisplayProps, VoteDisplayState> {
             <strong>Market:</strong> {vote.market_score} <br />
             <strong>Product:</strong> {vote.product_score} <br />
             <strong>Team:</strong> {vote.team_score} <br />
-            <strong>Fit:</strong> {vote.team_score} <br />
+            <strong>Fit:</strong> {vote.fit_score} <br />
             <strong>Overall Vote:</strong> {vote.overall_vote} <br />
             <strong>Comment:</strong> {vote.comment} <br />
           </Card.Text>
