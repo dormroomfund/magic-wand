@@ -1,6 +1,9 @@
 import { HookContext } from '@feathersjs/feathers';
+import { hooks as authHooks } from '@feathersjs/authentication';
 import { iff, callingParams } from 'feathers-hooks-common';
 import { associateCurrentUser } from 'feathers-authentication-hooks';
+
+const { authenticate } = authHooks;
 
 // const voteExists = async (context: HookContext<any>) => {
 //   console.log(context);
@@ -23,7 +26,7 @@ import { associateCurrentUser } from 'feathers-authentication-hooks';
 
 export default {
   before: {
-    all: [],
+    all: [authenticate('jwt')],
     find: [],
     get: [],
     create: [

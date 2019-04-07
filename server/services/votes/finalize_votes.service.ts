@@ -3,6 +3,7 @@ import { Paginated } from '@feathersjs/feathers';
 import App from '../../../client/schemas/app';
 import { Status } from '../../../client/schemas/company';
 import { OverallVote, Vote } from '../../../client/schemas/vote';
+import hooks from './finalize-votes.hooks';
 
 /*
  * This service is used to determine for a given voteType and voteType who
@@ -116,4 +117,5 @@ export default (app: App) => {
   };
 
   app.use('/api/votes/finalize', FinalizeVotesService);
+  app.service('api/votes/finalize').hooks(hooks);
 };

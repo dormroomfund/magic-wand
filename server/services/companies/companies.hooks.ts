@@ -1,12 +1,13 @@
-import Ajv from 'ajv';
-import { alterItems, fastJoin, keep, iff } from 'feathers-hooks-common';
 import { HookContext } from '@feathersjs/feathers';
+import Ajv from 'ajv';
+import { alterItems, fastJoin, iff, keep } from 'feathers-hooks-common';
 import {
-  companySchema,
   Company,
+  companySchema,
   Status,
 } from '../../../client/schemas/company';
 import { DocumentTypes } from '../../../client/schemas/gdrive';
+import { authenticate } from '../../hooks/authentication';
 
 const ajv = new Ajv({ allErrors: true, $data: true });
 
@@ -96,7 +97,7 @@ const generateGoogleDriveDocuments = async (ctx: HookContext<Company>) => {
 
 export default {
   before: {
-    all: [],
+    all: [authenticate('jwt')],
     find: [],
     get: [],
     create: [
