@@ -28,9 +28,7 @@ export const up = async (knex: Knex) =>
       table.renameColumn('fit_score', 'fitScore');
       table.renameColumn('created_at', 'createdAt');
       table.renameColumn('updated_at', 'updatedAt');
-      table
-        .renameColumn('overall_vote', 'overallVote')
-        .defaultTo(OverallVote.DontFund);
+      table.renameColumn('overall_vote', 'overallVote');
     }),
     knex.schema.alterTable('company_point_partner', (table) => {
       table.renameColumn('user_id', 'userId');
@@ -65,7 +63,7 @@ export const down = async (knex: Knex) => {
       table.renameColumn('fitScore', 'fit_score');
       table.renameColumn('createdAt', 'created_at');
       table.renameColumn('updatedAt', 'updated_at');
-      table.renameColumn('overallVote', 'overall_vote').defaultTo('dont fund');
+      table.renameColumn('overallVote', 'overall_vote');
     }),
     knex.schema.alterTable('company_point_partner', (table) => {
       table.renameColumn('userId', 'user_id');
