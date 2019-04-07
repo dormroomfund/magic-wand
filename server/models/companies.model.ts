@@ -13,14 +13,14 @@ export default class Company extends BaseModel {
 
   static get relationMappings() {
     return {
-      associated_users: {
+      pointPartners: {
         relation: Model.ManyToManyRelation,
         modelClass: `${__dirname}/users.model`,
         join: {
           from: 'companies.id',
           through: {
-            from: 'users_companies.company_id',
-            to: 'users_companies.users_id',
+            from: 'company_point_partner.company_id',
+            to: 'company_point_partner.user_id',
           },
           to: 'users.id',
           extra: ['permissions'],
