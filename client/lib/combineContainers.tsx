@@ -1,5 +1,6 @@
 import { Container as UnstatedContainer } from 'unstated';
 import { Class } from 'utility-types';
+import _, { mapValues } from 'lodash';
 
 export interface ContextMap {
   [key: string]: ChildContainer<object, ContextMap>;
@@ -22,30 +23,24 @@ export const combineContainers = (containers: ContextClassMap) =>
   class CombinedContainer extends UnstatedContainer<{}> {
     ctx: ContextMap;
 
-    constructor(injectedContainers: ContextMap = {}) {
+    state = {};
+
+    constructor(injected: ContextMap = {}) {
       super();
 
-      this.state = {};
-      this.ctx = {};
+      this.ctx = mapValues(
+        containers,
+        (Container, name) => injected[name] || new Container()
+      );
 
-      Object.entries(containers).forEach(([name, Container]) => {
-        let container: ChildContainer<object>;
-        if (injectedContainers[name] instanceof Container) {
-          container = injectedContainers[name];
-        } else {
-          container = new Container();
-        }
-
+      // inject context and listen to container updates
+      Object.values(this.ctx).forEach((container) => {
         container.ctx = this.ctx;
+        container.subscribe(this.handleUpdate);
+      });
 
-        // child container updates should trigger overall state change
-        const rawSetState = container.setState;
-        container.setState = async (...args) => {
-          await rawSetState.call(container, ...args);
-          this.setState({});
-        };
-
-        this.ctx[name] = container;
+      // enable direct access to containers without ctx prefix
+      Object.keys(this.ctx).forEach((name) => {
         Object.defineProperty(this, name, {
           get() {
             return this.ctx[name];
@@ -53,4 +48,7 @@ export const combineContainers = (containers: ContextClassMap) =>
         });
       });
     }
+
+    /** Trigger an update on the overall state */
+    private handleUpdate = async () => this.setState({});
   };

@@ -8,7 +8,7 @@ import PipelineContainer from './PipelineContainer';
 export default class ApplicationContainer extends combineContainers({
   pipeline: PipelineContainer,
 }) {
-  pipeline: PipelineContainer;
+  readonly pipeline: PipelineContainer;
 }
 
 //
