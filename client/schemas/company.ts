@@ -1,4 +1,5 @@
 import { Team } from './common';
+import { User } from './user';
 
 export enum Status {
   /** The company has applied. */
@@ -64,6 +65,7 @@ export interface Company {
   readonly typeformData?: object;
 
   // Server-generated fields
+  pointPartners?: User[];
   partnerVotes?: {
     final: PartnerVoteObj[];
     prevote: PartnerVoteObj[];
