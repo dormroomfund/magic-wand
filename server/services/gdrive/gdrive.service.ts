@@ -3,7 +3,7 @@
  * snapshots or prevote documents.
  *
  * {
- *   document_type: 'prevote' or 'snapshot'
+ *   documentType: 'prevote' or 'snapshot'
  *   companyId:
  * }
  *
@@ -56,10 +56,10 @@ class GDriveService {
   };
 
   async create(data: GoogleDriveDocument) {
-    const { document_type, companyId } = data;
+    const { documentType, companyId } = data;
     const company = await this.app.service('api/companies').get(companyId);
 
-    if (company.companyLinks.some(({ name }) => name === document_type)) {
+    if (company.companyLinks.some(({ name }) => name === documentType)) {
       return data;
     }
     if (!company.team) {
@@ -68,12 +68,12 @@ class GDriveService {
 
     /* Get the relevant folder we want to store this document in. */
     const folder = config.get(
-      `googleDrive.${document_type}FolderIds.${company.team}`
+      `googleDrive.${documentType}FolderIds.${company.team}`
     );
 
     const documentName = `[${companyId}] ${
       company.name
-    } ${document_type.toUpperCase()}`;
+    } ${documentType.toUpperCase()}`;
 
     const drive = await this.getDriveClient();
     const createDriveFile = util.promisify(drive.files.create);
@@ -90,7 +90,7 @@ class GDriveService {
 
       return {
         ...data,
-        document_id: res.data.id,
+        documentId: res.data.id,
       };
     } catch (e) {
       logger.error('error while creating file', e);

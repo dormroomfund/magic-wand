@@ -39,7 +39,7 @@ const votedPartners = {
         const partnerObj = {
           name: `${vote.voter.firstName} ${vote.voter.lastName}`,
           partnerId: vote.partnerId,
-          vote_id: vote.id,
+          voteId: vote.id,
         };
         if (vote.voteType === 'prevote') {
           partnerVotes.prevote.push(partnerObj);
@@ -57,10 +57,10 @@ const pointPartners = {
   joins: {
     partners: () => async (company, context) => {
       const users = context.app.service('api/users');
-      if (company.point_partners) {
+      if (company.pointPartners) {
         const pointPartnerObjs = (await users.find({
           query: {
-            id: { $in: company.point_partners },
+            id: { $in: company.pointPartners },
             $select: ['firstName', 'lastName'],
           },
         })).data;
@@ -84,11 +84,11 @@ const isPitching = async (ctx: HookContext<Company>) =>
 const generateGoogleDriveDocuments = async (ctx: HookContext<Company>) => {
   await Promise.all([
     ctx.app.service('api/gdrive').create({
-      document_type: DocumentTypes.Prevote,
+      documentType: DocumentTypes.Prevote,
       companyId: ctx.result.id,
     }),
     ctx.app.service('api/gdrive').create({
-      document_type: DocumentTypes.Snapshot,
+      documentType: DocumentTypes.Snapshot,
       companyId: ctx.result.id,
     }),
   ]);
@@ -100,8 +100,9 @@ export default {
     find: [],
     get: [],
     create: [
-      alterItems((company) => {
-        company.point_partners = company.point_partners || [];
+      alterItems((company: Company) => {
+        // TODO
+        // company.pointPartners = company.pointPartners || [];
         company.industries = company.industries || [];
         company.tags = company.tags || [];
         company.companyLinks = company.companyLinks || [];

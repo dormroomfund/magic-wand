@@ -40,7 +40,7 @@ export default class PartnerAssignmentModal extends Component<
     const { company } = this.props;
     this.state = {
       partners: [],
-      assignedPartners: company.point_partners || [],
+      assignedPartners: company.pointPartners || [],
     };
   }
 
@@ -68,7 +68,8 @@ export default class PartnerAssignmentModal extends Component<
 
     this.setState(reducer, async () => {
       await client.service('api/companies').patch(company.id, {
-        point_partners: this.state.assignedPartners,
+        // TODO
+        // pointPartners: this.state.assignedPartners,
       });
     });
   };

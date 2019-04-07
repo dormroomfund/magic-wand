@@ -12,7 +12,7 @@ export default class VoteModel extends BaseModel {
 
   static get relationMappings() {
     return {
-      voted_company: {
+      votedCompany: {
         relation: Model.BelongsToOneRelation,
         modelClass: `${__dirname}/company.model`,
         join: {

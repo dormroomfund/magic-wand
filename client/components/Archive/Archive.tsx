@@ -30,8 +30,7 @@ export default class Archive extends Component<{}, ArchiveState> {
       case Filter.MySuccess:
         return ac.companies.filter(
           (co) =>
-            co.status === Status.Funded &&
-            co.point_partners.includes(uc.user.id)
+            co.status === Status.Funded && co.pointPartners.includes(uc.user.id)
         );
       default:
         throw new UnreachableCaseError(filter);

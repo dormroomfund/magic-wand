@@ -96,7 +96,7 @@ export default class VotingContainer extends Container<VotingContainerState> {
 
     const votes = company.partnerVotes[voteType];
     const vote = votes && votes.find((v) => v.partnerId === userId);
-    return vote && this.vote(vote.vote_id);
+    return vote && this.vote(vote.voteId);
   }
 
   // VOTING PROCESS
@@ -228,6 +228,6 @@ export default class VotingContainer extends Container<VotingContainerState> {
     const votes = company.partnerVotes[voteType];
     const vote = votes && votes.find((v) => v.partnerId === userId);
 
-    return await this.retrieveVote(vote.vote_id);
+    return await this.retrieveVote(vote.voteId);
   }
 }

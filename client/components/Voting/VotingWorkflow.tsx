@@ -106,7 +106,7 @@ export default class VotingWorkflow extends Component<
                     {vc
                       .votedPartners(companyId, VoteType.Prevote)
                       .map((voter) => (
-                        <Col key={voter.vote_id}>
+                        <Col key={voter.voteId}>
                           <VoteDisplay
                             companyId={companyId}
                             userId={voter.partnerId}
@@ -151,7 +151,7 @@ export default class VotingWorkflow extends Component<
               {votingFinalized && (
                 <Row>
                   {vc.votedPartners(companyId, VoteType.Final).map((voter) => (
-                    <Col key={voter.vote_id}>
+                    <Col key={voter.voteId}>
                       <VoteDisplay
                         companyId={companyId}
                         userId={voter.partnerId}

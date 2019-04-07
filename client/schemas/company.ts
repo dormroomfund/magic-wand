@@ -37,7 +37,7 @@ export const archivedStates = [
 ];
 
 export interface PartnerVoteObj {
-  vote_id: number;
+  voteId: number;
   partnerId: number;
   name: string;
 }
@@ -52,7 +52,6 @@ export interface Company {
   name: string;
   description: string;
   team: Team;
-  point_partners?: number[];
   industries?: string[];
   tags?: string[];
   status: Status;
@@ -62,7 +61,7 @@ export interface Company {
   udpatedAt?: string;
 
   // Non-mutable fields
-  typeform_data?: object;
+  readonly typeformData?: object;
 
   // Server-generated fields
   partnerVotes?: {
@@ -80,7 +79,6 @@ export const companySchema = {
     id: { type: 'integer' },
     name: { type: 'string' },
     description: { type: 'string' },
-    point_partners: { type: 'array', items: { type: 'integer' } },
     team: { type: 'string', enum: Object.values(Team) },
     industries: { type: 'array', items: { type: 'string' } },
     tags: { type: 'array', items: { type: 'string' } },
