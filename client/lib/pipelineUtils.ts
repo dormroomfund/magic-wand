@@ -1,11 +1,11 @@
-import { Status } from '../schemas/company';
+import { Status, Company } from '../schemas/company';
 
 /*
  * @params array of companies
  * returns formatted data for Kanban board
  */
 
-const transformData = (arr) => {
+const transformData = (arr: Company[]) => {
   const partnerNames = new Set([]);
 
   const columns = {
@@ -36,8 +36,12 @@ const transformData = (arr) => {
       id: elt.id,
       name: elt.name,
       description: elt.description,
-      pointPartnersNames: elt.pointPartnerNames
-        ? new Set(elt.pointPartnerNames)
+      pointPartnersNames: elt.pointPartners
+        ? new Set(
+            elt.pointPartners.map(
+              (partner) => `${partner.firstName} ${partner.lastName}`
+            )
+          )
         : new Set([]),
     };
 
