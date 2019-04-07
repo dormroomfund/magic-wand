@@ -1,9 +1,9 @@
 import { Model } from 'objection';
 import BaseModel from './base.model';
 
-export default class Vote extends BaseModel {
+export default class VoteModel extends BaseModel {
   static get tableName() {
-    return 'votes';
+    return 'vote';
   }
 
   // static get jsonSchema() {
@@ -14,18 +14,18 @@ export default class Vote extends BaseModel {
     return {
       voted_company: {
         relation: Model.BelongsToOneRelation,
-        modelClass: `${__dirname}/companies.model`,
+        modelClass: `${__dirname}/company.model`,
         join: {
-          from: 'votes.company_id',
-          to: 'companies.id',
+          from: 'vote.company_id',
+          to: 'company.id',
         },
       },
       voter: {
         relation: Model.BelongsToOneRelation,
-        modelClass: `${__dirname}/users.model`,
+        modelClass: `${__dirname}/user.model`,
         join: {
-          from: 'users.id',
-          to: 'votes.partner_id',
+          from: 'user.id',
+          to: 'vote.partner_id',
         },
       },
     };
