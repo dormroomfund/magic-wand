@@ -48,7 +48,7 @@ export default ({ company }: CompanyProfileProps) => (
         <small>
           <em className="color-N50">
             Last edited &nbsp;
-            {dayjs(company.udpatedAt).format('MMMM D, YYYY [at] h:mm a')}
+            {dayjs(company.updatedAt).format('MMMM D, YYYY [at] h:mm a')}
           </em>
         </small>
       </Col>

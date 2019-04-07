@@ -99,7 +99,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
     const foreign = this.state.columns[destination.droppableId];
 
     /** **************************************
-     re-oredering within same column
+     re-ordering within same column
      **************************************** */
     if (home === foreign) {
       const obj = home.companies[source.index];

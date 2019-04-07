@@ -59,7 +59,7 @@ export interface Company {
   contactEmail: string;
   companyLinks?: CompanyLink[];
   createdAt?: string;
-  udpatedAt?: string;
+  updatedAt?: string;
 
   // Non-mutable fields
   readonly typeformData?: object;

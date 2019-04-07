@@ -7,7 +7,7 @@ export const up = async (knex: Knex) =>
       table.renameColumn('contact_email', 'contactEmail');
       table.renameColumn('company_links', 'companyLinks');
       table.renameColumn('created_at', 'createdAt');
-      table.renameColumn('updated_at', 'udpatedAt');
+      table.renameColumn('updated_at', 'updatedAt');
       table.renameColumn('typeform_data', 'typeformData');
     }),
     knex.schema.alterTable('user', (table) => {
@@ -42,7 +42,7 @@ export const down = async (knex: Knex) => {
       table.renameColumn('contactEmail', 'contact_email');
       table.renameColumn('companyLinks', 'company_links');
       table.renameColumn('createdAt', 'created_at');
-      table.renameColumn('udpatedAt', 'updated_at');
+      table.renameColumn('updatedAt', 'updated_at');
       table.renameColumn('typeformData', 'typeform_data');
     }),
     knex.schema.alterTable('user', (table) => {
