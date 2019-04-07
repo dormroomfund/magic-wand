@@ -99,7 +99,7 @@ body {
   border-radius: 1px;
 }
 
-.body{
+.companybody{
   display: flex;
   justify-content: space-between;
 }
@@ -133,4 +133,8 @@ body {
   border-radius: 15px;
   color: #0702d1;
   font-size: .9rem;
+}
+
+.infobutton{
+  background-color: red;
 }

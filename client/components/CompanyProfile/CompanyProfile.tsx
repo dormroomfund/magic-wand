@@ -117,7 +117,7 @@ export default ({ company }: CompanyProfileProps) => (
         <PartnerAssigner company={company} />
       </Col>
     </HeaderRow>
-    <div className="body">
+    <div className="companybody">
       <div className="mainbody">
         <CompanyQuestion>
           <small>Description</small>
