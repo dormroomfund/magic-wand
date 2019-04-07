@@ -14,8 +14,8 @@ exports.seed = function(knex: Knex) {
         //   description: faker.company.catchPhrase(),
         //   industries: ['agtech'],
         //   status: 'applied',
-        //   contact_email: [faker.internet.email()],
-        //   company_links: {},
+        //   contactEmail: [faker.internet.email()],
+        //   companyLinks: {},
         //   archived: false,
         // },
         // {
@@ -24,8 +24,8 @@ exports.seed = function(knex: Knex) {
         //   description: faker.company.catchPhrase(),
         //   industries: ['advertising'],
         //   status: 'funded',
-        //   contact_email: [faker.internet.email()],
-        //   company_links: {},
+        //   contactEmail: [faker.internet.email()],
+        //   companyLinks: {},
         //   archived: true,
         // },
       ])

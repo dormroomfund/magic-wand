@@ -17,10 +17,10 @@ export default (app: App) => {
         expression: 'voter',
         filter(builder) {
           /*
-           * Use the eager filter to only get the first_name
-           * and last_name.
+           * Use the eager filter to only get the firstName
+           * and lastName.
            */
-          builder.select(['first_name', 'last_name']);
+          builder.select(['firstName', 'lastName']);
         },
       },
     ],

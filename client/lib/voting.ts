@@ -3,21 +3,21 @@ import { pick, makeRequired } from '../schemas/_utils';
 import { voteSchema, Vote } from '../schemas/vote';
 
 const requiredFields = [
-  'fit_score',
-  'market_score',
-  'product_score',
-  'team_score',
-  'overall_vote',
+  'fitScore',
+  'marketScore',
+  'productScore',
+  'teamScore',
+  'overallVote',
   'comment',
 ];
 
 export type VoteFields = Pick<
   Vote,
-  | 'fit_score'
-  | 'market_score'
-  | 'product_score'
-  | 'team_score'
-  | 'overall_vote'
+  | 'fitScore'
+  | 'marketScore'
+  | 'productScore'
+  | 'teamScore'
+  | 'overallVote'
   | 'comment'
 >;
 

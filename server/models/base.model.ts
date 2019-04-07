@@ -1,16 +1,16 @@
 import { Model } from 'objection';
 
 export default abstract class BaseModel extends Model {
-  created_at?: string;
+  createdAt?: string;
 
-  updated_at?: string;
+  udpatedAt?: string;
 
   $beforeInsert() {
-    this.created_at = new Date().toISOString();
-    this.updated_at = new Date().toISOString();
+    this.createdAt = new Date().toISOString();
+    this.udpatedAt = new Date().toISOString();
   }
 
   $beforeUpdate() {
-    this.updated_at = new Date().toISOString();
+    this.udpatedAt = new Date().toISOString();
   }
 }

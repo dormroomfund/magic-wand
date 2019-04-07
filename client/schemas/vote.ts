@@ -6,18 +6,18 @@ export enum VoteType {
 }
 export interface Vote {
   id?: number;
-  vote_type: VoteType;
-  partner_id: number;
-  company_id: number;
-  market_score: number;
-  product_score: number;
-  team_score: number;
-  fit_score: number;
-  overall_vote: string;
+  voteType: VoteType;
+  partnerId: number;
+  companyId: number;
+  marketScore: number;
+  productScore: number;
+  teamScore: number;
+  fitScore: number;
+  overallVote: string;
   comment?: string;
 
   // Query-only Fields
-  voter: Pick<User, 'first_name' | 'last_name'>;
+  voter: Pick<User, 'firstName' | 'lastName'>;
 }
 
 export enum OverallVote {
@@ -31,29 +31,29 @@ export enum OverallVote {
 export const voteSchema = {
   type: 'object',
   required: [
-    'company_id',
-    'partner_id',
-    'vote_type',
-    'market_score',
-    'product_score',
-    'overall_vote',
-    'fit_score',
-    'team_score',
+    'companyId',
+    'partnerId',
+    'voteType',
+    'marketScore',
+    'productScore',
+    'overallVote',
+    'fitScore',
+    'teamScore',
   ],
 
   properties: {
     id: { type: 'integer' },
-    vote_type: {
+    voteType: {
       type: 'string',
       enum: Object.values(VoteType),
     },
-    partner_id: { type: 'integer' },
-    company_id: { type: 'integer' },
-    market_score: { type: 'integer', enum: [1, 2, 3, 4, 5] },
-    product_score: { type: 'integer', enum: [1, 2, 3, 4, 5] },
-    team_score: { type: 'integer', enum: [1, 2, 3, 4, 5] },
-    fit_score: { type: 'integer', enum: [1, 2, 3, 4, 5] },
-    overall_vote: { type: 'string', enum: Object.values(OverallVote) },
+    partnerId: { type: 'integer' },
+    companyId: { type: 'integer' },
+    marketScore: { type: 'integer', enum: [1, 2, 3, 4, 5] },
+    productScore: { type: 'integer', enum: [1, 2, 3, 4, 5] },
+    teamScore: { type: 'integer', enum: [1, 2, 3, 4, 5] },
+    fitScore: { type: 'integer', enum: [1, 2, 3, 4, 5] },
+    overallVote: { type: 'string', enum: Object.values(OverallVote) },
     comment: { type: 'string' },
   },
 };

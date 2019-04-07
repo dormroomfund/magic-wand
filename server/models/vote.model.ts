@@ -16,7 +16,7 @@ export default class VoteModel extends BaseModel {
         relation: Model.BelongsToOneRelation,
         modelClass: `${__dirname}/company.model`,
         join: {
-          from: 'vote.company_id',
+          from: 'vote.companyId',
           to: 'company.id',
         },
       },
@@ -25,7 +25,7 @@ export default class VoteModel extends BaseModel {
         modelClass: `${__dirname}/user.model`,
         join: {
           from: 'user.id',
-          to: 'vote.partner_id',
+          to: 'vote.partnerId',
         },
       },
     };

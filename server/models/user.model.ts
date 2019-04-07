@@ -19,8 +19,8 @@ export default class UserModel extends BaseModel {
         join: {
           from: 'user.id',
           through: {
-            from: 'user_point_partner.user_id',
-            to: 'user_point_partner.company_id',
+            from: 'user_point_partner.userId',
+            to: 'user_point_partner.companyId',
           },
           to: 'company.id',
           extra: ['permissions'],

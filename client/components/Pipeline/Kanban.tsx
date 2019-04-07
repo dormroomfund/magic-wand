@@ -175,12 +175,12 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
   render() {
     return (
       <div>
-        <h2>{`${this.props.user.first_name} ${this.props.user.last_name}`}</h2>
+        <h2>{`${this.props.user.firstName} ${this.props.user.lastName}`}</h2>
         <div className="pipelineButtons">
           <CustomDropdown partners={this.state.partnerNames} />
           <IndividualButton
-            loggedInPartnerName={`${this.props.user.first_name} ${
-              this.props.user.last_name
+            loggedInPartnerName={`${this.props.user.firstName} ${
+              this.props.user.lastName
             }`}
           />
           <GroupButton />

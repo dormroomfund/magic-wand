@@ -19,8 +19,8 @@ export default class CompanyModel extends BaseModel {
         join: {
           from: 'company.id',
           through: {
-            from: 'company_point_partner.company_id',
-            to: 'company_point_partner.user_id',
+            from: 'company_point_partner.companyId',
+            to: 'company_point_partner.userId',
           },
           to: 'user.id',
           extra: ['permissions'],
@@ -31,7 +31,7 @@ export default class CompanyModel extends BaseModel {
         modelClass: `${__dirname}/vote.model`,
         join: {
           from: 'company.id',
-          to: 'vote.company_id',
+          to: 'vote.companyId',
         },
       },
     };

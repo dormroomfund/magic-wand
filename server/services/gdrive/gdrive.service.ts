@@ -4,7 +4,7 @@
  *
  * {
  *   document_type: 'prevote' or 'snapshot'
- *   company_id:
+ *   companyId:
  * }
  *
  * See: http://isd-soft.com/tech_blog/accessing-google-apis-using-service-account-node-js/
@@ -56,10 +56,10 @@ class GDriveService {
   };
 
   async create(data: GoogleDriveDocument) {
-    const { document_type, company_id } = data;
-    const company = await this.app.service('api/companies').get(company_id);
+    const { document_type, companyId } = data;
+    const company = await this.app.service('api/companies').get(companyId);
 
-    if (company.company_links.some(({ name }) => name === document_type)) {
+    if (company.companyLinks.some(({ name }) => name === document_type)) {
       return data;
     }
     if (!company.team) {
@@ -71,7 +71,7 @@ class GDriveService {
       `googleDrive.${document_type}FolderIds.${company.team}`
     );
 
-    const documentName = `[${company_id}] ${
+    const documentName = `[${companyId}] ${
       company.name
     } ${document_type.toUpperCase()}`;
 

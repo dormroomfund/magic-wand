@@ -9,14 +9,14 @@ import {
 const ajv = new Ajv({ allErrors: true, $data: true });
 
 const addLinkToCompany = async (ctx: HookContext<GoogleDriveDocument>) => {
-  const { document_id, document_type, company_id } = ctx.result;
+  const { document_id, document_type, companyId } = ctx.result;
 
-  const company = await ctx.app.service('api/companies').get(company_id);
+  const company = await ctx.app.service('api/companies').get(companyId);
   const docLink = `https://docs.google.com/document/d/${document_id}`;
 
-  await ctx.app.service('api/companies').patch(company_id, {
-    company_links: [
-      ...company.company_links,
+  await ctx.app.service('api/companies').patch(companyId, {
+    companyLinks: [
+      ...company.companyLinks,
       { name: document_type, url: docLink },
     ],
   });

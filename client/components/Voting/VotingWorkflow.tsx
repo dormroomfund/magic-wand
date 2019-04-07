@@ -30,18 +30,18 @@ export default class VotingWorkflow extends Component<
 > {
   state = {
     prevote: {
-      fit_score: 1,
-      market_score: 1,
-      product_score: 1,
-      team_score: 1,
-      overall_vote: OverallVote.DontFund,
+      fitScore: 1,
+      marketScore: 1,
+      productScore: 1,
+      teamScore: 1,
+      overallVote: OverallVote.DontFund,
     },
     finalVote: {
-      fit_score: 1,
-      market_score: 1,
-      product_score: 1,
-      team_score: 1,
-      overall_vote: OverallVote.DontFund,
+      fitScore: 1,
+      marketScore: 1,
+      productScore: 1,
+      teamScore: 1,
+      overallVote: OverallVote.DontFund,
     },
   };
 
@@ -88,13 +88,13 @@ export default class VotingWorkflow extends Component<
                     />
                     {vc
                       .company(companyId)
-                      .company_links.find((x) => x.name === 'prevote') && (
+                      .companyLinks.find((x) => x.name === 'prevote') && (
                       <Button
                         as="a"
                         href={
                           vc
                             .company(companyId)
-                            .company_links.find((x) => x.name === 'prevote').url
+                            .companyLinks.find((x) => x.name === 'prevote').url
                         }
                         target="_blank"
                       >
@@ -109,10 +109,10 @@ export default class VotingWorkflow extends Component<
                         <Col key={voter.vote_id}>
                           <VoteDisplay
                             companyId={companyId}
-                            userId={voter.partner_id}
+                            userId={voter.partnerId}
                             voteType={VoteType.Prevote}
                             border={
-                              voter.partner_id === uc.user.id
+                              voter.partnerId === uc.user.id
                                 ? 'primary'
                                 : undefined
                             }
@@ -154,12 +154,10 @@ export default class VotingWorkflow extends Component<
                     <Col key={voter.vote_id}>
                       <VoteDisplay
                         companyId={companyId}
-                        userId={voter.partner_id}
+                        userId={voter.partnerId}
                         voteType={VoteType.Final}
                         border={
-                          voter.partner_id === uc.user.id
-                            ? 'primary'
-                            : undefined
+                          voter.partnerId === uc.user.id ? 'primary' : undefined
                         }
                       />
                     </Col>

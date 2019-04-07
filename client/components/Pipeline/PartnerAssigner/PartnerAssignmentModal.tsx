@@ -48,8 +48,7 @@ export default class PartnerAssignmentModal extends Component<
     const { company } = this.props;
     const partners = ((await client
       .service('api/users')
-      .find({ query: { partner_team: company.team } })) as Paginated<User>)
-      .data;
+      .find({ query: { partnerTeam: company.team } })) as Paginated<User>).data;
     this.setState({ partners });
   }
 
@@ -88,7 +87,7 @@ export default class PartnerAssignmentModal extends Component<
               assignedPartners.includes(partner.id)
             )}
           >
-            {`${partner.first_name} ${partner.last_name}`}
+            {`${partner.firstName} ${partner.lastName}`}
           </StyledListGroupItem>
         ))}
       </ListGroup>

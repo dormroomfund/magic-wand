@@ -19,7 +19,7 @@ class CompaniesWebhookService {
       industries: [getAnswerValueFromRef(payload, refsMap.industries)],
       team: getAnswerValueFromRef(payload, refsMap.team),
       status: Status.Applied,
-      contact_email: getAnswerValueFromRef(payload, refsMap.email),
+      contactEmail: getAnswerValueFromRef(payload, refsMap.email),
       typeform_data: data,
     };
 

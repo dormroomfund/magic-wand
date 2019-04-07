@@ -29,7 +29,7 @@ const votedPartners = {
       const votes = context.app.service('api/votes');
       const associatedVotes = (await votes.find({
         query: {
-          company_id: company.id,
+          companyId: company.id,
           $eager: 'voter',
         },
       })).data;
@@ -37,11 +37,11 @@ const votedPartners = {
       const partnerVotes = { prevote: [], final: [] };
       await associatedVotes.forEach((vote) => {
         const partnerObj = {
-          name: `${vote.voter.first_name} ${vote.voter.last_name}`,
-          partner_id: vote.partner_id,
+          name: `${vote.voter.firstName} ${vote.voter.lastName}`,
+          partnerId: vote.partnerId,
           vote_id: vote.id,
         };
-        if (vote.vote_type === 'prevote') {
+        if (vote.voteType === 'prevote') {
           partnerVotes.prevote.push(partnerObj);
         } else {
           partnerVotes.final.push(partnerObj);
@@ -61,7 +61,7 @@ const pointPartners = {
         const pointPartnerObjs = (await users.find({
           query: {
             id: { $in: company.point_partners },
-            $select: ['first_name', 'last_name'],
+            $select: ['firstName', 'lastName'],
           },
         })).data;
 
@@ -70,7 +70,7 @@ const pointPartners = {
          */
         company.pointPartnerNames = [];
         pointPartnerObjs.forEach((obj) => {
-          const partnerName = `${obj.first_name} ${obj.last_name}`;
+          const partnerName = `${obj.firstName} ${obj.lastName}`;
           company.pointPartnerNames.push(partnerName);
         });
       }
@@ -85,11 +85,11 @@ const generateGoogleDriveDocuments = async (ctx: HookContext<Company>) => {
   await Promise.all([
     ctx.app.service('api/gdrive').create({
       document_type: DocumentTypes.Prevote,
-      company_id: ctx.result.id,
+      companyId: ctx.result.id,
     }),
     ctx.app.service('api/gdrive').create({
       document_type: DocumentTypes.Snapshot,
-      company_id: ctx.result.id,
+      companyId: ctx.result.id,
     }),
   ]);
 };
@@ -104,7 +104,7 @@ export default {
         company.point_partners = company.point_partners || [];
         company.industries = company.industries || [];
         company.tags = company.tags || [];
-        company.company_links = company.company_links || [];
+        company.companyLinks = company.companyLinks || [];
       }),
       /* validateSchema(companies, <AjvOrNewable> ajv) */
     ],

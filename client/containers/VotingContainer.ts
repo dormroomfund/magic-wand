@@ -29,10 +29,10 @@ export default class VotingContainer extends Container<VotingContainerState> {
     super();
 
     client.service('api/votes').on('created', async (vote: Vote) => {
-      await this.retrieveCompany(vote.company_id);
+      await this.retrieveCompany(vote.companyId);
     });
     client.service('api/votes').on('removed', async (vote: Vote) => {
-      await this.retrieveCompany(vote.company_id);
+      await this.retrieveCompany(vote.companyId);
     });
   }
 
@@ -49,12 +49,10 @@ export default class VotingContainer extends Container<VotingContainerState> {
 
     const didPrevote =
       company.partnerVotes.prevote &&
-      company.partnerVotes.prevote.find(
-        (vote) => vote.partner_id === partnerId
-      );
+      company.partnerVotes.prevote.find((vote) => vote.partnerId === partnerId);
     const didFinalVote =
       company.partnerVotes.final &&
-      company.partnerVotes.final.find((vote) => vote.partner_id === partnerId);
+      company.partnerVotes.final.find((vote) => vote.partnerId === partnerId);
     const isFinalized = archivedStates.includes(company.status);
 
     if (didPrevote && didFinalVote) {
@@ -97,7 +95,7 @@ export default class VotingContainer extends Container<VotingContainerState> {
     }
 
     const votes = company.partnerVotes[voteType];
-    const vote = votes && votes.find((v) => v.partner_id === userId);
+    const vote = votes && votes.find((v) => v.partnerId === userId);
     return vote && this.vote(vote.vote_id);
   }
 
@@ -119,8 +117,8 @@ export default class VotingContainer extends Container<VotingContainerState> {
   async doPrevote(companyId: number, vote: VoteFields) {
     return await client.service('api/votes').create({
       ...vote,
-      company_id: companyId,
-      vote_type: VoteType.Prevote,
+      companyId,
+      voteType: VoteType.Prevote,
     });
   }
 
@@ -128,8 +126,8 @@ export default class VotingContainer extends Container<VotingContainerState> {
   async doFinalVote(companyId: number, vote: VoteFields) {
     return await client.service('api/votes').create({
       ...vote,
-      company_id: companyId,
-      vote_type: VoteType.Final,
+      companyId,
+      voteType: VoteType.Final,
     });
   }
 
@@ -137,7 +135,7 @@ export default class VotingContainer extends Container<VotingContainerState> {
   async finalizeVotes(companyId: number) {
     const res = await client
       .service('api/votes/finalize')
-      .patch(companyId, { vote_type: 'final' });
+      .patch(companyId, { voteType: 'final' });
 
     this.setState((state) => ({
       companies: {
@@ -167,15 +165,15 @@ export default class VotingContainer extends Container<VotingContainerState> {
    */
   async deleteVote(voteId: number) {
     const vote = await client.service('api/votes').remove(voteId);
-    await this.retrieveCompany(vote.company_id);
+    await this.retrieveCompany(vote.companyId);
 
     // Delete the final vote as well if a prevote is deleted.
-    if (vote.vote_type === VoteType.Prevote) {
+    if (vote.voteType === VoteType.Prevote) {
       const prevote = (await client.service('api/votes').find({
         query: {
-          company_id: vote.company_id,
-          partner_id: vote.partner_id,
-          vote_type: VoteType.Final,
+          companyId: vote.companyId,
+          partnerId: vote.partnerId,
+          voteType: VoteType.Final,
         },
       })) as Paginated<Vote>;
 
@@ -183,7 +181,7 @@ export default class VotingContainer extends Container<VotingContainerState> {
         await Promise.all(
           prevote.data.map((pv) => client.service('api/votes').remove(pv.id))
         );
-        await this.retrieveCompany(vote.company_id);
+        await this.retrieveCompany(vote.companyId);
       }
     }
   }
@@ -228,7 +226,7 @@ export default class VotingContainer extends Container<VotingContainerState> {
       this.company(companyId) || (await this.retrieveCompany(companyId));
 
     const votes = company.partnerVotes[voteType];
-    const vote = votes && votes.find((v) => v.partner_id === userId);
+    const vote = votes && votes.find((v) => v.partnerId === userId);
 
     return await this.retrieveVote(vote.vote_id);
   }

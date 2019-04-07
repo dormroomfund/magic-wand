@@ -38,7 +38,7 @@ export const archivedStates = [
 
 export interface PartnerVoteObj {
   vote_id: number;
-  partner_id: number;
+  partnerId: number;
   name: string;
 }
 
@@ -56,10 +56,10 @@ export interface Company {
   industries?: string[];
   tags?: string[];
   status: Status;
-  contact_email: string;
-  company_links?: CompanyLink[];
-  created_at?: string;
-  updated_at?: string;
+  contactEmail: string;
+  companyLinks?: CompanyLink[];
+  createdAt?: string;
+  udpatedAt?: string;
 
   // Non-mutable fields
   typeform_data?: object;
@@ -74,7 +74,7 @@ export interface Company {
 // IMPORTANT: This needs to be kept in sync with the Typescript interface above.
 export const companySchema = {
   type: 'object',
-  required: ['name', 'description', 'contact_email', 'status'],
+  required: ['name', 'description', 'contactEmail', 'status'],
   description: 'Defines a company that DRF encounters',
   properties: {
     id: { type: 'integer' },
@@ -88,8 +88,8 @@ export const companySchema = {
       type: 'string',
       enum: Object.values(Status),
     },
-    contact_email: { type: 'string', format: 'email' },
-    company_links: {
+    contactEmail: { type: 'string', format: 'email' },
+    companyLinks: {
       type: 'array',
       items: {
         type: 'object',
