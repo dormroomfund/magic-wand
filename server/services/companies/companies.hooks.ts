@@ -53,31 +53,6 @@ const votedPartners = {
   },
 };
 
-const pointPartners = {
-  joins: {
-    partners: () => async (company, context) => {
-      const users = context.app.service('api/users');
-      if (company.pointPartners) {
-        const pointPartnerObjs = (await users.find({
-          query: {
-            id: { $in: company.pointPartners },
-            $select: ['firstName', 'lastName'],
-          },
-        })).data;
-
-        /*
-         * Convert to actual first names
-         */
-        company.pointPartnerNames = [];
-        pointPartnerObjs.forEach((obj) => {
-          const partnerName = `${obj.firstName} ${obj.lastName}`;
-          company.pointPartnerNames.push(partnerName);
-        });
-      }
-    },
-  },
-};
-
 const isPitching = async (ctx: HookContext<Company>) =>
   ctx.result.status === Status.Pitching;
 
@@ -101,8 +76,7 @@ export default {
     get: [],
     create: [
       alterItems((company: Company) => {
-        // TODO
-        // company.pointPartners = company.pointPartners || [];
+        company.pointPartners = company.pointPartners || [];
         company.industries = company.industries || [];
         company.tags = company.tags || [];
         company.companyLinks = company.companyLinks || [];
@@ -120,7 +94,7 @@ export default {
     remove: [],
   },
   after: {
-    all: [fastJoin(votedPartners), fastJoin(pointPartners)],
+    all: [fastJoin(votedPartners)],
     find: [],
     get: [],
     create: [iff(isPitching, generateGoogleDriveDocuments)],

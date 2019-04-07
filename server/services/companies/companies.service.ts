@@ -11,6 +11,7 @@ export default (app: App) => {
     model: CompanyModel,
     paginate,
     whitelist: ['$eager', '$pick'],
+    allowedEager: '[pointPartners]',
   };
 
   // Initialize our service with any options it requires
