@@ -1,4 +1,4 @@
-import { Team } from './user';
+import { Team } from './common';
 
 export enum Status {
   /** The company has applied. */

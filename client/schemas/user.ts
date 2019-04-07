@@ -1,3 +1,5 @@
+import { Team } from './common';
+
 export enum Ethnicity {
   White = 'White',
   BlackOrAfricanAmerican = 'Black or African American',
@@ -14,15 +16,6 @@ export enum Gender {
   Female = 'Female',
   Other = 'Other',
   NoResponse = '',
-}
-
-export enum Team {
-  Philadelphia = 'Philadelphia',
-  Boston = 'Boston',
-  NewYork = 'New York City',
-  SanFrancisco = 'San Francisco',
-  SummerSF = 'Summer SF',
-  SummerNYC = 'Summer NYC',
 }
 
 export enum Position {

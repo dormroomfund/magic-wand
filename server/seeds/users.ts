@@ -1,6 +1,7 @@
 import faker from 'faker';
 import Knex from 'knex';
-import { Gender, Ethnicity, Team, Position } from '../../client/schemas/user';
+import { Gender, Ethnicity, Position } from '../../client/schemas/user';
+import { Team } from '../../client/schemas/common';
 
 exports.seed = function(knex: Knex) {
   // Deletes ALL existing entries
