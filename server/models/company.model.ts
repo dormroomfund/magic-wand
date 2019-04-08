@@ -20,7 +20,7 @@ export default class CompanyModel extends BaseModel {
         to: 'user.id',
       },
     },
-    associated_votes: {
+    associatedVotes: {
       relation: Model.HasManyRelation,
       modelClass: `${__dirname}/vote.model`,
       join: {
