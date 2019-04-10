@@ -1,7 +1,6 @@
-import faker from 'faker';
 import Knex from 'knex';
-import { Gender, Ethnicity, Position } from '../../client/schemas/user';
 import { Team } from '../../client/schemas/common';
+import { Ethnicity, Gender, Position } from '../../client/schemas/user';
 
 export const seed = async (knex: Knex) => {
   // Deletes ALL existing entries
@@ -25,7 +24,7 @@ export const seed = async (knex: Knex) => {
       partnerPosition: Position.InvestmentPartner,
     },
     {
-      id: 1,
+      id: 2,
       auth0: '{}',
       auth0Id: 'auth0|5ca584f3232319ed110c8cdced',
       permissions: 'partner',
