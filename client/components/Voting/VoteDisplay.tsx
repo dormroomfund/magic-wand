@@ -38,11 +38,11 @@ class VoteDisplay extends Component<VoteDisplayProps, VoteDisplayState> {
             Vote by {vote.voter.firstName} {vote.voter.lastName}
           </Card.Title>
           <Card.Text>
-            <strong>Market:</strong> {vote.market_score} <br />
-            <strong>Product:</strong> {vote.product_score} <br />
-            <strong>Team:</strong> {vote.team_score} <br />
-            <strong>Fit:</strong> {vote.fit_score} <br />
-            <strong>Overall Vote:</strong> {vote.overall_vote} <br />
+            <strong>Market:</strong> {vote.marketScore} <br />
+            <strong>Product:</strong> {vote.productScore} <br />
+            <strong>Team:</strong> {vote.teamScore} <br />
+            <strong>Fit:</strong> {vote.fitScore} <br />
+            <strong>Overall Vote:</strong> {vote.overallVote} <br />
             <strong>Comment:</strong> {vote.comment} <br />
           </Card.Text>
         </Card.Body>

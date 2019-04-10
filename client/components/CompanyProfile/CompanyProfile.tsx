@@ -83,12 +83,12 @@ export default ({ company }: CompanyProfileProps) => (
       <Col md="2" className="float-right text-right">
         <small>Application Date</small>
         <br />
-        <p>{dayjs(company.created_at).format('MMMM D, YYYY')}</p>
+        <p>{dayjs(company.createdAt).format('MMMM D, YYYY')}</p>
       </Col>
       <Col md="2" className="float-right text-right">
         <small>Pitch Date</small>
         <br />
-        <p>{dayjs(company.created_at).format('MMMM D, YYYY')}</p>
+        <p>{dayjs(company.createdAt).format('MMMM D, YYYY')}</p>
       </Col>
     </HeaderRow>
     <HeaderRow>
@@ -127,20 +127,20 @@ export default ({ company }: CompanyProfileProps) => (
         <CompanyQuestion>
           <small>What’s unique about your startup?</small>
           <br />
-          {getAnswerValueFromRef(company.typeform_data, refsMap.uniqueness)}
+          {getAnswerValueFromRef(company.typeformData, refsMap.uniqueness)}
         </CompanyQuestion>
         <CompanyQuestion>
           <small>Where are you in your fundraising process?</small>
           <br />
           {getAnswerValueFromRef(
-            company.typeform_data,
+            company.typeformData,
             refsMap.fundraising_process
           )}
         </CompanyQuestion>
         <CompanyQuestion>
           <small>Were you referred by someone in the DRF community?</small>
           <br />
-          {getAnswerValueFromRef(company.typeform_data, refsMap.referral)}
+          {getAnswerValueFromRef(company.typeformData, refsMap.referral)}
         </CompanyQuestion>
         <FounderGroup company={company} />
       </div>

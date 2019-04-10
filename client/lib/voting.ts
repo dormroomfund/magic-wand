@@ -45,7 +45,7 @@ export const computeVotingScores = (votes: Paginated<Vote>) => {
     teamScoreAvg += vote.teamScore;
     fitScoreAvg += vote.fitScore;
 
-    if (vote.overall_vote === OverallVote.Fund) {
+    if (vote.overallVote === OverallVote.Fund) {
       numYes += 1;
     } else {
       numNo += 1;
