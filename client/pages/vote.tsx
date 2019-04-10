@@ -3,7 +3,9 @@ import React from 'react';
 import { Subscribe } from 'unstated';
 import Layout from '../components/Layout/Layout';
 import Voting from '../components/Voting/Voting';
-import UserContainer, { AuthState } from '../containers/UserContainer';
+import CurrentUserContainer, {
+  AuthState,
+} from '../containers/CurrentUserContainer';
 import { UnreachableCaseError } from '../lib/errors';
 import { requireLoggedIn } from '../lib/routing';
 
@@ -18,9 +20,9 @@ export default class Vote extends React.Component<VoteProps> {
 
   render() {
     return (
-      <Subscribe to={[UserContainer]}>
-        {(uc: UserContainer) => {
-          switch (uc.authState) {
+      <Subscribe to={[CurrentUserContainer]}>
+        {(cuc: CurrentUserContainer) => {
+          switch (cuc.authState) {
             case AuthState.LoggedOut:
               return null;
             case AuthState.LoggingIn:
@@ -32,7 +34,7 @@ export default class Vote extends React.Component<VoteProps> {
                 </Layout>
               );
             default:
-              throw new UnreachableCaseError(uc.authState);
+              throw new UnreachableCaseError(cuc.authState);
           }
         }}
       </Subscribe>

@@ -14,12 +14,14 @@ export enum AuthState {
   LoggedIn = 'logged-in',
 }
 
-export interface UserContainerState {
+export interface CurrentUserContainerState {
   authState: AuthState;
   user?: User;
 }
 
-export default class UserContainer extends Container<UserContainerState> {
+export default class CurrentUserContainer extends Container<
+  CurrentUserContainerState
+> {
   constructor(user?: User) {
     super();
 

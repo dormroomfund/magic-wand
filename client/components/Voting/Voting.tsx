@@ -1,6 +1,6 @@
 import React from 'react';
 import { Subscribe } from 'unstated';
-import UserContainer from '../../containers/UserContainer';
+import CurrentUserContainer from '../../containers/CurrentUserContainer';
 import VotingContainer from '../../containers/VotingContainer';
 import VotingCompletion from './VotingCompletion';
 import VotingWorkflow from './VotingWorkflow';
@@ -10,8 +10,8 @@ interface VotingProps {
 }
 
 export default ({ companyID }: VotingProps) => (
-  <Subscribe to={[VotingContainer, UserContainer]}>
-    {(vc: VotingContainer, uc: UserContainer) => {
+  <Subscribe to={[VotingContainer, CurrentUserContainer]}>
+    {(vc: VotingContainer, cuc: CurrentUserContainer) => {
       const company = vc.company(companyID);
       return (
         <div>

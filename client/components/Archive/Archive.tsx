@@ -3,7 +3,7 @@ import { Subscribe } from 'unstated';
 import Button from 'react-bootstrap/lib/Button';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import ArchiveContainer from '../../containers/ArchiveContainer';
-import UserContainer from '../../containers/UserContainer';
+import CurrentUserContainer from '../../containers/CurrentUserContainer';
 import ArchiveList from './ArchiveList';
 import { UnreachableCaseError } from '../../lib/errors';
 import { Status } from '../../schemas/company';
@@ -22,7 +22,7 @@ export default class Archive extends Component<{}, ArchiveState> {
     filter: Filter.None,
   };
 
-  getFilteredCompanies(ac: ArchiveContainer, uc: UserContainer) {
+  getFilteredCompanies(ac: ArchiveContainer, cuc: CurrentUserContainer) {
     const { filter } = this.state;
     switch (filter) {
       case Filter.None:
@@ -31,7 +31,7 @@ export default class Archive extends Component<{}, ArchiveState> {
         return ac.companies.filter(
           (co) =>
             co.status === Status.Funded &&
-            co.pointPartners.find((partner) => partner.id === uc.user.id)
+            co.pointPartners.find((partner) => partner.id === cuc.user.id)
         );
       default:
         throw new UnreachableCaseError(filter);
@@ -60,12 +60,12 @@ export default class Archive extends Component<{}, ArchiveState> {
 
   render() {
     return (
-      <Subscribe to={[ArchiveContainer, UserContainer]}>
-        {(ac: ArchiveContainer, uc: UserContainer) => (
+      <Subscribe to={[ArchiveContainer, CurrentUserContainer]}>
+        {(ac: ArchiveContainer, cuc: CurrentUserContainer) => (
           <>
             <h2>Portfolio Success</h2>
             {this.renderButtonBar()}
-            <ArchiveList companies={this.getFilteredCompanies(ac, uc)} />
+            <ArchiveList companies={this.getFilteredCompanies(ac, cuc)} />
           </>
         )}
       </Subscribe>
