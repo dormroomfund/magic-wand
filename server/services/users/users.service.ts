@@ -1,5 +1,5 @@
 import createObjectionService from 'feathers-objection';
-import User from '../../models/users.model';
+import UserModel from '../../models/user.model';
 import hooks from './users.hooks';
 import App from '../../../client/schemas/app';
 
@@ -7,7 +7,7 @@ export default (app: App) => {
   const paginate = app.get('paginate');
 
   const options = {
-    model: User,
+    model: UserModel,
     paginate,
   };
 

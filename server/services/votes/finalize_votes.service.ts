@@ -1,21 +1,21 @@
 import errors from '@feathersjs/errors';
 import { Paginated } from '@feathersjs/feathers';
+import { computeVotingScores } from '../../../client/lib/voting';
 import App from '../../../client/schemas/app';
 import { Status } from '../../../client/schemas/company';
-import { OverallVote, Vote } from '../../../client/schemas/vote';
-import { computeVotingScores } from '../../../client/lib/voting';
+import { Vote } from '../../../client/schemas/vote';
 
 /*
  * This service is used to determine for a given voteType and voteType who
  * has submitted votes.
  *
- * For example when considering company_id = 1 and vote_type = 'Final' it will return all
+ * For example when considering companyId = 1 and voteType = 'Final' it will return all
  * the names of the partners who submitted a vote.
  *
  * ex: PATCH /api/votes/finalize/1
  * DATA:
  * {
- *    "vote_type": "final"
+ *    "voteType": "final"
  * }
  */
 export default (app: App) => {
@@ -24,14 +24,14 @@ export default (app: App) => {
       /*
        * If the vote type is not specified throw an error.
        */
-      if (!('vote_type' in data)) {
+      if (!('voteType' in data)) {
         throw new errors.BadRequest('Vote Type Not Specified');
       }
 
       const votes = (await app.service('api/votes').find({
         query: {
-          vote_type: data.vote_type,
-          company_id: id,
+          voteType: data.voteType,
+          companyId: id,
         },
       })) as Paginated<Vote>;
 
@@ -44,7 +44,7 @@ export default (app: App) => {
        */
       let status = 'N/A';
 
-      if (data.vote_type === 'final') {
+      if (data.voteType === 'final') {
         /*
          * Get the number of prevote and make sure it is the same amout
          * as the number of final votes. If it's not return an error
@@ -52,8 +52,8 @@ export default (app: App) => {
          */
         const prevotes = (await app.service('api/votes').find({
           query: {
-            vote_type: 'prevote',
-            company_id: id,
+            voteType: 'prevote',
+            companyId: id,
           },
         })) as Paginated<Vote>;
 

@@ -38,7 +38,7 @@ clean:
 	rm -rf client/.next
 
 production:
-	$(NPX) ts-node -T server
+	NODE_ENV=production $(NPX) ts-node -T server
 
 ################################################################################
 
@@ -79,27 +79,45 @@ lint-fix-sass:
 	$(NPX) stylelint "client/stylesheets/**/*.scss" --fix
 
 smoke:
-	timeout 1m make production | grep "application started"
+	make production &
+	$(NPX) wait-on http://localhost:3000/ -t 90000 && echo "success"
 
 # Runs the test suite.
 jest:
 	$(NPX) jest
 
+# Runs Cypress CI tests
+ci-cypress:
+	make production > server.log 2&>1 &
+	$(NPX) wait-on http://localhost:3000 -t 90000 && make cypress-run
+	cat server.log
+
+# Runts Cypress tests
+cypress-run:
+	$(NPX) cypress run
+
+# Opens Cypress
+cypress-open:
+	$(NPX) cypress open
+
 # Runs the full test suite.
-test: lint jest
+# test: lint jest cypress\:run
+test: cypress\:run
 
 ################################################################################
 
-# Make a migration from template.
-make-migration:
-	npx knex migrate:make
+# Initialize the database for CI
+ci-database:
+	createdb -U postgres -h 0.0.0.0 magic_wand
+	make migrate
+	make seed
 
 # Migrate the database to the latest migration.
 migrate:
 	$(NPX) knex migrate:latest --knexfile knexfile.ts
 
 # Roll back the database to before the latest mgiration.
-rollback:
+migrate-rollback:
 	$(NPX) knex migrate:rollback --knexfile knexfile.ts
 
 seed:

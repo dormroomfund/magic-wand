@@ -5,21 +5,21 @@ export enum DocumentTypes {
 
 /* Describes JSON validation schema for the gDriveService. */
 export interface GoogleDriveDocument {
-  document_type: DocumentTypes;
-  company_id: number;
+  documentType: DocumentTypes;
+  companyId: number;
 
-  document_id?: string;
+  documentId?: string;
 }
 
 export const gDriveSchema = {
   type: 'object',
-  required: ['document_type', 'company_id'],
+  required: ['documentType', 'companyId'],
 
   properties: {
-    document_type: {
+    documentType: {
       type: 'string',
       enum: Object.values(DocumentTypes),
     },
-    company_id: { type: 'integer' },
+    companyId: { type: 'integer' },
   },
 };

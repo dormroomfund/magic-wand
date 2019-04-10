@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react';
-import styled from 'styled-components';
 import Dropdown from 'react-bootstrap/lib/Dropdown';
-import { Subscribe } from 'unstated';
-import PipelineContainer from '../../containers/PipelineContainer';
+import styled from 'styled-components';
+import { STAC } from '../../containers/ApplicationContainer';
 import { User } from '../../schemas/user';
 
 const StyledDropdown = styled(Dropdown)`
@@ -15,10 +14,10 @@ interface DropdownProps {
 }
 
 export default class CustomDropdown extends PureComponent<DropdownProps> {
-  renderItems = (partner, pipe) => (
+  renderItems = (partner, pipeline) => (
     <StyledDropdown.Item
       key={partner}
-      onSelect={() => pipe.setCurrentPartner(partner)}
+      onSelect={() => pipeline.setCurrentPartner(partner)}
     >
       {partner}
     </StyledDropdown.Item>
@@ -26,8 +25,8 @@ export default class CustomDropdown extends PureComponent<DropdownProps> {
 
   render() {
     return (
-      <Subscribe to={[PipelineContainer]}>
-        {(pipe: PipelineContainer) => (
+      <STAC>
+        {(ac) => (
           <StyledDropdown>
             <StyledDropdown.Toggle
               variant="secondary"
@@ -39,12 +38,12 @@ export default class CustomDropdown extends PureComponent<DropdownProps> {
 
             <StyledDropdown.Menu>
               {[...this.props.partners].map((partner) =>
-                this.renderItems(partner, pipe)
+                this.renderItems(partner, ac.pipeline)
               )}
             </StyledDropdown.Menu>
           </StyledDropdown>
         )}
-      </Subscribe>
+      </STAC>
     );
   }
 }

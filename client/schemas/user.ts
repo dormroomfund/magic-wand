@@ -1,3 +1,5 @@
+import { Team } from './common';
+
 export enum Ethnicity {
   White = 'White',
   BlackOrAfricanAmerican = 'Black or African American',
@@ -16,15 +18,6 @@ export enum Gender {
   NoResponse = '',
 }
 
-export enum Team {
-  Philadelphia = 'Philadelphia',
-  Boston = 'Boston',
-  NewYork = 'New York City',
-  SanFrancisco = 'San Francisco',
-  SummerSF = 'Summer SF',
-  SummerNYC = 'Summer NYC',
-}
-
 export enum Position {
   InvestmentPartner = 'Investment Partner',
   ManagingPartner = 'Managing Partner',
@@ -36,20 +29,20 @@ export interface User {
   auth0Id?: string;
   email: string;
   permissions: string;
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   school?: string;
   photo?: string;
   linkedin?: string;
   gender?: Gender;
   ethnicity?: Ethnicity;
-  partner_team?: Team;
-  partner_position?: Position;
+  partnerTeam?: Team;
+  partnerPosition?: Position;
 }
 
 export const userSchema = {
   type: 'object',
-  required: ['permissions', 'first_name', 'last_name', 'email'],
+  required: ['permissions', 'firstName', 'lastName', 'email'],
   description:
     'Object that defines a user of Magic Wand. Either a partner or founder',
   properties: {
@@ -58,8 +51,8 @@ export const userSchema = {
     auth0Id: { type: 'string' },
     email: { type: 'string', format: 'email' },
     permissions: { type: 'string', default: '' },
-    first_name: { type: 'string' },
-    last_name: { type: 'string' },
+    firstName: { type: 'string' },
+    lastName: { type: 'string' },
     school: { type: 'string' },
     photo: { type: 'string' },
     linkedin: { type: 'string' },
@@ -73,11 +66,11 @@ export const userSchema = {
       enum: Object.values(Ethnicity),
       default: '',
     },
-    partner_team: {
+    partnerTeam: {
       type: 'string',
       enum: Object.values(Team),
     },
-    partner_position: {
+    partnerPosition: {
       type: 'string',
       enum: Object.values(Position),
     },

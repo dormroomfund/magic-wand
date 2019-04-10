@@ -4,21 +4,21 @@ import { pick, makeRequired } from '../schemas/_utils';
 import { voteSchema, Vote, OverallVote } from '../schemas/vote';
 
 const requiredFields = [
-  'fit_score',
-  'market_score',
-  'product_score',
-  'team_score',
-  'overall_vote',
+  'fitScore',
+  'marketScore',
+  'productScore',
+  'teamScore',
+  'overallVote',
   'comment',
 ];
 
 export type VoteFields = Pick<
   Vote,
-  | 'fit_score'
-  | 'market_score'
-  | 'product_score'
-  | 'team_score'
-  | 'overall_vote'
+  | 'fitScore'
+  | 'marketScore'
+  | 'productScore'
+  | 'teamScore'
+  | 'overallVote'
   | 'comment'
 >;
 
@@ -40,12 +40,12 @@ export const computeVotingScores = (votes: Paginated<Vote>) => {
   let fitScoreAvg = 0;
 
   votes.data.forEach((vote) => {
-    marketScoreAvg += vote.market_score;
-    productScoreAvg += vote.product_score;
-    teamScoreAvg += vote.team_score;
-    fitScoreAvg += vote.fit_score;
+    marketScoreAvg += vote.marketScore;
+    productScoreAvg += vote.productScore;
+    teamScoreAvg += vote.teamScore;
+    fitScoreAvg += vote.fitScore;
 
-    if (vote.overall_vote === OverallVote.Fund) {
+    if (vote.overallVote === OverallVote.Fund) {
       numYes += 1;
     } else {
       numNo += 1;

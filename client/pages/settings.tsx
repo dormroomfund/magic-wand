@@ -29,15 +29,15 @@ const uiSchema = {
   permissions: {
     'ui:disabled': 'true',
   },
-  first_name: {},
-  last_name: {},
+  firstName: {},
+  lastName: {},
   school: {},
   photo: {},
   linkedin: {},
   gender: {},
   ethnicity: {},
-  partner_team: {},
-  partner_position: {},
+  partnerTeam: {},
+  partnerPosition: {},
 };
 
 const SettingsPage = () => {

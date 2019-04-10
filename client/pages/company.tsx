@@ -20,7 +20,7 @@ export default class CompanyPage extends React.Component<
   CompanyProps,
   CompanyState
 > {
-  state = {
+  state: CompanyState = {
     loading: true,
   };
 

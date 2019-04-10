@@ -2,9 +2,9 @@ import { Model } from 'objection';
 import { userSchema } from '../../client/schemas/user';
 import BaseModel from './base.model';
 
-export default class User extends BaseModel {
+export default class UserModel extends BaseModel {
   static get tableName() {
-    return 'users';
+    return 'user';
   }
 
   // static get jsonSchema() {
@@ -13,16 +13,17 @@ export default class User extends BaseModel {
 
   static get relationMappings() {
     return {
-      associated_companies: {
+      /** For partners, the list of companies they are point partner for. */
+      companiesManaged: {
         relation: Model.ManyToManyRelation,
-        modelClass: `${__dirname}/companies.model`,
+        modelClass: `${__dirname}/company.model`,
         join: {
-          from: 'users.id',
+          from: 'user.id',
           through: {
-            from: 'users_companies.user_id',
-            to: 'users_companies.company_id',
+            from: 'user_point_partner.userId',
+            to: 'user_point_partner.companyId',
           },
-          to: 'companies.id',
+          to: 'company.id',
           extra: ['permissions'],
         },
       },
