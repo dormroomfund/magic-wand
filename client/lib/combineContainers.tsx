@@ -34,9 +34,10 @@ export const combineContainers = (containers: ContextClassMap) =>
       );
 
       // inject context and listen to container updates
-      Object.values(this.ctx).forEach((container) => {
+      Object.entries(this.ctx).forEach(([name, container]) => {
         container.ctx = this.ctx;
-        container.subscribe(this.handleUpdate);
+        this.state[name] = container.state;
+        container.subscribe(this.handleUpdate(name, container));
       });
 
       // enable direct access to containers without ctx prefix
@@ -49,6 +50,10 @@ export const combineContainers = (containers: ContextClassMap) =>
       });
     }
 
-    /** Trigger an update on the overall state */
-    private handleUpdate = async () => this.setState({});
+    /** Trigger an update on the overall state. */
+    private handleUpdate = (name, container) => async () =>
+      // This translates to a reference copy in unstated, so no performance hit.
+      this.setState({
+        [name]: container.state,
+      });
   };
