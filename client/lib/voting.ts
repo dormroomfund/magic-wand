@@ -27,7 +27,7 @@ export const voteFormSchema = makeRequired(
   requiredFields
 );
 
-export const computeVotingScores = (votes: Paginated<Vote>) => {
+export const computeVotingScores = (votes: Vote[]) => {
   /*
    * Go through each of the votes and determine the number of yes
    * votes and the number of no votes.
@@ -39,7 +39,7 @@ export const computeVotingScores = (votes: Paginated<Vote>) => {
   let teamScoreAvg = 0;
   let fitScoreAvg = 0;
 
-  votes.data.forEach((vote) => {
+  votes.forEach((vote) => {
     marketScoreAvg += vote.marketScore;
     productScoreAvg += vote.productScore;
     teamScoreAvg += vote.teamScore;
@@ -52,10 +52,10 @@ export const computeVotingScores = (votes: Paginated<Vote>) => {
     }
   });
 
-  marketScoreAvg /= votes.data.length;
-  productScoreAvg /= votes.data.length;
-  teamScoreAvg /= votes.data.length;
-  fitScoreAvg /= votes.data.length;
+  marketScoreAvg /= votes.length;
+  productScoreAvg /= votes.length;
+  teamScoreAvg /= votes.length;
+  fitScoreAvg /= votes.length;
 
   return {
     numYes,
