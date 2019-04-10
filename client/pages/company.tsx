@@ -13,7 +13,7 @@ interface CompanyProps {
 }
 
 interface CompanyState {
-  loading: any;
+  loading: boolean;
 }
 
 export default class CompanyPage extends React.Component<

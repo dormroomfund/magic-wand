@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import colors from '../../stylesheets/colors.json';
+import { getAnswerValueFromRef, refsMap } from '../../lib/typeform';
 import { Company } from '../../schemas/company';
-import { refsMap, getAnswerValueFromRef } from '../../lib/typeform';
-import company from '../../pages/company';
+import colors from '../../stylesheets/colors.json';
 
 const Wrapper = styled.div`
   background: ${colors.$N5};
