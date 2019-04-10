@@ -1,12 +1,12 @@
+import { sortBy } from 'lodash';
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/lib/Button';
-import { sortBy } from 'lodash';
-import { Company } from '../../../schemas/company';
-import PartnerAssignmentModal from './PartnerAssignmentModal';
 import {
-  withAC,
   ApplicationContainerProps,
+  withAC,
 } from '../../../containers/ApplicationContainer';
+import PartnerAssignerDisplay from './PartnerAssignerDisplay';
+import PartnerAssignmentModal from './PartnerAssignmentModal';
 
 export interface PartnerAssignerProps {
   companyId: number;
@@ -22,11 +22,12 @@ class PartnerAssigner extends Component<
 > {
   state = { show: false };
 
-  handleShowModal = async () => {
-    const { applicationContainer: ac, companyId } = this.props;
-    const company = await ac.companies.retrieve(companyId);
-    await ac.users.retrieveByPartnerTeam(company.team);
+  async componentDidMount() {
+    await this.retrieveData();
+  }
 
+  handleShowModal = async () => {
+    await this.retrieveData();
     this.setState({ show: true });
   };
 
@@ -44,6 +45,12 @@ class PartnerAssigner extends Component<
     }
   };
 
+  retrieveData = async () => {
+    const { applicationContainer: ac, companyId } = this.props;
+    const company = await ac.companies.retrieve(companyId);
+    await ac.users.retrieveByPartnerTeam(company.team);
+  };
+
   render() {
     const { applicationContainer: ac, companyId } = this.props;
     const { show } = this.state;
@@ -59,10 +66,19 @@ class PartnerAssigner extends Component<
         : [];
 
     return (
-      <>
-        <Button variant="primary" onClick={this.handleShowModal}>
+      <div data-cy="PartnerAssigner">
+        <Button
+          variant="primary"
+          size="sm"
+          className="mr-2"
+          onClick={this.handleShowModal}
+        >
           Assign
         </Button>
+        <PartnerAssignerDisplay
+          partners={company && company.pointPartners}
+          show={4}
+        />
 
         {company && (
           <PartnerAssignmentModal
@@ -74,7 +90,7 @@ class PartnerAssigner extends Component<
             onHide={this.handleHideModal}
           />
         )}
-      </>
+      </div>
     );
   }
 }

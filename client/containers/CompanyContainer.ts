@@ -14,7 +14,7 @@ export default class CompanyContainer extends ChildContainer<State> {
   //
 
   /** Returns a company by id from the store. */
-  get(companyId: number) {
+  get(companyId: number): Company {
     return this.state.companies[companyId];
   }
 

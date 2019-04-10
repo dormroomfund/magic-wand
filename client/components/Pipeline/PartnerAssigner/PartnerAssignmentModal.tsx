@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/lib/Button';
 import { Paginated } from '@feathersjs/feathers';
 import ListGroup from 'react-bootstrap/lib/ListGroup';
 import styled from 'styled-components';
+import Image from 'react-bootstrap/lib/Image';
 import { Company, companySchema } from '../../../schemas/company';
 import { PartnerAssignmentModalProps } from './PartnerAssignmentModal';
 import { User } from '../../../schemas/user';
@@ -16,6 +17,12 @@ const StyledListGroupItem = styled(ListGroup.Item)`
   &:hover {
     background-color: rgba(0, 0, 255, 0.25);
   }
+`;
+
+const ProfileImage = styled(Image)`
+  margin-top: -0.125em;
+  margin-right: 0.5em;
+  height: 28px;
 `;
 
 export interface PartnerAssignmentModalProps {
@@ -56,6 +63,9 @@ export default class PartnerAssignmentModal extends Component<
               );
             }}
           >
+            {partner.photo && (
+              <ProfileImage src={partner.photo} roundedCircle />
+            )}
             {`${partner.firstName} ${partner.lastName}`}
           </StyledListGroupItem>
         ))}
@@ -67,7 +77,7 @@ export default class PartnerAssignmentModal extends Component<
     const { company, partners, show = false, onHide = () => {} } = this.props;
 
     return (
-      <Modal show={show} size="lg" centered>
+      <Modal show={show} size="lg" centered backdrop>
         <Modal.Header closeButton>
           <Modal.Title>Partners for {company.name}</Modal.Title>
         </Modal.Header>

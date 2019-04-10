@@ -1,9 +1,5 @@
-import _ from 'lodash';
-import getConfig from 'next/config';
 import { Application, Paginated } from '@feathersjs/feathers';
-
-const { publicRuntimeConfig } = getConfig();
-const { pagination } = publicRuntimeConfig;
+import _ from 'lodash';
 
 /**
  * Retrieves all items in a collection matching a query, regardless of pagination.
