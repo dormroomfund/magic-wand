@@ -10,6 +10,7 @@ const env = process.env.NODE_ENV || 'development';
 
 module.exports = withSass(
   withTypescript({
+    pagination: config.get('pagination'),
     publicRuntimeConfig: {
       rootUrl: config.get('rootUrl'),
       env,
