@@ -55,11 +55,11 @@ export default (app: App) => {
           query: {
             voteType: 'prevote',
             companyId: id,
+            $limit: 0,
           },
-          paginate: false,
-        })) as Vote[];
+        })) as Paginated<Vote>;
 
-        if (prevotes.total !== votes.total) {
+        if (prevotes.total !== votes.length) {
           throw new errors.BadRequest('Missing final votes');
         }
 
