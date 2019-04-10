@@ -39,7 +39,7 @@ export const computeVotingScores = (votes: Vote[]) => {
   let teamScoreAvg = 0;
   let fitScoreAvg = 0;
 
-  votes.data.forEach((vote) => {
+  votes.forEach((vote) => {
     marketScoreAvg += vote.marketScore;
     productScoreAvg += vote.productScore;
     teamScoreAvg += vote.teamScore;
@@ -52,10 +52,10 @@ export const computeVotingScores = (votes: Vote[]) => {
     }
   });
 
-  marketScoreAvg /= votes.data.length;
-  productScoreAvg /= votes.data.length;
-  teamScoreAvg /= votes.data.length;
-  fitScoreAvg /= votes.data.length;
+  marketScoreAvg /= votes.length;
+  productScoreAvg /= votes.length;
+  teamScoreAvg /= votes.length;
+  fitScoreAvg /= votes.length;
 
   return {
     numYes,
