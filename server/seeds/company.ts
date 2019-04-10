@@ -1,5 +1,7 @@
 import faker from 'faker';
 import Knex from 'knex';
+import { Team } from '../../client/schemas/common';
+import { Status } from '../../client/schemas/company';
 
 export const seed = async (knex: Knex) => {
   // Deletes ALL existing entries
@@ -8,22 +10,23 @@ export const seed = async (knex: Knex) => {
   await knex('company').insert([
     {
       id: 1,
-      name: faker.company.companyName(),
+      name: 'Tesla 2.0',
       description: faker.company.catchPhrase(),
       industries: JSON.stringify(['vr']),
-      status: 'applied',
-      contactEmail: faker.internet.email(),
-      companyLinks: {},
+      status: Status.Applied,
+      team: Team.Philadelphia,
+      contactEmail: 'elon@tesla.io',
+      companyLinks: JSON.stringify([]),
     },
-    // {
-    //   id: 2,
-    //   name: faker.company.companyName(),
-    //   description: faker.company.catchPhrase(),
-    //   industries: ['advertising'],
-    //   status: 'funded',
-    //   contactEmail: [faker.internet.email()],
-    //   companyLinks: {},
-    //   archived: true,
-    // },
+    {
+      id: 2,
+      name: faker.company.companyName(),
+      description: faker.company.catchPhrase(),
+      industries: JSON.stringify(['advertising']),
+      status: Status.Pipeline,
+      contactEmail: faker.internet.email(),
+      companyLinks: JSON.stringify([]),
+      team: Team.Philadelphia,
+    },
   ]);
 };
