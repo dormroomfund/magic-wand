@@ -1,6 +1,7 @@
-import * as Knex from 'knex';
 import _ from 'lodash';
+import * as Knex from 'knex';
 
+/* eslint-disable @typescript-eslint/camelcase */
 export async function up(knex: Knex) {
   await knex.schema.createTable('company_point_partner', (table) => {
     table.increments('id').primary();
@@ -61,3 +62,4 @@ export async function down(knex: Knex) {
 
   await knex.schema.dropTable('company_point_partner');
 }
+/* eslint-enable @typescript-eslint/camelcase */
