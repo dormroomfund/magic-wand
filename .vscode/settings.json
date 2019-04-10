@@ -1,4 +1,5 @@
 {
   "editor.formatOnSave": true,
-  "sasslint.enable": false
+  "sasslint.enable": false,
+  "cSpell.words": ["droppable", "prevote", "prevoted"]
 }

@@ -23,7 +23,7 @@ export default ({ companyId }: VotingCompletionProps) => (
       const waitingOnPartners = differenceWith(
         prevotedPartners,
         finalVotedPartners,
-        (a, b) => a.partner_id === b.partner_id
+        (a, b) => a.partnerId === b.partnerId
       );
 
       if (
@@ -57,7 +57,7 @@ export default ({ companyId }: VotingCompletionProps) => (
           ) : (
             (vc.votingStatus(companyId, uc.user.id) ===
               VotingStatus.AwaitingFinalization ||
-              uc.user.partner_position === Position.ManagingPartner) && (
+              uc.user.partnerPosition === Position.ManagingPartner) && (
               <Button
                 onClick={() => vc.finalizeVotes(companyId)}
                 disabled={

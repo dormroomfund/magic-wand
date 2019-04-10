@@ -30,7 +30,7 @@ export default {
     find: [],
     get: [],
     create: [
-      associateCurrentUser({ idField: 'id', as: 'partner_id' }),
+      associateCurrentUser({ idField: 'id', as: 'partnerId' }),
       /* iff(voteExists, upsertVote) */
     ],
     update: [],

@@ -11,8 +11,8 @@ const customizeOAuthProfile = () => async (context) => {
   if (context.data.auth0 && context.data.auth0.profile) {
     const { profile } = context.data.auth0;
     context.data.email = profile.emails[0].value;
-    context.data.first_name = profile.name.givenName;
-    context.data.last_name = profile.name.familyName;
+    context.data.firstName = profile.name.givenName;
+    context.data.lastName = profile.name.familyName;
     context.data.photo = profile.picture;
   }
 
