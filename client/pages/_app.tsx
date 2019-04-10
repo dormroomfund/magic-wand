@@ -7,10 +7,14 @@ import '../stylesheets/bootstrap.scss';
 import '../stylesheets/application.scss';
 
 const config = getConfig().publicRuntimeConfig;
+
 if (config.env === 'development' && process.browser) {
   UNSTATED.isEnabled = true;
   UNSTATED.logStateChanges = true;
   UNSTATED.isCollapsed = true;
+} else if (process.browser) {
+  UNSTATED.isEnabled = true;
+  UNSTATED.logStateChanges = false;
 } else {
   UNSTATED.isEnabled = false;
   UNSTATED.logStateChanges = false;

@@ -33,7 +33,8 @@ export default (app: App) => {
           voteType: data.voteType,
           companyId: id,
         },
-      })) as Paginated<Vote>;
+        paginate: false,
+      })) as Vote[];
 
       const results = computeVotingScores(votes);
 
@@ -54,10 +55,11 @@ export default (app: App) => {
           query: {
             voteType: 'prevote',
             companyId: id,
+            $limit: 0,
           },
         })) as Paginated<Vote>;
 
-        if (prevotes.total !== votes.total) {
+        if (prevotes.total !== votes.length) {
           throw new errors.BadRequest('Missing final votes');
         }
 
