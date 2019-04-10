@@ -1,12 +1,15 @@
 import Ajv from 'ajv';
 import { alterItems, fastJoin, keep, iff } from 'feathers-hooks-common';
-import { HookContext } from '@feathersjs/feathers';
+import { HookContext, Paginated } from '@feathersjs/feathers';
 import {
   companySchema,
   Company,
   Status,
+  pitchedStates,
 } from '../../../client/schemas/company';
 import { DocumentTypes } from '../../../client/schemas/gdrive';
+import { Vote } from '../../../client/schemas/vote';
+import { computeVotingScores } from '../../../client/lib/voting';
 
 const ajv = new Ajv({ allErrors: true, $data: true });
 
@@ -53,8 +56,27 @@ const votedPartners = {
   },
 };
 
+const votedResults = {
+  joins: {
+    voters: () => async (company, context) => {
+      const voteService = context.app.service('api/votes');
+      const votes = (await voteService.find({
+        query: {
+          companyId: company.id,
+          voteType: 'final',
+        },
+      })) as Paginated<Vote>;
+
+      company.voteResults = computeVotingScores(votes);
+    },
+  },
+};
+
 const isPitching = async (ctx: HookContext<Company>) =>
   ctx.result.status === Status.Pitching;
+
+const isPitchedAndArchived = async (ctx: HookContext<Company>) =>
+  pitchedStates.includes(ctx.result.status);
 
 const generateGoogleDriveDocuments = async (ctx: HookContext<Company>) => {
   await Promise.all([
@@ -94,7 +116,10 @@ export default {
     remove: [],
   },
   after: {
-    all: [fastJoin(votedPartners)],
+    all: [
+      fastJoin(votedPartners),
+      iff(isPitchedAndArchived, fastJoin(votedResults)),
+    ],
     find: [],
     get: [],
     create: [iff(isPitching, generateGoogleDriveDocuments)],

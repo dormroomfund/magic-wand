@@ -37,6 +37,13 @@ export const archivedStates = [
   Status.Funded,
 ];
 
+/* States for when a company Pitched */
+export const pitchedStates = [
+  Status.RejectedWithPitch,
+  Status.Accepted,
+  Status.Funded,
+];
+
 export interface PartnerVoteObj {
   voteId: number;
   partnerId: number;
@@ -69,6 +76,14 @@ export interface Company {
   partnerVotes?: {
     final: PartnerVoteObj[];
     prevote: PartnerVoteObj[];
+  };
+  voteResults?: {
+    numYes: number;
+    numNo: number;
+    marketScoreAvg: number;
+    fitScoreAvg: number;
+    productScoreAvg: number;
+    teamScoreAvg: number;
   };
 }
 
@@ -104,6 +119,17 @@ export const companySchema = {
       properties: {
         final: { type: 'array', items: { type: 'boolean' } },
         url: { type: 'array', items: { type: 'string', format: 'url' } },
+      },
+    },
+    voteResults: {
+      type: 'object',
+      properties: {
+        numYes: { type: 'number' },
+        numNo: { type: 'number' },
+        marketScoreAvg: { type: 'number' },
+        fitScoreAvg: { type: 'number' },
+        productScoreAvg: { type: 'number' },
+        teamScoreAvg: { type: 'number' },
       },
     },
   },

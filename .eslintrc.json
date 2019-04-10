@@ -46,6 +46,7 @@
     "react/destructuring-assignment": "off",
     "react/jsx-filename-extension": "off",
     "react/jsx-one-expression-per-line": "off",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "react/prefer-stateless-function": "off"
   }
 }
