@@ -1,13 +1,15 @@
 import Ajv from 'ajv';
 import { alterItems, fastJoin, keep, iff } from 'feathers-hooks-common';
 import { HookContext, Paginated } from '@feathersjs/feathers';
+
 import {
-  companySchema,
   Company,
+  companySchema,
   Status,
   pitchedStates,
 } from '../../../client/schemas/company';
 import { DocumentTypes } from '../../../client/schemas/gdrive';
+import { authenticate } from '../../hooks/authentication';
 import { Vote } from '../../../client/schemas/vote';
 import { computeVotingScores } from '../../../client/lib/voting';
 import App from '../../../client/schemas/app';
@@ -96,7 +98,7 @@ const generateGoogleDriveDocuments = async (ctx: HookContext<Company>) => {
 
 export default {
   before: {
-    all: [],
+    all: [authenticate('jwt')],
     find: [],
     get: [],
     create: [

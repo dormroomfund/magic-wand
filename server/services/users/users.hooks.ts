@@ -1,10 +1,8 @@
-import { hooks as authHooks } from '@feathersjs/authentication';
 import Ajv from 'ajv';
 import { JSONSchema6 } from 'json-schema';
 import { userSchema } from '../../../client/schemas/user';
 import { makePartial } from '../../../client/schemas/_utils';
-
-const { authenticate } = authHooks;
+import { authenticate } from '../../hooks/authentication';
 
 const ajv = new Ajv({ allErrors: true, $data: true });
 const partialSchema = makePartial(userSchema as JSONSchema6);
