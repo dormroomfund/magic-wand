@@ -1,5 +1,5 @@
 import Ajv from 'ajv';
-import { AjvOrNewable, validateSchema } from 'feathers-hooks-common';
+import { AjvOrNewable, validateSchema, disallow } from 'feathers-hooks-common';
 import { HookContext } from '@feathersjs/feathers';
 import {
   gDriveSchema,
@@ -24,7 +24,7 @@ const addLinkToCompany = async (ctx: HookContext<GoogleDriveDocument>) => {
 
 export default {
   before: {
-    all: [],
+    all: [disallow('external')],
     find: [],
     get: [],
     create: [validateSchema(gDriveSchema, ajv as AjvOrNewable)], // TODO: Validate Permissions
