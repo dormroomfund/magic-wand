@@ -35,6 +35,7 @@ const votedPartners = {
           companyId: company.id,
           $eager: 'voter',
         },
+        paginate: false,
       })).data;
 
       const partnerVotes = { prevote: [], final: [] };
