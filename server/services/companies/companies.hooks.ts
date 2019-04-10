@@ -62,8 +62,8 @@ const votedResults = {
       const voteService = context.app.service('api/votes');
       const votes = (await voteService.find({
         query: {
-          company_id: company.id,
-          vote_type: 'final',
+          companyId: company.id,
+          voteType: 'final',
         },
       })) as Paginated<Vote>;
 
@@ -71,7 +71,6 @@ const votedResults = {
     },
   },
 };
-
 
 const isPitching = async (ctx: HookContext<Company>) =>
   ctx.result.status === Status.Pitching;

@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import colors from '../../stylesheets/colors.json';
+import { getAnswerValueFromRef, refsMap } from '../../lib/typeform';
 import { Company } from '../../schemas/company';
-import { refsMap, getAnswerValueFromRef } from '../../lib/typeform';
-import company from '../../pages/company';
+import colors from '../../stylesheets/colors.json';
 
 const Wrapper = styled.div`
   background: ${colors.$N5};
@@ -55,23 +54,23 @@ export interface FounderGroupProps {
 export default class FounderGroup extends React.Component<FounderGroupProps> {
   render() {
     const founders = getAnswerValueFromRef(
-      this.props.company.typeform_data,
+      this.props.company.typeformData,
       refsMap.founders
     ).split(',');
     const linkedins = getAnswerValueFromRef(
-      this.props.company.typeform_data,
+      this.props.company.typeformData,
       refsMap.linkedins
     ).split(',');
     const schools = getAnswerValueFromRef(
-      this.props.company.typeform_data,
+      this.props.company.typeformData,
       refsMap.schools
     );
-    const gender_breakdown = getAnswerValueFromRef(
-      this.props.company.typeform_data,
+    const genderBreakdown = getAnswerValueFromRef(
+      this.props.company.typeformData,
       refsMap.gender_breakdown
     );
-    const race_or_ethnicity = getAnswerValueFromRef(
-      this.props.company.typeform_data,
+    const raceOrEthnicity = getAnswerValueFromRef(
+      this.props.company.typeformData,
       refsMap.race_or_ethnicity
     );
 

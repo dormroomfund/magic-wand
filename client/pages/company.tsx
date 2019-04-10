@@ -13,7 +13,7 @@ interface CompanyProps {
 }
 
 interface CompanyState {
-  loading: any;
+  loading: boolean;
 }
 
 export default class CompanyPage extends React.Component<
@@ -21,8 +21,6 @@ export default class CompanyPage extends React.Component<
   CompanyState
 > {
   state: CompanyState = {
-    // eslint-disable-next-line @typescript-eslint/no-object-literal-type-assertion
-    company: {} as Company,
     loading: true,
   };
 
