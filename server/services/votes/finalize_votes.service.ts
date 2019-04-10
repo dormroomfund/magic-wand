@@ -3,7 +3,8 @@ import { Paginated } from '@feathersjs/feathers';
 import { computeVotingScores } from '../../../client/lib/voting';
 import App from '../../../client/schemas/app';
 import { Status } from '../../../client/schemas/company';
-import { Vote } from '../../../client/schemas/vote';
+import { OverallVote, Vote } from '../../../client/schemas/vote';
+import hooks from './finalize-votes.hooks';
 
 /*
  * This service is used to determine for a given voteType and voteType who
@@ -33,7 +34,8 @@ export default (app: App) => {
           voteType: data.voteType,
           companyId: id,
         },
-      })) as Paginated<Vote>;
+        paginate: false,
+      })) as Vote[];
 
       const results = computeVotingScores(votes);
 
@@ -54,10 +56,11 @@ export default (app: App) => {
           query: {
             voteType: 'prevote',
             companyId: id,
+            $limit: 0,
           },
         })) as Paginated<Vote>;
 
-        if (prevotes.total !== votes.total) {
+        if (prevotes.total !== votes.length) {
           throw new errors.BadRequest('Missing final votes');
         }
 
@@ -85,4 +88,5 @@ export default (app: App) => {
   };
 
   app.use('/api/votes/finalize', FinalizeVotesService);
+  app.service('api/votes/finalize').hooks(hooks);
 };
