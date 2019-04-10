@@ -1,8 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
 import Button from 'react-bootstrap/lib/Button';
-import { Subscribe } from 'unstated';
-import PipelineContainer from '../../containers/PipelineContainer';
+import styled from 'styled-components';
+import { STAC } from '../../containers/ApplicationContainer';
 
 const StyledButton = styled(Button)`
   background-color: #1c37c5;
@@ -15,17 +14,17 @@ interface DropdownProps {
 }
 
 const IndividualButton: React.FunctionComponent<DropdownProps> = (props) => (
-  <Subscribe to={[PipelineContainer]}>
-    {(pipe: PipelineContainer) => (
+  <STAC>
+    {(ac) => (
       <a
-        onClick={() => pipe.setCurrentPartner(props.loggedInPartnerName)}
+        onClick={() => ac.pipeline.setCurrentPartner(props.loggedInPartnerName)}
         role="button"
         tabIndex={0}
       >
         <img src="/static/Individual_Button.png" />
       </a>
     )}
-  </Subscribe>
+  </STAC>
 );
 
 export default IndividualButton;

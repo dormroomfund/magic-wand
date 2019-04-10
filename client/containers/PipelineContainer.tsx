@@ -1,10 +1,11 @@
 import { Container } from 'unstated';
+import { ChildContainer } from '../lib/combineContainers';
 
 export interface PipelineContainerState {
   currentPartner: string;
 }
 
-export default class PipelineContainer extends Container<
+export default class PipelineContainer extends ChildContainer<
   PipelineContainerState
 > {
   constructor() {
