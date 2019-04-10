@@ -10,6 +10,7 @@ import {
 import { DocumentTypes } from '../../../client/schemas/gdrive';
 import { Vote } from '../../../client/schemas/vote';
 import { computeVotingScores } from '../../../client/lib/voting';
+import App from '../../../client/schemas/app';
 
 const ajv = new Ajv({ allErrors: true, $data: true });
 
@@ -28,7 +29,7 @@ const partialSchema = {
  */
 const votedPartners = {
   joins: {
-    voters: () => async (company, context) => {
+    voters: () => async (company, context: HookContext<App>) => {
       const votes = context.app.service('api/votes');
       const associatedVotes = (await votes.find({
         query: {
@@ -36,7 +37,7 @@ const votedPartners = {
           $eager: 'voter',
         },
         paginate: false,
-      })).data;
+      })) as Vote[];
 
       const partnerVotes = { prevote: [], final: [] };
       await associatedVotes.forEach((vote) => {
@@ -66,7 +67,8 @@ const votedResults = {
           companyId: company.id,
           voteType: 'final',
         },
-      })) as Paginated<Vote>;
+        paginate: false,
+      })) as Vote[];
 
       company.voteResults = computeVotingScores(votes);
     },

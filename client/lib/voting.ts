@@ -27,7 +27,7 @@ export const voteFormSchema = makeRequired(
   requiredFields
 );
 
-export const computeVotingScores = (votes: Paginated<Vote>) => {
+export const computeVotingScores = (votes: Vote[]) => {
   /*
    * Go through each of the votes and determine the number of yes
    * votes and the number of no votes.
