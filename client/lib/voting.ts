@@ -40,10 +40,10 @@ export const computeVotingScores = (votes: Paginated<Vote>) => {
   let fitScoreAvg = 0;
 
   votes.data.forEach((vote) => {
-    marketScoreAvg += vote.market_score;
-    productScoreAvg += vote.product_score;
-    teamScoreAvg += vote.team_score;
-    fitScoreAvg += vote.fit_score;
+    marketScoreAvg += vote.marketScore;
+    productScoreAvg += vote.productScore;
+    teamScoreAvg += vote.teamScore;
+    fitScoreAvg += vote.fitScore;
 
     if (vote.overall_vote === OverallVote.Fund) {
       numYes += 1;
