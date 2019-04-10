@@ -3,12 +3,16 @@ import { Subscribe } from 'unstated';
 import { Subtract } from 'utility-types';
 import { combineContainers } from '../lib/combineContainers';
 import PipelineContainer from './PipelineContainer';
+import CompanyContainer from './CompanyContainer';
 
 /** This is the root application state container. */
 export default class ApplicationContainer extends combineContainers({
   pipeline: PipelineContainer,
+  companies: CompanyContainer,
 }) {
   readonly pipeline: PipelineContainer;
+
+  readonly companies: CompanyContainer;
 }
 
 //
