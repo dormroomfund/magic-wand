@@ -1,4 +1,5 @@
-import { Team } from './user';
+import { Team } from './common';
+import { User } from './user';
 
 export enum Status {
   /** The company has applied. */
@@ -37,8 +38,8 @@ export const archivedStates = [
 ];
 
 export interface PartnerVoteObj {
-  vote_id: number;
-  partner_id: number;
+  voteId: number;
+  partnerId: number;
   name: string;
 }
 
@@ -52,19 +53,19 @@ export interface Company {
   name: string;
   description: string;
   team: Team;
-  point_partners?: number[];
   industries?: string[];
   tags?: string[];
   status: Status;
-  contact_email: string;
-  company_links?: CompanyLink[];
-  created_at?: string;
-  updated_at?: string;
+  contactEmail: string;
+  companyLinks?: CompanyLink[];
+  createdAt?: string;
+  updatedAt?: string;
 
   // Non-mutable fields
-  typeform_data?: object;
+  readonly typeformData?: object;
 
   // Server-generated fields
+  pointPartners?: User[];
   partnerVotes?: {
     final: PartnerVoteObj[];
     prevote: PartnerVoteObj[];
@@ -74,13 +75,12 @@ export interface Company {
 // IMPORTANT: This needs to be kept in sync with the Typescript interface above.
 export const companySchema = {
   type: 'object',
-  required: ['name', 'description', 'contact_email', 'status'],
+  required: ['name', 'description', 'contactEmail', 'status'],
   description: 'Defines a company that DRF encounters',
   properties: {
     id: { type: 'integer' },
     name: { type: 'string' },
     description: { type: 'string' },
-    point_partners: { type: 'array', items: { type: 'integer' } },
     team: { type: 'string', enum: Object.values(Team) },
     industries: { type: 'array', items: { type: 'string' } },
     tags: { type: 'array', items: { type: 'string' } },
@@ -88,8 +88,8 @@ export const companySchema = {
       type: 'string',
       enum: Object.values(Status),
     },
-    contact_email: { type: 'string', format: 'email' },
-    company_links: {
+    contactEmail: { type: 'string', format: 'email' },
+    companyLinks: {
       type: 'array',
       items: {
         type: 'object',

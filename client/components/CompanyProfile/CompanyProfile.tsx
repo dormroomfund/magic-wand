@@ -48,7 +48,7 @@ export default ({ company }: CompanyProfileProps) => (
         <small>
           <em className="color-N50">
             Last edited &nbsp;
-            {dayjs(company.updated_at).format('MMMM D, YYYY [at] h:mm a')}
+            {dayjs(company.updatedAt).format('MMMM D, YYYY [at] h:mm a')}
           </em>
         </small>
       </Col>
@@ -66,19 +66,19 @@ export default ({ company }: CompanyProfileProps) => (
       <Col md="2">
         <small>Application Date</small>
         <br />
-        <strong>{dayjs(company.created_at).format('MMMM D, YYYY')}</strong>
+        <strong>{dayjs(company.createdAt).format('MMMM D, YYYY')}</strong>
       </Col>
       <Col md="2">
         <small>Pitch Date</small>
         <br />
-        <strong>{dayjs(company.created_at).format('MMMM D, YYYY')}</strong>
+        <strong>{dayjs(company.createdAt).format('MMMM D, YYYY')}</strong>
       </Col>
     </HeaderRow>
     <HeaderRow>
       <Col md="8">
-        {company.company_links && (
+        {company.companyLinks && (
           <p>
-            {company.company_links.map(({ name, url }) => (
+            {company.companyLinks.map(({ name, url }) => (
               <a
                 key={name}
                 href={url}

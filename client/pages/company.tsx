@@ -20,6 +20,12 @@ export default class CompanyPage extends React.Component<
   CompanyProps,
   CompanyState
 > {
+  state: CompanyState = {
+    // eslint-disable-next-line @typescript-eslint/no-object-literal-type-assertion
+    company: {} as Company,
+    loading: true,
+  };
+
   static async getInitialProps(ctx: NextContext) {
     requireLoggedIn()(ctx);
     return ctx.query;

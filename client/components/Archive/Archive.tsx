@@ -31,7 +31,7 @@ export default class Archive extends Component<{}, ArchiveState> {
         return ac.companies.filter(
           (co) =>
             co.status === Status.Funded &&
-            co.point_partners.includes(uc.user.id)
+            co.pointPartners.find((partner) => partner.id === uc.user.id)
         );
       default:
         throw new UnreachableCaseError(filter);

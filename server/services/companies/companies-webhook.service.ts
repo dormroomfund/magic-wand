@@ -19,8 +19,8 @@ class CompaniesWebhookService {
       industries: [getAnswerValueFromRef(payload, refsMap.industries)],
       team: getAnswerValueFromRef(payload, refsMap.team),
       status: Status.Applied,
-      contact_email: getAnswerValueFromRef(payload, refsMap.email),
-      typeform_data: data,
+      contactEmail: getAnswerValueFromRef(payload, refsMap.email),
+      typeformData: data,
     };
 
     return await this.app.service('api/companies').create(company);
