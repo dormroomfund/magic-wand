@@ -13,7 +13,8 @@ export default class UserModel extends BaseModel {
 
   static get relationMappings() {
     return {
-      companiesHandling: {
+      /** For partners, the list of companies they are point partner for. */
+      companiesManaged: {
         relation: Model.ManyToManyRelation,
         modelClass: `${__dirname}/company.model`,
         join: {
