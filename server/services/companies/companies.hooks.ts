@@ -1,13 +1,18 @@
-import { HookContext } from '@feathersjs/feathers';
 import Ajv from 'ajv';
-import { alterItems, fastJoin, iff, keep } from 'feathers-hooks-common';
+import { alterItems, fastJoin, keep, iff } from 'feathers-hooks-common';
+import { HookContext, Paginated } from '@feathersjs/feathers';
+
 import {
   Company,
   companySchema,
   Status,
+  pitchedStates,
 } from '../../../client/schemas/company';
 import { DocumentTypes } from '../../../client/schemas/gdrive';
 import { authenticate } from '../../hooks/authentication';
+import { Vote } from '../../../client/schemas/vote';
+import { computeVotingScores } from '../../../client/lib/voting';
+import App from '../../../client/schemas/app';
 
 const ajv = new Ajv({ allErrors: true, $data: true });
 
@@ -26,14 +31,15 @@ const partialSchema = {
  */
 const votedPartners = {
   joins: {
-    voters: () => async (company, context) => {
+    voters: () => async (company, context: HookContext<App>) => {
       const votes = context.app.service('api/votes');
       const associatedVotes = (await votes.find({
         query: {
           companyId: company.id,
           $eager: 'voter',
         },
-      })).data;
+        paginate: false,
+      })) as Vote[];
 
       const partnerVotes = { prevote: [], final: [] };
       await associatedVotes.forEach((vote) => {
@@ -54,8 +60,28 @@ const votedPartners = {
   },
 };
 
+const votedResults = {
+  joins: {
+    voters: () => async (company, context) => {
+      const voteService = context.app.service('api/votes');
+      const votes = (await voteService.find({
+        query: {
+          companyId: company.id,
+          voteType: 'final',
+        },
+        paginate: false,
+      })) as Vote[];
+
+      company.voteResults = computeVotingScores(votes);
+    },
+  },
+};
+
 const isPitching = async (ctx: HookContext<Company>) =>
   ctx.result.status === Status.Pitching;
+
+const isPitchedAndArchived = async (ctx: HookContext<Company>) =>
+  pitchedStates.includes(ctx.result.status);
 
 const generateGoogleDriveDocuments = async (ctx: HookContext<Company>) => {
   await Promise.all([
@@ -95,7 +121,10 @@ export default {
     remove: [],
   },
   after: {
-    all: [fastJoin(votedPartners)],
+    all: [
+      fastJoin(votedPartners),
+      iff(isPitchedAndArchived, fastJoin(votedResults)),
+    ],
     find: [],
     get: [],
     create: [iff(isPitching, generateGoogleDriveDocuments)],

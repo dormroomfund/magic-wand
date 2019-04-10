@@ -1,5 +1,6 @@
 import errors from '@feathersjs/errors';
 import { Paginated } from '@feathersjs/feathers';
+import { computeVotingScores } from '../../../client/lib/voting';
 import App from '../../../client/schemas/app';
 import { Status } from '../../../client/schemas/company';
 import { OverallVote, Vote } from '../../../client/schemas/vote';
@@ -33,36 +34,10 @@ export default (app: App) => {
           voteType: data.voteType,
           companyId: id,
         },
-      })) as Paginated<Vote>;
+        paginate: false,
+      })) as Vote[];
 
-      /*
-       * Go through each of the votes and determine the number of yes
-       * votes and the number of no votes.
-       */
-      let numYes = 0;
-      let numNo = 0;
-      let marketScoreAvg = 0;
-      let productScoreAvg = 0;
-      let teamScoreAvg = 0;
-      let fitScoreAvg = 0;
-
-      votes.data.forEach((vote) => {
-        marketScoreAvg += vote.marketScore;
-        productScoreAvg += vote.productScore;
-        teamScoreAvg += vote.teamScore;
-        fitScoreAvg += vote.fitScore;
-
-        if (vote.overallVote === OverallVote.Fund) {
-          numYes += 1;
-        } else {
-          numNo += 1;
-        }
-      });
-
-      marketScoreAvg /= votes.data.length;
-      productScoreAvg /= votes.data.length;
-      teamScoreAvg /= votes.data.length;
-      fitScoreAvg /= votes.data.length;
+      const results = computeVotingScores(votes);
 
       /*
        * If there are enough yes votes mark the company as
@@ -81,14 +56,15 @@ export default (app: App) => {
           query: {
             voteType: 'prevote',
             companyId: id,
+            $limit: 0,
           },
         })) as Paginated<Vote>;
 
-        if (prevotes.total !== votes.total) {
+        if (prevotes.total !== votes.length) {
           throw new errors.BadRequest('Missing final votes');
         }
 
-        if (numYes > numNo) {
+        if (results.numYes > results.numNo) {
           status = Status.Funded;
           await app.service('api/companies').patch(id, {
             status: Status.Funded,
@@ -106,12 +82,7 @@ export default (app: App) => {
        */
       return {
         status,
-        numYes,
-        numNo,
-        marketScoreAvg,
-        fitScoreAvg,
-        productScoreAvg,
-        teamScoreAvg,
+        ...results,
       };
     },
   };

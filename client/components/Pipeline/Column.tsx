@@ -1,10 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Droppable } from 'react-beautiful-dnd';
-import { Subscribe } from 'unstated';
-import CompanyCard from '../CompanyCard/CompanyCard';
-import PipelineContainer from '../../containers/PipelineContainer';
+import styled from 'styled-components';
+import { STAC } from '../../containers/ApplicationContainer';
 import { Company } from '../../schemas/company';
+import CompanyCard from '../CompanyCard/CompanyCard';
 
 const Container = styled.div`
   border-radius: 5px;
@@ -71,8 +70,8 @@ export default class Column extends React.Component<ColumnProps, ColumnState> {
 
   render() {
     return (
-      <Subscribe to={[PipelineContainer]}>
-        {(pipe: PipelineContainer) => (
+      <STAC>
+        {(ac) => (
           <Container>
             <Title>{this.props.title}</Title>
             <Droppable droppableId={this.props.id}>
@@ -83,7 +82,7 @@ export default class Column extends React.Component<ColumnProps, ColumnState> {
                   isDraggingOver={snapshot.isDraggingOver}
                 >
                   {this.state.companies.map((company, index) =>
-                    this.renderCard(company, pipe, index, this.props.id)
+                    this.renderCard(company, ac.pipeline, index, this.props.id)
                   )}
                   {provided.placeholderf}
                 </CompanyList>
@@ -91,7 +90,7 @@ export default class Column extends React.Component<ColumnProps, ColumnState> {
             </Droppable>
           </Container>
         )}
-      </Subscribe>
+      </STAC>
     );
   }
 }
