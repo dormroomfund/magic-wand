@@ -9,7 +9,7 @@ export const seed = async (knex: Knex) => {
   await knex('user').insert([
     {
       id: 1,
-      auth0: '{}',
+      auth0: '{ "id": "auth0|5ca584f3ed19ed110c8cdced"}',
       auth0Id: 'auth0|5ca584f3ed19ed110c8cdced',
       permissions: 'partner',
       firstName: 'John',
@@ -25,8 +25,8 @@ export const seed = async (knex: Knex) => {
     },
     {
       id: 2,
-      auth0: '{}',
-      auth0Id: 'auth0|5ca584f3232319ed110c8cdced',
+      auth0: '{ "id": "auth0|5ca584f32392319ed110c8cdced" }',
+      auth0Id: 'auth0|5ca584f322392319ed110c8cdced',
       permissions: 'partner',
       firstName: 'Veronica',
       lastName: 'McDougal',
