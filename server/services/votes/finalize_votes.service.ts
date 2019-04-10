@@ -1,9 +1,9 @@
 import errors from '@feathersjs/errors';
 import { Paginated } from '@feathersjs/feathers';
+import { computeVotingScores } from '../../../client/lib/voting';
 import App from '../../../client/schemas/app';
 import { Status } from '../../../client/schemas/company';
-import { OverallVote, Vote } from '../../../client/schemas/vote';
-import { computeVotingScores } from '../../../client/lib/voting';
+import { Vote } from '../../../client/schemas/vote';
 
 /*
  * This service is used to determine for a given voteType and voteType who
