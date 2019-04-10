@@ -1,6 +1,6 @@
 // Initializes the `votes` service on path `/votes`
 import createObjectionService from 'feathers-objection';
-import Company from '../../models/companies.model';
+import CompanyModel from '../../models/company.model';
 import hooks from './companies.hooks';
 import App from '../../../client/schemas/app';
 
@@ -8,9 +8,10 @@ export default (app: App) => {
   const paginate = app.get('paginate');
 
   const options = {
-    model: Company,
+    model: CompanyModel,
     paginate,
     whitelist: ['$eager', '$pick'],
+    allowedEager: '[pointPartners]',
   };
 
   // Initialize our service with any options it requires

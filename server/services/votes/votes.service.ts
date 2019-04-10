@@ -1,6 +1,6 @@
 // Initializes the `votes` service on path `/votes`
 import createObjectionService from 'feathers-objection';
-import Vote from '../../models/votes.model';
+import VoteModel from '../../models/vote.model';
 import hooks from './votes.hooks';
 import App from '../../../client/schemas/app';
 
@@ -8,7 +8,7 @@ export default (app: App) => {
   const paginate = app.get('paginate');
 
   const options = {
-    model: Vote,
+    model: VoteModel,
     paginate,
     whitelist: ['$eager', '$joinRelation', '$pick'],
     allowedEager: 'voter',
@@ -17,10 +17,10 @@ export default (app: App) => {
         expression: 'voter',
         filter(builder) {
           /*
-           * Use the eager filter to only get the first_name
-           * and last_name.
+           * Use the eager filter to only get the firstName
+           * and lastName.
            */
-          builder.select(['first_name', 'last_name']);
+          builder.select(['firstName', 'lastName']);
         },
       },
     ],

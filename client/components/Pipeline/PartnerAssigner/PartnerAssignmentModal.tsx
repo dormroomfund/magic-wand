@@ -8,6 +8,7 @@ import { Company, companySchema } from '../../../schemas/company';
 import { PartnerAssignmentModalProps } from './PartnerAssignmentModal';
 import { User } from '../../../schemas/user';
 import client from '../../../lib/client';
+import { CompanyPointPartner } from '../../../schemas/companyPointPartner';
 
 const StyledListGroupItem = styled(ListGroup.Item)`
   cursor: pointer;
@@ -24,71 +25,87 @@ export interface PartnerAssignmentModalProps {
 }
 
 interface PartnerAssignmentModalState {
+  /** all partners available to assign */
   partners: User[];
 
-  /** The IDs of the partners assigned. */
-  assignedPartners: number[];
+  /** the ids of partners assigned to the company */
+  assignedPartnerIds: number[];
 }
 
 export default class PartnerAssignmentModal extends Component<
   PartnerAssignmentModalProps,
   PartnerAssignmentModalState
 > {
-  constructor(props) {
-    super(props);
-
-    const { company } = this.props;
-    this.state = {
-      partners: [],
-      assignedPartners: company.point_partners || [],
-    };
-  }
+  state = {
+    partners: [],
+    assignedPartnerIds: [],
+  };
 
   async componentDidMount() {
     const { company } = this.props;
     const partners = ((await client
       .service('api/users')
-      .find({ query: { partner_team: company.team } })) as Paginated<User>)
-      .data;
+      .find({ query: { partnerTeam: company.team } })) as Paginated<User>).data;
     this.setState({ partners });
+
+    await this.retrievePointPartners();
   }
 
-  handlePartnerClick = (id: number, assigned: boolean) => () => {
+  /**
+   * @param id the userId of the partner
+   * @param assign if true, assigns the partner; if false, removes
+   */
+  handlePartnerClick = (id: number, assign: boolean) => async () => {
     const { company } = this.props;
-    const reducer = assigned
-      ? (state) => ({
-          ...state,
-          assignedPartners: state.assignedPartners.filter(
-            (partnerId) => partnerId !== id
-          ),
-        })
-      : (state) => ({
-          ...state,
-          assignedPartners: state.assignedPartners.concat([id]),
-        });
 
-    this.setState(reducer, async () => {
-      await client.service('api/companies').patch(company.id, {
-        point_partners: this.state.assignedPartners,
+    if (assign) {
+      await client.service('api/companies/point-partners').create({
+        companyId: company.id,
+        userId: id,
       });
-    });
+    } else {
+      await client.service('api/companies/point-partners').remove(null, {
+        query: {
+          companyId: company.id,
+          userId: id,
+        },
+      });
+    }
+
+    this.retrievePointPartners();
   };
 
+  async retrievePointPartners() {
+    const { company } = this.props;
+
+    const relations = (await client
+      .service('api/companies/point-partners')
+      .find({
+        query: {
+          companyId: company.id,
+        },
+      })) as CompanyPointPartner[];
+
+    this.setState({
+      assignedPartnerIds: relations.map((rel) => rel.userId),
+    });
+  }
+
   renderPartners() {
-    const { partners, assignedPartners } = this.state;
+    const { partners, assignedPartnerIds } = this.state;
 
     return (
       <ListGroup>
         {partners.map((partner) => (
           <StyledListGroupItem
             key={partner.id}
-            active={assignedPartners.includes(partner.id)}
+            active={assignedPartnerIds.includes(partner.id)}
             onClick={this.handlePartnerClick(
               partner.id,
-              assignedPartners.includes(partner.id)
+              !assignedPartnerIds.includes(partner.id)
             )}
           >
-            {`${partner.first_name} ${partner.last_name}`}
+            {`${partner.firstName} ${partner.lastName}`}
           </StyledListGroupItem>
         ))}
       </ListGroup>
@@ -99,12 +116,9 @@ export default class PartnerAssignmentModal extends Component<
     const { company, show = false, onHide = () => {} } = this.props;
 
     return (
-      <Modal show={show} size="sm" centered>
+      <Modal show={show} size="lg" centered>
         <Modal.Header closeButton>
-          <Modal.Title>
-            Partners for
-            {company.name}
-          </Modal.Title>
+          <Modal.Title>Partners for {company.name}</Modal.Title>
         </Modal.Header>
         <Modal.Body>{this.renderPartners()}</Modal.Body>
         <Modal.Footer>

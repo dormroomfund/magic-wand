@@ -32,7 +32,7 @@ export default withVotingContainer(
             <td>
               <Button
                 variant="danger"
-                onClick={() => vc.deleteVote(vote.vote_id)}
+                onClick={() => vc.deleteVote(vote.voteId)}
                 disabled={archivedStates.includes(vc.company(companyId).status)}
               >
                 Delete Vote

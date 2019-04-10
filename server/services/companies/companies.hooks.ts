@@ -32,7 +32,7 @@ const votedPartners = {
       const votes = context.app.service('api/votes');
       const associatedVotes = (await votes.find({
         query: {
-          company_id: company.id,
+          companyId: company.id,
           $eager: 'voter',
         },
       })).data;
@@ -40,11 +40,11 @@ const votedPartners = {
       const partnerVotes = { prevote: [], final: [] };
       await associatedVotes.forEach((vote) => {
         const partnerObj = {
-          name: `${vote.voter.first_name} ${vote.voter.last_name}`,
-          partner_id: vote.partner_id,
-          vote_id: vote.id,
+          name: `${vote.voter.firstName} ${vote.voter.lastName}`,
+          partnerId: vote.partnerId,
+          voteId: vote.id,
         };
-        if (vote.vote_type === 'prevote') {
+        if (vote.voteType === 'prevote') {
           partnerVotes.prevote.push(partnerObj);
         } else {
           partnerVotes.final.push(partnerObj);
@@ -52,31 +52,6 @@ const votedPartners = {
       });
 
       company.partnerVotes = partnerVotes;
-    },
-  },
-};
-
-const pointPartners = {
-  joins: {
-    partners: () => async (company, context) => {
-      const users = context.app.service('api/users');
-      if (company.point_partners) {
-        const pointPartnerObjs = (await users.find({
-          query: {
-            id: { $in: company.point_partners },
-            $select: ['first_name', 'last_name'],
-          },
-        })).data;
-
-        /*
-         * Convert to actual first names
-         */
-        company.pointPartnerNames = [];
-        pointPartnerObjs.forEach((obj) => {
-          const partnerName = `${obj.first_name} ${obj.last_name}`;
-          company.pointPartnerNames.push(partnerName);
-        });
-      }
     },
   },
 };
@@ -97,6 +72,7 @@ const votedResults = {
   },
 };
 
+
 const isPitching = async (ctx: HookContext<Company>) =>
   ctx.result.status === Status.Pitching;
 
@@ -106,12 +82,12 @@ const isPitchedAndArchived = async (ctx: HookContext<Company>) =>
 const generateGoogleDriveDocuments = async (ctx: HookContext<Company>) => {
   await Promise.all([
     ctx.app.service('api/gdrive').create({
-      document_type: DocumentTypes.Prevote,
-      company_id: ctx.result.id,
+      documentType: DocumentTypes.Prevote,
+      companyId: ctx.result.id,
     }),
     ctx.app.service('api/gdrive').create({
-      document_type: DocumentTypes.Snapshot,
-      company_id: ctx.result.id,
+      documentType: DocumentTypes.Snapshot,
+      companyId: ctx.result.id,
     }),
   ]);
 };
@@ -122,11 +98,11 @@ export default {
     find: [],
     get: [],
     create: [
-      alterItems((company) => {
-        company.point_partners = company.point_partners || [];
+      alterItems((company: Company) => {
+        company.pointPartners = company.pointPartners || [];
         company.industries = company.industries || [];
         company.tags = company.tags || [];
-        company.company_links = company.company_links || [];
+        company.companyLinks = company.companyLinks || [];
       }),
       /* validateSchema(companies, <AjvOrNewable> ajv) */
     ],
@@ -143,7 +119,6 @@ export default {
   after: {
     all: [
       fastJoin(votedPartners),
-      fastJoin(pointPartners),
       iff(isPitchedAndArchived, fastJoin(votedResults)),
     ],
     find: [],

@@ -60,8 +60,8 @@ export default ({ company }: CompanyProfileProps) => (
         <h1>{company.name}</h1>
         <small>
           <em className="color-N50">
-            Last edited&nbsp;
-            {dayjs(company.updated_at).format('MMMM D, YYYY [at] h:mm a')}
+            Last edited &nbsp;
+            {dayjs(company.updatedAt).format('MMMM D, YYYY [at] h:mm a')}
           </em>
         </small>
       </Col>
@@ -93,9 +93,9 @@ export default ({ company }: CompanyProfileProps) => (
     </HeaderRow>
     <HeaderRow>
       <Col md="8">
-        {company.company_links && (
+        {company.companyLinks && (
           <p>
-            {company.company_links.map(({ name, url }) => (
+            {company.companyLinks.map(({ name, url }) => (
               <a
                 key={name}
                 href={url}

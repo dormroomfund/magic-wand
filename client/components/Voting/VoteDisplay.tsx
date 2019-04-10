@@ -35,7 +35,7 @@ class VoteDisplay extends Component<VoteDisplayProps, VoteDisplayState> {
       <Card {...this.props}>
         <Card.Body>
           <Card.Title>
-            Vote by {vote.voter.first_name} {vote.voter.last_name}
+            Vote by {vote.voter.firstName} {vote.voter.lastName}
           </Card.Title>
           <Card.Text>
             <strong>Market:</strong> {vote.market_score} <br />
