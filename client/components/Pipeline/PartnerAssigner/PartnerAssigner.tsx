@@ -1,6 +1,7 @@
 import { sortBy } from 'lodash';
 import React, { Component } from 'react';
-import Button from 'react-bootstrap/lib/Button';
+import Image from 'react-bootstrap/lib/Image';
+import add from '../../../assets/add.svg';
 import {
   ApplicationContainerProps,
   withAC,
@@ -68,18 +69,26 @@ class PartnerAssigner extends Component<
 
     return (
       <div data-cy="PartnerAssigner">
-        <Button
+        {/* <Button
           variant="primary"
           size="sm"
           className="mr-2"
           onClick={this.handleShowModal}
         >
           Assign
-        </Button>
-        <PartnerAssignerDisplay
-          partners={company && company.pointPartners}
-          show={4}
-        />
+        </Button> */}
+        <a
+          data-cy="PartnerAssigner-Activate"
+          onClick={this.handleShowModal}
+          role="button"
+          tabIndex={0}
+        >
+          <PartnerAssignerDisplay
+            partners={company && company.pointPartners}
+            show={4}
+          />
+          <Image src={add} roundedCircle />
+        </a>
 
         {company && (
           <PartnerAssignmentModal
