@@ -10,7 +10,7 @@ export default (app: App) => {
     model: CommentModel,
     paginate,
     whitelist: ['$eager', '$pick'],
-    allowedEager: '[user,company]',
+    allowedEager: '[author, company]',
   };
 
   // Initialize our service with any options it requires
