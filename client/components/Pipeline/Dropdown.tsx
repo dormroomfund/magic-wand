@@ -15,12 +15,12 @@ interface DropdownProps {
 
 export default class CustomDropdown extends PureComponent<DropdownProps> {
   renderItems = (partner, pipeline) => (
-    <StyledDropdown.Item
+    <Dropdown.Item
       key={partner}
       onSelect={() => pipeline.setCurrentPartner(partner)}
     >
       {partner}
-    </StyledDropdown.Item>
+    </Dropdown.Item>
   );
 
   render() {
@@ -28,19 +28,15 @@ export default class CustomDropdown extends PureComponent<DropdownProps> {
       <STAC>
         {(ac) => (
           <StyledDropdown>
-            <StyledDropdown.Toggle
-              variant="secondary"
-              id="dropdown-basic"
-              size="sm"
-            >
+            <Dropdown.Toggle variant="secondary" id="dropdown-basic" size="sm">
               Partner
-            </StyledDropdown.Toggle>
+            </Dropdown.Toggle>
 
-            <StyledDropdown.Menu>
+            <Dropdown.Menu>
               {[...this.props.partners].map((partner) =>
                 this.renderItems(partner, ac.pipeline)
               )}
-            </StyledDropdown.Menu>
+            </Dropdown.Menu>
           </StyledDropdown>
         )}
       </STAC>
