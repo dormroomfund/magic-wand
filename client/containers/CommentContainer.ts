@@ -19,7 +19,7 @@ export default class CommentContainer extends ChildContainer<State> {
   async retrieveByCompany(companyId: number) {
     const comments = await retrieveAll(client, 'api/comments', {
       companyId,
-      $eager: 'user',
+      $eager: 'author',
       $sort: {
         createdAt: -1,
       },
