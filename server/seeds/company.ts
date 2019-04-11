@@ -9,7 +9,6 @@ export const seed = async (knex: Knex) => {
   // Inserts seed entries
   await knex('company').insert([
     {
-      id: 1,
       name: 'Tesla 2.0',
       description: faker.company.catchPhrase(),
       industries: JSON.stringify(['vr']),
@@ -19,7 +18,6 @@ export const seed = async (knex: Knex) => {
       companyLinks: JSON.stringify([]),
     },
     {
-      id: 2,
       name: faker.company.companyName(),
       description: faker.company.catchPhrase(),
       industries: JSON.stringify(['advertising']),
