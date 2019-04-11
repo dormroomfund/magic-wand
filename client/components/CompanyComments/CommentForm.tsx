@@ -23,7 +23,7 @@ export default ({ onSubmit = () => {} }: CommentFormProps) => {
         <Form.Control
           as="textarea"
           rows="3"
-          placeholder="Add your thoughts..."
+          placeholder="Add your thoughts. Markdown supported."
           value={content}
           onChange={(evt) => setContent(evt.target.value)}
         />

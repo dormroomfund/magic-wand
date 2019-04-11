@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'react-bootstrap/lib/Image';
+import ReactMarkdown from 'react-markdown';
 import { Comment } from '../../schemas/comment.schema';
 import { User } from '../../schemas/user';
 
@@ -21,7 +22,9 @@ export default ({ comment }: CommentProps) => (
       <strong className="text-muted">
         {comment.author ? fullName(comment.author) : ' '}
       </strong>
-      <div>{comment.content}</div>
+      <div>
+        <ReactMarkdown source={comment.content} />
+      </div>
     </div>
   </div>
 );
