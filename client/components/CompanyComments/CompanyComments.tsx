@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, FormEvent } from 'react';
 import {
   withAC,
   ApplicationContainerProps,
 } from '../../containers/ApplicationContainer';
 import Comment from './Comment';
+import CommentForm from './CommentForm';
 
 export interface CompanyCommentsProps {
   companyId: number;
@@ -17,6 +18,12 @@ class CompanyComments extends Component<
     ac.comments.retrieveByCompany(companyId);
   }
 
+  handleSubmit = (comment: string) => {
+    const { applicationContainer: ac, companyId } = this.props;
+
+    ac.comments.create(companyId, comment);
+  };
+
   render() {
     const { applicationContainer: ac, companyId } = this.props;
     const comments = ac.comments.forCompany(companyId);
@@ -24,6 +31,7 @@ class CompanyComments extends Component<
     return (
       <div>
         <h2>Comments</h2>
+        <CommentForm onSubmit={this.handleSubmit} />
         {comments.map((comment) => (
           <Comment comment={comment} key={comment.id} />
         ))}

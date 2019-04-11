@@ -3,7 +3,7 @@ import getConfig from 'next/config';
 import React from 'react';
 import { Provider } from 'unstated';
 import UNSTATED from 'unstated-debug';
-import client from '../lib/client';
+import { authenticate } from '../lib/authentication';
 import '../stylesheets/application.scss';
 import '../stylesheets/bootstrap.scss';
 
@@ -33,7 +33,7 @@ export default class MyApp extends App {
   }
 
   componentDidMount() {
-    client.authenticate();
+    authenticate();
   }
 
   render() {

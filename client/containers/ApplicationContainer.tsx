@@ -5,6 +5,7 @@ import { combineContainers } from '../lib/combineContainers';
 import CommentContainer from './CommentContainer';
 import CompanyContainer from './CompanyContainer';
 import PipelineContainer from './PipelineContainer';
+import { authenticate } from '../lib/authentication';
 
 /** This is the root application state container. */
 export default class ApplicationContainer extends combineContainers({
@@ -17,6 +18,14 @@ export default class ApplicationContainer extends combineContainers({
   readonly companies: CompanyContainer;
 
   readonly pipeline: PipelineContainer;
+
+  constructor() {
+    super();
+
+    if (process.browser) {
+      authenticate();
+    }
+  }
 }
 
 //
