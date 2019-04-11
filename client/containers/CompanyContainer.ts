@@ -63,13 +63,13 @@ export default class CompanyContainer extends ChildContainer<State> {
     await client
       .service('api/companies/point-partners')
       .create({ companyId, userId });
-    await this.retrieve(companyId);
+    return await this.retrieve(companyId);
   }
 
   async unassignPartner(companyId: number, userId: number) {
     await client
       .service('api/companies/point-partners')
       .remove(null, { query: { companyId, userId } });
-    await this.retrieve(companyId);
+    return await this.retrieve(companyId);
   }
 }

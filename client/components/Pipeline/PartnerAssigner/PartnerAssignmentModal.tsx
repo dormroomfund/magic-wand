@@ -77,17 +77,16 @@ export default class PartnerAssignmentModal extends Component<
     const { company, partners, show = false, onHide = () => {} } = this.props;
 
     return (
-      <Modal show={show} size="lg" centered backdrop>
+      <Modal show={show} centered backdrop onHide={onHide}>
         <Modal.Header closeButton>
-          <Modal.Title>Partners for {company.name}</Modal.Title>
+          <Modal.Title as="h5">Partners for {company.name}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>{this.renderPartners()}</Modal.Body>
-        <Modal.Footer>
-          <small>
-            {partners.length} members for {company.team}
+        <Modal.Body>
+          {this.renderPartners()}
+          <small className="text-right text-muted">
+            showing {partners.length} members for {company.team} Team
           </small>
-          <Button onClick={onHide}>Close</Button>
-        </Modal.Footer>
+        </Modal.Body>
       </Modal>
     );
   }

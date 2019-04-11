@@ -40,6 +40,7 @@ class PartnerAssigner extends Component<
 
     if (assign) {
       ac.companies.assignPartner(companyId, userId);
+      this.setState({ show: false });
     } else {
       ac.companies.unassignPartner(companyId, userId);
     }
