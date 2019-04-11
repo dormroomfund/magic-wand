@@ -4,15 +4,19 @@ import { Subtract } from 'utility-types';
 import { combineContainers } from '../lib/combineContainers';
 import PipelineContainer from './PipelineContainer';
 import CompanyContainer from './CompanyContainer';
+import CommentContainer from './CommentContainer';
 
 /** This is the root application state container. */
 export default class ApplicationContainer extends combineContainers({
-  pipeline: PipelineContainer,
+  comments: CommentContainer,
   companies: CompanyContainer,
+  pipeline: PipelineContainer,
 }) {
-  readonly pipeline: PipelineContainer;
+  readonly comments: CommentContainer;
 
   readonly companies: CompanyContainer;
+
+  readonly pipeline: PipelineContainer;
 }
 
 //
