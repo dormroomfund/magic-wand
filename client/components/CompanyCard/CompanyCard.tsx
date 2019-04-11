@@ -2,7 +2,7 @@ import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import Button from 'react-bootstrap/lib/Button';
 import Card from 'react-bootstrap/lib/Card';
-import styled from 'styled-components';
+import styled, { StyledComponent } from 'styled-components';
 import routes from '../../routes';
 import { Company, Status } from '../../schemas/company';
 import Layout from '../Layout/Layout';
@@ -56,8 +56,8 @@ export default class CompanyCard extends React.Component<CompanyCardProps> {
               isDragging={snapshot.isDragging}
             >
               <StyledCard>
-                <StyledCard.Body>
-                  <StyledCard.Text>
+                <Card.Body>
+                  <Card.Text>
                     <Link
                       route="company"
                       params={{ id: this.props.company.id }}
@@ -66,10 +66,10 @@ export default class CompanyCard extends React.Component<CompanyCardProps> {
                         {this.props.company.name}
                       </Card.Link>
                     </Link>
-                  </StyledCard.Text>
+                  </Card.Text>
                   {this.renderPartnerAssignmentButton()}
                   {this.renderVotingButton()}
-                </StyledCard.Body>
+                </Card.Body>
               </StyledCard>
             </CompanyContainer>
           )}

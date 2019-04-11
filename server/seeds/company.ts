@@ -19,7 +19,6 @@ export const seed = async (knex: Knex) => {
       companyLinks: JSON.stringify([]),
     },
     {
-      id: 2,
       name: faker.company.companyName(),
       description: faker.company.catchPhrase(),
       industries: JSON.stringify(['advertising']),
