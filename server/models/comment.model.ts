@@ -8,7 +8,7 @@ export default class CommentModel extends BaseModel {
   static jsonSchema = commentSchema;
 
   static relationMappings = {
-    user: {
+    author: {
       relation: Model.BelongsToOneRelation,
       modelClass: `${__dirname}/user.model`,
       join: {
@@ -21,7 +21,7 @@ export default class CommentModel extends BaseModel {
       modelClass: `${__dirname}/company.model`,
       join: {
         from: 'comment.companyId',
-        to: 'comment.id',
+        to: 'company.id',
       },
     },
   };
