@@ -68,6 +68,7 @@
     "@types/lodash": "^4.14.120",
     "@types/node": "^10.12.18",
     "@types/react": "^16.8.13",
+    "@types/styled-components": "^4.1.14",
     "@types/styled-jsx": "^2.2.8",
     "@types/zeit__next-typescript": "^0.1.1",
     "@zeit/next-css": "^1.0.1",
