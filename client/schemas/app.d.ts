@@ -1,11 +1,13 @@
 import { Application } from '@feathersjs/feathers';
 import { Company } from './company';
+import { Comment } from './comment.schema';
 import { CompanyPointPartner } from './companyPointPartner';
 import { GoogleDriveDocument } from './gdrive';
 import { User } from './user';
 import { Vote } from './vote';
 
 export interface ServiceTypes {
+  'api/comments': Comment;
   'api/companies': Company;
   'api/companies/point-partners': CompanyPointPartner;
   'api/gdrive': GoogleDriveDocument;
