@@ -2,15 +2,16 @@ import dayjs from 'dayjs';
 import React from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import Col from 'react-bootstrap/lib/Col';
+import Container from 'react-bootstrap/lib/Container';
 import Row from 'react-bootstrap/lib/Row';
 import styled from 'styled-components';
+import { getAnswerValueFromRef, refsMap } from '../../lib/typeform';
 import { Company, pitchedStates } from '../../schemas/company';
 import colors from '../../stylesheets/colors.json';
-
+import CompanyComments from '../CompanyComments/CompanyComments';
 import PartnerAssigner from '../Pipeline/PartnerAssigner/PartnerAssigner';
 import FounderGroup from './FounderGroup';
 import VoteResults from './VoteResults';
-import { refsMap, getAnswerValueFromRef } from '../../lib/typeform';
 
 export interface CompanyProfileProps {
   company: Company;
@@ -117,40 +118,43 @@ export default ({ company }: CompanyProfileProps) => (
         <PartnerAssigner company={company} />
       </Col>
     </HeaderRow>
-    <div className="companybody">
-      <div className="mainbody">
-        <CompanyQuestion>
-          <small>Description</small>
-          <br />
-          {company.description}
-        </CompanyQuestion>
-        <CompanyQuestion>
-          <small>What’s unique about your startup?</small>
-          <br />
-          {getAnswerValueFromRef(company.typeformData, refsMap.uniqueness)}
-        </CompanyQuestion>
-        <CompanyQuestion>
-          <small>Where are you in your fundraising process?</small>
-          <br />
-          {getAnswerValueFromRef(
-            company.typeformData,
-            refsMap.fundraising_process
-          )}
-        </CompanyQuestion>
-        <CompanyQuestion>
-          <small>Were you referred by someone in the DRF community?</small>
-          <br />
-          {getAnswerValueFromRef(company.typeformData, refsMap.referral)}
-        </CompanyQuestion>
-        <FounderGroup company={company} />
-      </div>
-      <div className="sidebar">
-        <small>Status&nbsp;</small>
-        <span>{company.status}</span>
-        {pitchedStates.includes(company.status) ? (
-          <VoteResults company={company} />
-        ) : null}
-      </div>
-    </div>
+    <Container>
+      <Row>
+        <Col md="8" className="mainbody">
+          <CompanyQuestion>
+            <small>Description</small>
+            <br />
+            {company.description}
+          </CompanyQuestion>
+          <CompanyQuestion>
+            <small>What’s unique about your startup?</small>
+            <br />
+            {getAnswerValueFromRef(company.typeformData, refsMap.uniqueness)}
+          </CompanyQuestion>
+          <CompanyQuestion>
+            <small>Where are you in your fundraising process?</small>
+            <br />
+            {getAnswerValueFromRef(
+              company.typeformData,
+              refsMap.fundraising_process
+            )}
+          </CompanyQuestion>
+          <CompanyQuestion>
+            <small>Were you referred by someone in the DRF community?</small>
+            <br />
+            {getAnswerValueFromRef(company.typeformData, refsMap.referral)}
+          </CompanyQuestion>
+          <FounderGroup company={company} />
+        </Col>
+        <Col md="4">
+          <small>Status&nbsp;</small>
+          <span>{company.status}</span>
+          {pitchedStates.includes(company.status) ? (
+            <VoteResults company={company} />
+          ) : null}
+          <CompanyComments companyId={company.id} />
+        </Col>
+      </Row>
+    </Container>
   </div>
 );
