@@ -23,10 +23,6 @@ export const seed = async (knex: Knex) => {
       partnerPosition: Position.InvestmentPartner,
     },
     {
-      auth0: '{ "id": "auth0|5ca584f32392319ed110c8cdced" }',
-      auth0Id: 'auth0|5ca584f322392319ed110c8cdced',
-      permissions: 'partner',
-      firstName: 'Veronica',
       lastName: 'McDougal',
       school: 'Yalevard',
       email: 'magic-wand-2@mailinator.com',

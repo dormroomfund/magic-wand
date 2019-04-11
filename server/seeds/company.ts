@@ -18,10 +18,6 @@ export const seed = async (knex: Knex) => {
       companyLinks: JSON.stringify([]),
     },
     {
-      name: faker.company.companyName(),
-      description: faker.company.catchPhrase(),
-      industries: JSON.stringify(['advertising']),
-      status: Status.Pipeline,
       contactEmail: faker.internet.email(),
       companyLinks: JSON.stringify([]),
       team: Team.Philadelphia,
