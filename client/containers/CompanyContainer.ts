@@ -31,4 +31,24 @@ export default class CompanyContainer extends ChildContainer<State> {
 
     return company;
   }
+
+  /** Patches and updates a company. */
+  async patch(companyId: number, patch: Partial<Company>) {
+    const company = await client
+      .service('api/companies')
+      .patch(companyId, patch, {
+        query: {
+          $eager: 'pointPartners',
+        },
+      });
+
+    this.setState((state) => ({
+      companies: {
+        ...state.companies,
+        [company.id]: company,
+      },
+    }));
+
+    return company;
+  }
 }
