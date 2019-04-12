@@ -65,6 +65,10 @@ export interface Company {
   status: Status;
   contactEmail: string;
   companyLinks?: CompanyLink[];
+
+  /** Date that the company will pitch/pitched. */
+  pitchDate?: string;
+
   createdAt?: string;
   updatedAt?: string;
 
