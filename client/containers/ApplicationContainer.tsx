@@ -21,6 +21,8 @@ export default class ApplicationContainer extends combineContainers({
 
   readonly pipeline: PipelineContainer;
 
+  readonly users: UserContainer;
+
   constructor() {
     super();
 
