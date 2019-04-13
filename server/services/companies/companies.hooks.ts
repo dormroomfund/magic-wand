@@ -77,27 +77,53 @@ const votedResults = {
   },
 };
 
-const isPitching = async (ctx: HookContext<Company>) =>
+const isPitching = (ctx: HookContext<Company>) =>
   ctx.result.status === Status.Pitching;
 
 const isPitchedAndArchived = async (ctx: HookContext<Company>) =>
   pitchedStates.includes(ctx.result.status);
 
 const generateGoogleDriveDocuments = async (ctx: HookContext<Company>) => {
-  await Promise.all([
-    ctx.app.service('api/gdrive').create({
-      documentType: DocumentTypes.Prevote,
-      companyId: ctx.result.id,
-    }),
-    ctx.app.service('api/gdrive').create({
-      documentType: DocumentTypes.ExternalSnapshot,
-      companyId: ctx.result.id,
-    }),
-    ctx.app.service('api/gdrive').create({
-      documentType: DocumentTypes.InternalSnapshot,
-      companyId: ctx.result.id,
-    }),
-  ]);
+  const tasks = [];
+
+  if (
+    !ctx.result.companyLinks.find((link) => link.name === DocumentTypes.Prevote)
+  ) {
+    tasks.push(
+      ctx.app.service('api/gdrive').create({
+        documentType: DocumentTypes.Prevote,
+        companyId: ctx.result.id,
+      })
+    );
+  }
+
+  if (
+    !ctx.result.companyLinks.find(
+      (link) => link.name === DocumentTypes.ExternalSnapshot
+    )
+  ) {
+    tasks.push(
+      ctx.app.service('api/gdrive').create({
+        documentType: DocumentTypes.ExternalSnapshot,
+        companyId: ctx.result.id,
+      })
+    );
+  }
+
+  if (
+    !ctx.result.companyLinks.find(
+      (link) => link.name === DocumentTypes.ExternalSnapshot
+    )
+  ) {
+    tasks.push(
+      ctx.app.service('api/gdrive').create({
+        documentType: DocumentTypes.InternalSnapshot,
+        companyId: ctx.result.id,
+      })
+    );
+  }
+
+  await Promise.all(tasks);
 };
 
 export default {

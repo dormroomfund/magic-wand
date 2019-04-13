@@ -1,12 +1,28 @@
 import Ajv from 'ajv';
-import { AjvOrNewable, validateSchema, disallow } from 'feathers-hooks-common';
+import {
+  AjvOrNewable,
+  validateSchema,
+  disallow,
+  iff,
+} from 'feathers-hooks-common';
 import { HookContext } from '@feathersjs/feathers';
 import {
   gDriveSchema,
   GoogleDriveDocument,
 } from '../../../client/schemas/gdrive';
+import { Company } from '../../../client/schemas/company';
 
 const ajv = new Ajv({ allErrors: true, $data: true });
+
+const companyHasDocument = async (ctx: HookContext<GoogleDriveDocument>) => {
+  const company = (await ctx.app
+    .service('api/companies')
+    .get(ctx.data.companyId)) as Company;
+
+  return !!company.companyLinks.find(
+    (link) => link.name === ctx.data.documentType
+  );
+};
 
 const addLinkToCompany = async (ctx: HookContext<GoogleDriveDocument>) => {
   const { documentId, documentType, companyId } = ctx.result;
@@ -27,7 +43,10 @@ export default {
     all: [disallow('external')],
     find: [],
     get: [],
-    create: [validateSchema(gDriveSchema, ajv as AjvOrNewable)], // TODO: Validate Permissions
+    create: [
+      iff(companyHasDocument, disallow()),
+      validateSchema(gDriveSchema, ajv as AjvOrNewable),
+    ], // TODO: Validate Permissions
     update: [validateSchema(gDriveSchema, ajv as AjvOrNewable)],
     patch: [validateSchema(gDriveSchema, ajv as AjvOrNewable)],
     remove: [],
