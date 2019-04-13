@@ -36,7 +36,6 @@ export const combineContainers = (containers: ContextClassMap) =>
       // inject context and listen to container updates
       Object.entries(this.ctx).forEach(([name, container]) => {
         container.ctx = this.ctx;
-        this.state[name] = container.state;
         container.subscribe(this.handleUpdate(name, container));
       });
 

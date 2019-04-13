@@ -32,7 +32,7 @@ export default class CompanyCard extends React.Component<CompanyCardProps> {
   renderPartnerAssignmentButton() {
     if (this.props.status === Status.Pitching) return null;
 
-    return <PartnerAssigner company={this.props.company} />;
+    return <PartnerAssigner companyId={this.props.company.id} />;
   }
 
   renderPitchDateButton() {

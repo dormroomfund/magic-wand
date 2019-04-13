@@ -100,6 +100,7 @@
     "knex": "^0.16.3",
     "lodash": "^4.17.11",
     "next": "^7.0.2",
+    "next-images": "^1.1.1",
     "next-routes": "^1.4.2",
     "node-config": "0.0.2",
     "node-sass": "^4.11.0",

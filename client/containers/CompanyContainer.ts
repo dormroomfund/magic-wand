@@ -7,12 +7,35 @@ interface State {
 }
 
 export default class CompanyContainer extends ChildContainer<State> {
-  state = { companies: {} };
+  state: State = { companies: {} };
+
+  //
+  // GETTERS AND SETTERS
+  //
 
   /** Returns a company by id from the store. */
-  get(companyId: number) {
+  get(companyId: number): Company {
     return this.state.companies[companyId];
   }
+
+  /**
+   * If the company is in the store, return it. Otherwise, retrieve and return.
+   * @warning Do not use in a render() method. Infinite loops.
+   */
+  async getOrRetrieve(companyId: number) {
+    return this.get(companyId) || (await this.retrieve(companyId));
+  }
+
+  pointPartnerIdsFor(companyId: number) {
+    const company = this.get(companyId);
+    return company.pointPartners
+      ? company.pointPartners.map((co) => co.id)
+      : [];
+  }
+
+  //
+  // RETRIEVERS
+  //
 
   /** Retrieves and returns a company. */
   async retrieve(companyId: number) {
@@ -32,6 +55,10 @@ export default class CompanyContainer extends ChildContainer<State> {
     return company;
   }
 
+  //
+  // MUTATORS
+  //
+
   /** Patches and updates a company. */
   async patch(companyId: number, patch: Partial<Company>) {
     const company = await client
@@ -50,5 +77,19 @@ export default class CompanyContainer extends ChildContainer<State> {
     }));
 
     return company;
+  }
+
+  async assignPartner(companyId: number, userId: number) {
+    await client
+      .service('api/companies/point-partners')
+      .create({ companyId, userId });
+    return await this.retrieve(companyId);
+  }
+
+  async unassignPartner(companyId: number, userId: number) {
+    await client
+      .service('api/companies/point-partners')
+      .remove(null, { query: { companyId, userId } });
+    return await this.retrieve(companyId);
   }
 }
