@@ -4,13 +4,14 @@ import Button from 'react-bootstrap/lib/Button';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 import styled from 'styled-components';
-import { Company, pitchedStates } from '../../schemas/company';
+import { Company, pitchedStates, Status } from '../../schemas/company';
 import colors from '../../stylesheets/colors.json';
 
 import PartnerAssigner from '../Pipeline/PartnerAssigner/PartnerAssigner';
 import FounderGroup from './FounderGroup';
 import VoteResults from './VoteResults';
 import { refsMap, getAnswerValueFromRef } from '../../lib/typeform';
+import PitchDateSelector from '../PitchDateSelector/PitchDateSelector';
 
 export interface CompanyProfileProps {
   company: Company;
@@ -145,8 +146,47 @@ export default ({ company }: CompanyProfileProps) => (
         <FounderGroup company={company} />
       </div>
       <div className="sidebar">
-        <small>Status&nbsp;</small>
-        <span>{company.status}</span>
+        <section>
+          <p>
+            <small>Status&nbsp;</small>
+            <span>{company.status}</span>
+
+            {company.status === Status.Pitching && (
+              <p>
+                {company.pitchDate && (
+                  <>
+                    <small>Pitching</small>
+                    <span>{dayjs(company.pitchDate).format('M/D/YYYY')}</span>
+                  </>
+                )}
+                <PitchDateSelector
+                  companyId={company.id}
+                  hideText={(props) => (
+                    <Button variant="secondary" {...props}>
+                      Select Pitch Date
+                    </Button>
+                  )}
+                  showText={(props) => (
+                    <Button variant="secondary" {...props}>
+                      <span
+                        role="img"
+                        title="Cancel Setting Pitch Date"
+                        aria-label="cancel set pitch date button"
+                      >
+                        ❌
+                      </span>
+                    </Button>
+                  )}
+                  selectedText={(props) => (
+                    <Button variant="success" {...props}>
+                      Change
+                    </Button>
+                  )}
+                />
+              </p>
+            )}
+          </p>
+        </section>
         {pitchedStates.includes(company.status) ? (
           <VoteResults company={company} />
         ) : null}

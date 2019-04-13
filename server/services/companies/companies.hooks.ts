@@ -42,7 +42,7 @@ const votedPartners = {
       })) as Vote[];
 
       const partnerVotes = { prevote: [], final: [] };
-      await associatedVotes.forEach((vote) => {
+      associatedVotes.forEach((vote) => {
         const partnerObj = {
           name: `${vote.voter.firstName} ${vote.voter.lastName}`,
           partnerId: vote.partnerId,

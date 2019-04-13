@@ -34,18 +34,6 @@ export default class CompanyPage extends React.Component<
     this.setState({ loading: false });
   }
 
-  handleSubmit = async (evt: ISubmitEvent<any>) => {
-    try {
-      const res = await client
-        .service('api/companies')
-        .patch(this.props.id, evt.formData);
-    } catch (e) {
-      console.error(e);
-    }
-
-    alert('done');
-  };
-
   render() {
     // TODO: Fancier loading screen.
     const { loading } = this.state;

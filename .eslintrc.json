@@ -45,8 +45,10 @@
     "global-require": "off",
     "react/destructuring-assignment": "off",
     "react/jsx-filename-extension": "off",
+    "react/jsx-indent": "off",
     "react/jsx-one-expression-per-line": "off",
     "react/prop-types": "off",
-    "react/prefer-stateless-function": "off"
+    "react/prefer-stateless-function": "off",
+    "react/jsx-wrap-multilines": ["warn", { "prop": "ignore" }]
   }
 }

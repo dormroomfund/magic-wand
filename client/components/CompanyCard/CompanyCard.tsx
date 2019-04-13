@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import routes from '../../routes';
 import { Company, Status } from '../../schemas/company';
 import PartnerAssigner from '../Pipeline/PartnerAssigner/PartnerAssigner';
-import PitchDateSelector from './PitchDateSelector';
+import PitchDateSelector from '../PitchDateSelector/PitchDateSelector';
 
 const { Link } = routes;
 
@@ -38,7 +38,44 @@ export default class CompanyCard extends React.Component<CompanyCardProps> {
   renderPitchDateButton() {
     if (this.props.status !== Status.Pitching) return null;
 
-    return <PitchDateSelector companyId={this.props.company.id} />;
+    return (
+      <PitchDateSelector
+        companyId={this.props.company.id}
+        hideText={(props) => (
+          <Button variant="secondary" {...props}>
+            <span
+              role="img"
+              title="Set Pitch Date"
+              aria-label="set pitch date button"
+            >
+              🗓️
+            </span>
+          </Button>
+        )}
+        showText={(props) => (
+          <Button variant="secondary" {...props}>
+            <span
+              role="img"
+              title="Cancel Setting Pitch Date"
+              aria-label="cancel set pitch date button"
+            >
+              ❌
+            </span>
+          </Button>
+        )}
+        selectedText={(props) => (
+          <Button variant="success" {...props}>
+            <span
+              role="img"
+              title="Pitch Date Set"
+              aria-label="set pitch date button"
+            >
+              ️ 🗓️
+            </span>
+          </Button>
+        )}
+      />
+    );
   }
 
   renderVotingButton() {
