@@ -8,7 +8,6 @@ export const seed = async (knex: Knex) => {
   // Inserts seed entries
   await knex('user').insert([
     {
-      id: 1,
       auth0: '{ "id": "auth0|5ca584f3ed19ed110c8cdced"}',
       auth0Id: 'auth0|5ca584f3ed19ed110c8cdced',
       permissions: 'partner',
