@@ -1,6 +1,6 @@
+import { Application, Paginated } from '@feathersjs/feathers';
 import _ from 'lodash';
 import getConfig from 'next/config';
-import { Application, Paginated } from '@feathersjs/feathers';
 
 const { publicRuntimeConfig } = getConfig();
 const { pagination } = publicRuntimeConfig;

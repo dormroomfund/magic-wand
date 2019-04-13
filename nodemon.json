@@ -1,6 +1,6 @@
 {
   "ignore": [".git", "node_modules/**/node_modules"],
-  "watch": ["config/", "server/", "package-lock.json"],
+  "watch": ["config/", "server/", "package-lock.json", "client/next.config.js"],
   "env": {
     "NODE_ENV": "development"
   },

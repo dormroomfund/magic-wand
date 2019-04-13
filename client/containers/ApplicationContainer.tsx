@@ -1,17 +1,19 @@
 import React, { ComponentType, ReactNode } from 'react';
 import { Subscribe } from 'unstated';
 import { Subtract } from 'utility-types';
+import { authenticate } from '../lib/authentication';
 import { combineContainers } from '../lib/combineContainers';
 import CommentContainer from './CommentContainer';
 import CompanyContainer from './CompanyContainer';
 import PipelineContainer from './PipelineContainer';
-import { authenticate } from '../lib/authentication';
+import UserContainer from './UserContainer';
 
 /** This is the root application state container. */
 export default class ApplicationContainer extends combineContainers({
   comments: CommentContainer,
   companies: CompanyContainer,
   pipeline: PipelineContainer,
+  users: UserContainer,
 }) {
   readonly comments: CommentContainer;
 
