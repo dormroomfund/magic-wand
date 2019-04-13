@@ -4,7 +4,9 @@ import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 import { Subscribe } from 'unstated';
 import Layout from '../components/Layout/Layout';
-import UserContainer, { AuthState } from '../containers/UserContainer';
+import CurrentUserContainer, {
+  AuthState,
+} from '../containers/CurrentUserContainer';
 import { Router } from '../routes';
 import { UnreachableCaseError } from '../lib/errors';
 
@@ -13,9 +15,9 @@ export default () => (
     <Row>
       <Col md={{ span: 6, offset: 3 }}>
         <h1 className="mt-5 text-center">Magic Wand</h1>
-        <Subscribe to={[UserContainer]}>
-          {(uc: UserContainer) => {
-            switch (uc.authState) {
+        <Subscribe to={[CurrentUserContainer]}>
+          {(cuc: CurrentUserContainer) => {
+            switch (cuc.authState) {
               case AuthState.LoggedOut:
                 return (
                   <Button block size="lg" href="/auth/auth0" className="mt-2">
@@ -36,7 +38,7 @@ export default () => (
                   </Button>
                 );
               default:
-                throw new UnreachableCaseError(uc.authState);
+                throw new UnreachableCaseError(cuc.authState);
             }
           }}
         </Subscribe>

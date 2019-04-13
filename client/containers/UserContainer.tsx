@@ -1,110 +1,60 @@
-import Ajv from 'ajv';
-import getConfig from 'next/config';
-import { Container } from 'unstated';
-import { getUser } from '../lib/authentication';
+import _ from 'lodash';
+import { Paginated } from '@feathersjs/feathers';
 import client from '../lib/client';
-import { User, userSchema } from '../schemas/user';
+import { ChildContainer } from '../lib/combineContainers';
+import { User } from '../schemas/user';
+import { Team } from '../schemas/common';
+import { retrieveAll } from '../lib/retrievePaginated';
 
-const { publicRuntimeConfig } = getConfig();
-const { auth0 } = publicRuntimeConfig.authentication;
-
-export enum AuthState {
-  LoggedOut = 'logged-out',
-  LoggingIn = 'logging-in',
-  LoggedIn = 'logged-in',
+interface State {
+  users: Record<number, User>;
 }
 
-export interface UserContainerState {
-  authState: AuthState;
-  user?: User;
-}
+export default class UserContainer extends ChildContainer<State> {
+  state: State = { users: {} };
 
-export default class UserContainer extends Container<UserContainerState> {
-  constructor(user?: User) {
-    super();
+  //
+  // GETTERS AND SETTERS
+  //
 
-    if (user) {
-      this.state = {
-        authState: AuthState.LoggedIn,
-        user,
-      };
-    } else {
-      this.state = {
-        authState: AuthState.LoggingIn,
-      };
-
-      this.retrieveUser();
-    }
-
-    if (process.browser) {
-      client.on('authenticated', this.setLoggedIn);
-      client.on('logout', this.setLoggedOut);
-      client.on('reauthentication-error', this.setLoggedOut);
-    }
+  get(userId: number) {
+    return this.state.users[userId];
   }
 
-  // SETTERS AND GETTERS
-  // ////////////////////////////////////////////////
-
-  get user() {
-    return this.state.user;
+  getByPartnerTeam(team: Team) {
+    return Object.values(this.state.users).filter(
+      (user) => user.partnerTeam === team
+    );
   }
 
-  get authState() {
-    return this.state.authState;
-  }
+  //
+  // API INTERFACE
+  //
 
-  get isInitialized() {
-    if (!this.user) return false;
+  async retrieve(userId: number) {
+    const user = await client.service('api/users').get(userId);
 
-    const ajv = new Ajv({ coerceTypes: true });
-    const valid = ajv.validate(userSchema, this.user);
-
-    return valid;
-  }
-
-  // ACTIONS
-  // ////////////////////////////////////////////////
-
-  logOut = async () => {
-    await client.logout();
-    this.setLoggedOut();
-
-    const returnTo = encodeURIComponent(auth0.logoutRedirect);
-    // eslint-disable-next-line no-undef
-    window.location.href = `https://${
-      auth0.domain
-    }/v2/logout?returnTo=${returnTo}`;
-  };
-
-  retrieveUser = async () => {
-    const user = await getUser();
-    if (user) {
-      this.setLoggedIn(user);
-    } else {
-      this.setLoggedOut();
-    }
+    this.setState((state) => ({
+      users: {
+        ...state.users,
+        [user.id]: user,
+      },
+    }));
 
     return user;
-  };
+  }
 
-  updateUser = async (patch) => {
-    try {
-      const res = await client.service('api/users').patch(this.user.id, patch);
-      this.setState({ user: res });
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  /** Retrieves partners by partner team. */
+  async retrieveByPartnerTeam(team: Team) {
+    const users = await retrieveAll(client, 'api/users', { partnerTeam: team });
 
-  // PRIVATE
-  // ////////////////////////////////////////////////
+    this.setState((state) => ({
+      users: {
+        ...state.users,
+        ..._.keyBy(users),
+      },
+    }));
 
-  private setLoggedIn = async (user: User) => {
-    this.setState({ authState: AuthState.LoggedIn, user });
-  };
-
-  private setLoggedOut = async () => {
-    this.setState({ authState: AuthState.LoggedOut, user: undefined });
-  };
+    return users;
+  }
 }

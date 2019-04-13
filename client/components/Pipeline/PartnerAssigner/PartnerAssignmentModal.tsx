@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/lib/Button';
 import { Paginated } from '@feathersjs/feathers';
 import ListGroup from 'react-bootstrap/lib/ListGroup';
 import styled from 'styled-components';
+import Image from 'react-bootstrap/lib/Image';
 import { Company, companySchema } from '../../../schemas/company';
 import { PartnerAssignmentModalProps } from './PartnerAssignmentModal';
 import { User } from '../../../schemas/user';
@@ -18,81 +19,36 @@ const StyledListGroupItem = styled(ListGroup.Item)`
   }
 `;
 
-export interface PartnerAssignmentModalProps {
-  company: Company;
-  show?: boolean;
-  onHide?: () => void;
-}
+const ProfileImage = styled(Image)`
+  margin-top: -0.125em;
+  margin-right: 0.5em;
+  height: 28px;
+`;
 
-interface PartnerAssignmentModalState {
-  /** all partners available to assign */
+export interface PartnerAssignmentModalProps {
+  /** The company we're assigning for. */
+  company: Company;
+
+  /** Array of all partners to select from. */
   partners: User[];
 
-  /** the ids of partners assigned to the company */
   assignedPartnerIds: number[];
+
+  show?: boolean;
+
+  onHide?: () => void;
+  onTogglePartner?: (userId: number, assign: boolean) => void;
 }
 
 export default class PartnerAssignmentModal extends Component<
-  PartnerAssignmentModalProps,
-  PartnerAssignmentModalState
+  PartnerAssignmentModalProps
 > {
-  state = {
-    partners: [],
-    assignedPartnerIds: [],
-  };
-
-  async componentDidMount() {
-    const { company } = this.props;
-    const partners = ((await client
-      .service('api/users')
-      .find({ query: { partnerTeam: company.team } })) as Paginated<User>).data;
-    this.setState({ partners });
-
-    await this.retrievePointPartners();
-  }
-
-  /**
-   * @param id the userId of the partner
-   * @param assign if true, assigns the partner; if false, removes
-   */
-  handlePartnerClick = (id: number, assign: boolean) => async () => {
-    const { company } = this.props;
-
-    if (assign) {
-      await client.service('api/companies/point-partners').create({
-        companyId: company.id,
-        userId: id,
-      });
-    } else {
-      await client.service('api/companies/point-partners').remove(null, {
-        query: {
-          companyId: company.id,
-          userId: id,
-        },
-      });
-    }
-
-    this.retrievePointPartners();
-  };
-
-  async retrievePointPartners() {
-    const { company } = this.props;
-
-    const relations = (await client
-      .service('api/companies/point-partners')
-      .find({
-        query: {
-          companyId: company.id,
-        },
-      })) as CompanyPointPartner[];
-
-    this.setState({
-      assignedPartnerIds: relations.map((rel) => rel.userId),
-    });
-  }
-
   renderPartners() {
-    const { partners, assignedPartnerIds } = this.state;
+    const {
+      partners,
+      onTogglePartner = () => {},
+      assignedPartnerIds,
+    } = this.props;
 
     return (
       <ListGroup>
@@ -100,11 +56,16 @@ export default class PartnerAssignmentModal extends Component<
           <StyledListGroupItem
             key={partner.id}
             active={assignedPartnerIds.includes(partner.id)}
-            onClick={this.handlePartnerClick(
-              partner.id,
-              !assignedPartnerIds.includes(partner.id)
-            )}
+            onClick={() => {
+              onTogglePartner(
+                partner.id,
+                !assignedPartnerIds.includes(partner.id)
+              );
+            }}
           >
+            {partner.photo && (
+              <ProfileImage src={partner.photo} roundedCircle />
+            )}
             {`${partner.firstName} ${partner.lastName}`}
           </StyledListGroupItem>
         ))}
@@ -113,17 +74,19 @@ export default class PartnerAssignmentModal extends Component<
   }
 
   render() {
-    const { company, show = false, onHide = () => {} } = this.props;
+    const { company, partners, show = false, onHide = () => {} } = this.props;
 
     return (
-      <Modal show={show} size="lg" centered>
+      <Modal show={show} centered backdrop onHide={onHide}>
         <Modal.Header closeButton>
-          <Modal.Title>Partners for {company.name}</Modal.Title>
+          <Modal.Title as="h5">Partners for {company.name}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>{this.renderPartners()}</Modal.Body>
-        <Modal.Footer>
-          <Button onClick={onHide}>Close</Button>
-        </Modal.Footer>
+        <Modal.Body>
+          {this.renderPartners()}
+          <small className="text-right text-muted">
+            showing {partners.length} members for {company.team} Team
+          </small>
+        </Modal.Body>
       </Modal>
     );
   }

@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 import { ISubmitEvent } from 'react-jsonschema-form-bs4';
 import { Subscribe } from 'unstated';
-import UserContainer from '../../containers/UserContainer';
+import CurrentUserContainer from '../../containers/CurrentUserContainer';
 import VotingContainer, {
   VotingStatus,
 } from '../../containers/VotingContainer';
@@ -50,16 +50,16 @@ export default class VotingWorkflow extends Component<
     const { prevote, finalVote } = this.state;
 
     return (
-      <Subscribe to={[UserContainer, VotingContainer]}>
-        {(uc: UserContainer, vc: VotingContainer) => {
+      <Subscribe to={[CurrentUserContainer, VotingContainer]}>
+        {(cuc: CurrentUserContainer, vc: VotingContainer) => {
           const doingPrevote =
-            vc.votingStatus(companyId, uc.user.id) ===
+            vc.votingStatus(companyId, cuc.user.id) ===
             VotingStatus.DoingPrevote;
           const doingFinalVote =
-            vc.votingStatus(companyId, uc.user.id) ===
+            vc.votingStatus(companyId, cuc.user.id) ===
             VotingStatus.DoingFinalVote;
           const votingFinalized =
-            vc.votingStatus(companyId, uc.user.id) ===
+            vc.votingStatus(companyId, cuc.user.id) ===
             VotingStatus.VotingFinalized;
 
           return (
@@ -83,7 +83,7 @@ export default class VotingWorkflow extends Component<
                     You have already cast a prevote. <br />
                     <VoteDisplay
                       companyId={companyId}
-                      userId={uc.user.id}
+                      userId={cuc.user.id}
                       voteType={VoteType.Prevote}
                     />
                     {vc
@@ -112,7 +112,7 @@ export default class VotingWorkflow extends Component<
                             userId={voter.partnerId}
                             voteType={VoteType.Prevote}
                             border={
-                              voter.partnerId === uc.user.id
+                              voter.partnerId === cuc.user.id
                                 ? 'primary'
                                 : undefined
                             }
@@ -142,7 +142,7 @@ export default class VotingWorkflow extends Component<
                     You have already cast a final vote.
                     <VoteDisplay
                       companyId={companyId}
-                      userId={uc.user.id}
+                      userId={cuc.user.id}
                       voteType={VoteType.Final}
                     />
                   </Alert>
@@ -157,7 +157,9 @@ export default class VotingWorkflow extends Component<
                         userId={voter.partnerId}
                         voteType={VoteType.Final}
                         border={
-                          voter.partnerId === uc.user.id ? 'primary' : undefined
+                          voter.partnerId === cuc.user.id
+                            ? 'primary'
+                            : undefined
                         }
                       />
                     </Col>

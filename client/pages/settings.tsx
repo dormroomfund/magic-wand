@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/lib/Row';
 import Form from 'react-jsonschema-form';
 import { Subscribe } from 'unstated';
 import Layout from '../components/Layout/Layout';
-import UserContainer from '../containers/UserContainer';
+import CurrentUserContainer from '../containers/CurrentUserContainer';
 import { getUser } from '../lib/authentication';
 import client from '../lib/client';
 import { redirect, requireLoggedIn } from '../lib/routing';
@@ -55,12 +55,12 @@ const SettingsPage = () => {
       </Row>
       <Row>
         <Col>
-          <Subscribe to={[UserContainer]}>
-            {(uc: UserContainer) => (
+          <Subscribe to={[CurrentUserContainer]}>
+            {(cuc: CurrentUserContainer) => (
               <Form
                 schema={userSchema}
                 uiSchema={uiSchema}
-                formData={pickBy(uc.user, identity)}
+                formData={pickBy(cuc.user, identity)}
                 onChange={log('changed')}
                 onSubmit={submitForm}
                 onError={log('errors')}

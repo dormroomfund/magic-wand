@@ -6,7 +6,9 @@ import NavLink from 'react-bootstrap/lib/NavLink';
 import styled from 'styled-components';
 import Image from 'react-bootstrap/lib/Image';
 import { Subscribe } from 'unstated';
-import UserContainer, { AuthState } from '../../containers/UserContainer';
+import CurrentUserContainer, {
+  AuthState,
+} from '../../containers/CurrentUserContainer';
 import { UnreachableCaseError } from '../../lib/errors';
 import { Router } from '../../routes';
 
@@ -15,9 +17,9 @@ const ProfileImage = styled(Image)`
 `;
 
 export default () => (
-  <Subscribe to={[UserContainer]}>
-    {(uc: UserContainer) => {
-      switch (uc.authState) {
+  <Subscribe to={[CurrentUserContainer]}>
+    {(cuc: CurrentUserContainer) => {
+      switch (cuc.authState) {
         case AuthState.LoggedOut:
           return <Nav.Link href="/auth/auth0">Log In</Nav.Link>;
         case AuthState.LoggingIn:
@@ -26,25 +28,25 @@ export default () => (
           return (
             <Dropdown as={NavItem} alignRight>
               <Dropdown.Toggle as={NavLink} id="navbar-auth-dropdown">
-                {uc.user &&
-                  (uc.user.photo ? (
-                    <ProfileImage src={uc.user.photo} roundedCircle />
+                {cuc.user &&
+                  (cuc.user.photo ? (
+                    <ProfileImage src={cuc.user.photo} roundedCircle />
                   ) : (
-                    uc.user.email
+                    cuc.user.email
                   ))}
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item onClick={() => Router.pushRoute('/settings')}>
                   Settings
                 </Dropdown.Item>
-                <Dropdown.Item onClick={() => uc.logOut()}>
+                <Dropdown.Item onClick={() => cuc.logOut()}>
                   Log Out
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           );
         default:
-          throw new UnreachableCaseError(uc.authState);
+          throw new UnreachableCaseError(cuc.authState);
       }
     }}
   </Subscribe>

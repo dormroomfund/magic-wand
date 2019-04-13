@@ -3,14 +3,16 @@ import { Subscribe } from 'unstated';
 import PipelineLayout from '../components/Layout/PipelineLayout';
 import Onboarding from '../components/Onboarding/Onboarding';
 import Kanban from '../components/Pipeline/Kanban';
-import UserContainer, { AuthState } from '../containers/UserContainer';
+import CurrentUserContainer, {
+  AuthState,
+} from '../containers/CurrentUserContainer';
 import { UnreachableCaseError } from '../lib/errors';
 import { requireLoggedIn } from '../lib/routing';
 
 const PipelinePage = ({ id }) => (
-  <Subscribe to={[UserContainer]}>
-    {(uc: UserContainer) => {
-      switch (uc.authState) {
+  <Subscribe to={[CurrentUserContainer]}>
+    {(cuc: CurrentUserContainer) => {
+      switch (cuc.authState) {
         case AuthState.LoggedOut:
           return null;
         case AuthState.LoggingIn:
@@ -18,11 +20,11 @@ const PipelinePage = ({ id }) => (
         case AuthState.LoggedIn:
           return (
             <PipelineLayout>
-              {uc.isInitialized ? <Kanban user={uc.user} /> : <Onboarding />}
+              {cuc.isInitialized ? <Kanban user={cuc.user} /> : <Onboarding />}
             </PipelineLayout>
           );
         default:
-          throw new UnreachableCaseError(uc.authState);
+          throw new UnreachableCaseError(cuc.authState);
       }
     }}
   </Subscribe>
