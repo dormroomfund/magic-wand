@@ -119,26 +119,9 @@ export const companySchema = {
       },
     },
     pitchDate: {
-      type: 'string',
+      type: ['string', 'null'],
       format: 'date',
     },
-    partnerVotes: {
-      type: 'object',
-      properties: {
-        final: { type: 'array', items: { type: 'boolean' } },
-        url: { type: 'array', items: { type: 'string', format: 'url' } },
-      },
-    },
-    voteResults: {
-      type: 'object',
-      properties: {
-        numYes: { type: 'number' },
-        numNo: { type: 'number' },
-        marketScoreAvg: { type: 'number' },
-        fitScoreAvg: { type: 'number' },
-        productScoreAvg: { type: 'number' },
-        teamScoreAvg: { type: 'number' },
-      },
-    },
   },
+  addtionalProperties: false,
 };
