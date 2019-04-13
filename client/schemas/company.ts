@@ -118,6 +118,10 @@ export const companySchema = {
         },
       },
     },
+    pitchDate: {
+      type: 'string',
+      format: 'date',
+    },
     partnerVotes: {
       type: 'object',
       properties: {

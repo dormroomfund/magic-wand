@@ -1,12 +1,13 @@
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import Button from 'react-bootstrap/lib/Button';
+import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import Card from 'react-bootstrap/lib/Card';
-import styled, { StyledComponent } from 'styled-components';
+import styled from 'styled-components';
 import routes from '../../routes';
 import { Company, Status } from '../../schemas/company';
-import Layout from '../Layout/Layout';
 import PartnerAssigner from '../Pipeline/PartnerAssigner/PartnerAssigner';
+import PitchDateSelector from './PitchDateSelector';
 
 const { Link } = routes;
 
@@ -32,6 +33,12 @@ export default class CompanyCard extends React.Component<CompanyCardProps> {
     if (this.props.status === Status.Pitching) return null;
 
     return <PartnerAssigner company={this.props.company} />;
+  }
+
+  renderPitchDateButton() {
+    if (this.props.status !== Status.Pitching) return null;
+
+    return <PitchDateSelector companyId={this.props.company.id} />;
   }
 
   renderVotingButton() {
@@ -67,8 +74,11 @@ export default class CompanyCard extends React.Component<CompanyCardProps> {
                       </Card.Link>
                     </Link>
                   </Card.Text>
-                  {this.renderPartnerAssignmentButton()}
-                  {this.renderVotingButton()}
+                  <ButtonGroup aria-label="company card actions">
+                    {this.renderPartnerAssignmentButton()}
+                    {this.renderVotingButton()}
+                    {this.renderPitchDateButton()}
+                  </ButtonGroup>
                 </Card.Body>
               </StyledCard>
             </CompanyContainer>
