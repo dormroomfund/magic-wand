@@ -90,7 +90,11 @@ const generateGoogleDriveDocuments = async (ctx: HookContext<Company>) => {
       companyId: ctx.result.id,
     }),
     ctx.app.service('api/gdrive').create({
-      documentType: DocumentTypes.Snapshot,
+      documentType: DocumentTypes.ExternalSnapshot,
+      companyId: ctx.result.id,
+    }),
+    ctx.app.service('api/gdrive').create({
+      documentType: DocumentTypes.InternalSnapshot,
       companyId: ctx.result.id,
     }),
   ]);

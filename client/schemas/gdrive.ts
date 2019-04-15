@@ -1,6 +1,7 @@
 export enum DocumentTypes {
   Prevote = 'prevote',
-  Snapshot = 'snapshot',
+  ExternalSnapshot = 'external-snapshot',
+  InternalSnapshot = 'internal-snapshot',
 }
 
 /* Describes JSON validation schema for the gDriveService. */

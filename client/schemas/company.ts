@@ -65,6 +65,7 @@ export interface Company {
   status: Status;
   contactEmail: string;
   companyLinks?: CompanyLink[];
+  googleFolderId?: string;
   createdAt?: string;
   updatedAt?: string;
 
@@ -114,6 +115,8 @@ export const companySchema = {
         },
       },
     },
+    googleFolderId: { type: 'string' },
+    // server generated
     partnerVotes: {
       type: 'object',
       properties: {
