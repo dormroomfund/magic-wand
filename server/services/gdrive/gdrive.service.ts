@@ -70,10 +70,11 @@ class GDriveService {
 
     /* Get the parent folder we want to store the company's document folder in. */
     const teamParentFolder = config.get(
-      `googleDrive.documentIds.${company.team}`
+      `googleDrive.teamFolderIds.${company.team}`
     );
 
     const createDriveFile = util.promisify(drive.files.create);
+    const copyDriveFile = util.promisify(drive.files.copy);
 
     /* Create the companies folder if it hasn't been created before */
     let companyFolder;
@@ -105,12 +106,14 @@ class GDriveService {
       company.name
     } ${documentType.toUpperCase()}`;
 
+    const templateId = config.get(`googleDrive.templateIds.${documentType}`);
+
     try {
-      const res = await createDriveFile({
+      const res = await copyDriveFile({
         supportsTeamDrives: true,
+        fileId: templateId,
         resource: {
           name: documentName,
-          mimeType: 'application/vnd.google-apps.document',
           parents: [companyFolder],
         },
       });
