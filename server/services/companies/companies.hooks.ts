@@ -112,7 +112,7 @@ const generateGoogleDriveDocuments = async (ctx: HookContext<Company>) => {
 
   if (
     !ctx.result.companyLinks.find(
-      (link) => link.name === DocumentTypes.ExternalSnapshot
+      (link) => link.name === DocumentTypes.InternalSnapshot
     )
   ) {
     tasks.push(
