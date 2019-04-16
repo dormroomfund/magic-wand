@@ -153,42 +153,57 @@ export default ({ company }: CompanyProfileProps) => (
           <p>
             <small>Status&nbsp;</small>
             <span>{company.status}</span>
-
-            {company.status === Status.Pitching && (
-              <p>
-                {company.pitchDate && (
-                  <>
-                    <small>Pitching</small>
-                    <span>{dayjs(company.pitchDate).format('M/D/YYYY')}</span>
-                  </>
-                )}
-                <PitchDateSelector
-                  companyId={company.id}
-                  hideText={(props) => (
-                    <Button variant="secondary" {...props}>
-                      Select Pitch Date
-                    </Button>
-                  )}
-                  showText={(props) => (
-                    <Button variant="secondary" {...props}>
-                      <span
-                        role="img"
-                        title="Cancel Setting Pitch Date"
-                        aria-label="cancel set pitch date button"
-                      >
-                        ❌
-                      </span>
-                    </Button>
-                  )}
-                  selectedText={(props) => (
-                    <Button variant="success" {...props}>
-                      Change
-                    </Button>
-                  )}
-                />
-              </p>
-            )}
           </p>
+
+          {company.status === Status.Pitching && (
+            <p>
+              {company.pitchDate && (
+                <>
+                  <small>Pitch Date&nbsp;</small>
+                  <span>{dayjs(company.pitchDate).format('MMMM D, YYYY')}</span>
+                </>
+              )}
+              <PitchDateSelector
+                companyId={company.id}
+                hideText={(props) => (
+                  <Button
+                    variant="secondary"
+                    className="float-right"
+                    size="sm"
+                    {...props}
+                  >
+                    Select Pitch Date
+                  </Button>
+                )}
+                showText={(props) => (
+                  <Button
+                    variant="secondary"
+                    className="float-right"
+                    size="sm"
+                    {...props}
+                  >
+                    <span
+                      role="img"
+                      title="Cancel Setting Pitch Date"
+                      aria-label="cancel set pitch date button"
+                    >
+                      ❌
+                    </span>
+                  </Button>
+                )}
+                selectedText={(props) => (
+                  <Button
+                    variant="success"
+                    className="float-right"
+                    size="sm"
+                    {...props}
+                  >
+                    Change
+                  </Button>
+                )}
+              />
+            </p>
+          )}
         </section>
         {pitchedStates.includes(company.status) ? (
           <VoteResults company={company} />
