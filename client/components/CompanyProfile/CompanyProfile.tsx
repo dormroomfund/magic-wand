@@ -87,9 +87,12 @@ export default ({ company }: CompanyProfileProps) => (
         <p>{dayjs(company.createdAt).format('MMMM D, YYYY')}</p>
       </Col>
       <Col md="2" className="float-right text-right">
-        <small>Pitch Date</small>
-        <br />
-        <p>{dayjs(company.createdAt).format('MMMM D, YYYY')}</p>
+        {company.status === Status.Pitching && (
+          <>
+            <small>Pitch Date</small> <br />
+            <p>{dayjs(company.pitchDate).format('MMMM D, YYYY')}</p>
+          </>
+        )}
       </Col>
     </HeaderRow>
     <HeaderRow>
