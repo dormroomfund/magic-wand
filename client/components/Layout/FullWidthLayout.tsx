@@ -8,15 +8,15 @@ export interface LayoutProps {
 }
 
 const StyledContainer = styled(Container)`
-  margin: 0 !important;
-  width: 100vw !important;
   max-width: none !important;
 `;
 
 const Layout = ({ children }: LayoutProps) => (
   <>
     <Navigation />
-    <StyledContainer>{children}</StyledContainer>
+    <StyledContainer className="mt-4 ml-0 mr-0 pt-4 w-100">
+      {children}
+    </StyledContainer>
   </>
 );
 
