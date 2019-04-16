@@ -15,11 +15,11 @@ const { gray, blue } = chalk;
 export default () => (context: HookContext) => {
   // This debugs the service call and a stringified version of the hook context
   // You can customize the message (and logger) to your needs
-  // logger.info(
-  //   `${context.type}: ${blue(context.method)} ${gray('on service')} ${
-  //     context.path
-  //   } ${gray('with provider')} ${context.params.provider}`
-  // );
+  logger.info(
+    `${context.type}: ${blue(context.method)} ${gray('on service')} ${
+      context.path
+    } ${gray('with provider')} ${context.params.provider}`
+  );
 
   if (typeof (context as any).toJSON === 'function') {
     logger.debug('Hook Context', util.inspect(context, { colors: false }));

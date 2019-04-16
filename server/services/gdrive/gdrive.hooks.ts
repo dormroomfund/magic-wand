@@ -25,7 +25,7 @@ const companyHasDocument = async (ctx: HookContext<GoogleDriveDocument>) => {
 };
 
 const addLinkToCompany = async (ctx: HookContext<GoogleDriveDocument>) => {
-  const { documentId, documentType, companyId } = ctx.result;
+  const { googleFolderId, documentId, documentType, companyId } = ctx.result;
 
   const company = await ctx.app.service('api/companies').get(companyId);
   const docLink = `https://docs.google.com/document/d/${documentId}`;
@@ -35,6 +35,7 @@ const addLinkToCompany = async (ctx: HookContext<GoogleDriveDocument>) => {
       ...company.companyLinks,
       { name: documentType, url: docLink },
     ],
+    googleFolderId,
   });
 };
 

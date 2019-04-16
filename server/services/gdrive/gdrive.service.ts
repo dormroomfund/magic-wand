@@ -92,9 +92,6 @@ class GDriveService {
           fields: 'id',
         });
 
-        await this.app
-          .service('api/companies')
-          .patch(companyId, { googleFolderId: res.data.id });
         companyFolder = res.data.id;
       } catch (e) {
         logger.error('error while creating folder', e);
@@ -102,9 +99,7 @@ class GDriveService {
       }
     }
 
-    const documentName = `[${companyId}] ${
-      company.name
-    } ${documentType.toUpperCase()}`;
+    const documentName = `${company.name} ${documentType.toUpperCase()}`;
 
     const templateId = config.get(`googleDrive.templateIds.${documentType}`);
 
@@ -121,6 +116,7 @@ class GDriveService {
       return {
         ...data,
         documentId: res.data.id,
+        googleFolderId: companyFolder,
       };
     } catch (e) {
       logger.error('error while creating file', e);

@@ -10,6 +10,7 @@ export interface GoogleDriveDocument {
   companyId: number;
 
   documentId?: string;
+  googleFolderId?: string; // The company folder this document lies under
 }
 
 export const gDriveSchema = {
