@@ -39,7 +39,8 @@ export default class CurrentUserContainer extends Container<
     }
 
     if (process.browser) {
-      client.on('authenticated', this.setLoggedIn);
+      // TODO: Properly debounce log-in states.
+      // client.on('authenticated',  this.setLoggedIn);
       client.on('logout', this.setLoggedOut);
       client.on('reauthentication-error', this.setLoggedOut);
     }
@@ -102,11 +103,11 @@ export default class CurrentUserContainer extends Container<
   // PRIVATE
   // ////////////////////////////////////////////////
 
-  private setLoggedIn = async (user: User) => {
+  private setLoggedIn = (user?: User) => {
     this.setState({ authState: AuthState.LoggedIn, user });
   };
 
-  private setLoggedOut = async () => {
+  private setLoggedOut = () => {
     this.setState({ authState: AuthState.LoggedOut, user: undefined });
   };
 }

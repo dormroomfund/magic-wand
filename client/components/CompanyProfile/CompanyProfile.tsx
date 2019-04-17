@@ -33,7 +33,7 @@ const HeaderRow = styled(Row)`
   width: 100vw !important;
 
   &:first-child {
-    padding-top: 13vh !important;
+    padding-top: 2em !important;
   }
 
   small {
@@ -76,8 +76,12 @@ export default withAC(
     );
 
     const company = ac.companies.get(companyId);
+    if (!company) {
+      return <span>Loading...</span>;
+    }
+
     return (
-      <div>
+      <Wrapper>
         <HeaderRow>
           <Col md="8">
             <h1>{company.name}</h1>
@@ -239,7 +243,7 @@ export default withAC(
             </Col>
           </Row>
         </Container>
-      </div>
+      </Wrapper>
     );
   }
 );
