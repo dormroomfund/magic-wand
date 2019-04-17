@@ -1,63 +1,38 @@
+import _ from 'lodash';
 import { NextContext } from 'next';
 import React from 'react';
-import { ISubmitEvent } from 'react-jsonschema-form-bs4';
 import CompanyProfile from '../components/CompanyProfile/CompanyProfile';
 import FullWidthLayout from '../components/Layout/FullWidthLayout';
-import client from '../lib/client';
+import {
+  ApplicationContainerProps,
+  withAC,
+} from '../containers/ApplicationContainer';
 import { requireLoggedIn } from '../lib/routing';
-import { Company } from '../schemas/company';
 
 interface CompanyProps {
-  id: string;
-  company: Company;
+  id: number;
 }
 
-interface CompanyState {
-  loading: boolean;
-}
-
-export default class CompanyPage extends React.Component<
-  CompanyProps,
-  CompanyState
+class CompanyPage extends React.Component<
+  CompanyProps & ApplicationContainerProps
 > {
-  state: CompanyState = {
-    loading: true,
-  };
-
   static async getInitialProps(ctx: NextContext) {
     requireLoggedIn()(ctx);
-    const company = await client.service('api/companies').get(+ctx.query.id);
-    return { ...ctx.query, company };
+    const id = _.castArray(ctx.query.id).join('');
+
+    return { id: parseInt(id, 10) };
   }
-
-  async componentDidMount() {
-    this.setState({ loading: false });
-  }
-
-  handleSubmit = async (evt: ISubmitEvent<any>) => {
-    try {
-      const res = await client
-        .service('api/companies')
-        .patch(this.props.id, evt.formData);
-    } catch (e) {
-      console.error(e);
-    }
-
-    alert('done');
-  };
 
   render() {
     // TODO: Fancier loading screen.
-    const { loading } = this.state;
+    const { id } = this.props;
 
     return (
       <FullWidthLayout>
-        {this.props.company ? (
-          <CompanyProfile company={this.props.company} />
-        ) : (
-          'Error'
-        )}
+        {this.props.id ? <CompanyProfile companyId={id} /> : 'Error'}
       </FullWidthLayout>
     );
   }
 }
+
+export default CompanyPage;

@@ -1,6 +1,7 @@
 export enum DocumentTypes {
   Prevote = 'prevote',
-  Snapshot = 'snapshot',
+  ExternalSnapshot = 'External Snapshot',
+  InternalSnapshot = 'Internal Snapshot',
 }
 
 /* Describes JSON validation schema for the gDriveService. */
@@ -9,6 +10,7 @@ export interface GoogleDriveDocument {
   companyId: number;
 
   documentId?: string;
+  googleFolderId?: string; // The company folder this document lies under
 }
 
 export const gDriveSchema = {

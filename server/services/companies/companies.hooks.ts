@@ -1,12 +1,12 @@
 import Ajv from 'ajv';
-import { alterItems, fastJoin, keep, iff } from 'feathers-hooks-common';
-import { HookContext, Paginated } from '@feathersjs/feathers';
+import { alterItems, fastJoin, iff, keep } from 'feathers-hooks-common';
+import { HookContext } from '@feathersjs/feathers';
 
 import {
   Company,
   companySchema,
-  Status,
   pitchedStates,
+  Status,
 } from '../../../client/schemas/company';
 import { DocumentTypes } from '../../../client/schemas/gdrive';
 import { authenticate } from '../../hooks/authentication';
@@ -42,7 +42,7 @@ const votedPartners = {
       })) as Vote[];
 
       const partnerVotes = { prevote: [], final: [] };
-      await associatedVotes.forEach((vote) => {
+      associatedVotes.forEach((vote) => {
         const partnerObj = {
           name: `${vote.voter.firstName} ${vote.voter.lastName}`,
           partnerId: vote.partnerId,
@@ -77,23 +77,53 @@ const votedResults = {
   },
 };
 
-const isPitching = async (ctx: HookContext<Company>) =>
+const isPitching = (ctx: HookContext<Company>) =>
   ctx.result.status === Status.Pitching;
 
 const isPitchedAndArchived = async (ctx: HookContext<Company>) =>
   pitchedStates.includes(ctx.result.status);
 
 const generateGoogleDriveDocuments = async (ctx: HookContext<Company>) => {
-  await Promise.all([
-    ctx.app.service('api/gdrive').create({
-      documentType: DocumentTypes.Prevote,
-      companyId: ctx.result.id,
-    }),
-    ctx.app.service('api/gdrive').create({
-      documentType: DocumentTypes.Snapshot,
-      companyId: ctx.result.id,
-    }),
-  ]);
+  const tasks = [];
+
+  if (
+    !ctx.result.companyLinks.find((link) => link.name === DocumentTypes.Prevote)
+  ) {
+    tasks.push(
+      ctx.app.service('api/gdrive').create({
+        documentType: DocumentTypes.Prevote,
+        companyId: ctx.result.id,
+      })
+    );
+  }
+
+  if (
+    !ctx.result.companyLinks.find(
+      (link) => link.name === DocumentTypes.ExternalSnapshot
+    )
+  ) {
+    tasks.push(
+      ctx.app.service('api/gdrive').create({
+        documentType: DocumentTypes.ExternalSnapshot,
+        companyId: ctx.result.id,
+      })
+    );
+  }
+
+  if (
+    !ctx.result.companyLinks.find(
+      (link) => link.name === DocumentTypes.InternalSnapshot
+    )
+  ) {
+    tasks.push(
+      ctx.app.service('api/gdrive').create({
+        documentType: DocumentTypes.InternalSnapshot,
+        companyId: ctx.result.id,
+      })
+    );
+  }
+
+  await Promise.all(tasks);
 };
 
 export default {

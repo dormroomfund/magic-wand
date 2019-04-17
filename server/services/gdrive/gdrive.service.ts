@@ -66,31 +66,57 @@ class GDriveService {
       throw new errors.Unprocessable('company has no assigned team');
     }
 
-    /* Get the relevant folder we want to store this document in. */
-    const folder = config.get(
-      `googleDrive.${documentType}FolderIds.${company.team}`
+    const drive = await this.getDriveClient();
+
+    /* Get the parent folder we want to store the company's document folder in. */
+    const teamParentFolder = config.get(
+      `googleDrive.teamFolderIds.${company.team}`
     );
 
-    const documentName = `[${companyId}] ${
-      company.name
-    } ${documentType.toUpperCase()}`;
-
-    const drive = await this.getDriveClient();
     const createDriveFile = util.promisify(drive.files.create);
+    const copyDriveFile = util.promisify(drive.files.copy);
+
+    /* Create the companies folder if it hasn't been created before */
+    let companyFolder;
+    if (company.googleFolderId) {
+      companyFolder = company.googleFolderId;
+    } else {
+      try {
+        const res = await createDriveFile({
+          supportTeamDrives: true,
+          resource: {
+            name: company.name,
+            mimeType: 'application/vnd.google-apps.folder',
+            parents: [teamParentFolder],
+          },
+          fields: 'id',
+        });
+
+        companyFolder = res.data.id;
+      } catch (e) {
+        logger.error('error while creating folder', e);
+        throw new errors.BadRequest('Google Drive Folder Error');
+      }
+    }
+
+    const documentName = `${company.name} ${documentType.toUpperCase()}`;
+
+    const templateId = config.get(`googleDrive.templateIds.${documentType}`);
 
     try {
-      const res = await createDriveFile({
+      const res = await copyDriveFile({
         supportsTeamDrives: true,
+        fileId: templateId,
         resource: {
           name: documentName,
-          mimeType: 'application/vnd.google-apps.document',
-          parents: [folder],
+          parents: [companyFolder],
         },
       });
 
       return {
         ...data,
         documentId: res.data.id,
+        googleFolderId: companyFolder,
       };
     } catch (e) {
       logger.error('error while creating file', e);
