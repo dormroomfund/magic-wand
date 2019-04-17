@@ -1,16 +1,16 @@
+import { HookContext } from '@feathersjs/feathers';
 import Ajv from 'ajv';
 import {
   AjvOrNewable,
-  validateSchema,
   disallow,
   iff,
+  validateSchema,
 } from 'feathers-hooks-common';
-import { HookContext } from '@feathersjs/feathers';
+import { Company } from '../../../client/schemas/company';
 import {
   gDriveSchema,
   GoogleDriveDocument,
 } from '../../../client/schemas/gdrive';
-import { Company } from '../../../client/schemas/company';
 
 const ajv = new Ajv({ allErrors: true, $data: true });
 

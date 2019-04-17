@@ -47,24 +47,24 @@ export default () => (
     <StyledContainer>
       <Link route="/pipeline">
         <a>
-          <StyledNavbar.Brand>
+          <Navbar.Brand>
             MagicWand
             <Badge variant="primary">v0</Badge>
-          </StyledNavbar.Brand>
+          </Navbar.Brand>
         </a>
       </Link>
-      <StyledNavbar.Toggle className="mr-2" />
-      <StyledNavbar.Collapse>
+      <Navbar.Toggle className="mr-2" />
+      <Navbar.Collapse>
         <StyledNav navbar className="ml-auto">
-          <StyledNav.Link onClick={() => Router.pushRoute('/pipeline')}>
+          <Nav.Link onClick={() => Router.pushRoute('/pipeline')}>
             Pipeline
-          </StyledNav.Link>
-          <StyledNav.Link onClick={() => Router.pushRoute('/archive')}>
+          </Nav.Link>
+          <Nav.Link onClick={() => Router.pushRoute('/archive')}>
             Portfolio Success
-          </StyledNav.Link>
+          </Nav.Link>
           <UserActions />
         </StyledNav>
-      </StyledNavbar.Collapse>
+      </Navbar.Collapse>
     </StyledContainer>
   </StyledNavbar>
 );

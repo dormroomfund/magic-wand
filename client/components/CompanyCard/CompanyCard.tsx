@@ -1,12 +1,13 @@
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import Button from 'react-bootstrap/lib/Button';
+import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import Card from 'react-bootstrap/lib/Card';
 import styled from 'styled-components';
 import routes from '../../routes';
 import { Company, Status } from '../../schemas/company';
-import Layout from '../Layout/Layout';
 import PartnerAssigner from '../Pipeline/PartnerAssigner/PartnerAssigner';
+import PitchDateSelector from '../PitchDateSelector/PitchDateSelector';
 
 const { Link } = routes;
 
@@ -34,6 +35,49 @@ export default class CompanyCard extends React.Component<CompanyCardProps> {
     return <PartnerAssigner companyId={this.props.company.id} />;
   }
 
+  renderPitchDateButton() {
+    if (this.props.status !== Status.Pitching) return null;
+
+    return (
+      <PitchDateSelector
+        companyId={this.props.company.id}
+        hideText={(props) => (
+          <Button variant="secondary" {...props}>
+            <span
+              role="img"
+              title="Set Pitch Date"
+              aria-label="set pitch date button"
+            >
+              🗓️
+            </span>
+          </Button>
+        )}
+        showText={(props) => (
+          <Button variant="secondary" {...props}>
+            <span
+              role="img"
+              title="Cancel Setting Pitch Date"
+              aria-label="cancel set pitch date button"
+            >
+              ❌
+            </span>
+          </Button>
+        )}
+        selectedText={(props) => (
+          <Button variant="success" {...props}>
+            <span
+              role="img"
+              title="Pitch Date Set"
+              aria-label="set pitch date button"
+            >
+              ️ 🗓️
+            </span>
+          </Button>
+        )}
+      />
+    );
+  }
+
   renderVotingButton() {
     if (this.props.status !== Status.Pitching) return null;
 
@@ -56,8 +100,8 @@ export default class CompanyCard extends React.Component<CompanyCardProps> {
               isDragging={snapshot.isDragging}
             >
               <StyledCard>
-                <StyledCard.Body>
-                  <StyledCard.Text>
+                <Card.Body>
+                  <Card.Text>
                     <Link
                       route="company"
                       params={{ id: this.props.company.id }}
@@ -66,10 +110,13 @@ export default class CompanyCard extends React.Component<CompanyCardProps> {
                         {this.props.company.name}
                       </Card.Link>
                     </Link>
-                  </StyledCard.Text>
-                  {this.renderPartnerAssignmentButton()}
-                  {this.renderVotingButton()}
-                </StyledCard.Body>
+                  </Card.Text>
+                  <ButtonGroup aria-label="company card actions">
+                    {this.renderPartnerAssignmentButton()}
+                    {this.renderVotingButton()}
+                    {this.renderPitchDateButton()}
+                  </ButtonGroup>
+                </Card.Body>
               </StyledCard>
             </CompanyContainer>
           )}

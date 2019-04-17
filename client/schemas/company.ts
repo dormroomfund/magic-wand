@@ -65,6 +65,10 @@ export interface Company {
   status: Status;
   contactEmail: string;
   companyLinks?: CompanyLink[];
+
+  /** Date that the company will pitch/pitched. */
+  pitchDate?: string;
+
   googleFolderId?: string;
   createdAt?: string;
   updatedAt?: string;
@@ -115,25 +119,30 @@ export const companySchema = {
         },
       },
     },
-    googleFolderId: { type: 'string' },
-    // server generated
-    partnerVotes: {
-      type: 'object',
-      properties: {
-        final: { type: 'array', items: { type: 'boolean' } },
-        url: { type: 'array', items: { type: 'string', format: 'url' } },
+    pitchDate: {
+      type: ['string', 'null'],
+      format: 'date',
+      googleFolderId: { type: 'string' },
+      // server generated
+      partnerVotes: {
+        type: 'object',
+        properties: {
+          final: { type: 'array', items: { type: 'boolean' } },
+          url: { type: 'array', items: { type: 'string', format: 'url' } },
+        },
+      },
+      voteResults: {
+        type: 'object',
+        properties: {
+          numYes: { type: 'number' },
+          numNo: { type: 'number' },
+          marketScoreAvg: { type: 'number' },
+          fitScoreAvg: { type: 'number' },
+          productScoreAvg: { type: 'number' },
+          teamScoreAvg: { type: 'number' },
+        },
       },
     },
-    voteResults: {
-      type: 'object',
-      properties: {
-        numYes: { type: 'number' },
-        numNo: { type: 'number' },
-        marketScoreAvg: { type: 'number' },
-        fitScoreAvg: { type: 'number' },
-        productScoreAvg: { type: 'number' },
-        teamScoreAvg: { type: 'number' },
-      },
-    },
+    additionalProperties: false,
   },
 };

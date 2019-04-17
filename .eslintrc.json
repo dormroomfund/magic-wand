@@ -10,7 +10,7 @@
       "jsx": true
     }
   },
-  "plugins": ["react", "import"],
+  "plugins": ["react", "import", "react-hooks"],
   "extends": [
     "airbnb",
     "plugin:eslint-comments/recommended",
@@ -45,8 +45,12 @@
     "global-require": "off",
     "react/destructuring-assignment": "off",
     "react/jsx-filename-extension": "off",
+    "react/jsx-indent": "off",
     "react/jsx-one-expression-per-line": "off",
     "react/prop-types": "off",
-    "react/prefer-stateless-function": "off"
+    "react/prefer-stateless-function": "off",
+    "react/jsx-wrap-multilines": ["warn", { "prop": "ignore" }],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
 }

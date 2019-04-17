@@ -22,7 +22,11 @@ const Title = styled.h3`
   border-radius: 5px 5px 0% 0%;
 `;
 
-const CompanyList = styled.div`
+interface CompanyListProps {
+  isDraggingOver: boolean;
+}
+
+const CompanyList = styled.div<CompanyListProps>`
   height: 70vh;
   overflow-y: scroll;
   flex-grow: 1;
@@ -84,7 +88,7 @@ export default class Column extends React.Component<ColumnProps, ColumnState> {
                   {this.state.companies.map((company, index) =>
                     this.renderCard(company, ac.pipeline, index, this.props.id)
                   )}
-                  {provided.placeholderf}
+                  {provided.placeholder}
                 </CompanyList>
               )}
             </Droppable>

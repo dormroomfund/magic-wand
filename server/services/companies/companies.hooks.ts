@@ -42,7 +42,7 @@ const votedPartners = {
       })) as Vote[];
 
       const partnerVotes = { prevote: [], final: [] };
-      await associatedVotes.forEach((vote) => {
+      associatedVotes.forEach((vote) => {
         const partnerObj = {
           name: `${vote.voter.firstName} ${vote.voter.lastName}`,
           partnerId: vote.partnerId,
@@ -90,7 +90,7 @@ const generateGoogleDriveDocuments = async (ctx: HookContext<Company>) => {
     !ctx.result.companyLinks.find((link) => link.name === DocumentTypes.Prevote)
   ) {
     tasks.push(
-      await ctx.app.service('api/gdrive').create({
+      ctx.app.service('api/gdrive').create({
         documentType: DocumentTypes.Prevote,
         companyId: ctx.result.id,
       })
@@ -103,7 +103,7 @@ const generateGoogleDriveDocuments = async (ctx: HookContext<Company>) => {
     )
   ) {
     tasks.push(
-      await ctx.app.service('api/gdrive').create({
+      ctx.app.service('api/gdrive').create({
         documentType: DocumentTypes.ExternalSnapshot,
         companyId: ctx.result.id,
       })
@@ -116,7 +116,7 @@ const generateGoogleDriveDocuments = async (ctx: HookContext<Company>) => {
     )
   ) {
     tasks.push(
-      await ctx.app.service('api/gdrive').create({
+      ctx.app.service('api/gdrive').create({
         documentType: DocumentTypes.InternalSnapshot,
         companyId: ctx.result.id,
       })
