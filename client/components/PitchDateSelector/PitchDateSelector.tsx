@@ -72,7 +72,7 @@ const PitchDateSelector = withAC(
       () => {
         ac.companies.retrieve(companyId);
       },
-      [companyId]
+      [ac.companies, companyId]
     );
 
     const handleSubmit = async ({

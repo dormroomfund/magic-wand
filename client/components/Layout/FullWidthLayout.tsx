@@ -14,7 +14,7 @@ const StyledContainer = styled(Container)`
 const Layout = ({ children }: LayoutProps) => (
   <>
     <Navigation />
-    <StyledContainer className="mt-4 ml-0 mr-0 pt-4 w-100">
+    <StyledContainer className="mt-5 ml-0 mr-0 pt-4 w-100">
       {children}
     </StyledContainer>
   </>

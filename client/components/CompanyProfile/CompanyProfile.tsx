@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
@@ -20,6 +20,10 @@ import {
 export interface CompanyProfileProps {
   companyId: number;
 }
+
+const Wrapper = styled.div`
+  margin-top: -1em;
+`;
 
 const HeaderRow = styled(Row)`
   background-color: ${colors.$N5};
@@ -63,13 +67,16 @@ export default withAC(
     applicationContainer: ac,
     companyId,
   }: CompanyProfileProps & ApplicationContainerProps) => {
-    useEffect(() => {
-      ac.companies.retrieve(companyId);
-    });
+    useEffect(
+      () => {
+        ac.companies.retrieve(companyId);
+      },
+      [ac.companies, companyId]
+    );
 
     const company = ac.companies.get(companyId);
     return company ? (
-      <div>
+      <Wrapper>
         <HeaderRow>
           <Col md="8">
             <h1>{company.name}</h1>
@@ -226,7 +233,7 @@ export default withAC(
             ) : null}
           </div>
         </div>
-      </div>
+      </Wrapper>
     ) : (
       <span>Loading...</span>
     );
