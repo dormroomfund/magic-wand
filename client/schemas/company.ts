@@ -143,6 +143,6 @@ export const companySchema = {
         },
       },
     },
-    addtionalProperties: false,
+    additionalProperties: false,
   },
 };

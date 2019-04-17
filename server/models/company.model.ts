@@ -1,11 +1,11 @@
-import { Model } from 'objection';
+import { Model, JsonSchema } from 'objection';
 import { companySchema } from '../../client/schemas/company';
 import BaseModel from './base.model';
 
 export default class CompanyModel extends BaseModel {
   static tableName = 'company';
 
-  static jsonSchema = companySchema;
+  static jsonSchema = companySchema as JsonSchema;
 
   static relationMappings = {
     pointPartners: {
