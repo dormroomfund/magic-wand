@@ -3,7 +3,7 @@ import { Draggable } from 'react-beautiful-dnd';
 import Button from 'react-bootstrap/lib/Button';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import Card from 'react-bootstrap/lib/Card';
-import styled from 'styled-components';
+import styled, { StyledComponent } from 'styled-components';
 import routes from '../../routes';
 import { Company, Status } from '../../schemas/company';
 import PartnerAssigner from '../Pipeline/PartnerAssigner/PartnerAssigner';

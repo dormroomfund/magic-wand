@@ -3,8 +3,9 @@ import getConfig from 'next/config';
 import React from 'react';
 import { Provider } from 'unstated';
 import UNSTATED from 'unstated-debug';
-import '../stylesheets/bootstrap.scss';
+import { authenticate } from '../lib/authentication';
 import '../stylesheets/application.scss';
+import '../stylesheets/bootstrap.scss';
 
 const config = getConfig().publicRuntimeConfig;
 
@@ -29,6 +30,10 @@ export default class MyApp extends App {
     }
 
     return { pageProps };
+  }
+
+  componentDidMount() {
+    authenticate();
   }
 
   render() {

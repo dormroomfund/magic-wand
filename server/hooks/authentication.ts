@@ -1,5 +1,3 @@
-import { hooks } from '@feathersjs/authentication';
-import { Hook } from '@feathersjs/feathers';
+import { hooks as authHooks } from '@feathersjs/authentication';
 
-/** Authenticate the user. */
-export const { authenticate } = hooks;
+export const { authenticate } = authHooks;

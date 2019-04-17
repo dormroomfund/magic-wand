@@ -1,21 +1,22 @@
 import dayjs from 'dayjs';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import Col from 'react-bootstrap/lib/Col';
+import Container from 'react-bootstrap/lib/Container';
 import Row from 'react-bootstrap/lib/Row';
 import styled from 'styled-components';
-import { Company, pitchedStates, Status } from '../../schemas/company';
+import {
+  ApplicationContainerProps,
+  withAC,
+} from '../../containers/ApplicationContainer';
+import { getAnswerValueFromRef, refsMap } from '../../lib/typeform';
+import { pitchedStates, Status } from '../../schemas/company';
 import colors from '../../stylesheets/colors.json';
-
+import CompanyComments from '../CompanyComments/CompanyComments';
 import PartnerAssigner from '../Pipeline/PartnerAssigner/PartnerAssigner';
+import PitchDateSelector from '../PitchDateSelector/PitchDateSelector';
 import FounderGroup from './FounderGroup';
 import VoteResults from './VoteResults';
-import { refsMap, getAnswerValueFromRef } from '../../lib/typeform';
-import PitchDateSelector from '../PitchDateSelector/PitchDateSelector';
-import {
-  withAC,
-  ApplicationContainerProps,
-} from '../../containers/ApplicationContainer';
 
 export interface CompanyProfileProps {
   companyId: number;
@@ -32,7 +33,7 @@ const HeaderRow = styled(Row)`
   width: 100vw !important;
 
   &:first-child {
-    padding-top: 13vh !important;
+    padding-top: 2em !important;
   }
 
   small {
@@ -75,7 +76,11 @@ export default withAC(
     );
 
     const company = ac.companies.get(companyId);
-    return company ? (
+    if (!company) {
+      return <span>Loading...</span>;
+    }
+
+    return (
       <Wrapper>
         <HeaderRow>
           <Col md="8">
@@ -103,17 +108,17 @@ export default withAC(
               ))}
           </Col>
           <Col md="2" className="float-right text-right">
-            <small>Application Date</small>
-            <br />
-            <p>{dayjs(company.createdAt).format('MMMM D, YYYY')}</p>
-          </Col>
-          <Col md="2" className="float-right text-right">
             {company.status === Status.Pitching && (
               <>
                 <small>Pitch Date</small> <br />
                 <p>{dayjs(company.pitchDate).format('MMMM D, YYYY')}</p>
               </>
             )}
+          </Col>
+          <Col md="2" className="float-right text-right">
+            <small>Pitch Date</small>
+            <br />
+            <p>{dayjs(company.createdAt).format('MMMM D, YYYY')}</p>
           </Col>
         </HeaderRow>
         <HeaderRow>
@@ -142,100 +147,103 @@ export default withAC(
             <PartnerAssigner companyId={company.id} />
           </Col>
         </HeaderRow>
-        <div className="companybody">
-          <div className="mainbody">
-            <CompanyQuestion>
-              <small>Description</small>
-              <br />
-              {company.description}
-            </CompanyQuestion>
-            <CompanyQuestion>
-              <small>What’s unique about your startup?</small>
-              <br />
-              {getAnswerValueFromRef(company.typeformData, refsMap.uniqueness)}
-            </CompanyQuestion>
-            <CompanyQuestion>
-              <small>Where are you in your fundraising process?</small>
-              <br />
-              {getAnswerValueFromRef(
-                company.typeformData,
-                refsMap.fundraising_process
-              )}
-            </CompanyQuestion>
-            <CompanyQuestion>
-              <small>Were you referred by someone in the DRF community?</small>
-              <br />
-              {getAnswerValueFromRef(company.typeformData, refsMap.referral)}
-            </CompanyQuestion>
-            <FounderGroup company={company} />
-          </div>
-          <div className="sidebar">
-            <section>
-              <p>
+        <Container>
+          <Row>
+            <Col md="8" className="mainbody">
+              <CompanyQuestion>
+                <small>Description</small>
+                <br />
+                {company.description}
+              </CompanyQuestion>
+              <CompanyQuestion>
+                <small>What’s unique about your startup?</small>
+                <br />
+                {getAnswerValueFromRef(
+                  company.typeformData,
+                  refsMap.uniqueness
+                )}
+              </CompanyQuestion>
+              <CompanyQuestion>
+                <small>Where are you in your fundraising process?</small>
+                <br />
+                {getAnswerValueFromRef(
+                  company.typeformData,
+                  refsMap.fundraising_process
+                )}
+              </CompanyQuestion>
+              <CompanyQuestion>
+                <small>
+                  Were you referred by someone in the DRF community?
+                </small>
+                <br />
+                {getAnswerValueFromRef(company.typeformData, refsMap.referral)}
+              </CompanyQuestion>
+              <FounderGroup company={company} />
+            </Col>
+            <Col md="4">
+              <section>
                 <small>Status&nbsp;</small>
                 <span>{company.status}</span>
-              </p>
-
-              {company.status === Status.Pitching && (
-                <p>
-                  {company.pitchDate && (
-                    <>
-                      <small>Pitch Date&nbsp;</small>
-                      <span>
-                        {dayjs(company.pitchDate).format('MMMM D, YYYY')}
-                      </span>
-                    </>
-                  )}
-                  <PitchDateSelector
-                    companyId={company.id}
-                    hideText={(props) => (
-                      <Button
-                        variant="secondary"
-                        className="float-right"
-                        size="sm"
-                        {...props}
-                      >
-                        Select Pitch Date
-                      </Button>
-                    )}
-                    showText={(props) => (
-                      <Button
-                        variant="secondary"
-                        className="float-right"
-                        size="sm"
-                        {...props}
-                      >
-                        <span
-                          role="img"
-                          title="Cancel Setting Pitch Date"
-                          aria-label="cancel set pitch date button"
-                        >
-                          ❌
+                {pitchedStates.includes(company.status) ? (
+                  <VoteResults company={company} />
+                ) : null}
+                {company.status === Status.Pitching && (
+                  <p>
+                    {company.pitchDate && (
+                      <>
+                        <small>Pitch Date&nbsp;</small>
+                        <span>
+                          {dayjs(company.pitchDate).format('MMMM D, YYYY')}
                         </span>
-                      </Button>
+                      </>
                     )}
-                    selectedText={(props) => (
-                      <Button
-                        variant="success"
-                        className="float-right"
-                        size="sm"
-                        {...props}
-                      >
-                        Change
-                      </Button>
-                    )}
-                  />
-                </p>
-              )}
-            </section>
-            {pitchedStates.includes(company.status) ? (
-              <VoteResults company={company} />
-            ) : null}
-          </div>
-        </div>
+                    <PitchDateSelector
+                      companyId={company.id}
+                      hideText={(props) => (
+                        <Button
+                          variant="secondary"
+                          className="float-right"
+                          size="sm"
+                          {...props}
+                        >
+                          Select Pitch Date
+                        </Button>
+                      )}
+                      showText={(props) => (
+                        <Button
+                          variant="secondary"
+                          className="float-right"
+                          size="sm"
+                          {...props}
+                        >
+                          <span
+                            role="img"
+                            title="Cancel Setting Pitch Date"
+                            aria-label="cancel set pitch date button"
+                          >
+                            ❌
+                          </span>
+                        </Button>
+                      )}
+                      selectedText={(props) => (
+                        <Button
+                          variant="success"
+                          className="float-right"
+                          size="sm"
+                          {...props}
+                        >
+                          Change
+                        </Button>
+                      )}
+                    />
+                  </p>
+                )}
+              </section>
+              <CompanyComments companyId={company.id} />
+            </Col>
+          </Row>
+        </Container>
       </Wrapper>
-    ) : (
-      <span>Loading...</span>
     );
   }
 );
