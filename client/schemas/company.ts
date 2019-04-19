@@ -1,5 +1,6 @@
 import { Team } from './common';
 import { User } from './user';
+import { DocumentTypes } from './gdrive';
 
 export enum Status {
   /** The company has applied. */
@@ -44,6 +45,9 @@ export const pitchedStates = [
   Status.Funded,
 ];
 
+/* Documents we generate */
+export const companyAttachments = Object.values(DocumentTypes);
+
 export interface PartnerVoteObj {
   voteId: number;
   partnerId: number;
@@ -54,6 +58,15 @@ export interface CompanyLink {
   name?: string;
   url?: string;
 }
+
+export const companyLinkSchema = {
+  type: 'object',
+  required: ['name', 'url'],
+  properties: {
+    name: { type: 'string' },
+    url: { type: 'string' },
+  },
+};
 
 export interface Company {
   id?: number;
