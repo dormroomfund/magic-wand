@@ -18,6 +18,7 @@ import PitchDateSelector from '../PitchDateSelector/PitchDateSelector';
 import FounderGroup from './FounderGroup';
 import VoteResults from './VoteResults';
 import LinksViewer from './LinksViewer/LinksViewer';
+import AttachmentDropdown from './AttachmentDropdown';
 
 export interface CompanyProfileProps {
   companyId: number;
@@ -123,6 +124,9 @@ export default withAC(
           </Col>
         </HeaderRow>
         <HeaderRow>
+          <Col md="8">
+            <AttachmentDropdown links={company.companyLinks} />
+          </Col>
           <Col md="2" className="float-right text-right">
             <small>Links</small>
             <br />

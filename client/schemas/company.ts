@@ -1,6 +1,5 @@
 import { Team } from './common';
 import { User } from './user';
-import { DocumentTypes } from './gdrive';
 
 export enum Status {
   /** The company has applied. */
@@ -44,9 +43,6 @@ export const pitchedStates = [
   Status.Accepted,
   Status.Funded,
 ];
-
-/* Documents we generate */
-export const companyAttachments = Object.values(DocumentTypes);
 
 export interface PartnerVoteObj {
   voteId: number;
