@@ -13,7 +13,8 @@ export default ({ links = [] }: LinksViewerDisplayProps) => (
       // Do not want to include links such as the prevote doc here
       !Object.values(DocumentTypes).includes(name) ? (
         <a key={name} href={url} target="_blank" rel="noopener noreferrer">
-          {name}
+          {' '}
+          {name}{' '}
         </a>
       ) : null
     )}
