@@ -17,6 +17,8 @@ import PartnerAssigner from '../Pipeline/PartnerAssigner/PartnerAssigner';
 import PitchDateSelector from '../PitchDateSelector/PitchDateSelector';
 import FounderGroup from './FounderGroup';
 import VoteResults from './VoteResults';
+import LinksViewer from './LinksViewer/LinksViewer';
+import AttachmentDropdown from './AttachmentDropdown';
 
 export interface CompanyProfileProps {
   companyId: number;
@@ -123,23 +125,12 @@ export default withAC(
         </HeaderRow>
         <HeaderRow>
           <Col md="8">
-            {company.companyLinks && (
-              <p>
-                {company.companyLinks.map(({ name, url }) => (
-                  <a
-                    key={name}
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {name}
-                  </a>
-                ))}
-              </p>
-            )}
+            <AttachmentDropdown links={company.companyLinks} />
           </Col>
           <Col md="2" className="float-right text-right">
             <small>Links</small>
+            <br />
+            <LinksViewer companyId={company.id} />
           </Col>
           <Col md="2" className="float-right text-right">
             <small>Partners</small>

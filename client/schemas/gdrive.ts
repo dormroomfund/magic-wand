@@ -2,6 +2,7 @@ export enum DocumentTypes {
   Prevote = 'prevote',
   ExternalSnapshot = 'External Snapshot',
   InternalSnapshot = 'Internal Snapshot',
+  PitchDeck = 'pitchdeck',
 }
 
 /* Describes JSON validation schema for the gDriveService. */
