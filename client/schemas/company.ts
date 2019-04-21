@@ -55,15 +55,6 @@ export interface CompanyLink {
   url?: string;
 }
 
-export const companyLinkSchema = {
-  type: 'object',
-  required: ['name', 'url'],
-  properties: {
-    name: { type: 'string' },
-    url: { type: 'string' },
-  },
-};
-
 export interface Company {
   id?: number;
   name: string;
