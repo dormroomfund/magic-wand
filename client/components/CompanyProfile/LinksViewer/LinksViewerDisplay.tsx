@@ -14,7 +14,7 @@ const Link = styled.a`
 `;
 
 export default ({ links = [] }: LinksViewerDisplayProps) => (
-  <span data-component="LinksViewerDisplay">
+  <span data-cy="LinksViewerDisplay">
     {links.map(({ name, url }) =>
       // Do not want to include links such as the prevote doc here
       !Object.values(DocumentTypes).includes(name) ? (
