@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Image from 'react-bootstrap/lib/Image';
+import styled from 'styled-components';
 import add from '../../../assets/add.svg';
 import {
   ApplicationContainerProps,
@@ -16,6 +17,10 @@ export interface LinksViewerProps {
 interface LinksViewerState {
   show: boolean;
 }
+
+const AddImage = styled(Image)`
+  cursor: pointer;
+`;
 
 class LinksViewer extends Component<
   LinksViewerProps & ApplicationContainerProps,
@@ -55,7 +60,7 @@ class LinksViewer extends Component<
             links={company && company.companyLinks}
             show={4}
           />
-          <Image src={add} roundedCircle />
+          <AddImage src={add} roundedCircle />
         </a>
 
         {company && (

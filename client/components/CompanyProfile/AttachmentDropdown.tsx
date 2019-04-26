@@ -7,7 +7,45 @@ import { DocumentTypes } from '../../schemas/gdrive';
 
 const StyledDropdown = styled(Dropdown)`
   border: none;
-  margin: 0.5% 1%;
+
+  button {
+    border: 2px solid #dadde0;
+    width: auto;
+    background-color: white;
+    color: #1c37c5;
+    padding: 0.4% 0.9% 0.5% 0.9%;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #1c37c5;
+      color: white;
+      border: 2px solid #1c37c5;
+    }
+  }
+
+  div {
+    width: auto;
+    padding: 0;
+    margin: 0;
+
+    a {
+      background-color: white;
+      color: #1c37c5;
+      padding: 4% 5% 3% 5%;
+      cursor: pointer;
+      font-size: 0.9rem;
+
+      &:hover {
+        background-color: #1c37c5;
+        color: white;
+
+        a {
+          background-color: #1c37c5;
+          color: white;
+        }
+      }
+    }
+  }
 `;
 
 interface AttachmentDropdownProps {

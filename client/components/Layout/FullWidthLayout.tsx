@@ -9,6 +9,8 @@ export interface LayoutProps {
 
 const StyledContainer = styled(Container)`
   max-width: none !important;
+  padding: 0;
+  margin: 0;
 `;
 
 const Layout = ({ children }: LayoutProps) => (
