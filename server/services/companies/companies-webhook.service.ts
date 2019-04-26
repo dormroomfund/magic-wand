@@ -10,12 +10,20 @@ class CompaniesWebhookService {
   }
 
   getRelevantLinks(payload) {
-    const linksToGrab = ['email', 'pitchdeck', 'website'];
+    const linksToGrab = {
+      email: 'Email',
+      pitchdeck: 'Pitch Deck',
+      website: 'Website',
+    };
+
     const companyLinks = [];
-    linksToGrab.forEach((link) => {
+    Object.keys(linksToGrab).forEach((link) => {
       let value = getAnswerValueFromRef(payload, refsMap[link]);
       if (value && link === 'email') value = `mailto:${value}`;
-      if (value) companyLinks.push({ name: link, url: value });
+
+      if (value) {
+        companyLinks.push({ name: linksToGrab[link], url: value });
+      }
     });
 
     return companyLinks;
