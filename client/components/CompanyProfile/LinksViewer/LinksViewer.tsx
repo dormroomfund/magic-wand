@@ -20,6 +20,10 @@ interface LinksViewerState {
 
 const AddImage = styled(Image)`
   cursor: pointer;
+
+  &:hover {
+    box-shadow: 0.5px 0.5px 3px #9e9e9e;
+  }
 `;
 
 class LinksViewer extends Component<

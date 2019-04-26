@@ -8,7 +8,7 @@ import Comment from './Comment';
 import CommentForm from './CommentForm';
 
 const CommentSectionWrapper = styled.div`
-  margin-top: 15%;
+  margin-top: 10vh;
 `;
 
 export interface CompanyCommentsProps {
