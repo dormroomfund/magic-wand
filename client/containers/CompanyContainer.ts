@@ -98,6 +98,6 @@ export default class CompanyContainer extends ChildContainer<State> {
     const newLinks = {
       companyLinks: [...links, link],
     };
-    this.patch(companyId, newLinks);
+    await this.patch(companyId, newLinks);
   }
 }

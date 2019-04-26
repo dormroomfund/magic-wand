@@ -8,7 +8,6 @@ import {
 } from '../../../containers/ApplicationContainer';
 import LinksViewerDisplay from './LinksViewerDisplay';
 import LinksViewerModal from './LinksViewerModal';
-import { CompanyLink } from '../../../schemas/company';
 
 export interface LinksViewerProps {
   companyId: number;
@@ -41,9 +40,9 @@ class LinksViewer extends Component<
   };
 
   /* Modify this to add links */
-  handleAddLink = ({ formData }) => {
+  handleAddLink = async ({ formData }) => {
     const { applicationContainer: ac, companyId } = this.props;
-    ac.companies.addCompanyLink(companyId, formData);
+    await ac.companies.addCompanyLink(companyId, formData);
     this.setState({ show: false });
   };
 
@@ -54,16 +53,8 @@ class LinksViewer extends Component<
 
     return (
       <div data-cy="LinksViewer">
-        <a
-          data-cy="LinksViewer-Activate"
-          onClick={this.handleShowModal}
-          role="button"
-          tabIndex={0}
-        >
-          <LinksViewerDisplay
-            links={company && company.companyLinks}
-            show={4}
-          />
+        <LinksViewerDisplay links={company && company.companyLinks} show={4} />
+        <a onClick={this.handleShowModal} role="button" tabIndex={0}>
           <AddImage src={add} roundedCircle />
         </a>
 
