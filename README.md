@@ -27,6 +27,11 @@ $ make test
 
 For a full list of commands, consult the `Makefile`.
 
+If you installed Postgres via Homebrew, you may get the error 
+`psql: FATAL: role “postgres” does not exist`. 
+[To resolve](https://stackoverflow.com/questions/15301826/psql-fatal-role-postgres-does-not-exist#comment101477151_15309551), 
+run `/usr/local/opt/postgresql/bin/createuser -s postgres`.
+
 ## Scaffolding
 
 Use the feathers scaffolding tool to generate code:
