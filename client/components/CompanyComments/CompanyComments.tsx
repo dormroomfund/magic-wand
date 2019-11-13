@@ -1,10 +1,15 @@
 import React, { Component, FormEvent } from 'react';
+import styled from 'styled-components';
 import {
   withAC,
   ApplicationContainerProps,
 } from '../../containers/ApplicationContainer';
 import Comment from './Comment';
 import CommentForm from './CommentForm';
+
+const CommentSectionWrapper = styled.div`
+  margin-top: 10vh;
+`;
 
 export interface CompanyCommentsProps {
   companyId: number;
@@ -29,13 +34,13 @@ class CompanyComments extends Component<
     const comments = ac.comments.forCompany(companyId);
 
     return (
-      <div>
+      <CommentSectionWrapper>
         <h2>Comments</h2>
         <CommentForm onSubmit={this.handleSubmit} />
         {comments.map((comment) => (
           <Comment comment={comment} key={comment.id} />
         ))}
-      </div>
+      </CommentSectionWrapper>
     );
   }
 }

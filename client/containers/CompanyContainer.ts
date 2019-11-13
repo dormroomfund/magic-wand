@@ -1,6 +1,6 @@
 import client from '../lib/client';
 import { ChildContainer } from '../lib/combineContainers';
-import { Company } from '../schemas/company';
+import { Company, CompanyLink } from '../schemas/company';
 
 interface State {
   companies: Record<number, Company>;
@@ -91,5 +91,13 @@ export default class CompanyContainer extends ChildContainer<State> {
       .service('api/companies/point-partners')
       .remove(null, { query: { companyId, userId } });
     return await this.retrieve(companyId);
+  }
+
+  async addCompanyLink(companyId: number, link: CompanyLink) {
+    const links = this.state.companies[companyId].companyLinks;
+    const newLinks = {
+      companyLinks: [...links, link],
+    };
+    await this.patch(companyId, newLinks);
   }
 }

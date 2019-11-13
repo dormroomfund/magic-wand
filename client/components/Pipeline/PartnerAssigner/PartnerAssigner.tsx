@@ -1,6 +1,7 @@
 import { sortBy } from 'lodash';
 import React, { Component } from 'react';
 import Image from 'react-bootstrap/lib/Image';
+import styled from 'styled-components';
 import add from '../../../assets/add.svg';
 import {
   ApplicationContainerProps,
@@ -16,6 +17,14 @@ export interface PartnerAssignerProps {
 interface PartnerAssignerState {
   show: boolean;
 }
+
+const AddImage = styled(Image)`
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0.5px 0.5px 3px #9e9e9e;
+  }
+`;
 
 class PartnerAssigner extends Component<
   PartnerAssignerProps & ApplicationContainerProps,
@@ -87,7 +96,7 @@ class PartnerAssigner extends Component<
             partners={company && company.pointPartners}
             show={4}
           />
-          <Image src={add} roundedCircle />
+          <AddImage src={add} roundedCircle />
         </a>
 
         {company && (

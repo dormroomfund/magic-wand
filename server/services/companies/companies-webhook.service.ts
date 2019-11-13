@@ -9,6 +9,26 @@ class CompaniesWebhookService {
     this.app = app;
   }
 
+  getRelevantLinks(payload) {
+    const linksToGrab = {
+      email: 'Email',
+      pitchdeck: 'Pitch Deck',
+      website: 'Website',
+    };
+
+    const companyLinks = [];
+    Object.keys(linksToGrab).forEach((link) => {
+      let value = getAnswerValueFromRef(payload, refsMap[link]);
+      if (value && link === 'email') value = `mailto:${value}`;
+
+      if (value) {
+        companyLinks.push({ name: linksToGrab[link], url: value });
+      }
+    });
+
+    return companyLinks;
+  }
+
   async create(data) {
     // TODO: Authenticate against Typeform.
     const payload = data.form_response;
@@ -21,6 +41,7 @@ class CompaniesWebhookService {
       status: Status.Applied,
       contactEmail: getAnswerValueFromRef(payload, refsMap.email),
       typeformData: data,
+      companyLinks: this.getRelevantLinks(payload),
     };
 
     return await this.app.service('api/companies').create(company);

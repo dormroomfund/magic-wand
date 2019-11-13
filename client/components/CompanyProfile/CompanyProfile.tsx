@@ -17,6 +17,8 @@ import PartnerAssigner from '../Pipeline/PartnerAssigner/PartnerAssigner';
 import PitchDateSelector from '../PitchDateSelector/PitchDateSelector';
 import FounderGroup from './FounderGroup';
 import VoteResults from './VoteResults';
+import LinksViewer from './LinksViewer/LinksViewer';
+import AttachmentDropdown from './AttachmentDropdown';
 
 export interface CompanyProfileProps {
   companyId: number;
@@ -26,11 +28,16 @@ const Wrapper = styled.div`
   margin-top: -1em;
 `;
 
-const HeaderRow = styled(Row)`
+const Header = styled.div`
+  padding: 3vh 5vw;
   background-color: ${colors.$N5};
   max-width: none !important;
-  padding: 1vh 5vw;
   width: 100vw !important;
+`;
+
+const HeaderRow = styled(Row)`
+  padding: 1vh 0vw;
+  background-color: ${colors.$N5};
 
   &:first-child {
     padding-top: 2em !important;
@@ -63,6 +70,58 @@ const WarningButton = styled(Button)`
   border-width: 0px !important;
 `;
 
+const StatusWrapper = styled.div`
+  margin-bottom: 1%;
+  background-color: #f2f2f4;
+  padding: 5% 7%;
+`;
+
+const StatusBold = styled.span`
+  font-weight: bold;
+`;
+
+const StatusButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: 5%;
+
+  .pitchdate {
+    margin-right: 25%;
+
+    span {
+      font-size: 0.9rem;
+      color: #0702d1;
+      font-weight: bold;
+    }
+  }
+
+  button {
+    background-color: #12a577;
+  }
+`;
+
+const CompanyDetails = styled(Container)`
+  padding: 4vh 5vw;
+  max-width: 100vw;
+`;
+
+const CompanyDetails2 = styled(Row)`
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  width: 100%;
+`;
+
+const MainDetails = styled(Col)`
+  width: 55%;
+  padding-right: 2.5%;
+`;
+
+const SideBarDetails = styled(Col)`
+  width: 35%;
+`;
+
 export default withAC(
   ({
     applicationContainer: ac,
@@ -82,74 +141,68 @@ export default withAC(
 
     return (
       <Wrapper>
-        <HeaderRow>
-          <Col md="8">
-            <h1>{company.name}</h1>
-            <small>
-              <em className="color-N50">
-                Last edited &nbsp;
-                {dayjs(company.updatedAt).format('MMMM D, YYYY [at] h:mm a')}
-              </em>
-            </small>
-          </Col>
-          <Col md={{ offset: 2, width: 2 }} className="float-right text-right">
-            <InfoButton>Edit</InfoButton>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <WarningButton>Archive</WarningButton>
-          </Col>
-        </HeaderRow>
-        <HeaderRow>
-          <Col md="8">
-            {company.tags &&
-              company.tags.map((tag) => (
-                <span className="tag" key={tag}>
-                  {tag}
-                </span>
-              ))}
-          </Col>
-          <Col md="2" className="float-right text-right">
-            {company.status === Status.Pitching && (
-              <>
-                <small>Pitch Date</small> <br />
-                <p>{dayjs(company.pitchDate).format('MMMM D, YYYY')}</p>
-              </>
-            )}
-          </Col>
-          <Col md="2" className="float-right text-right">
-            <small>Pitch Date</small>
-            <br />
-            <p>{dayjs(company.createdAt).format('MMMM D, YYYY')}</p>
-          </Col>
-        </HeaderRow>
-        <HeaderRow>
-          <Col md="8">
-            {company.companyLinks && (
-              <p>
-                {company.companyLinks.map(({ name, url }) => (
-                  <a
-                    key={name}
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {name}
-                  </a>
+        <Header>
+          <HeaderRow>
+            <Col md="8">
+              <h1>{company.name}</h1>
+              <small>
+                <em className="color-N50">
+                  Last edited on&nbsp;
+                  {dayjs(company.updatedAt).format('MMMM D, YYYY [at] h:mm a')}
+                </em>
+              </small>
+            </Col>
+            <Col
+              md={{ offset: 2, width: 2 }}
+              className="float-right text-right"
+            >
+              <InfoButton>Edit</InfoButton>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <WarningButton>Archive</WarningButton>
+            </Col>
+          </HeaderRow>
+          <HeaderRow>
+            <Col md="8">
+              {company.tags &&
+                company.tags.map((tag) => (
+                  <span className="tag" key={tag}>
+                    {tag}
+                  </span>
                 ))}
-              </p>
-            )}
-          </Col>
-          <Col md="2" className="float-right text-right">
-            <small>Links</small>
-          </Col>
-          <Col md="2" className="float-right text-right">
-            <small>Partners</small>
-            <br />
-            <PartnerAssigner companyId={company.id} />
-          </Col>
-        </HeaderRow>
-        <Container>
-          <Row>
-            <Col md="8" className="mainbody">
+            </Col>
+            <Col md="2" className="float-right text-right">
+              <small>Application Date</small>
+              <br />
+              <p>{dayjs(company.createdAt).format('MMMM D, YYYY')}</p>
+            </Col>
+            <Col md="2" className="float-right text-right">
+              {company.status === Status.Pitching && (
+                <>
+                  <small>Pitch Date</small> <br />
+                  <p>{dayjs(company.pitchDate).format('MMMM D, YYYY')}</p>
+                </>
+              )}
+            </Col>
+          </HeaderRow>
+          <HeaderRow className="lastrow">
+            <Col md="8">
+              <AttachmentDropdown links={company.companyLinks} />
+            </Col>
+            <Col md="2" className="float-right text-right">
+              <small>Links</small>
+              <br />
+              <LinksViewer companyId={company.id} />
+            </Col>
+            <Col md="2" className="float-right text-right">
+              <small>Partners</small>
+              <br />
+              <PartnerAssigner companyId={company.id} />
+            </Col>
+          </HeaderRow>
+        </Header>
+        <CompanyDetails>
+          <CompanyDetails2>
+            <MainDetails md="8" className="mainbody">
               <CompanyQuestion>
                 <small>Description</small>
                 <br />
@@ -179,43 +232,33 @@ export default withAC(
                 {getAnswerValueFromRef(company.typeformData, refsMap.referral)}
               </CompanyQuestion>
               <FounderGroup company={company} />
-            </Col>
-            <Col md="4">
-              <section>
-                <small>Status&nbsp;</small>
-                <span>{company.status}</span>
+            </MainDetails>
+            <SideBarDetails md="4">
+              <StatusWrapper>
+                <small>Status:&nbsp;</small>
+                <StatusBold>{company.status}</StatusBold>
                 {pitchedStates.includes(company.status) ? (
                   <VoteResults company={company} />
                 ) : null}
                 {company.status === Status.Pitching && (
-                  <p>
+                  <StatusButtonWrapper>
                     {company.pitchDate && (
-                      <>
-                        <small>Pitch Date&nbsp;</small>
+                      <div className="pitchdate">
+                        <small>Pitch Date:&nbsp;</small>
                         <span>
                           {dayjs(company.pitchDate).format('MMMM D, YYYY')}
                         </span>
-                      </>
+                      </div>
                     )}
                     <PitchDateSelector
                       companyId={company.id}
                       hideText={(props) => (
-                        <Button
-                          variant="secondary"
-                          className="float-right"
-                          size="sm"
-                          {...props}
-                        >
+                        <Button variant="secondary" size="sm" {...props}>
                           Select Pitch Date
                         </Button>
                       )}
                       showText={(props) => (
-                        <Button
-                          variant="secondary"
-                          className="float-right"
-                          size="sm"
-                          {...props}
-                        >
+                        <Button variant="secondary" size="sm" {...props}>
                           <span
                             role="img"
                             title="Cancel Setting Pitch Date"
@@ -226,23 +269,18 @@ export default withAC(
                         </Button>
                       )}
                       selectedText={(props) => (
-                        <Button
-                          variant="success"
-                          className="float-right"
-                          size="sm"
-                          {...props}
-                        >
+                        <Button variant="success" size="sm" {...props}>
                           Change
                         </Button>
                       )}
                     />
-                  </p>
+                  </StatusButtonWrapper>
                 )}
-              </section>
+              </StatusWrapper>
               <CompanyComments companyId={company.id} />
-            </Col>
-          </Row>
-        </Container>
+            </SideBarDetails>
+          </CompanyDetails2>
+        </CompanyDetails>
       </Wrapper>
     );
   }
