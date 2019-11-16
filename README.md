@@ -19,18 +19,30 @@ To run:
 $ make
 ```
 
-To test:
+To test (using Jest):
 
 ```
-$ make test
+$ make jest
+```
+
+To test (using Cypress):
+
+```
+$ make cypress-run
 ```
 
 For a full list of commands, consult the `Makefile`.
+
+### Gotchas
 
 If you installed Postgres via Homebrew, you may get the error 
 `psql: FATAL: role “postgres” does not exist`. 
 [To resolve](https://stackoverflow.com/questions/15301826/psql-fatal-role-postgres-does-not-exist#comment101477151_15309551), 
 run `/usr/local/opt/postgresql/bin/createuser -s postgres`.
+
+If you are using the latest version of node/npm, you may have linking errors with `node-sass`. This can be resolved by 
+using a node version manager such as [n](https://github.com/tj/n) and downgrading (e.g. to `11.0.0`).
+
 
 ## Scaffolding
 
