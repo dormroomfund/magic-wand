@@ -5,7 +5,7 @@
 
 ## Setup and Running
 
-Make sure you have Postgres installed already. To install:
+Make sure you have Postgres installed already as well as necessary API keys included in `config/local.json`. To install:
 
 ```
 $ make install
