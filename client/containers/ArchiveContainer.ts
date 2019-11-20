@@ -20,9 +20,11 @@ export default class ArchiveContainer extends Container<ArchiveContainerState> {
   }
 
   async retrieveCompanies() {
-    const companies = ((await client
-      .service('api/companies')
-      .find({})) as Paginated<Company>).data;
+    const companies = ((await client.service('api/companies').find({
+      query: {
+        $limit: null,
+      },
+    })) as Paginated<Company>).data;
     this.setState({ companies });
   }
 
