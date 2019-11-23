@@ -110,6 +110,7 @@ $RECYCLE.BIN/
 # Others
 data/
 dist/
+PGDATA/
 
 # Next.js
 .next/
