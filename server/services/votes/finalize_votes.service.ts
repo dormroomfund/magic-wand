@@ -7,7 +7,7 @@ import { OverallVote, Vote } from '../../../client/schemas/vote';
 import hooks from './finalize-votes.hooks';
 
 /*
- * This service is used to determine for a given voteType and voteType who
+ * This service is used to determine for a given companyId and voteType who
  * has submitted votes.
  *
  * For example when considering companyId = 1 and voteType = 'Final' it will return all
