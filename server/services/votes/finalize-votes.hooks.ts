@@ -1,4 +1,3 @@
-import Ajv from 'ajv';
 import { authenticate } from '../../hooks/authentication';
 
 export default {
