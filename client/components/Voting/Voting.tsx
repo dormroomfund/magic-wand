@@ -15,11 +15,13 @@ export default ({ companyID }: VotingProps) => (
       const company = vc.company(companyID);
       return (
         <div>
-          <h1>{company && company.name}</h1>
-          <h2>
-            Status:
-            {company && company.status}
-          </h2>
+          <br />
+          <h3>
+            {company && company.name}{' '}
+            <span className="badge badge-secondary">
+              Status: {company && company.status}
+            </span>{' '}
+          </h3>
           <VotingWorkflow companyId={companyID} />
           <VotingCompletion companyId={companyID} />
         </div>

@@ -39,8 +39,8 @@ p {
 }
 
 h1 {
-  font-family: CircularStd-Book, Helvetica, Arial, sans-serif;
-  font-size: 5rem;
+  font-family: CircularStd-Book, Helvetica, Arial, sans-serif !important;
+  font-size: 5rem !important;
   color: $N90;
   line-height: 150%;
 }
