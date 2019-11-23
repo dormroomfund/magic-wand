@@ -3,7 +3,7 @@ import { Paginated } from '@feathersjs/feathers';
 import { computeVotingScores } from '../../../client/lib/voting';
 import App from '../../../client/schemas/app';
 import { Status } from '../../../client/schemas/company';
-import { OverallVote, Vote } from '../../../client/schemas/vote';
+import { Vote } from '../../../client/schemas/vote';
 import hooks from './finalize-votes.hooks';
 
 /*
