@@ -80,7 +80,10 @@ export default class VotingWorkflow extends Component<
               ) : (
                 <>
                   <Alert variant="success">
-                    You have already cast a prevote. <br />
+                    <p className="text-secondary">
+                      {' '}
+                      You have already cast a prevote.{' '}
+                    </p>
                     <VoteDisplay
                       companyId={companyId}
                       userId={cuc.user.id}
@@ -97,6 +100,7 @@ export default class VotingWorkflow extends Component<
                             .companyLinks.find((x) => x.name === 'prevote').url
                         }
                         target="_blank"
+                        style={{ marginTop: '0.5rem' }}
                       >
                         Open Prevote Discussion Document
                       </Button>
@@ -124,6 +128,7 @@ export default class VotingWorkflow extends Component<
               )}
               {doingFinalVote ? (
                 <>
+                  <br />
                   <h2>Final Vote</h2>
                   <VotingForm
                     formData={finalVote}
