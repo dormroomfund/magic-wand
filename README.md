@@ -33,7 +33,7 @@ $ make cypress-run
 
 For a full list of commands, consult the `Makefile`.
 
-### Gotchas
+### Errors
 
 If you installed Postgres via Homebrew, you may get the error 
 `psql: FATAL: role “postgres” does not exist`. 
