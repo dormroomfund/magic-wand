@@ -54,11 +54,14 @@ export default class Column extends React.Component<ColumnProps, ColumnState> {
   }
 
   renderCard = (company, pipe, index, status) => {
-    const shouldDisplay = company.pointPartnersNames.has(
+    const selectedPartnerHasCompany = company.pointPartnersNames.has(
       pipe.state.currentPartner
     );
-    const shouldDisplay2 = shouldDisplay || pipe.state.currentPartner === 'ALL';
-    if (shouldDisplay2) {
+    const selectedTeamHasCompany = company.team === pipe.state.currentTeam;
+    const shouldDisplay =
+      selectedPartnerHasCompany ||
+      (pipe.state.currentPartner === 'ALL' && selectedTeamHasCompany);
+    if (shouldDisplay) {
       return (
         <CompanyCard
           key={company.id}
