@@ -18,4 +18,10 @@ export default class PipelineContainer extends ChildContainer<
   setCurrentPartner(newPartner: string) {
     this.setState({ currentPartner: newPartner });
   }
+
+  // should be state -> so can take param like Team.Philadelphia ... can you do
+  // type Team? cf. client/schemas/common.ts
+  setCurrentTeamView(newTeamView: string) {
+    this.setState({ currentTeamView: newTeamView });
+  }
 }

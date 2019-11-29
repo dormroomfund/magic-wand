@@ -177,6 +177,10 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
     return (
       <div>
         <h2>{`${this.props.user.firstName} ${this.props.user.lastName}`}</h2>
+        {/* Add the `switch board`` here! */}
+        {/* <div className=""> */}
+        {/* <CustomDropdown teams =  /> */}
+        {/* </div> */}
         <div className="pipelineButtons">
           <CustomDropdown partners={this.state.partnerNames} />
           <IndividualButton
