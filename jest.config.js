@@ -1,3 +1,8 @@
+/* 
+Jest configuration definition expects test files to be written in either JavaScript
+or TypeScript in `/test`. Compiles source files written in TypeScript and ignores sources in `node_modules`.
+*/
+
 module.exports = {
   roots: ['<rootDir>/test'],
   testMatch: [
