@@ -39,6 +39,7 @@ interface ColumnProps {
   title: string;
   id: string;
   companies: Company[];
+  userPartnerTeam: string;
 }
 
 interface ColumnState {
@@ -53,14 +54,20 @@ export default class Column extends React.Component<ColumnProps, ColumnState> {
     };
   }
 
-  renderCard = (company, pipe, index, status) => {
+  renderCard = (company, pipe, index, status, userPartnerTeam) => {
     const selectedPartnerHasCompany = company.pointPartnersNames.has(
       pipe.state.currentPartner
     );
-    const selectedTeamHasCompany = company.team === pipe.state.currentTeam;
+    // TODO: Should not filter this way. Instead, filter the companies shown in
+    // the db query on line 76 in Kanban.tsx
+    const teamToDisplay =
+      pipe.state.currentTeam === 'default'
+        ? userPartnerTeam
+        : pipe.state.currentTeam;
+    const companyOnSelectedTeam = company.team === teamToDisplay;
     const shouldDisplay =
       selectedPartnerHasCompany ||
-      (pipe.state.currentPartner === 'ALL' && selectedTeamHasCompany);
+      (pipe.state.currentPartner === 'ALL' && companyOnSelectedTeam);
     if (shouldDisplay) {
       return (
         <CompanyCard
@@ -89,7 +96,13 @@ export default class Column extends React.Component<ColumnProps, ColumnState> {
                   isDraggingOver={snapshot.isDraggingOver}
                 >
                   {this.state.companies.map((company, index) =>
-                    this.renderCard(company, ac.pipeline, index, this.props.id)
+                    this.renderCard(
+                      company,
+                      ac.pipeline,
+                      index,
+                      this.props.id,
+                      this.props.userPartnerTeam
+                    )
                   )}
                   {provided.placeholder}
                 </CompanyList>
