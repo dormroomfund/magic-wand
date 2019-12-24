@@ -3,6 +3,7 @@ import { ChildContainer } from '../lib/combineContainers';
 
 export interface PipelineContainerState {
   currentPartner: string;
+  currentTeam: string;
 }
 
 export default class PipelineContainer extends ChildContainer<
@@ -12,6 +13,7 @@ export default class PipelineContainer extends ChildContainer<
     super();
     this.state = {
       currentPartner: 'ALL',
+      currentTeam: 'default',
     };
   }
 
@@ -19,9 +21,7 @@ export default class PipelineContainer extends ChildContainer<
     this.setState({ currentPartner: newPartner });
   }
 
-  // should be state -> so can take param like Team.Philadelphia ... can you do
-  // type Team? cf. client/schemas/common.ts
-  setCurrentTeamView(newTeamView: string) {
-    this.setState({ currentTeamView: newTeamView });
+  setCurrentTeamView(newTeam: string) {
+    this.setState({ currentTeam: newTeam });
   }
 }

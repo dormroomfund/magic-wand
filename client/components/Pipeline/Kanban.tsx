@@ -204,6 +204,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
                       id={column.id}
                       title={column.title}
                       companies={column.companies}
+                      userPartnerTeam={this.props.user.partnerTeam}
                     />
                   );
                 })}

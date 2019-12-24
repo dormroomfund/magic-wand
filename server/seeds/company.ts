@@ -24,7 +24,7 @@ export const seed = async (knex: Knex) => {
       status: Status.Pipeline,
       contactEmail: faker.internet.email(),
       companyLinks: JSON.stringify([]),
-      team: Team.Philadelphia,
+      team: Team.Boston,
     },
   ]);
 };
