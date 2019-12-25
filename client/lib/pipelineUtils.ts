@@ -36,6 +36,7 @@ const transformData = (arr: Company[]) => {
       id: elt.id,
       name: elt.name,
       description: elt.description,
+      team: elt.team,
       pointPartnersNames: elt.pointPartners
         ? new Set(
             elt.pointPartners.map(

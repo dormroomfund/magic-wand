@@ -101,8 +101,9 @@ cypress-open:
 	$(NPX) cypress open
 
 # Runs the full test suite.
-# test: lint jest cypress\:run
-test: cypress\:run
+test: 
+	$(NPX) jest
+	$(NPX) cypress run
 
 ################################################################################
 
