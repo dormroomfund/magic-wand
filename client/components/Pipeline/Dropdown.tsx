@@ -13,9 +13,6 @@ interface DropdownProps {
   partners: Set<User>;
 }
 
-// biggest thing - where does the kanban view default get sorted by team (on a user, `partnerTeam`)??
-// I'm not seeing it ... so we want to add a filter that does that? smh
-
 // add another interface and rename the above?
 // question is if can use this same CustomDropdown component and pass in a diff param
 // here add a
