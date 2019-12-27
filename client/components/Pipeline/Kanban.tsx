@@ -11,7 +11,7 @@ import {
   Company,
 } from '../../schemas/company';
 import Column from './Column';
-import CustomDropdown from './Dropdown';
+import PartnerDropdown from './PartnerDropdown';
 import PartnerTeamDropdown from './PartnerTeamDropdown';
 import GroupButton from './GroupButton';
 import IndividualButton from './IndividualButton';
@@ -179,12 +179,8 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
     return (
       <div>
         <h2>{`${this.props.user.firstName} ${this.props.user.lastName}`}</h2>
-        {/* Add the `switch board`` here! */}
-        {/* <div className=""> */}
-        {/* <CustomDropdown teams =  /> */}
-        {/* </div> */}
         <div className="pipelineButtons">
-          <CustomDropdown partners={this.state.partnerNames} />
+          <PartnerDropdown partners={this.state.partnerNames} />
           <IndividualButton
             loggedInPartnerName={`${this.props.user.firstName} ${
               this.props.user.lastName
