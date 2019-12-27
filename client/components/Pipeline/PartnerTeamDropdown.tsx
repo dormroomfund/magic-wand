@@ -10,7 +10,7 @@ const StyledDropdown = styled(Dropdown)`
 `;
 
 interface PartnerTeamDropdownProps {
-  partnerTeams: Set<Team>;
+  partnerTeams: string[];
 }
 
 export default class PartnerTeamDropdown extends PureComponent<
