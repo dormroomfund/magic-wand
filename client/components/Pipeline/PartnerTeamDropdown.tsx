@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import Dropdown from 'react-bootstrap/lib/Dropdown';
 import styled from 'styled-components';
 import { STAC } from '../../containers/ApplicationContainer';
-import { Team } from '../schemas/common';
+import { Team } from '../../schemas/common';
 
 const StyledDropdown = styled(Dropdown)`
   border: none;
