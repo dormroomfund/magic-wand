@@ -12,10 +12,12 @@ import {
 } from '../../schemas/company';
 import Column from './Column';
 import CustomDropdown from './Dropdown';
+import PartnerTeamDropdown from './PartnerTeamDropdown';
 import GroupButton from './GroupButton';
 import IndividualButton from './IndividualButton';
 import { DocumentTypes } from '../../schemas/gdrive';
 import { User } from '../../schemas/user';
+import { Team } from '../../schemas/common';
 
 const companyPartialSchema = {
   type: companySchema.type,
@@ -188,6 +190,15 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
               this.props.user.lastName
             }`}
           />
+          <GroupButton />
+          <PartnerTeamDropdown partnerTeams={Object.keys(Team)} />
+          {/* <IndividualButton
+          // access pipeline state
+            currentTeam={`${this.props.user.firstName} ${
+              this.props.user.lastName
+            }`}
+          />
+          */}
           <GroupButton />
         </div>
         {this.state.isLoading ? (
