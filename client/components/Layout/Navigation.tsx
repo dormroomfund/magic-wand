@@ -60,7 +60,7 @@ export default () => (
             Pipeline
           </Nav.Link>
           <Nav.Link onClick={() => Router.pushRoute('/archive')}>
-            Portfolio Success
+            Research
           </Nav.Link>
           <UserActions />
         </StyledNav>
