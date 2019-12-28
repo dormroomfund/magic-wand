@@ -24,6 +24,7 @@ export default class Archive extends Component<{}, ArchiveState> {
 
   getFilteredCompanies(ac: ArchiveContainer, cuc: CurrentUserContainer) {
     const { filter } = this.state;
+    console.log(ac.companies);
     switch (filter) {
       case Filter.None:
         return ac.companies;
@@ -63,7 +64,8 @@ export default class Archive extends Component<{}, ArchiveState> {
       <Subscribe to={[ArchiveContainer, CurrentUserContainer]}>
         {(ac: ArchiveContainer, cuc: CurrentUserContainer) => (
           <>
-            <h2>Portfolio Success</h2>
+            <br />
+            <h2>Research</h2>
             {this.renderButtonBar()}
             <ArchiveList companies={this.getFilteredCompanies(ac, cuc)} />
           </>
