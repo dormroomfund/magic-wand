@@ -188,14 +188,6 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
           />
           <GroupButton />
           <PartnerTeamDropdown partnerTeams={Object.keys(Team)} />
-          {/* <IndividualButton
-          // access pipeline state
-            currentTeam={`${this.props.user.firstName} ${
-              this.props.user.lastName
-            }`}
-          />
-          */}
-          <GroupButton />
         </div>
         {this.state.isLoading ? (
           <div> Loading </div>
