@@ -9,11 +9,13 @@ const StyledDropdown = styled(Dropdown)`
   margin: 0.5% 1%;
 `;
 
-interface DropdownProps {
+interface PartnerDropdownProps {
   partners: Set<User>;
 }
 
-export default class CustomDropdown extends PureComponent<DropdownProps> {
+export default class PartnerDropdown extends PureComponent<
+  PartnerDropdownProps
+> {
   renderItems = (partner, pipeline) => (
     <Dropdown.Item
       key={partner}
