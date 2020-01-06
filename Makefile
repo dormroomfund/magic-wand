@@ -82,6 +82,11 @@ smoke:
 	make production &
 	$(NPX) wait-on http://localhost:3000/ -t 90000 && echo "success"
 
+
+# Makes the test database
+test-db:
+	createdb magic_wand_test
+	
 # Runs the test suite.
 jest:
 	$(NPX) jest
@@ -101,7 +106,7 @@ cypress-open:
 	$(NPX) cypress open
 
 # Runs the full test suite.
-test: 
+test:
 	$(NPX) jest
 	$(NPX) cypress run
 
@@ -116,10 +121,12 @@ ci-database:
 # Migrate the database to the latest migration.
 migrate:
 	$(NPX) knex migrate:latest --knexfile knexfile.ts
+	$(NPX) knex migrate:latest --knexfile test/testdb_knexfile.ts
 
 # Roll back the database to before the latest mgiration.
 migrate-rollback:
 	$(NPX) knex migrate:rollback --knexfile knexfile.ts
+	$(NPX) knex migrate:rollback --knexfile test/testdb_knexfile.ts
 
 seed:
-	$(NPX)  knex seed:run --knexfile knexfile.ts
+	$(NPX) knex seed:run --knexfile knexfile.ts
