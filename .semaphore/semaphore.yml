@@ -86,8 +86,8 @@ blocks:
           - sem-service start postgres
           - make ci-database
           - sem-service status postgres
-          - alias pg_dump="pg_dump -U postgres -h 0.0.0.0"
-          - alias pg_restore="pg_restore -U postgres -h 0.0.0.0"
+          - export PGUSER=postgres
+          - export PGHOST=0.0.0.0
       jobs:
         - name: smoke test
           commands:
