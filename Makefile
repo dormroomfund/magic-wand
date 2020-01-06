@@ -89,7 +89,10 @@ test-db:
 
 # Runs the test suite.
 jest:
+	$(NPX) knex seed:run --knexfile test/testdb_knexfile.ts
+	pg_dump -Fc magic_wand_test > /tmp/magic_wand_test.dump
 	$(NPX) jest
+	pg_restore -c -d magic_wand_test /tmp/magic_wand_test.dump
 
 # Runs Cypress CI tests
 ci-cypress:
@@ -99,7 +102,10 @@ ci-cypress:
 
 # Runts Cypress tests
 cypress-run:
+	$(NPX) knex seed:run --knexfile test/testdb_knexfile.ts
+	pg_dump -Fc magic_wand_test > /tmp/magic_wand_test.dump
 	$(NPX) cypress run
+	pg_restore -c -d magic_wand_test /tmp/magic_wand_test.dump
 
 # Opens Cypress
 cypress-open:
@@ -107,8 +113,11 @@ cypress-open:
 
 # Runs the full test suite.
 test:
+	$(NPX) knex seed:run --knexfile test/testdb_knexfile.ts
+	pg_dump -Fc magic_wand_test > /tmp/magic_wand_test.dump
 	$(NPX) jest
 	$(NPX) cypress run
+	pg_restore -c -d magic_wand_test /tmp/magic_wand_test.dump
 
 ################################################################################
 
