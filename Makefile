@@ -86,7 +86,7 @@ smoke:
 # Makes the test database
 test-db:
 	createdb magic_wand_test
-	
+
 # Runs the test suite.
 jest:
 	$(NPX) jest
@@ -113,8 +113,11 @@ test:
 ################################################################################
 
 # Initialize the database for CI
+# NOTE: We should create two different databases as the smoke test will test the production setup
+# 		whereas jest will set NODE_ENV=test and use the testing database.
 ci-database:
 	createdb -U postgres -h 0.0.0.0 magic_wand
+	createdb -U postgres -h 0.0.0.0 magic_wand_test
 	make migrate
 	make seed
 
