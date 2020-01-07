@@ -10,7 +10,7 @@ Make sure you have Postgres installed already. To install:
 ```
 $ make install
 $ createdb magic_wand
-$ createdb magic_wand_gtest
+$ createdb magic_wand_test
 $ make migrate
 ```
 
