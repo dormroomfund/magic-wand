@@ -1,3 +1,4 @@
+import assert from 'assert';
 import app from '../../server/app';
 
 describe('Votes Test', () => {
@@ -5,5 +6,9 @@ describe('Votes Test', () => {
     expect(true).toEqual(true);
   });
 
-  it('should register the /api/vote service', () => {});
+  it('registered the votes service', async () => {
+    const service = app.service('/api/votes');
+
+    assert.ok(service, 'Registered the service');
+  });
 });
