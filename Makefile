@@ -82,9 +82,17 @@ smoke:
 	make production &
 	$(NPX) wait-on http://localhost:3000/ -t 90000 && echo "success"
 
+
+# Makes the test database
+test-db:
+	createdb magic_wand_test
+
 # Runs the test suite.
 jest:
+	$(NPX) knex seed:run --knexfile test/testdb_knexfile.ts
+	pg_dump -Fc magic_wand_test > /tmp/magic_wand_test.dump
 	$(NPX) jest
+	pg_restore -c -d magic_wand_test /tmp/magic_wand_test.dump
 
 # Runs Cypress CI tests
 ci-cypress:
@@ -94,32 +102,43 @@ ci-cypress:
 
 # Runts Cypress tests
 cypress-run:
+	$(NPX) knex seed:run --knexfile test/testdb_knexfile.ts
+	pg_dump -Fc magic_wand_test > /tmp/magic_wand_test.dump
 	$(NPX) cypress run
+	pg_restore -c -d magic_wand_test /tmp/magic_wand_test.dump
 
 # Opens Cypress
 cypress-open:
 	$(NPX) cypress open
 
 # Runs the full test suite.
-test: 
+test:
+	$(NPX) knex seed:run --knexfile test/testdb_knexfile.ts
+	pg_dump -Fc magic_wand_test > /tmp/magic_wand_test.dump
 	$(NPX) jest
 	$(NPX) cypress run
+	pg_restore -c -d magic_wand_test /tmp/magic_wand_test.dump
 
 ################################################################################
 
 # Initialize the database for CI
+# NOTE: We should create two different databases as the smoke test will test the production setup
+# 		whereas jest will set NODE_ENV=test and use the testing database.
 ci-database:
 	createdb -U postgres -h 0.0.0.0 magic_wand
+	createdb -U postgres -h 0.0.0.0 magic_wand_test
 	make migrate
 	make seed
 
 # Migrate the database to the latest migration.
 migrate:
 	$(NPX) knex migrate:latest --knexfile knexfile.ts
+	$(NPX) knex migrate:latest --knexfile test/testdb_knexfile.ts
 
 # Roll back the database to before the latest mgiration.
 migrate-rollback:
 	$(NPX) knex migrate:rollback --knexfile knexfile.ts
+	$(NPX) knex migrate:rollback --knexfile test/testdb_knexfile.ts
 
 seed:
-	$(NPX)  knex seed:run --knexfile knexfile.ts
+	$(NPX) knex seed:run --knexfile knexfile.ts
