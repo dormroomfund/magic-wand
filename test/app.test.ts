@@ -1,5 +1,9 @@
 import rp from 'request-promise';
 import { format } from 'url';
+
+import app from '../server/app';
+import * as config from '../config/test.json';
+
 /*
 import { get, listen } from '../server/app';
 
@@ -59,8 +63,20 @@ describe('Feathers application tests (with jest)', () => {
 });
 */
 
-describe('Example Test', () => {
-  it('should vacuously work', () => {
-    expect(true).toEqual(true);
+describe('App Tests', () => {
+  it('should be using the test database', () => {
+    // The configurations loaded in the app
+    const {
+      settings: {
+        postgres: { connection: appConnection },
+      },
+    } = app;
+
+    // What the actual test configurations should be
+    const {
+      postgres: { connection: actualTestConnection },
+    } = config;
+
+    expect(appConnection).toEqual(actualTestConnection);
   });
 });
