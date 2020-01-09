@@ -91,7 +91,7 @@ test-db:
 jest:
 	$(NPX) knex seed:run --knexfile test/testdb_knexfile.ts
 	pg_dump -Fc magic_wand_test > /tmp/magic_wand_test.dump
-	$(NPX) jest
+	-$(NPX) jest
 	pg_restore -c -d magic_wand_test /tmp/magic_wand_test.dump
 
 # Runs Cypress CI tests

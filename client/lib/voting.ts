@@ -1,5 +1,4 @@
 import { JSONSchema6 } from 'json-schema';
-import { Paginated } from '@feathersjs/feathers';
 import { pick, makeRequired } from '../schemas/_utils';
 import { voteSchema, Vote, OverallVote } from '../schemas/vote';
 

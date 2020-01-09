@@ -26,5 +26,14 @@ export const seed = async (knex: Knex) => {
       companyLinks: JSON.stringify([]),
       team: Team.Boston,
     },
+    {
+      name: 'Dummy Voting Company',
+      description: faker.company.catchPhrase(),
+      industries: JSON.stringify(['vr']),
+      status: Status.Pitching,
+      team: Team.NewYork,
+      contactEmail: 'yo@hello.io',
+      companyLinks: JSON.stringify([]),
+    },
   ]);
 };
