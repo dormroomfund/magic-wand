@@ -37,7 +37,7 @@ export const up = async (knex: Knex) =>
   ]);
 
 export const down = async (knex: Knex) => {
-  Promise.all([
+  await Promise.all([
     knex.schema.alterTable('company', (table) => {
       table.renameColumn('contactEmail', 'contact_email');
       table.renameColumn('companyLinks', 'company_links');
