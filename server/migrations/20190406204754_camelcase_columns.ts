@@ -2,7 +2,7 @@ import * as Knex from 'knex';
 import { OverallVote } from '../../client/schemas/vote';
 
 export const up = async (knex: Knex) =>
-  Promise.all([
+  await Promise.all([
     knex.schema.alterTable('company', (table) => {
       table.renameColumn('contact_email', 'contactEmail');
       table.renameColumn('company_links', 'companyLinks');

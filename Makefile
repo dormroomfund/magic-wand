@@ -90,6 +90,7 @@ test-db:
 # Runs the test suite.
 jest:
 	$(NPX) jest
+
 # Runs Cypress CI tests
 ci-cypress:
 	make production > server.log 2&>1 &

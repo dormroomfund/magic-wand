@@ -13,4 +13,5 @@ module.exports = {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
   transformIgnorePatterns: ['<rootDir>/node_modules/'],
+  globalTeardown: './test/teardown.ts',
 };
