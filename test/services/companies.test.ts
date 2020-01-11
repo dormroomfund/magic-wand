@@ -44,5 +44,5 @@ describe('Companies Test', () => {
 // Rollback the database to clear all data.
 afterAll(async () => {
   await client.migrate.rollback(); // rollback to the latest
-  const red = await client.destroy();
+  await client.destroy();
 });

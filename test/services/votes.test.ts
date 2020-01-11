@@ -6,9 +6,9 @@ describe('Votes Test', () => {
     expect(true).toEqual(true);
   });
 
-  // it('registered the votes service', async () => {
-  //   const service = app.service('/api/votes');
+  it('registered the votes service', async () => {
+    const service = app.service('/api/votes');
 
-  //   assert.ok(service, 'Registered the service');
-  // });
+    assert.ok(service, 'Registered the service');
+  });
 });

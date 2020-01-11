@@ -88,8 +88,10 @@ test-db:
 	createdb magic_wand_test
 
 # Runs the test suite.
+# TODO: There's a stale postgres process lying around that's causing the need for this
+# forceExit.
 jest:
-	$(NPX) jest
+	$(NPX) jest --forceExit
 
 # Runs Cypress CI tests
 ci-cypress:
@@ -107,7 +109,7 @@ cypress-open:
 
 # Runs the full test suite.
 test:
-	$(NPX) jest
+	$(NPX) jest --forceExit
 	$(NPX) cypress run
 
 ################################################################################
