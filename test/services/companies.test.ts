@@ -5,7 +5,7 @@ import app from '../../server/app';
 import knexConfig from '../testdb_knexfile';
 
 let client;
-// before each test case migrate the database and reseed.
+// before each test case rollback migrations, remigrate the database and reseed.
 beforeAll(async () => {
   knexConfig.migrations.directory = './server/migrations';
   knexConfig.seeds.directory = './server/seeds';
