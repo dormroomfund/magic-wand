@@ -88,11 +88,10 @@ test-db:
 	createdb magic_wand_test
 
 # Runs the test suite.
+# TODO: There's a stale postgres process lying around that's causing the need for this
+# forceExit.
 jest:
-	$(NPX) knex seed:run --knexfile test/testdb_knexfile.ts
-	pg_dump -Fc magic_wand_test > /tmp/magic_wand_test.dump
-	$(NPX) jest
-	pg_restore -c -d magic_wand_test /tmp/magic_wand_test.dump
+	$(NPX) jest --forceExit
 
 # Runs Cypress CI tests
 ci-cypress:
@@ -102,10 +101,7 @@ ci-cypress:
 
 # Runts Cypress tests
 cypress-run:
-	$(NPX) knex seed:run --knexfile test/testdb_knexfile.ts
-	pg_dump -Fc magic_wand_test > /tmp/magic_wand_test.dump
 	$(NPX) cypress run
-	pg_restore -c -d magic_wand_test /tmp/magic_wand_test.dump
 
 # Opens Cypress
 cypress-open:
@@ -113,11 +109,8 @@ cypress-open:
 
 # Runs the full test suite.
 test:
-	$(NPX) knex seed:run --knexfile test/testdb_knexfile.ts
-	pg_dump -Fc magic_wand_test > /tmp/magic_wand_test.dump
-	$(NPX) jest
+	$(NPX) jest --forceExit
 	$(NPX) cypress run
-	pg_restore -c -d magic_wand_test /tmp/magic_wand_test.dump
 
 ################################################################################
 

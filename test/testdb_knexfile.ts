@@ -30,4 +30,4 @@ const knexConfig = {
   useNullAsDefault: false,
 };
 
-module.exports = knexConfig;
+export = knexConfig;
