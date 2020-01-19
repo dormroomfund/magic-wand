@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { Subscribe } from 'unstated';
 import Button from 'react-bootstrap/lib/Button';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
+import InfiniteScroll from 'react-infinite-scroller';
 import ArchiveContainer from '../../containers/ArchiveContainer';
 import CurrentUserContainer from '../../containers/CurrentUserContainer';
 import ArchiveList from './ArchiveList';
 import { UnreachableCaseError } from '../../lib/errors';
-import { Status } from '../../schemas/company';
+import { Status, Company } from '../../schemas/company';
 
 enum Filter {
   None,
@@ -15,16 +16,19 @@ enum Filter {
 
 interface ArchiveState {
   filter: Filter;
+  items: Company[];
+  hasMoreItems: boolean;
 }
 
 export default class Archive extends Component<{}, ArchiveState> {
   state = {
     filter: Filter.None,
+    items: [],
+    hasMoreItems: true,
   };
 
   getFilteredCompanies(ac: ArchiveContainer, cuc: CurrentUserContainer) {
     const { filter } = this.state;
-    console.log(ac.companies);
     switch (filter) {
       case Filter.None:
         return ac.companies;
@@ -38,6 +42,13 @@ export default class Archive extends Component<{}, ArchiveState> {
         throw new UnreachableCaseError(filter);
     }
   }
+
+  loadMoreItems = (ac: ArchiveContainer, cuc: CurrentUserContainer) => {
+    ac.retrieveCompanies().then(() => {
+      this.setState({ items: ac.companies });
+      this.setState({ hasMoreItems: false });
+    });
+  };
 
   renderButtonBar() {
     const { filter } = this.state;
@@ -67,7 +78,18 @@ export default class Archive extends Component<{}, ArchiveState> {
             <br />
             <h2>Research</h2>
             {this.renderButtonBar()}
-            <ArchiveList companies={this.getFilteredCompanies(ac, cuc)} />
+            <InfiniteScroll
+              pageStart={0}
+              loadMore={this.loadMoreItems(ac, cuc)}
+              hasMore={this.state.hasMoreItems}
+              loader={
+                <div className="loader" key={0}>
+                  Loading ...
+                </div>
+              }
+            >
+              <ArchiveList companies={this.state.items} />
+            </InfiniteScroll>
           </>
         )}
       </Subscribe>
