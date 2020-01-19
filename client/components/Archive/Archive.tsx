@@ -9,6 +9,8 @@ import ArchiveList from './ArchiveList';
 import { UnreachableCaseError } from '../../lib/errors';
 import { Status, Company } from '../../schemas/company';
 
+const PAGE_LENGTH = 2;
+
 enum Filter {
   None,
   MySuccess,
@@ -18,6 +20,7 @@ interface ArchiveState {
   filter: Filter;
   items: Company[];
   hasMoreItems: boolean;
+  skip: number;
 }
 
 export default class Archive extends Component<{}, ArchiveState> {
@@ -25,6 +28,7 @@ export default class Archive extends Component<{}, ArchiveState> {
     filter: Filter.None,
     items: [],
     hasMoreItems: true,
+    skip: 0,
   };
 
   getFilteredCompanies(cuc: CurrentUserContainer, companies: Company[]) {
@@ -44,8 +48,13 @@ export default class Archive extends Component<{}, ArchiveState> {
   }
 
   loadMoreItems = (ac: ArchiveContainer, cuc: CurrentUserContainer) => {
-    ac.retrieveCompanies().then(() => {
-      this.setState({ hasMoreItems: false });
+    ac.retrieveCompanies(PAGE_LENGTH, this.state.skip).then((pagination) => {
+      const { total } = pagination;
+
+      if (this.state.items.length === total) {
+        this.setState({ hasMoreItems: false });
+      }
+
       this.setState({ items: this.getFilteredCompanies(cuc, ac.companies) });
     });
   };

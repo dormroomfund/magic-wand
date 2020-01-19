@@ -12,21 +12,24 @@ export default class ArchiveContainer extends Container<ArchiveContainerState> {
   constructor() {
     super();
     this.state = { companies: [] };
-    this.retrieveCompanies();
+    this.retrieveCompanies(25, 0);
   }
 
   get companies() {
     return this.state.companies;
   }
 
-  // sets state and returns pagination metadata
-  async retrieveCompanies() {
-    const response = (await client
-      .service('api/companies')
-      .find({})) as Paginated<Company>;
+  // accepts skip parameter, for number of elements to skip
+  async retrieveCompanies(limit: number, skip: number) {
+    const response = (await client.service('api/companies').find({
+      query: {
+        $limit: limit,
+        $skip: skip,
+      },
+    })) as Paginated<Company>;
+
     this.setState({ companies: response.data });
-    const { total, limit, skip } = response;
-    return { total, limit, skip };
+    return { total: response.total };
   }
 
   archiveCompany = async (id: number) => {
