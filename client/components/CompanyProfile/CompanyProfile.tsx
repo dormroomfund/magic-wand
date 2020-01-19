@@ -120,7 +120,7 @@ export default withAC(
           <Col md="2" className="float-right text-right">
             <small>Partner Team</small>
             <PartnerTeamDropdown
-              partnerTeams={Object.keys(Team)}
+              partnerTeams={Object.values(Team)}
               companyId={company.id}
               currentPartnerTeam={company.team}
             />
