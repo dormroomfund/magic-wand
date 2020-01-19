@@ -17,6 +17,8 @@ import PartnerAssigner from '../Pipeline/PartnerAssigner/PartnerAssigner';
 import PitchDateSelector from '../PitchDateSelector/PitchDateSelector';
 import FounderGroup from './FounderGroup';
 import VoteResults from './VoteResults';
+import PartnerTeamDropdown from './PartnerTeamDropdown';
+import { Team } from '../../schemas/common';
 
 export interface CompanyProfileProps {
   companyId: number;
@@ -114,6 +116,14 @@ export default withAC(
                 <p>{dayjs(company.pitchDate).format('MMMM D, YYYY')}</p>
               </>
             )}
+          </Col>
+          <Col md="2" className="float-right text-right">
+            <small>Partner Team</small>
+            <PartnerTeamDropdown
+              partnerTeams={Object.keys(Team)}
+              companyId={company.id}
+              currentPartnerTeam={company.team}
+            />
           </Col>
           <Col md="2" className="float-right text-right">
             <small>Pitch Date</small>
