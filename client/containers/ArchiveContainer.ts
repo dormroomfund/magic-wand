@@ -19,6 +19,7 @@ export default class ArchiveContainer extends Container<ArchiveContainerState> {
     return this.state.companies;
   }
 
+  // sets state and returns pagination metadata
   async retrieveCompanies() {
     const response = (await client
       .service('api/companies')
