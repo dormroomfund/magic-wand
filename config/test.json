@@ -1,0 +1,6 @@
+{
+  "postgres": {
+    "client": "pg",
+    "connection": "postgres://postgres:@localhost:5432/magic_wand_test"
+  }
+}
