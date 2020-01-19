@@ -27,13 +27,13 @@ export default class Archive extends Component<{}, ArchiveState> {
     hasMoreItems: true,
   };
 
-  getFilteredCompanies(ac: ArchiveContainer, cuc: CurrentUserContainer) {
+  getFilteredCompanies(cuc: CurrentUserContainer, companies: Company[]) {
     const { filter } = this.state;
     switch (filter) {
       case Filter.None:
-        return ac.companies;
+        return companies;
       case Filter.MySuccess:
-        return ac.companies.filter(
+        return companies.filter(
           (co) =>
             co.status === Status.Funded &&
             co.pointPartners.find((partner) => partner.id === cuc.user.id)
@@ -45,8 +45,8 @@ export default class Archive extends Component<{}, ArchiveState> {
 
   loadMoreItems = (ac: ArchiveContainer, cuc: CurrentUserContainer) => {
     ac.retrieveCompanies().then(() => {
-      this.setState({ items: ac.companies });
       this.setState({ hasMoreItems: false });
+      this.setState({ items: this.getFilteredCompanies(cuc, ac.companies) });
     });
   };
 
@@ -80,7 +80,7 @@ export default class Archive extends Component<{}, ArchiveState> {
             {this.renderButtonBar()}
             <InfiniteScroll
               pageStart={0}
-              loadMore={this.loadMoreItems(ac, cuc)}
+              loadMore={() => this.loadMoreItems(ac, cuc)}
               hasMore={this.state.hasMoreItems}
               loader={
                 <div className="loader" key={0}>
