@@ -20,10 +20,12 @@ export default class ArchiveContainer extends Container<ArchiveContainerState> {
   }
 
   async retrieveCompanies() {
-    const companies = ((await client
+    const response = (await client
       .service('api/companies')
-      .find({})) as Paginated<Company>).data;
-    this.setState({ companies });
+      .find({})) as Paginated<Company>;
+    this.setState({ companies: response.data });
+    const { total, limit, skip } = response;
+    return { total, limit, skip };
   }
 
   archiveCompany = async (id: number) => {
