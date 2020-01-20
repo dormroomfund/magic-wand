@@ -9,6 +9,7 @@ import ArchiveList from './ArchiveList';
 import { UnreachableCaseError } from '../../lib/errors';
 import { Status, Company } from '../../schemas/company';
 
+// number of items to mutate state with at once
 const PAGE_LENGTH = 2;
 
 enum Filter {
@@ -47,6 +48,8 @@ export default class Archive extends Component<{}, ArchiveState> {
     }
   }
 
+  // helper function which buffers the current state's list
+  // state list is displayed in InifiniteScroll component
   loadMoreItems = (ac: ArchiveContainer, cuc: CurrentUserContainer) => {
     ac.retrieveCompanies(PAGE_LENGTH, this.state.skip).then((pagination) => {
       const { total } = pagination;
