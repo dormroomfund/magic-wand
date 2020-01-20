@@ -53,9 +53,16 @@ export default class Archive extends Component<{}, ArchiveState> {
 
       if (this.state.items.length === total) {
         this.setState({ hasMoreItems: false });
+      } else {
+        this.setState((previous) => {
+          const items = this.getFilteredCompanies(
+            cuc,
+            previous.items.concat(ac.companies)
+          );
+          const skip = previous.skip + PAGE_LENGTH;
+          return { items, skip };
+        });
       }
-
-      this.setState({ items: this.getFilteredCompanies(cuc, ac.companies) });
     });
   };
 
