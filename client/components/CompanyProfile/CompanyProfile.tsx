@@ -18,7 +18,6 @@ import PitchDateSelector from '../PitchDateSelector/PitchDateSelector';
 import FounderGroup from './FounderGroup';
 import VoteResults from './VoteResults';
 import PartnerTeamDropdown from './PartnerTeamDropdown';
-import { Team } from '../../schemas/common';
 
 export interface CompanyProfileProps {
   companyId: number;
