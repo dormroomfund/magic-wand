@@ -10,7 +10,6 @@ const StyledDropdown = styled(Dropdown)`
 `;
 
 interface PartnerTeamDropdownProps {
-  partnerTeams: string[];
   companyId: number;
   currentPartnerTeam: string;
 }
@@ -45,7 +44,7 @@ export default class PartnerTeamDropdown extends PureComponent<
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              {[...this.props.partnerTeams].map((partnerTeam) =>
+              {[...Object.values(Team)].map((partnerTeam) =>
                 this.renderItems(partnerTeam, ac.companies)
               )}
             </Dropdown.Menu>
