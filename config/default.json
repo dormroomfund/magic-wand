@@ -56,8 +56,8 @@
       "San Francisco": "your SAN_FRANCISCO_FOLDER_ID"
     },
     "templateIds": {
-      "external-snapshot": "your EXTERNAL_SNAPSHOT_TEMPLATE_ID",
-      "internal-snapshot": "your INTERNAL_SNAPSHOT_TEMPLATE_ID",
+      "External Snapshot": "your EXTERNAL_SNAPSHOT_TEMPLATE_ID",
+      "Internal Snapshot": "your INTERNAL_SNAPSHOT_TEMPLATE_ID",
       "prevote": "your PREVOTE_SNAPSHOT_TEMPLATE_ID"
     }
   }

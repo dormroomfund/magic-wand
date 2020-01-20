@@ -157,9 +157,24 @@ export default {
     ],
     find: [],
     get: [],
-    create: [iff(isPitching, generateGoogleDriveDocuments)],
-    update: [iff(isPitching, generateGoogleDriveDocuments)],
-    patch: [iff(isPitching, generateGoogleDriveDocuments)],
+    create: [
+      iff(
+        process.env.NODE_ENV === 'production' && isPitching,
+        generateGoogleDriveDocuments
+      ),
+    ], // only create in prod
+    update: [
+      iff(
+        process.env.NODE_ENV === 'production' && isPitching,
+        generateGoogleDriveDocuments
+      ),
+    ], // only create in prod
+    patch: [
+      iff(
+        process.env.NODE_ENV === 'production' && isPitching,
+        generateGoogleDriveDocuments
+      ),
+    ], // only create in prod
     remove: [],
   },
 
