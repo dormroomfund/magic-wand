@@ -70,7 +70,7 @@ export default (app: App) => {
             status: Status.Funded,
           });
         } else {
-          status = Status.Rejected;
+          status = Status.RejectedWithPitch;
           await app.service('api/companies').patch(id, {
             status: Status.RejectedWithPitch,
           });
