@@ -16,6 +16,7 @@ export const seed = async (knex: Knex) => {
       team: Team.Philadelphia,
       contactEmail: 'elon@tesla.io',
       companyLinks: JSON.stringify([]),
+      createdAt: new Date(1576917474794),
     },
     {
       name: faker.company.companyName(),
