@@ -70,6 +70,9 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
             $nin: archivedStates,
           },
           $eager: 'pointPartners',
+          $sort: {
+            createdAt: -1,
+          },
         },
       })) as Paginated<Company>;
       const ret = transformData(res.data);
