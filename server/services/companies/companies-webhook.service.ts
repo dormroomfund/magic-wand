@@ -30,7 +30,7 @@ class CompaniesWebhookService {
         Team.NewYork,
         Team.SanFrancisco,
       ];
-      const choice = Math.floor(Math.random() * 3); // returns a random integer from 0 to 3
+      const choice = Math.floor(Math.random() * 4); // returns a random integer from 0 to 3
       team = choices[choice];
     } else {
       team = getAnswerValueFromRef(payload, refsMap.team);
