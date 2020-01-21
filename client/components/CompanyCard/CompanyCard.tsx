@@ -92,7 +92,7 @@ export default class CompanyCard extends React.Component<CompanyCardProps> {
     const daysSinceApplied =
       (+new Date() - +this.props.company.createdAt) / (1000 * 60 * 60 * 24);
 
-    if (this.props.company.status !== Status.Applied && daysSinceApplied < 6)
+    if (this.props.company.status !== Status.Applied || daysSinceApplied < 6)
       return null;
 
     return <p> Applied {daysSinceApplied} days ago </p>;
