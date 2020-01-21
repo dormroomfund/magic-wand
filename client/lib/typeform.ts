@@ -22,6 +22,7 @@ export const refsMap = {
   how_did_you_hear: 'a9378cb2-2c60-4db3-ad53-0a07dffd9289',
   gender_breakdown: '5f5e23f5-26cd-4475-84d8-f56c056c580b',
   race_or_ethnicity: '5658b90e-61c8-4f5c-bfd1-e9dd4f68e51e',
+  video_conference: 'd176af34-5ac7-4709-aa39-920d7b42e4cb',
 };
 /* eslint-enable @typescript-eslint/camelcase */
 
