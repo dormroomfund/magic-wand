@@ -88,6 +88,16 @@ export default class CompanyCard extends React.Component<CompanyCardProps> {
     );
   }
 
+  renderOverdueWarning() {
+    const daysSinceApplied =
+      (+new Date() - +this.props.company.createdAt) / (1000 * 60 * 60 * 24);
+
+    if (this.props.company.status !== Status.Applied || daysSinceApplied < 6)
+      return null;
+
+    return <p> Applied {daysSinceApplied} days ago </p>;
+  }
+
   render() {
     return (
       <div className="cards">
@@ -111,6 +121,7 @@ export default class CompanyCard extends React.Component<CompanyCardProps> {
                       </Card.Link>
                     </Link>
                   </Card.Text>
+                  {this.renderOverdueWarning()}
                   <ButtonGroup aria-label="company card actions">
                     {this.renderPartnerAssignmentButton()}
                     {this.renderVotingButton()}
