@@ -27,6 +27,7 @@ export default class ResearchContainer extends Container<
       query: {
         $limit: limit,
         $skip: skip,
+        $eager: 'pointPartners',
       },
     })) as Paginated<Company>;
 

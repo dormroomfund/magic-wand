@@ -41,10 +41,14 @@ export default class Research extends Component<{}, ResearchState> {
       case Filter.MySuccess:
         return companies.filter(
           // BUG: no companies have point partner objects on them
-          (co) =>
-            co.pointPartners &&
-            co.status === Status.Funded &&
-            co.pointPartners.find((partner) => partner.id === cuc.user.id)
+          (co) => {
+            console.log(co);
+            return (
+              co.pointPartners &&
+              co.status === Status.Funded &&
+              co.pointPartners.find((partner) => partner.id === cuc.user.id)
+            );
+          }
         );
       default:
         throw new UnreachableCaseError(filter);
