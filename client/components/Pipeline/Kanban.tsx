@@ -18,6 +18,7 @@ import IndividualButton from './IndividualButton';
 import { DocumentTypes } from '../../schemas/gdrive';
 import { User } from '../../schemas/user';
 import { Team } from '../../schemas/common';
+import { STAC } from '../../containers/ApplicationContainer';
 
 const companyPartialSchema = {
   type: companySchema.type,
@@ -83,6 +84,25 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
       console.error(error);
     }
   }
+
+  getFilteredCompanies = (companies, teamToDisplay, currentPartner) => {
+    console.log(companies);
+    companies.filter((company) => {
+      const selectedPartnerHasCompany = company.pointPartnersNames.has(
+        currentPartner
+      );
+      const companyOnSelectedTeam = company.team === teamToDisplay;
+      const shouldDisplay =
+        selectedPartnerHasCompany ||
+        (currentPartner === 'ALL' && companyOnSelectedTeam);
+
+      return shouldDisplay;
+
+      // return true;
+    });
+    console.log(companies);
+    return companies;
+  };
 
   onDragEnd = (result) => {
     const { destination, source, draggableId } = result;
@@ -177,50 +197,63 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
 
   render() {
     return (
-      <div>
-        <h2>{`${this.props.user.firstName} ${this.props.user.lastName}`}</h2>
-        <div className="pipelineButtons">
-          <PartnerDropdown partners={this.state.partnerNames} />
-          <IndividualButton
-            loggedInPartnerName={`${this.props.user.firstName} ${
-              this.props.user.lastName
-            }`}
-          />
-          <GroupButton />
-          <PartnerTeamDropdown partnerTeams={Object.values(Team)} />
-        </div>
-        {this.state.isLoading ? (
-          <div> Loading </div>
-        ) : (
+      <STAC>
+        {(ac) => (
           <div>
-            <DragDropContext onDragEnd={this.onDragEnd}>
-              <AppContainer className="pipelineColumns">
-                {this.state.columnOrder.map((columnId) => {
-                  const column = this.state.columns[columnId];
-                  return (
-                    <Column
-                      key={column.id}
-                      id={column.id}
-                      title={column.title}
-                      companies={column.companies}
-                      userPartnerTeam={this.props.user.partnerTeam}
-                    />
-                  );
-                })}
-                <div className="addCompanyDiv">
-                  <a
-                    href="https://dormroomfund.typeform.com/to/H90ZNU"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    <img src="/static/Add_Company_Button.png" />
-                  </a>
-                </div>
-              </AppContainer>
-            </DragDropContext>
+            <h2>
+              {`${this.props.user.firstName} ${this.props.user.lastName}`}
+            </h2>
+            <div className="pipelineButtons">
+              <PartnerDropdown partners={this.state.partnerNames} />
+              <IndividualButton
+                loggedInPartnerName={`${this.props.user.firstName} ${
+                  this.props.user.lastName
+                }`}
+              />
+              <GroupButton />
+              <PartnerTeamDropdown partnerTeams={Object.values(Team)} />
+            </div>
+            {this.state.isLoading ? (
+              <div> Loading </div>
+            ) : (
+              <div>
+                <DragDropContext onDragEnd={this.onDragEnd}>
+                  <AppContainer className="pipelineColumns">
+                    {this.state.columnOrder.map((columnId) => {
+                      const column = this.state.columns[columnId];
+                      const teamToDisplay =
+                        ac.pipeline.state.currentTeam === 'default'
+                          ? this.props.user.partnerTeam
+                          : ac.pipeline.state.currentTeam;
+                      return (
+                        <Column
+                          key={column.id}
+                          id={column.id}
+                          title={column.title}
+                          companies={this.getFilteredCompanies(
+                            column.companies,
+                            teamToDisplay,
+                            ac.pipeline.state.currentPartner
+                          )} // need semicolon?
+                        />
+                      );
+                    })}
+                    <div className="addCompanyDiv">
+                      <a
+                        href="https://dormroomfund.typeform.com/to/H90ZNU"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        <img src="/static/Add_Company_Button.png" />
+                      </a>
+                    </div>
+                  </AppContainer>
+                </DragDropContext>
+              </div>
+            )}
           </div>
         )}
-      </div>
+      </STAC>
     );
   }
 }

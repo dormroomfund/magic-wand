@@ -54,67 +54,40 @@ export default class Column extends React.Component<ColumnProps, ColumnState> {
     };
   }
 
-  renderCard = (company, pipe, index, status, userPartnerTeam) => {
-    const selectedPartnerHasCompany = company.pointPartnersNames.has(
-      pipe.state.currentPartner
-    );
+  renderCard = (company, index, status) => (
     // TODO: Should not filter this way. Instead, filter the companies shown in
     // the db query on line 76 in Kanban.tsx
     // Displays companies if (either the company is assigned to the selected partner or
     // the current partner view is set to all) AND current team is set to default
     // or the company is on the current partner team. Current partner team and
     // selected partner vars are set in state on pipe
-    const teamToDisplay =
-      pipe.state.currentTeam === 'default'
-        ? userPartnerTeam
-        : pipe.state.currentTeam;
-    const companyOnSelectedTeam = company.team === teamToDisplay;
-    const shouldDisplay =
-      selectedPartnerHasCompany ||
-      (pipe.state.currentPartner === 'ALL' && companyOnSelectedTeam);
-    if (shouldDisplay) {
-      return (
-        <CompanyCard
-          key={company.id}
-          company={company}
-          index={index}
-          status={status}
-        />
-      );
-    }
-
-    return null;
-  };
+    <CompanyCard
+      key={company.id}
+      company={company}
+      index={index}
+      status={status}
+    />
+  );
 
   render() {
     return (
-      <STAC>
-        {(ac) => (
-          <Container>
-            <Title>{this.props.title}</Title>
-            <Droppable droppableId={this.props.id}>
-              {(provided, snapshot) => (
-                <CompanyList
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  isDraggingOver={snapshot.isDraggingOver}
-                >
-                  {this.state.companies.map((company, index) =>
-                    this.renderCard(
-                      company,
-                      ac.pipeline,
-                      index,
-                      this.props.id,
-                      this.props.userPartnerTeam
-                    )
-                  )}
-                  {provided.placeholder}
-                </CompanyList>
+      <Container>
+        <Title>{this.props.title}</Title>
+        <Droppable droppableId={this.props.id}>
+          {(provided, snapshot) => (
+            <CompanyList
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              isDraggingOver={snapshot.isDraggingOver}
+            >
+              {this.state.companies.map((company, index) =>
+                this.renderCard(company, index, this.props.id)
               )}
-            </Droppable>
-          </Container>
-        )}
-      </STAC>
+              {provided.placeholder}
+            </CompanyList>
+          )}
+        </Droppable>
+      </Container>
     );
   }
 }
