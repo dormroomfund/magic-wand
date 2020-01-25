@@ -17,14 +17,14 @@ install:
 # Starts the server in development mode, restarting when changes detected.
 # TODO: Check if style variables have changed and regenerate.
 dev:
-	npx nodemon --exec ts-node server/
+	NODE_ENV=development $(NPX) nodemon --exec ts-node server/
 
 dev-debug:
-	DEBUG=knex:query LOGLEVEL=debug npx nodemon --exec ts-node server/
+	NODE_ENV=development DEBUG=knex:query LOGLEVEL=debug $(NPX) nodemon --exec ts-node server/
 
 # Starts the server in development mode.
 start: style-variables
-	$(NPX) ts-node server/
+	NODE_ENV=development $(NPX) ts-node server/
 
 style-variables:
 	$(NPX) scss-to-json client/stylesheets/_colors.scss > client/stylesheets/colors.json
@@ -120,18 +120,21 @@ test:
 ci-database:
 	createdb -U postgres -h 0.0.0.0 magic_wand
 	createdb -U postgres -h 0.0.0.0 magic_wand_test
-	make migrate
+	make migrate-ci
 	make seed
 
-# Migrate the database to the latest migration.
-migrate:
+# Migrate the production and test database to the latest migration.
+migrate-ci:
 	$(NPX) knex migrate:latest --knexfile knexfile.ts
 	$(NPX) knex migrate:latest --knexfile test/testdb_knexfile.ts
 
-# Roll back the database to before the latest mgiration.
+# Migrate just the production database
+migrate:
+	$(NPX) knex migrate:latest --knexfile knexfile.ts
+
+# Roll back the product and test database to before the latest mgiration.
 migrate-rollback:
 	$(NPX) knex migrate:rollback --knexfile knexfile.ts
-	$(NPX) knex migrate:rollback --knexfile test/testdb_knexfile.ts
 
 seed:
 	$(NPX) knex seed:run --knexfile knexfile.ts
