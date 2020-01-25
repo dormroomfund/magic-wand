@@ -41,40 +41,7 @@ interface ColumnProps {
   companies: Company[];
 }
 
-interface ColumnState {
-  companies: Company[];
-}
-
-export default class Column extends React.Component<ColumnProps, ColumnState> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      companies: props.companies,
-    };
-    console.log(props.companies);
-  }
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log('ere');
-    console.log(prevProps);
-    console.log(this.props);
-  }
-
-  renderCard = (company, index, status) => (
-    // TODO: Should not filter this way. Instead, filter the companies shown in
-    // the db query on line 76 in Kanban.tsx
-    // Displays companies if (either the company is assigned to the selected partner or
-    // the current partner view is set to all) AND current team is set to default
-    // or the company is on the current partner team. Current partner team and
-    // selected partner vars are set in state on pipe
-    <CompanyCard
-      key={company.id}
-      company={company}
-      index={index}
-      status={status}
-    />
-  );
-
+export default class Column extends React.Component<ColumnProps> {
   render() {
     return (
       <Container>
@@ -86,9 +53,14 @@ export default class Column extends React.Component<ColumnProps, ColumnState> {
               {...provided.droppableProps}
               isDraggingOver={snapshot.isDraggingOver}
             >
-              {this.props.companies.map((company, index) =>
-                this.renderCard(company, index, this.props.id)
-              )}
+              {this.props.companies.map((company, index) => (
+                <CompanyCard
+                  key={company.id}
+                  company={company}
+                  index={index}
+                  status={this.props.id}
+                />
+              ))}
               {provided.placeholder}
             </CompanyList>
           )}

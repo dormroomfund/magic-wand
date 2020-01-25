@@ -86,13 +86,16 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
   }
 
   getFilteredCompanies = (companies, teamToDisplay, currentPartner) => {
-    console.log(companies);
-    // does filter work in place?
     const filteredCompanies = companies.filter((company) => {
+      const selectedPartnerHasCompany = company.pointPartnersNames.has(
+        currentPartner
+      );
       const companyOnSelectedTeam = company.team === teamToDisplay;
-      return companyOnSelectedTeam;
+      const shouldDisplay =
+        selectedPartnerHasCompany ||
+        (currentPartner === 'ALL' && companyOnSelectedTeam);
+      return shouldDisplay;
     });
-    console.log(filteredCompanies);
     return filteredCompanies;
   };
 
