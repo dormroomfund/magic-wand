@@ -54,6 +54,12 @@ export default class Column extends React.Component<ColumnProps, ColumnState> {
     console.log(props.companies);
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log('ere');
+    console.log(prevProps);
+    console.log(this.props);
+  }
+
   renderCard = (company, index, status) => (
     // TODO: Should not filter this way. Instead, filter the companies shown in
     // the db query on line 76 in Kanban.tsx
@@ -80,7 +86,7 @@ export default class Column extends React.Component<ColumnProps, ColumnState> {
               {...provided.droppableProps}
               isDraggingOver={snapshot.isDraggingOver}
             >
-              {this.state.companies.map((company, index) =>
+              {this.props.companies.map((company, index) =>
                 this.renderCard(company, index, this.props.id)
               )}
               {provided.placeholder}
