@@ -4,11 +4,13 @@ import { Container } from 'unstated';
 import client from '../lib/client';
 import { Company, Status } from '../schemas/company';
 
-export interface ArchiveContainerState {
+export interface ResearchContainerState {
   companies: Company[];
 }
 
-export default class ArchiveContainer extends Container<ArchiveContainerState> {
+export default class ResearchContainer extends Container<
+  ResearchContainerState
+> {
   constructor() {
     super();
     this.state = { companies: [] };

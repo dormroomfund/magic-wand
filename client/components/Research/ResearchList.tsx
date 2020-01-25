@@ -4,19 +4,15 @@ import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import Card from 'react-bootstrap/lib/Card';
 import ListGroup from 'react-bootstrap/lib/ListGroup';
 import { Link } from '../../routes';
-import { archivedStates, Company } from '../../schemas/company';
+import { Company } from '../../schemas/company';
 
-export interface ArchiveListProps {
+export interface ResearchListProps {
   companies: Company[];
   onRestoreCompany?: (number) => void;
   onArchiveCompany?: (number) => void;
 }
 
-export default ({
-  companies,
-  onRestoreCompany,
-  onArchiveCompany,
-}: ArchiveListProps) => (
+export default ({ companies }: ResearchListProps) => (
   <>
     {companies.map((company) => (
       <Card key={company.id} style={{ marginBottom: '1rem', width: '25rem' }}>

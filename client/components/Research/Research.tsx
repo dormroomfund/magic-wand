@@ -3,9 +3,9 @@ import { Subscribe } from 'unstated';
 import Button from 'react-bootstrap/lib/Button';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import InfiniteScroll from 'react-infinite-scroller';
-import ArchiveContainer from '../../containers/ArchiveContainer';
+import ResearchContainer from '../../containers/ResearchContainer';
 import CurrentUserContainer from '../../containers/CurrentUserContainer';
-import ArchiveList from './ArchiveList';
+import ResearchList from './ResearchList';
 import { UnreachableCaseError } from '../../lib/errors';
 import { Status, Company } from '../../schemas/company';
 
@@ -17,14 +17,14 @@ enum Filter {
   MySuccess,
 }
 
-interface ArchiveState {
+interface ResearchState {
   filter: Filter;
   items: Company[];
   hasMoreItems: boolean;
   skip: number;
 }
 
-export default class Archive extends Component<{}, ArchiveState> {
+export default class Research extends Component<{}, ResearchState> {
   state = {
     filter: Filter.None,
     items: [],
@@ -50,8 +50,8 @@ export default class Archive extends Component<{}, ArchiveState> {
 
   // helper function which buffers the current state's list
   // state list is displayed in InifiniteScroll component
-  loadMoreItems = (ac: ArchiveContainer, cuc: CurrentUserContainer) => {
-    ac.retrieveCompanies(PAGE_LENGTH, this.state.skip).then((pagination) => {
+  loadMoreItems = (rc: ResearchContainer, cuc: CurrentUserContainer) => {
+    rc.retrieveCompanies(PAGE_LENGTH, this.state.skip).then((pagination) => {
       const { total } = pagination;
 
       if (this.state.items.length === total) {
@@ -60,7 +60,7 @@ export default class Archive extends Component<{}, ArchiveState> {
         this.setState((previous) => {
           const items = this.getFilteredCompanies(
             cuc,
-            previous.items.concat(ac.companies)
+            previous.items.concat(rc.companies)
           );
           const skip = previous.skip + PAGE_LENGTH;
           return { items, skip };
@@ -91,15 +91,15 @@ export default class Archive extends Component<{}, ArchiveState> {
 
   render() {
     return (
-      <Subscribe to={[ArchiveContainer, CurrentUserContainer]}>
-        {(ac: ArchiveContainer, cuc: CurrentUserContainer) => (
+      <Subscribe to={[ResearchContainer, CurrentUserContainer]}>
+        {(rc: ResearchContainer, cuc: CurrentUserContainer) => (
           <>
             <br />
             <h2>Research</h2>
             {this.renderButtonBar()}
             <InfiniteScroll
               pageStart={0}
-              loadMore={() => this.loadMoreItems(ac, cuc)}
+              loadMore={() => this.loadMoreItems(rc, cuc)}
               hasMore={this.state.hasMoreItems}
               loader={
                 <div className="loader" key={0}>
@@ -107,7 +107,7 @@ export default class Archive extends Component<{}, ArchiveState> {
                 </div>
               }
             >
-              <ArchiveList companies={this.state.items} />
+              <ResearchList companies={this.state.items} />
             </InfiniteScroll>
           </>
         )}

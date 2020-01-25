@@ -1,20 +1,20 @@
 import React from 'react';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
-import Archive from '../components/Archive/Archive';
+import Research from '../components/Research/Research';
 import PipelineLayout from '../components/Layout/PipelineLayout';
 import { requireLoggedIn } from '../lib/routing';
 
-const ArchivePage = () => (
+const ResearchPage = () => (
   <PipelineLayout>
     <Row>
       <Col>
-        <Archive />
+        <Research />
       </Col>
     </Row>
   </PipelineLayout>
 );
 
-ArchivePage.getInitialProps = requireLoggedIn();
+ResearchPage.getInitialProps = requireLoggedIn();
 
-export default ArchivePage;
+export default ResearchPage;

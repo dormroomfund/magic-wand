@@ -59,7 +59,7 @@ export default () => (
           <Nav.Link onClick={() => Router.pushRoute('/pipeline')}>
             Pipeline
           </Nav.Link>
-          <Nav.Link onClick={() => Router.pushRoute('/archive')}>
+          <Nav.Link onClick={() => Router.pushRoute('/research')}>
             Research
           </Nav.Link>
           <UserActions />
