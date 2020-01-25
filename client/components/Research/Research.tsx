@@ -54,18 +54,13 @@ export default class Research extends Component<{}, ResearchState> {
     rc.retrieveCompanies(PAGE_LENGTH, this.state.skip).then((pagination) => {
       const { total } = pagination;
 
-      if (this.state.items.length === total) {
-        this.setState({ hasMoreItems: false });
-      } else {
-        this.setState((previous) => {
-          const items = this.getFilteredCompanies(
-            cuc,
-            previous.items.concat(rc.companies)
-          );
-          const skip = previous.skip + PAGE_LENGTH;
-          return { items, skip };
-        });
-      }
+      this.setState((previous) => {
+        const items = previous.items.concat(rc.companies);
+        const skip = previous.skip + PAGE_LENGTH;
+        const hasMoreItems = items.length < total;
+
+        return { hasMoreItems, skip, items };
+      });
     });
   };
 
@@ -89,6 +84,20 @@ export default class Research extends Component<{}, ResearchState> {
     );
   }
 
+  /*
+    <InfiniteScroll
+      pageStart={0}
+      loadMore={() => this.loadMoreItems(rc, cuc)}
+      hasMore={this.state.hasMoreItems}
+      loader={
+        <div className="loader" key={0}>
+          Loading ...
+        </div>
+      }
+    >
+    </InfiniteScroll>
+  */
+
   render() {
     return (
       <Subscribe to={[ResearchContainer, CurrentUserContainer]}>
@@ -97,18 +106,19 @@ export default class Research extends Component<{}, ResearchState> {
             <br />
             <h2>Research</h2>
             {this.renderButtonBar()}
-            <InfiniteScroll
-              pageStart={0}
-              loadMore={() => this.loadMoreItems(rc, cuc)}
-              hasMore={this.state.hasMoreItems}
-              loader={
-                <div className="loader" key={0}>
-                  Loading ...
-                </div>
-              }
-            >
-              <ResearchList companies={this.state.items} />
-            </InfiniteScroll>
+
+            <ResearchList
+              companies={this.getFilteredCompanies(cuc, this.state.items)}
+            />
+            <br />
+            {this.state.hasMoreItems && (
+              <Button
+                onClick={() => this.loadMoreItems(rc, cuc)}
+                style={{ marginBottom: '1rem' }}
+              >
+                Load More
+              </Button>
+            )}
           </>
         )}
       </Subscribe>
