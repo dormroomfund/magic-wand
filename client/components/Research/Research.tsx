@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Subscribe } from 'unstated';
 import Button from 'react-bootstrap/lib/Button';
+import Col from 'react-bootstrap/lib/Col';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import InfiniteScroll from 'react-infinite-scroller';
 import ResearchContainer from '../../containers/ResearchContainer';
@@ -39,7 +40,9 @@ export default class Research extends Component<{}, ResearchState> {
         return companies;
       case Filter.MySuccess:
         return companies.filter(
+          // BUG: no companies have point partner objects on them
           (co) =>
+            co.pointPartners &&
             co.status === Status.Funded &&
             co.pointPartners.find((partner) => partner.id === cuc.user.id)
         );
@@ -50,7 +53,7 @@ export default class Research extends Component<{}, ResearchState> {
 
   // helper function which buffers the current state's list
   // state list is displayed in InifiniteScroll component
-  loadMoreItems = (rc: ResearchContainer, cuc: CurrentUserContainer) => {
+  loadMoreItems = (rc: ResearchContainer) => {
     rc.retrieveCompanies(PAGE_LENGTH, this.state.skip).then((pagination) => {
       const { total } = pagination;
 
@@ -84,18 +87,12 @@ export default class Research extends Component<{}, ResearchState> {
     );
   }
 
-  /*
-    <InfiniteScroll
-      pageStart={0}
-      loadMore={() => this.loadMoreItems(rc, cuc)}
-      hasMore={this.state.hasMoreItems}
-      loader={
-        <div className="loader" key={0}>
-          Loading ...
-        </div>
+  /* BUG: naive solution for initialization in render(), doesnt work due to async calls
+    initialize(rc: ResearchContainer) {
+      if (this.state.items.length == 0) {
+        this.loadMoreItems(rc)
       }
-    >
-    </InfiniteScroll>
+    }
   */
 
   render() {
@@ -104,21 +101,25 @@ export default class Research extends Component<{}, ResearchState> {
         {(rc: ResearchContainer, cuc: CurrentUserContainer) => (
           <>
             <br />
-            <h2>Research</h2>
-            {this.renderButtonBar()}
+            <Col md={12}>
+              <h2>Research</h2>
+              {this.renderButtonBar()}
+            </Col>
 
             <ResearchList
               companies={this.getFilteredCompanies(cuc, this.state.items)}
             />
             <br />
-            {this.state.hasMoreItems && (
-              <Button
-                onClick={() => this.loadMoreItems(rc, cuc)}
-                style={{ marginBottom: '1rem' }}
-              >
-                Load More
-              </Button>
-            )}
+            <Col md={12}>
+              {this.state.hasMoreItems && (
+                <Button
+                  onClick={() => this.loadMoreItems(rc)}
+                  style={{ marginBottom: '1rem' }}
+                >
+                  Load More
+                </Button>
+              )}
+            </Col>
           </>
         )}
       </Subscribe>
