@@ -39,7 +39,6 @@ interface ColumnProps {
   title: string;
   id: string;
   companies: Company[];
-  userPartnerTeam: string;
 }
 
 interface ColumnState {
@@ -52,6 +51,7 @@ export default class Column extends React.Component<ColumnProps, ColumnState> {
     this.state = {
       companies: props.companies,
     };
+    console.log(props.companies);
   }
 
   renderCard = (company, index, status) => (
