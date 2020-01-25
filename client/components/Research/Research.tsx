@@ -4,11 +4,13 @@ import Button from 'react-bootstrap/lib/Button';
 import Col from 'react-bootstrap/lib/Col';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import InfiniteScroll from 'react-infinite-scroller';
+import { Paginated } from '@feathersjs/feathers';
 import ResearchContainer from '../../containers/ResearchContainer';
-import CurrentUserContainer from '../../containers/CurrentUserContainer';
 import ResearchList from './ResearchList';
+import client from '../../lib/client';
 import { UnreachableCaseError } from '../../lib/errors';
 import { Status, Company } from '../../schemas/company';
+import { User } from '../../schemas/user';
 
 // number of items to mutate state with at once
 const PAGE_LENGTH = 2;
@@ -18,38 +20,47 @@ enum Filter {
   MySuccess,
 }
 
+interface ResearchProps {
+  user: User;
+}
+
 interface ResearchState {
   filter: Filter;
   items: Company[];
   hasMoreItems: boolean;
   skip: number;
+  successCompanies: Company[];
 }
 
-export default class Research extends Component<{}, ResearchState> {
+export default class Research extends Component<ResearchProps, ResearchState> {
   state = {
     filter: Filter.None,
     items: [],
     hasMoreItems: true,
     skip: 0,
+    successCompanies: [],
   };
 
-  getFilteredCompanies(cuc: CurrentUserContainer, companies: Company[]) {
+  async componentDidMount() {
+    const successCompanies = (await client.service('api/companies').find({
+      query: {
+        status: Status.Funded,
+        userId: this.props.user.id,
+        $eager: 'pointPartners',
+        $joinRelation: 'pointPartners',
+      },
+    })) as Paginated<Company>;
+
+    this.setState({ successCompanies: successCompanies.data });
+  }
+
+  getFilteredCompanies(companies: Company[]) {
     const { filter } = this.state;
     switch (filter) {
       case Filter.None:
         return companies;
       case Filter.MySuccess:
-        return companies.filter(
-          // BUG: no companies have point partner objects on them
-          (co) => {
-            console.log(co);
-            return (
-              co.pointPartners &&
-              co.status === Status.Funded &&
-              co.pointPartners.find((partner) => partner.id === cuc.user.id)
-            );
-          }
-        );
+        return this.state.successCompanies;
       default:
         throw new UnreachableCaseError(filter);
     }
@@ -101,8 +112,8 @@ export default class Research extends Component<{}, ResearchState> {
 
   render() {
     return (
-      <Subscribe to={[ResearchContainer, CurrentUserContainer]}>
-        {(rc: ResearchContainer, cuc: CurrentUserContainer) => (
+      <Subscribe to={[ResearchContainer]}>
+        {(rc: ResearchContainer) => (
           <>
             <br />
             <Col md={12}>
@@ -111,7 +122,7 @@ export default class Research extends Component<{}, ResearchState> {
             </Col>
 
             <ResearchList
-              companies={this.getFilteredCompanies(cuc, this.state.items)}
+              companies={this.getFilteredCompanies(this.state.items)}
             />
             <br />
             <Col md={12}>

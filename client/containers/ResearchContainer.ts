@@ -23,7 +23,7 @@ export default class ResearchContainer extends Container<
 
   // accepts skip parameter, for number of elements to skip
   async retrieveCompanies(limit: number, skip: number) {
-    const response = (await client.service('api/companies').find({
+    const allCompanies = (await client.service('api/companies').find({
       query: {
         $limit: limit,
         $skip: skip,
@@ -31,8 +31,8 @@ export default class ResearchContainer extends Container<
       },
     })) as Paginated<Company>;
 
-    this.setState({ companies: response.data });
-    return { total: response.total };
+    this.setState({ companies: allCompanies.data });
+    return { total: allCompanies.total };
   }
 
   archiveCompany = async (id: number) => {
