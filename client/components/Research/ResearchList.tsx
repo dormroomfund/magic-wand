@@ -15,7 +15,7 @@ export interface ResearchListProps {
 export default ({ companies }: ResearchListProps) => (
   <>
     {companies.map((company) => (
-      <Card key={company.id} style={{ marginBottom: '1rem', width: '25rem' }}>
+      <Card key={company.id} style={{ marginTop: '1rem', width: '25rem' }}>
         <Card.Body>
           <Card.Title>{company.name}</Card.Title>
           <Card.Text>
