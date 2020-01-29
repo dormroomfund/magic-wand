@@ -13,7 +13,7 @@ interface PartnerTeamDropdownProps {
   partnerTeams: string[];
   reloadKanbanCompanies: (
     currentTeam: any,
-    currentPartner: any
+    currentPartnerId: any
   ) => Promise<void>;
 }
 
@@ -25,7 +25,10 @@ export default class PartnerTeamDropdown extends PureComponent<
       key={partnerTeam}
       onSelect={() => {
         pipeline.setCurrentTeamView(partnerTeam);
-        this.props.reloadKanbanCompanies(partnerTeam, pipeline.currentPartner);
+        this.props.reloadKanbanCompanies(
+          partnerTeam,
+          pipeline.currentPartnerId
+        );
       }}
     >
       {partnerTeam}

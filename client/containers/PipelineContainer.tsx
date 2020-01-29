@@ -2,7 +2,7 @@ import { Container } from 'unstated';
 import { ChildContainer } from '../lib/combineContainers';
 
 export interface PipelineContainerState {
-  currentPartner: string;
+  currentPartnerId: string;
   currentTeam: string;
 }
 
@@ -12,13 +12,13 @@ export default class PipelineContainer extends ChildContainer<
   constructor() {
     super();
     this.state = {
-      currentPartner: 'ALL',
+      currentPartnerId: 'ALL',
       currentTeam: 'default',
     };
   }
 
-  setCurrentPartner(newPartner: string) {
-    this.setState({ currentPartner: newPartner });
+  setCurrentPartner(newPartnerId: string) {
+    this.setState({ currentPartnerId: newPartnerId });
   }
 
   setCurrentTeamView(newTeam: string) {

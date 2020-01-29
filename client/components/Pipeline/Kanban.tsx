@@ -51,7 +51,7 @@ interface KanbanState {
   isLoading: boolean /* True if we are still grabbing data from api */;
   columns: Record<string, any>;
   columnOrder: string[];
-  partnerNames: Set<string>;
+  partners: Set<User>;
 }
 
 export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
@@ -64,30 +64,12 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
     isLoading: true,
     columns: {},
     columnOrder: [],
-    partnerNames: new Set([]),
+    partners: new Set([]),
   };
 
   async componentDidMount() {
-    try {
-      /* Get all companies that are not in archived state */
-      const res = (await client.service('api/companies').find({
-        query: {
-          status: {
-            $nin: archivedStates,
-          },
-          $eager: 'pointPartners',
-        },
-      })) as Paginated<Company>;
-      const ret = transformData(res.data);
-      this.setState({
-        columnOrder: ret.columnOrder,
-        columns: ret.columns,
-        partnerNames: ret.partnerNames,
-        isLoading: false,
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    // should add 'default' as enum value to Team instead of giving as key directly?
+    this.loadCompanies('default', 'ALL');
   }
 
   onDragEnd = (result) => {
@@ -181,8 +163,8 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
     this.setState(newState);
   };
 
-  // missing the point partners set up - how to query joined/eager loaded table?
-  async loadCompanies(currentTeam, currentPartner) {
+  // Query broken re: joinRelation and userId
+  async loadCompanies(currentTeam, currentPartnerId) {
     try {
       /* Get all companies that are not in archived state */
       const res = (await client.service('api/companies').find({
@@ -190,15 +172,17 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
           status: {
             $nin: archivedStates,
           },
+          userId: currentPartnerId === 'ALL' ? '*' : currentPartnerId,
           team: currentTeam === 'default' ? '*' : currentTeam,
           $eager: 'pointPartners',
+          $joinRelation: 'pointPartners',
         },
       })) as Paginated<Company>;
       const ret = transformData(res.data);
       this.setState({
         columnOrder: ret.columnOrder,
         columns: ret.columns,
-        partnerNames: ret.partnerNames,
+        partners: ret.partners,
         isLoading: false,
       });
     } catch (error) {
@@ -215,7 +199,10 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
               {`${this.props.user.firstName} ${this.props.user.lastName}`}
             </h2>
             <div className="pipelineButtons">
-              <PartnerDropdown partners={this.state.partnerNames} />
+              <PartnerDropdown
+                partners={this.state.partners}
+                reloadKanbanCompanies={this.loadCompanies}
+              />
               <IndividualButton
                 loggedInPartnerName={`${this.props.user.firstName} ${
                   this.props.user.lastName
