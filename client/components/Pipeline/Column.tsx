@@ -2,7 +2,7 @@ import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import { STAC } from '../../containers/ApplicationContainer';
-import { Company } from '../../schemas/company';
+import { Status, Company } from '../../schemas/company';
 import CompanyCard from '../CompanyCard/CompanyCard';
 
 const Container = styled.div`
@@ -37,7 +37,7 @@ const CompanyList = styled.div<CompanyListProps>`
 
 interface ColumnProps {
   title: string;
-  id: string;
+  id: Status;
   companies: Company[];
 }
 
