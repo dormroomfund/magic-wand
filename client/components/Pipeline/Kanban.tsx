@@ -166,17 +166,23 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
   // Query broken re: joinRelation and userId
   async loadCompanies(currentTeam, currentPartnerId) {
     try {
+      const query = {
+        status: {
+          $nin: archivedStates,
+        },
+        $eager: 'pointPartners',
+        $joinRelation: 'pointPartners',
+      };
+
+      if (currentPartnerId !== 'ALL') {
+        query.userId = currentPartnerId;
+      }
+      if (currentTeam !== 'default') {
+        query.team = currentTeam;
+      }
       /* Get all companies that are not in archived state */
       const res = (await client.service('api/companies').find({
-        query: {
-          status: {
-            $nin: archivedStates,
-          },
-          userId: currentPartnerId === 'ALL' ? '*' : currentPartnerId,
-          team: currentTeam === 'default' ? '*' : currentTeam,
-          $eager: 'pointPartners',
-          $joinRelation: 'pointPartners',
-        },
+        query,
       })) as Paginated<Company>;
       const ret = transformData(res.data);
       this.setState({

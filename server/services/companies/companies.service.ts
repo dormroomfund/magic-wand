@@ -10,7 +10,7 @@ export default (app: App) => {
   const options = {
     model: CompanyModel,
     paginate,
-    whitelist: ['$eager', '$pick'],
+    whitelist: ['$eager', '$pick', '$joinRelation'],
     allowedEager: '[pointPartners]',
   };
 
