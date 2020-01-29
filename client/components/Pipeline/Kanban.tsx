@@ -55,6 +55,11 @@ interface KanbanState {
 }
 
 export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
+  constructor(props) {
+    super(props);
+    this.loadCompanies = this.loadCompanies.bind(this);
+  }
+
   state = {
     isLoading: true,
     columns: {},
@@ -84,20 +89,6 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
       console.error(error);
     }
   }
-
-  getFilteredCompanies = (companies, teamToDisplay, currentPartner) => {
-    const filteredCompanies = companies.filter((company) => {
-      const selectedPartnerHasCompany = company.pointPartnersNames.has(
-        currentPartner
-      );
-      const companyOnSelectedTeam = company.team === teamToDisplay;
-      const shouldDisplay =
-        selectedPartnerHasCompany ||
-        (currentPartner === 'ALL' && companyOnSelectedTeam);
-      return shouldDisplay;
-    });
-    return filteredCompanies;
-  };
 
   onDragEnd = (result) => {
     const { destination, source, draggableId } = result;
@@ -190,6 +181,31 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
     this.setState(newState);
   };
 
+  // missing the point partners set up - how to query joined/eager loaded table?
+  async loadCompanies(currentTeam, currentPartner) {
+    try {
+      /* Get all companies that are not in archived state */
+      const res = (await client.service('api/companies').find({
+        query: {
+          status: {
+            $nin: archivedStates,
+          },
+          team: currentTeam === 'default' ? '*' : currentTeam,
+          $eager: 'pointPartners',
+        },
+      })) as Paginated<Company>;
+      const ret = transformData(res.data);
+      this.setState({
+        columnOrder: ret.columnOrder,
+        columns: ret.columns,
+        partnerNames: ret.partnerNames,
+        isLoading: false,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   render() {
     return (
       <STAC>
@@ -206,7 +222,10 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
                 }`}
               />
               <GroupButton />
-              <PartnerTeamDropdown partnerTeams={Object.values(Team)} />
+              <PartnerTeamDropdown
+                partnerTeams={Object.values(Team)}
+                reloadKanbanCompanies={this.loadCompanies}
+              />
             </div>
             {this.state.isLoading ? (
               <div> Loading </div>
@@ -225,11 +244,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
                           key={column.id}
                           id={column.id}
                           title={column.title}
-                          companies={this.getFilteredCompanies(
-                            column.companies,
-                            teamToDisplay,
-                            ac.pipeline.state.currentPartner
-                          )} // need semicolon?
+                          companies={column.companies}
                         />
                       );
                     })}

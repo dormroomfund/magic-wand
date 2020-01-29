@@ -11,6 +11,10 @@ const StyledDropdown = styled(Dropdown)`
 
 interface PartnerTeamDropdownProps {
   partnerTeams: string[];
+  reloadKanbanCompanies: (
+    currentTeam: any,
+    currentPartner: any
+  ) => Promise<void>;
 }
 
 export default class PartnerTeamDropdown extends PureComponent<
@@ -19,7 +23,10 @@ export default class PartnerTeamDropdown extends PureComponent<
   renderItems = (partnerTeam, pipeline) => (
     <Dropdown.Item
       key={partnerTeam}
-      onSelect={() => pipeline.setCurrentTeamView(partnerTeam)}
+      onSelect={() => {
+        pipeline.setCurrentTeamView(partnerTeam);
+        this.props.reloadKanbanCompanies(partnerTeam, pipeline.currentPartner);
+      }}
     >
       {partnerTeam}
     </Dropdown.Item>
