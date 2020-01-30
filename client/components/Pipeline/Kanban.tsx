@@ -163,7 +163,6 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
     this.setState(newState);
   };
 
-  // Query broken re: joinRelation and userId
   async loadCompanies(currentTeam, currentPartnerId) {
     console.log(currentTeam);
     console.log(currentPartnerId);
@@ -232,10 +231,6 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
                   <AppContainer className="pipelineColumns">
                     {this.state.columnOrder.map((columnId) => {
                       const column = this.state.columns[columnId];
-                      const teamToDisplay =
-                        ac.pipeline.state.currentTeam === 'default'
-                          ? this.props.user.partnerTeam
-                          : ac.pipeline.state.currentTeam;
                       return (
                         <Column
                           key={column.id}
