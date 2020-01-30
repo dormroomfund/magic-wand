@@ -170,6 +170,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
           $nin: archivedStates,
         },
         $eager: 'pointPartners',
+        $limit: 10000,
       };
 
       if (currentPartnerId !== 'ALL') {
