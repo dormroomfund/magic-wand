@@ -211,9 +211,8 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
                 reloadKanbanCompanies={this.loadCompanies}
               />
               <IndividualButton
-                loggedInPartnerName={`${this.props.user.firstName} ${
-                  this.props.user.lastName
-                }`}
+                reloadKanbanCompanies={this.loadCompanies}
+                loggedInPartnerId={this.props.user.id}
               />
               <GroupButton />
               <PartnerTeamDropdown reloadKanbanCompanies={this.loadCompanies} />
