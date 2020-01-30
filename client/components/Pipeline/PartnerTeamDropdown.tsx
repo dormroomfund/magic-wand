@@ -24,10 +24,7 @@ export default class PartnerTeamDropdown extends PureComponent<
       key={partnerTeam}
       onSelect={() => {
         pipeline.setCurrentTeamView(partnerTeam);
-        this.props.reloadKanbanCompanies(
-          partnerTeam,
-          pipeline.state.currentPartnerId
-        );
+        this.props.reloadKanbanCompanies(partnerTeam, 'ALL');
       }}
     >
       {partnerTeam}
