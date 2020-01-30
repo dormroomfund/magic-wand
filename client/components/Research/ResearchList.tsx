@@ -17,7 +17,7 @@ export default ({ companies }: ResearchListProps) => (
   <>
     {companies.map((company) => (
       <Col key={company.id} md={3}>
-        <Card key={company.id} style={{ marginTop: '1rem', width: '25rem' }}>
+        <Card key={company.id} style={{ marginTop: '1rem', width: '100%' }}>
           <Card.Body>
             <Card.Title>{company.name}</Card.Title>
             <Card.Text>
