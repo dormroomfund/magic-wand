@@ -214,7 +214,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
                 reloadKanbanCompanies={this.loadCompanies}
                 loggedInPartnerId={this.props.user.id}
               />
-              <GroupButton />
+              <GroupButton reloadKanbanCompanies={this.loadCompanies} />
               <PartnerTeamDropdown reloadKanbanCompanies={this.loadCompanies} />
             </div>
             {this.state.isLoading ? (
