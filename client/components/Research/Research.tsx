@@ -102,14 +102,6 @@ export default class Research extends Component<ResearchProps, ResearchState> {
     );
   }
 
-  /* BUG: naive solution for initialization in render(), doesnt work due to async calls
-    initialize(rc: ResearchContainer) {
-      if (this.state.items.length == 0) {
-        this.loadMoreItems(rc)
-      }
-    }
-  */
-
   render() {
     return (
       <Subscribe to={[ResearchContainer]}>
