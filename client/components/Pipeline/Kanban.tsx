@@ -165,7 +165,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
 
   async loadCompanies(currentTeam, currentPartnerId) {
     try {
-      const query = {
+      const query: any = {
         status: {
           $nin: archivedStates,
         },
