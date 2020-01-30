@@ -165,21 +165,25 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
 
   // Query broken re: joinRelation and userId
   async loadCompanies(currentTeam, currentPartnerId) {
+    console.log(currentTeam);
+    console.log(currentPartnerId);
     try {
       const query = {
         status: {
           $nin: archivedStates,
         },
         $eager: 'pointPartners',
-        $joinRelation: 'pointPartners',
       };
 
       if (currentPartnerId !== 'ALL') {
         query.userId = currentPartnerId;
+        query.$joinRelation = 'pointPartners';
       }
       if (currentTeam !== 'default') {
         query.team = currentTeam;
       }
+
+      console.log(query);
       /* Get all companies that are not in archived state */
       const res = (await client.service('api/companies').find({
         query,
