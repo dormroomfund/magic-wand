@@ -164,8 +164,6 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
   };
 
   async loadCompanies(currentTeam, currentPartnerId) {
-    console.log(currentTeam);
-    console.log(currentPartnerId);
     try {
       const query = {
         status: {

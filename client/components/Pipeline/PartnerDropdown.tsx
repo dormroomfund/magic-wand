@@ -25,8 +25,10 @@ export default class PartnerDropdown extends PureComponent<
       key={`${partner.firstName} ${partner.lastName}`}
       onSelect={() => {
         pipeline.setCurrentPartner(partner);
-        // pipeline.state.currentTeam?
-        this.props.reloadKanbanCompanies(pipeline.currentTeam, partner.id);
+        this.props.reloadKanbanCompanies(
+          pipeline.state.currentTeam,
+          partner.id
+        );
       }}
     >
       {`${partner.firstName} ${partner.lastName}`}
