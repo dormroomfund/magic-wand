@@ -13,7 +13,7 @@ import { Status, Company } from '../../schemas/company';
 import { User } from '../../schemas/user';
 
 // number of items to mutate state with at once
-const PAGE_LENGTH = 2;
+const PAGE_LENGTH = 4;
 
 enum Filter {
   None,
