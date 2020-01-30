@@ -11,8 +11,8 @@ const StyledDropdown = styled(Dropdown)`
 
 interface PartnerTeamDropdownProps {
   reloadKanbanCompanies: (
-    currentTeam: any,
-    currentPartnerId: any
+    currentTeam: string,
+    currentPartnerId: string
   ) => Promise<void>;
 }
 

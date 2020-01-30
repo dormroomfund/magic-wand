@@ -11,8 +11,8 @@ const StyledButton = styled(Button)`
 
 interface GroupButtonProps {
   reloadKanbanCompanies: (
-    currentTeam: any,
-    currentPartnerId: any
+    currentTeam: string,
+    currentPartnerId: string
   ) => Promise<void>;
 }
 
