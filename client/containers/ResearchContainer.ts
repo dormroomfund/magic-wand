@@ -4,26 +4,35 @@ import { Container } from 'unstated';
 import client from '../lib/client';
 import { Company, Status } from '../schemas/company';
 
-export interface ArchiveContainerState {
+export interface ResearchContainerState {
   companies: Company[];
 }
 
-export default class ArchiveContainer extends Container<ArchiveContainerState> {
+export default class ResearchContainer extends Container<
+  ResearchContainerState
+> {
   constructor() {
     super();
     this.state = { companies: [] };
-    this.retrieveCompanies();
+    this.retrieveCompanies(25, 0);
   }
 
   get companies() {
     return this.state.companies;
   }
 
-  async retrieveCompanies() {
-    const companies = ((await client
-      .service('api/companies')
-      .find({})) as Paginated<Company>).data;
-    this.setState({ companies });
+  // accepts skip parameter, for number of elements to skip
+  async retrieveCompanies(limit: number, skip: number) {
+    const allCompanies = (await client.service('api/companies').find({
+      query: {
+        $limit: limit,
+        $skip: skip,
+        $eager: 'pointPartners',
+      },
+    })) as Paginated<Company>;
+
+    this.setState({ companies: allCompanies.data });
+    return { total: allCompanies.total };
   }
 
   archiveCompany = async (id: number) => {
