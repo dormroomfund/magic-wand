@@ -3,7 +3,6 @@ import { Subscribe } from 'unstated';
 import Button from 'react-bootstrap/lib/Button';
 import Col from 'react-bootstrap/lib/Col';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
-import InfiniteScroll from 'react-infinite-scroller';
 import { Paginated } from '@feathersjs/feathers';
 import ResearchContainer from '../../containers/ResearchContainer';
 import ResearchList from './ResearchList';
