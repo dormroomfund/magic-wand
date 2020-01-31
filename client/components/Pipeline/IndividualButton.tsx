@@ -2,6 +2,7 @@ import React from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import styled from 'styled-components';
 import { STAC } from '../../containers/ApplicationContainer';
+import { Team } from '../../schemas/common';
 
 const StyledButton = styled(Button)`
   background-color: #1c37c5;
@@ -26,8 +27,8 @@ const IndividualButton: React.FunctionComponent<DropdownProps> = (props) => (
           ac.pipeline.setCurrentPartnerFirstName(
             props.loggedInPartnerFirstName
           );
-          props.reloadKanbanCompanies('default', props.loggedInPartnerId);
-          ac.pipeline.setCurrentTeamView('default');
+          props.reloadKanbanCompanies(Team.All, props.loggedInPartnerId);
+          ac.pipeline.setCurrentTeamView(Team.All);
         }}
         role="button"
         tabIndex={0}

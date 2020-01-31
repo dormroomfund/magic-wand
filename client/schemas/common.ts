@@ -5,4 +5,5 @@ export enum Team {
   SanFrancisco = 'San Francisco',
   SummerSF = 'Summer SF',
   SummerNYC = 'Summer NYC',
+  All = 'All',
 }

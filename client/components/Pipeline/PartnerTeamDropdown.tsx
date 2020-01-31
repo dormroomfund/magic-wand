@@ -38,9 +38,7 @@ export default class PartnerTeamDropdown extends PureComponent<
         {(ac) => (
           <StyledDropdown>
             <Dropdown.Toggle variant="secondary" id="dropdown-basic" size="sm">
-              {ac.pipeline.state.currentTeam === 'default'
-                ? 'Team'
-                : ac.pipeline.state.currentTeam}
+              {ac.pipeline.state.currentTeam}
             </Dropdown.Toggle>
 
             <Dropdown.Menu>

@@ -69,8 +69,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
   };
 
   async componentDidMount() {
-    // should add 'default' as enum value to Team instead of giving as key directly
-    this.loadCompanies('default', 'ALL');
+    this.loadCompanies(Team.All, 'ALL');
   }
 
   onDragEnd = async (result) => {
@@ -186,11 +185,10 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
         query.userId = currentPartnerId;
         query.$joinRelation = 'pointPartners';
       }
-      if (currentTeam !== 'default') {
+      if (currentTeam !== Team.All) {
         query.team = currentTeam;
       }
 
-      console.log(query);
       /* Get all companies that are not in archived state */
       const res = (await client.service('api/companies').find({
         query,

@@ -3,6 +3,7 @@ import Dropdown from 'react-bootstrap/lib/Dropdown';
 import styled from 'styled-components';
 import { STAC } from '../../containers/ApplicationContainer';
 import { User } from '../../schemas/user';
+import { Team } from '../../schemas/common';
 
 const StyledDropdown = styled(Dropdown)`
   border: none;
@@ -24,9 +25,9 @@ export default class PartnerDropdown extends PureComponent<
     <Dropdown.Item
       key={`${partner.firstName} ${partner.lastName}`}
       onSelect={() => {
-        this.props.reloadKanbanCompanies('default', partner.id);
+        this.props.reloadKanbanCompanies(Team.All, partner.id);
         pipeline.setCurrentPartnerFirstName(partner.firstName);
-        pipeline.setCurrentTeamView('default');
+        pipeline.setCurrentTeamView(Team.All);
       }}
     >
       {`${partner.firstName} ${partner.lastName}`}

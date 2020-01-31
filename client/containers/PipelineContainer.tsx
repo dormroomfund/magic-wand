@@ -13,7 +13,8 @@ export default class PipelineContainer extends ChildContainer<
     super();
     this.state = {
       currentPartnerFirstName: 'ALL',
-      currentTeam: 'default',
+      // current user's team
+      currentTeam: 'All',
     };
   }
 
