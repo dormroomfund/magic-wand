@@ -10,14 +10,25 @@ const StyledButton = styled(Button)`
 `;
 
 interface DropdownProps {
-  loggedInPartnerName: string;
+  loggedInPartnerId: string;
+  loggedInPartnerFirstName: string;
+  reloadKanbanCompanies: (
+    currentTeam: string,
+    currentPartnerId: string
+  ) => Promise<void>;
 }
 
 const IndividualButton: React.FunctionComponent<DropdownProps> = (props) => (
   <STAC>
     {(ac) => (
       <a
-        onClick={() => ac.pipeline.setCurrentPartner(props.loggedInPartnerName)}
+        onClick={() => {
+          ac.pipeline.setCurrentPartnerFirstName(
+            props.loggedInPartnerFirstName
+          );
+          props.reloadKanbanCompanies('default', props.loggedInPartnerId);
+          ac.pipeline.setCurrentTeamView('default');
+        }}
         role="button"
         tabIndex={0}
       >

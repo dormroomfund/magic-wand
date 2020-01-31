@@ -9,13 +9,24 @@ const StyledButton = styled(Button)`
   margin: 0.5% 1%;
 `;
 
-export default () => (
+interface GroupButtonProps {
+  reloadKanbanCompanies: (
+    currentTeam: string,
+    currentPartnerId: string
+  ) => Promise<void>;
+}
+
+export default (props) => (
   <STAC>
     {(ac) => (
       <a
         role="button"
         tabIndex={0}
-        onClick={() => ac.pipeline.setCurrentPartner('ALL')}
+        onClick={() => {
+          props.reloadKanbanCompanies('default', 'ALL');
+          ac.pipeline.setCurrentPartnerFirstName('ALL');
+          ac.pipeline.setCurrentTeamView('default');
+        }}
       >
         <img src="/static/Team_Button.png" />
       </a>

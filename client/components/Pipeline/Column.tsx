@@ -2,7 +2,7 @@ import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import { STAC } from '../../containers/ApplicationContainer';
-import { Company } from '../../schemas/company';
+import { Status, Company } from '../../schemas/company';
 import CompanyCard from '../CompanyCard/CompanyCard';
 
 const Container = styled.div`
@@ -37,84 +37,35 @@ const CompanyList = styled.div<CompanyListProps>`
 
 interface ColumnProps {
   title: string;
-  id: string;
-  companies: Company[];
-  userPartnerTeam: string;
-}
-
-interface ColumnState {
+  id: Status;
   companies: Company[];
 }
 
-export default class Column extends React.Component<ColumnProps, ColumnState> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      companies: props.companies,
-    };
-  }
-
-  renderCard = (company, pipe, index, status, userPartnerTeam) => {
-    const selectedPartnerHasCompany = company.pointPartnersNames.has(
-      pipe.state.currentPartner
-    );
-    // TODO: Should not filter this way. Instead, filter the companies shown in
-    // the db query on line 76 in Kanban.tsx
-    // Displays companies if (either the company is assigned to the selected partner or
-    // the current partner view is set to all) AND current team is set to default
-    // or the company is on the current partner team. Current partner team and
-    // selected partner vars are set in state on pipe
-    const teamToDisplay =
-      pipe.state.currentTeam === 'default'
-        ? userPartnerTeam
-        : pipe.state.currentTeam;
-    const companyOnSelectedTeam = company.team === teamToDisplay;
-    const shouldDisplay =
-      selectedPartnerHasCompany ||
-      (pipe.state.currentPartner === 'ALL' && companyOnSelectedTeam);
-    if (shouldDisplay) {
-      return (
-        <CompanyCard
-          key={company.id}
-          company={company}
-          index={index}
-          status={status}
-        />
-      );
-    }
-
-    return null;
-  };
-
+export default class Column extends React.Component<ColumnProps> {
   render() {
     return (
-      <STAC>
-        {(ac) => (
-          <Container>
-            <Title>{this.props.title}</Title>
-            <Droppable droppableId={this.props.id}>
-              {(provided, snapshot) => (
-                <CompanyList
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  isDraggingOver={snapshot.isDraggingOver}
-                >
-                  {this.state.companies.map((company, index) =>
-                    this.renderCard(
-                      company,
-                      ac.pipeline,
-                      index,
-                      this.props.id,
-                      this.props.userPartnerTeam
-                    )
-                  )}
-                  {provided.placeholder}
-                </CompanyList>
-              )}
-            </Droppable>
-          </Container>
-        )}
-      </STAC>
+      <Container>
+        <Title>{this.props.title}</Title>
+        <Droppable droppableId={this.props.id}>
+          {(provided, snapshot) => (
+            <CompanyList
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              isDraggingOver={snapshot.isDraggingOver}
+            >
+              {this.props.companies.map((company, index) => (
+                <CompanyCard
+                  key={company.id}
+                  company={company}
+                  index={index}
+                  status={this.props.id}
+                />
+              ))}
+              {provided.placeholder}
+            </CompanyList>
+          )}
+        </Droppable>
+      </Container>
     );
   }
 }

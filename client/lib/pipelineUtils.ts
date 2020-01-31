@@ -6,7 +6,7 @@ import { Status, Company } from '../schemas/company';
  */
 
 const transformData = (arr: Company[]) => {
-  const partnerNames = new Set([]);
+  const partners = new Set([]);
 
   const columns = {
     [Status.Applied]: {
@@ -37,20 +37,16 @@ const transformData = (arr: Company[]) => {
       name: elt.name,
       description: elt.description,
       team: elt.team,
-      pointPartnersNames: elt.pointPartners
-        ? new Set(
-            elt.pointPartners.map(
-              (partner) => `${partner.firstName} ${partner.lastName}`
-            )
-          )
+      pointPartners: elt.pointPartners
+        ? new Set(elt.pointPartners.map((partner) => partner))
         : new Set([]),
     };
 
     /*
-     * Compile a list of all the partnerNames
+     * Compile a list of all the partners
      */
-    companyObj.pointPartnersNames.forEach((name) => {
-      partnerNames.add(name);
+    companyObj.pointPartners.forEach((partner) => {
+      partners.add(partner);
     });
 
     /*
@@ -73,7 +69,7 @@ const transformData = (arr: Company[]) => {
       Status.Deferred,
       Status.Pitching,
     ],
-    partnerNames,
+    partners,
   };
 };
 
