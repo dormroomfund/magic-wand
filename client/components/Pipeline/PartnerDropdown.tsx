@@ -24,8 +24,9 @@ export default class PartnerDropdown extends PureComponent<
     <Dropdown.Item
       key={`${partner.firstName} ${partner.lastName}`}
       onSelect={() => {
-        pipeline.setCurrentPartnerFirstName(partner.firstName);
         this.props.reloadKanbanCompanies('default', partner.id);
+        pipeline.setCurrentPartnerFirstName(partner.firstName);
+        pipeline.setCurrentTeamView('default');
       }}
     >
       {`${partner.firstName} ${partner.lastName}`}

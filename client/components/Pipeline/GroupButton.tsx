@@ -23,8 +23,9 @@ export default (props) => (
         role="button"
         tabIndex={0}
         onClick={() => {
-          ac.pipeline.setCurrentPartnerFirstName('ALL');
           props.reloadKanbanCompanies('default', 'ALL');
+          ac.pipeline.setCurrentPartnerFirstName('ALL');
+          ac.pipeline.setCurrentTeamView('default');
         }}
       >
         <img src="/static/Team_Button.png" />

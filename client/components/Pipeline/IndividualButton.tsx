@@ -27,6 +27,7 @@ const IndividualButton: React.FunctionComponent<DropdownProps> = (props) => (
             props.loggedInPartnerFirstName
           );
           props.reloadKanbanCompanies('default', props.loggedInPartnerId);
+          ac.pipeline.setCurrentTeamView('default');
         }}
         role="button"
         tabIndex={0}
