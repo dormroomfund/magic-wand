@@ -68,7 +68,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
   };
 
   async componentDidMount() {
-    // should add 'default' as enum value to Team instead of giving as key directly?
+    // should add 'default' as enum value to Team instead of giving as key directly
     this.loadCompanies('default', 'ALL');
   }
 
@@ -213,6 +213,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
               />
               <IndividualButton
                 reloadKanbanCompanies={this.loadCompanies}
+                loggedInPartnerFirstName={this.props.user.firstName}
                 loggedInPartnerId={this.props.user.id.toString()}
               />
               <GroupButton reloadKanbanCompanies={this.loadCompanies} />

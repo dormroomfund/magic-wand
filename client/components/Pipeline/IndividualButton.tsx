@@ -11,6 +11,7 @@ const StyledButton = styled(Button)`
 
 interface DropdownProps {
   loggedInPartnerId: string;
+  loggedInPartnerFirstName: string;
   reloadKanbanCompanies: (
     currentTeam: string,
     currentPartnerId: string
@@ -22,7 +23,9 @@ const IndividualButton: React.FunctionComponent<DropdownProps> = (props) => (
     {(ac) => (
       <a
         onClick={() => {
-          ac.pipeline.setCurrentPartner(props.loggedInPartnerId);
+          ac.pipeline.setCurrentPartnerFirstName(
+            props.loggedInPartnerFirstName
+          );
           props.reloadKanbanCompanies('default', props.loggedInPartnerId);
         }}
         role="button"

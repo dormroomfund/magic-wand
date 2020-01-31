@@ -23,7 +23,7 @@ export default (props) => (
         role="button"
         tabIndex={0}
         onClick={() => {
-          ac.pipeline.setCurrentPartner('ALL');
+          ac.pipeline.setCurrentPartnerFirstName('ALL');
           props.reloadKanbanCompanies('default', 'ALL');
         }}
       >
