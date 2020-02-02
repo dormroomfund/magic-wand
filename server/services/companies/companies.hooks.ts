@@ -110,9 +110,9 @@ export default {
     ],
     find: [],
     get: [],
-    create: [], // only create in prod
-    update: [], // only create in prod
-    patch: [], // only create in prod
+    create: [],
+    update: [],
+    patch: [],
     remove: [],
   },
 
