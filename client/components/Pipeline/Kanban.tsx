@@ -69,7 +69,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
   };
 
   async componentDidMount() {
-    // should add 'default' as enum value to Team instead of giving as key directly?
+    // should add 'default' as enum value to Team instead of giving as key directly
     this.loadCompanies('default', 'ALL');
   }
 
@@ -222,6 +222,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
               />
               <IndividualButton
                 reloadKanbanCompanies={this.loadCompanies}
+                loggedInPartnerFirstName={this.props.user.firstName}
                 loggedInPartnerId={this.props.user.id.toString()}
               />
               <GroupButton reloadKanbanCompanies={this.loadCompanies} />
@@ -230,33 +231,33 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
             {this.state.isLoading ? (
               <div> Loading </div>
             ) : (
-                <div>
-                  <DragDropContext onDragEnd={this.onDragEnd}>
-                    <AppContainer className="pipelineColumns">
-                      {this.state.columnOrder.map((columnId) => {
-                        const column = this.state.columns[columnId];
-                        return (
-                          <Column
-                            key={column.id}
-                            id={column.id}
-                            title={column.title}
-                            companies={column.companies}
-                          />
-                        );
-                      })}
-                      <div className="addCompanyDiv">
-                        <a
-                          href="https://dormroomfund.typeform.com/to/H90ZNU"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                          <img src="/static/Add_Company_Button.png" />
-                        </a>
-                      </div>
-                    </AppContainer>
-                  </DragDropContext>
-                </div>
-              )}
+              <div>
+                <DragDropContext onDragEnd={this.onDragEnd}>
+                  <AppContainer className="pipelineColumns">
+                    {this.state.columnOrder.map((columnId) => {
+                      const column = this.state.columns[columnId];
+                      return (
+                        <Column
+                          key={column.id}
+                          id={column.id}
+                          title={column.title}
+                          companies={column.companies}
+                        />
+                      );
+                    })}
+                    <div className="addCompanyDiv">
+                      <a
+                        href="https://dormroomfund.typeform.com/to/H90ZNU"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        <img src="/static/Add_Company_Button.png" />
+                      </a>
+                    </div>
+                  </AppContainer>
+                </DragDropContext>
+              </div>
+            )}
           </div>
         )}
       </STAC>
