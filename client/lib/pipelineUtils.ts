@@ -1,11 +1,14 @@
+import { consoleTestResultHandler } from 'tslint/lib/test';
 import { Status, Company } from '../schemas/company';
+import client from './client';
+import { DocumentTypes } from '../schemas/gdrive';
 
 /*
  * @params array of companies
  * returns formatted data for Kanban board
  */
 
-const transformData = (arr: Company[]) => {
+export const transformData = (arr: Company[]) => {
   const partners = new Set([]);
 
   const columns = {
@@ -73,4 +76,46 @@ const transformData = (arr: Company[]) => {
   };
 };
 
-export default transformData;
+/*
+ * When a company is moved to the pitching state, Google Drive documents are
+ * generated. Repeat documents are checked for in case a card was moved to pitching g
+ * and then moved away from it.
+ */
+export const generateGoogleDriveDocuments = async (company: Company) => {
+  const tasks = [];
+
+  if (
+    !company.companyLinks.find((link) => link.name === DocumentTypes.Prevote)
+  ) {
+    tasks.push({
+      documentType: DocumentTypes.Prevote,
+      companyId: company.id,
+    });
+  }
+
+  if (
+    !company.companyLinks.find(
+      (link) => link.name === DocumentTypes.ExternalSnapshot
+    )
+  ) {
+    tasks.push({
+      documentType: DocumentTypes.ExternalSnapshot,
+      companyId: company.id,
+    });
+  }
+
+  if (
+    !company.companyLinks.find(
+      (link) => link.name === DocumentTypes.InternalSnapshot
+    )
+  ) {
+    tasks.push({
+      documentType: DocumentTypes.InternalSnapshot,
+      companyId: company.id,
+    });
+  }
+
+  for (const task of tasks) {
+    await client.service('api/gdrive').create(task);
+  }
+};

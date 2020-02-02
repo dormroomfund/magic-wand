@@ -41,7 +41,7 @@ const addLinkToCompany = async (ctx: HookContext<GoogleDriveDocument>) => {
 
 export default {
   before: {
-    all: [disallow('external')],
+    all: [],
     find: [],
     get: [],
     create: [

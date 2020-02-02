@@ -6,7 +6,6 @@ import {
   Company,
   companySchema,
   pitchedStates,
-  Status,
 } from '../../../client/schemas/company';
 import { DocumentTypes } from '../../../client/schemas/gdrive';
 import { authenticate } from '../../hooks/authentication';
@@ -77,54 +76,8 @@ const votedResults = {
   },
 };
 
-const isPitching = (ctx: HookContext<Company>) =>
-  ctx.result.status === Status.Pitching;
-
 const isPitchedAndArchived = async (ctx: HookContext<Company>) =>
   pitchedStates.includes(ctx.result.status);
-
-const generateGoogleDriveDocuments = async (ctx: HookContext<Company>) => {
-  const tasks = [];
-
-  if (
-    !ctx.result.companyLinks.find((link) => link.name === DocumentTypes.Prevote)
-  ) {
-    tasks.push(
-      ctx.app.service('api/gdrive').create({
-        documentType: DocumentTypes.Prevote,
-        companyId: ctx.result.id,
-      })
-    );
-  }
-
-  if (
-    !ctx.result.companyLinks.find(
-      (link) => link.name === DocumentTypes.ExternalSnapshot
-    )
-  ) {
-    tasks.push(
-      ctx.app.service('api/gdrive').create({
-        documentType: DocumentTypes.ExternalSnapshot,
-        companyId: ctx.result.id,
-      })
-    );
-  }
-
-  if (
-    !ctx.result.companyLinks.find(
-      (link) => link.name === DocumentTypes.InternalSnapshot
-    )
-  ) {
-    tasks.push(
-      ctx.app.service('api/gdrive').create({
-        documentType: DocumentTypes.InternalSnapshot,
-        companyId: ctx.result.id,
-      })
-    );
-  }
-
-  await Promise.all(tasks);
-};
 
 export default {
   before: {
@@ -157,24 +110,9 @@ export default {
     ],
     find: [],
     get: [],
-    create: [
-      iff(
-        process.env.NODE_ENV === 'production' && isPitching,
-        generateGoogleDriveDocuments
-      ),
-    ], // only create in prod
-    update: [
-      iff(
-        process.env.NODE_ENV === 'production' && isPitching,
-        generateGoogleDriveDocuments
-      ),
-    ], // only create in prod
-    patch: [
-      iff(
-        process.env.NODE_ENV === 'production' && isPitching,
-        generateGoogleDriveDocuments
-      ),
-    ], // only create in prod
+    create: [], // only create in prod
+    update: [], // only create in prod
+    patch: [], // only create in prod
     remove: [],
   },
 
