@@ -129,14 +129,16 @@ export default withAC(
             {company.companyLinks && (
               <p>
                 {company.companyLinks.map(({ name, url }) => (
-                  <a
-                    key={name}
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {name}
-                  </a>
+                  <div>
+                    <a
+                      key={name}
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {`${name} `}
+                    </a>
+                  </div>
                 ))}
               </p>
             )}
