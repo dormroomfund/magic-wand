@@ -115,7 +115,12 @@ export const generateGoogleDriveDocuments = async (company: Company) => {
     });
   }
 
+  /* Disabling because operations need to be run in order */
+  /* eslint-disable no-await-in-loop */
+  /* eslint-disable no-restricted-syntax */
   for (const task of tasks) {
     await client.service('api/gdrive').create(task);
   }
+  /* eslint-enable no-await-in-loop */
+  /* eslint-enable no-restricted-syntax */
 };
