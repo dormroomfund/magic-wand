@@ -208,14 +208,59 @@ export default withAC(
                         company.status.slice(1)}
                     </Card.Title>
                     <Card.Text>
-                      <small>Pitch Date</small>
-                      <p>
-                        {company.pitchDate ? (
-                          <span>{company.pitchDate} </span>
-                        ) : (
-                          <span />
-                        )}
-                      </p>
+                      {company.status === Status.Pitching && (
+                        <p>
+                          {company.pitchDate && (
+                            <>
+                              <small>Pitch Date&nbsp;</small> <br />
+                              <span>
+                                {dayjs(company.pitchDate).format(
+                                  'MMMM D, YYYY'
+                                )}
+                              </span>
+                            </>
+                          )}
+                          <PitchDateSelector
+                            companyId={company.id}
+                            hideText={(props) => (
+                              <Button
+                                variant="secondary"
+                                className="float-right"
+                                size="sm"
+                                {...props}
+                              >
+                                Select Pitch Date
+                              </Button>
+                            )}
+                            showText={(props) => (
+                              <Button
+                                variant="secondary"
+                                className="float-right"
+                                size="sm"
+                                {...props}
+                              >
+                                <span
+                                  role="img"
+                                  title="Cancel Setting Pitch Date"
+                                  aria-label="cancel set pitch date button"
+                                >
+                                  ❌
+                                </span>
+                              </Button>
+                            )}
+                            selectedText={(props) => (
+                              <Button
+                                variant="success"
+                                className="float-right"
+                                size="sm"
+                                {...props}
+                              >
+                                Change
+                              </Button>
+                            )}
+                          />
+                        </p>
+                      )}
                     </Card.Text>
                     <Button
                       variant="outline-primary"
@@ -228,57 +273,6 @@ export default withAC(
                 {pitchedStates.includes(company.status) ? (
                   <VoteResults company={company} />
                 ) : null}
-                {company.status === Status.Pitching && (
-                  <p>
-                    {company.pitchDate && (
-                      <>
-                        <small>Pitch Date&nbsp;</small>
-                        <span>
-                          {dayjs(company.pitchDate).format('MMMM D, YYYY')}
-                        </span>
-                      </>
-                    )}
-                    <PitchDateSelector
-                      companyId={company.id}
-                      hideText={(props) => (
-                        <Button
-                          variant="secondary"
-                          className="float-right"
-                          size="sm"
-                          {...props}
-                        >
-                          Select Pitch Date
-                        </Button>
-                      )}
-                      showText={(props) => (
-                        <Button
-                          variant="secondary"
-                          className="float-right"
-                          size="sm"
-                          {...props}
-                        >
-                          <span
-                            role="img"
-                            title="Cancel Setting Pitch Date"
-                            aria-label="cancel set pitch date button"
-                          >
-                            ❌
-                          </span>
-                        </Button>
-                      )}
-                      selectedText={(props) => (
-                        <Button
-                          variant="success"
-                          className="float-right"
-                          size="sm"
-                          {...props}
-                        >
-                          Change
-                        </Button>
-                      )}
-                    />
-                  </p>
-                )}
               </section>
               <CompanyComments companyId={company.id} />
             </Col>
