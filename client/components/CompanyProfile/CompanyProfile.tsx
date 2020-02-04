@@ -123,25 +123,22 @@ export default withAC(
               currentPartnerTeam={company.team}
             />
           </Col>
-          <Col md="2" className="float-right text-right">
-            <small>Pitch Date</small>
-            <br />
-            <p>{dayjs(company.createdAt).format('MMMM D, YYYY')}</p>
-          </Col>
         </HeaderRow>
         <HeaderRow>
           <Col md="8">
             {company.companyLinks && (
               <p>
                 {company.companyLinks.map(({ name, url }) => (
-                  <a
-                    key={name}
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {name}
-                  </a>
+                  <div>
+                    <a
+                      key={name}
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {`${name} `}
+                    </a>
+                  </div>
                 ))}
               </p>
             )}
