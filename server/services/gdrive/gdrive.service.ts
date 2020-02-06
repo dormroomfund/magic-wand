@@ -14,7 +14,6 @@ import config from 'config';
 import { google } from 'googleapis';
 import util from 'util';
 import App from '../../../client/schemas/app';
-import { Company } from '../../../client/schemas/company';
 import { GoogleDriveDocument } from '../../../client/schemas/gdrive';
 import logger from '../../logger';
 import hooks from './gdrive.hooks';

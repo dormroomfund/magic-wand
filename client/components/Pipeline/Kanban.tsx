@@ -3,7 +3,10 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import { Paginated } from '@feathersjs/feathers';
 import client from '../../lib/client';
-import transformData from '../../lib/pipelineUtils';
+import {
+  transformData,
+  generateGoogleDriveDocuments,
+} from '../../lib/pipelineUtils';
 import {
   Status,
   archivedStates,
@@ -15,9 +18,7 @@ import PartnerDropdown from './PartnerDropdown';
 import PartnerTeamDropdown from './PartnerTeamDropdown';
 import GroupButton from './GroupButton';
 import IndividualButton from './IndividualButton';
-import { DocumentTypes } from '../../schemas/gdrive';
 import { User } from '../../schemas/user';
-import { Team } from '../../schemas/common';
 import { STAC } from '../../containers/ApplicationContainer';
 
 const companyPartialSchema = {
@@ -72,7 +73,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
     this.loadCompanies('default', 'ALL');
   }
 
-  onDragEnd = (result) => {
+  onDragEnd = async (result) => {
     const { destination, source, draggableId } = result;
 
     if (!destination) {
@@ -145,9 +146,17 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
      * Note that draggableId is equivalent to the companyID.
      */
     try {
-      client.service('api/companies').patch(draggableId, {
-        status: newForeign.id,
-      });
+      const companyObj: Company = await client
+        .service('api/companies')
+        .patch(draggableId, {
+          status: newForeign.id,
+        });
+      if (
+        newForeign.id === Status.Pitching &&
+        process.env.NODE_ENV === 'development'
+      ) {
+        await generateGoogleDriveDocuments(companyObj);
+      }
     } catch (e) {
       console.error(e);
     }
