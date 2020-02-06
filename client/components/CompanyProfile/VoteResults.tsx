@@ -8,21 +8,21 @@ export interface VotingResultsProps {
 }
 
 export default ({ company }: VotingResultsProps) => (
-  <Card>
+  <Card style={{ marginBottom: '1rem', fontFamily: 'CircularStd-Bold' }}>
     <Card.Body>
+      <Card.Subtitle className="mb-2 text-muted">{company.team}</Card.Subtitle>
       <Card.Title>
         {company.voteResults.numYes > company.voteResults.numNo ? (
-          <p> Funded </p>
+          <span> Funded </span>
         ) : (
-          <p> Rejected </p>
+          <span> Rejected </span>
         )}
       </Card.Title>
       <Card.Text>
         <p>
           {company.voteResults.numYes} in favor, {company.voteResults.numNo}{' '}
-          against{' '}
+          against.{' '}
         </p>
-        <p> {company.team} </p>
         <strong>Market:</strong> {company.voteResults.marketScoreAvg} <br />
         <strong>Product:</strong> {company.voteResults.productScoreAvg} <br />
         <strong>Team:</strong> {company.voteResults.teamScoreAvg} <br />
