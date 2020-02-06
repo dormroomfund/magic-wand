@@ -153,7 +153,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
         });
       if (
         newForeign.id === Status.Pitching &&
-        process.env.NODE_ENV === 'development'
+        process.env.NODE_ENV === 'production'
       ) {
         await generateGoogleDriveDocuments(companyObj);
       }
