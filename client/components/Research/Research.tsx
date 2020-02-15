@@ -112,10 +112,35 @@ export default class Research extends Component<ResearchProps, ResearchState> {
               {this.renderButtonBar()}
             </Col>
 
+            <Col md={12} style={{ paddingLeft: '0' }}>
+              <Col md={4}>
+                <div className="input-group mb-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Search for a company..."
+                    aria-label="Recipient's username"
+                    aria-describedby="button-addon2"
+                  />
+                  <div className="input-group-append">
+                    <button
+                      className="btn btn-outline-secondary"
+                      type="button"
+                      id="button-addon2"
+                    >
+                      Search
+                    </button>
+                  </div>
+                </div>
+              </Col>
+            </Col>
+
             <ResearchList
               companies={this.getFilteredCompanies(this.state.items)}
             />
+
             <br />
+
             <Col md={12}>
               {this.state.hasMoreItems && (
                 <Button
