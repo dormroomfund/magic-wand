@@ -10,6 +10,7 @@ Make sure you have Postgres installed already as well as necessary API keys incl
 ```
 $ make install
 $ createdb magic_wand
+$ createdb magic_wand_test
 $ make migrate
 ```
 

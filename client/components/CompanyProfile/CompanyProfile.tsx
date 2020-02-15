@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import React, { useEffect } from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import Col from 'react-bootstrap/lib/Col';
+import Card from 'react-bootstrap/lib/Card';
 import Container from 'react-bootstrap/lib/Container';
 import Row from 'react-bootstrap/lib/Row';
 import styled from 'styled-components';
@@ -17,6 +18,7 @@ import PartnerAssigner from '../Pipeline/PartnerAssigner/PartnerAssigner';
 import PitchDateSelector from '../PitchDateSelector/PitchDateSelector';
 import FounderGroup from './FounderGroup';
 import VoteResults from './VoteResults';
+import PartnerTeamDropdown from './PartnerTeamDropdown';
 
 export interface CompanyProfileProps {
   companyId: number;
@@ -84,7 +86,7 @@ export default withAC(
       <Wrapper>
         <HeaderRow>
           <Col md="8">
-            <h1>{company.name}</h1>
+            <h1 style={{ fontFamily: 'CircularStd-Bold' }}>{company.name}</h1>
             <small>
               <em className="color-N50">
                 Last edited &nbsp;
@@ -116,9 +118,11 @@ export default withAC(
             )}
           </Col>
           <Col md="2" className="float-right text-right">
-            <small>Pitch Date</small>
-            <br />
-            <p>{dayjs(company.createdAt).format('MMMM D, YYYY')}</p>
+            <small>Partner Team</small>
+            <PartnerTeamDropdown
+              companyId={company.id}
+              currentPartnerTeam={company.team}
+            />
           </Col>
         </HeaderRow>
         <HeaderRow>
@@ -126,14 +130,16 @@ export default withAC(
             {company.companyLinks && (
               <p>
                 {company.companyLinks.map(({ name, url }) => (
-                  <a
-                    key={name}
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {name}
-                  </a>
+                  <div>
+                    <a
+                      key={name}
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {`${name} `}
+                    </a>
+                  </div>
                 ))}
               </p>
             )}
@@ -182,62 +188,88 @@ export default withAC(
             </Col>
             <Col md="4">
               <section>
-                <small>Status&nbsp;</small>
-                <span>{company.status}</span>
+                <Card
+                  style={{
+                    fontFamily: 'CircularStd-Bold',
+                    width: '100%',
+                    marginTop: '1rem',
+                    marginBottom: '1rem',
+                  }}
+                >
+                  <Card.Body>
+                    <Card.Subtitle className="mb-2 text-muted">
+                      Status
+                    </Card.Subtitle>
+                    <Card.Title>
+                      {company.status.charAt(0).toUpperCase() +
+                        company.status.slice(1)}
+                    </Card.Title>
+                    <Card.Text>
+                      {company.status === Status.Pitching && (
+                        <p>
+                          {company.pitchDate && (
+                            <>
+                              <small>Pitch Date&nbsp;</small> <br />
+                              <span>
+                                {dayjs(company.pitchDate).format(
+                                  'MMMM D, YYYY'
+                                )}
+                              </span>
+                            </>
+                          )}
+                          <PitchDateSelector
+                            companyId={company.id}
+                            hideText={(props) => (
+                              <Button
+                                variant="secondary"
+                                className="float-right"
+                                size="sm"
+                                {...props}
+                              >
+                                Select Pitch Date
+                              </Button>
+                            )}
+                            showText={(props) => (
+                              <Button
+                                variant="secondary"
+                                className="float-right"
+                                size="sm"
+                                {...props}
+                              >
+                                <span
+                                  role="img"
+                                  title="Cancel Setting Pitch Date"
+                                  aria-label="cancel set pitch date button"
+                                >
+                                  ❌
+                                </span>
+                              </Button>
+                            )}
+                            selectedText={(props) => (
+                              <Button
+                                variant="success"
+                                className="float-right"
+                                size="sm"
+                                {...props}
+                              >
+                                Change
+                              </Button>
+                            )}
+                          />
+                        </p>
+                      )}
+                    </Card.Text>
+                    <Button
+                      variant="outline-primary"
+                      href={`mailto:${company.contactEmail}`}
+                    >
+                      Email
+                    </Button>
+                  </Card.Body>
+                </Card>
                 {pitchedStates.includes(company.status) ? (
                   <VoteResults company={company} />
                 ) : null}
-                {company.status === Status.Pitching && (
-                  <p>
-                    {company.pitchDate && (
-                      <>
-                        <small>Pitch Date&nbsp;</small>
-                        <span>
-                          {dayjs(company.pitchDate).format('MMMM D, YYYY')}
-                        </span>
-                      </>
-                    )}
-                    <PitchDateSelector
-                      companyId={company.id}
-                      hideText={(props) => (
-                        <Button
-                          variant="secondary"
-                          className="float-right"
-                          size="sm"
-                          {...props}
-                        >
-                          Select Pitch Date
-                        </Button>
-                      )}
-                      showText={(props) => (
-                        <Button
-                          variant="secondary"
-                          className="float-right"
-                          size="sm"
-                          {...props}
-                        >
-                          <span
-                            role="img"
-                            title="Cancel Setting Pitch Date"
-                            aria-label="cancel set pitch date button"
-                          >
-                            ❌
-                          </span>
-                        </Button>
-                      )}
-                      selectedText={(props) => (
-                        <Button
-                          variant="success"
-                          className="float-right"
-                          size="sm"
-                          {...props}
-                        >
-                          Change
-                        </Button>
-                      )}
-                    />
-                  </p>
-                )}
               </section>
               <CompanyComments companyId={company.id} />
             </Col>

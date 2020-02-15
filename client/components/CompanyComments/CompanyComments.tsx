@@ -30,7 +30,7 @@ class CompanyComments extends Component<
 
     return (
       <div>
-        <h2>Comments</h2>
+        <h3>Comments</h3>
         <CommentForm onSubmit={this.handleSubmit} />
         {comments.map((comment) => (
           <Comment comment={comment} key={comment.id} />

@@ -17,14 +17,14 @@ install:
 # Starts the server in development mode, restarting when changes detected.
 # TODO: Check if style variables have changed and regenerate.
 dev:
-	npx nodemon --exec ts-node server/
+	NODE_ENV=development $(NPX) nodemon --exec ts-node server/
 
 dev-debug:
-	DEBUG=knex:query LOGLEVEL=debug npx nodemon --exec ts-node server/
+	NODE_ENV=development DEBUG=knex:query LOGLEVEL=debug $(NPX) nodemon --exec ts-node server/
 
 # Starts the server in development mode.
 start: style-variables
-	$(NPX) ts-node server/
+	NODE_ENV=development $(NPX) ts-node server/
 
 style-variables:
 	$(NPX) scss-to-json client/stylesheets/_colors.scss > client/stylesheets/colors.json
@@ -82,9 +82,16 @@ smoke:
 	make production &
 	$(NPX) wait-on http://localhost:3000/ -t 90000 && echo "success"
 
+
+# Makes the test database
+test-db:
+	createdb magic_wand_test
+
 # Runs the test suite.
+# TODO: There's a stale postgres process lying around that's causing the need for this
+# forceExit.
 jest:
-	$(NPX) jest
+	$(NPX) jest --forceExit
 
 # Runs Cypress CI tests
 ci-cypress:
@@ -101,25 +108,33 @@ cypress-open:
 	$(NPX) cypress open
 
 # Runs the full test suite.
-test: 
-	$(NPX) jest
+test:
+	$(NPX) jest --forceExit
 	$(NPX) cypress run
 
 ################################################################################
 
 # Initialize the database for CI
+# NOTE: We should create two different databases as the smoke test will test the production setup
+# 		whereas jest will set NODE_ENV=test and use the testing database.
 ci-database:
 	createdb -U postgres -h 0.0.0.0 magic_wand
-	make migrate
+	createdb -U postgres -h 0.0.0.0 magic_wand_test
+	make migrate-ci
 	make seed
 
-# Migrate the database to the latest migration.
+# Migrate the production and test database to the latest migration.
+migrate-ci:
+	$(NPX) knex migrate:latest --knexfile knexfile.ts
+	$(NPX) knex migrate:latest --knexfile test/testdb_knexfile.ts
+
+# Migrate just the production database
 migrate:
 	$(NPX) knex migrate:latest --knexfile knexfile.ts
 
-# Roll back the database to before the latest mgiration.
+# Roll back the product and test database to before the latest mgiration.
 migrate-rollback:
 	$(NPX) knex migrate:rollback --knexfile knexfile.ts
 
 seed:
-	$(NPX)  knex seed:run --knexfile knexfile.ts
+	$(NPX) knex seed:run --knexfile knexfile.ts

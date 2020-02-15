@@ -3,7 +3,10 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import { Paginated } from '@feathersjs/feathers';
 import client from '../../lib/client';
-import transformData from '../../lib/pipelineUtils';
+import {
+  transformData,
+  generateGoogleDriveDocuments,
+} from '../../lib/pipelineUtils';
 import {
   Status,
   archivedStates,
@@ -11,11 +14,12 @@ import {
   Company,
 } from '../../schemas/company';
 import Column from './Column';
-import CustomDropdown from './Dropdown';
+import PartnerDropdown from './PartnerDropdown';
+import PartnerTeamDropdown from './PartnerTeamDropdown';
 import GroupButton from './GroupButton';
 import IndividualButton from './IndividualButton';
-import { DocumentTypes } from '../../schemas/gdrive';
 import { User } from '../../schemas/user';
+import { STAC } from '../../containers/ApplicationContainer';
 
 const companyPartialSchema = {
   type: companySchema.type,
@@ -48,41 +52,28 @@ interface KanbanState {
   isLoading: boolean /* True if we are still grabbing data from api */;
   columns: Record<string, any>;
   columnOrder: string[];
-  partnerNames: Set<string>;
+  partners: Set<User>;
 }
 
 export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
+  constructor(props) {
+    super(props);
+    this.loadCompanies = this.loadCompanies.bind(this);
+  }
+
   state = {
     isLoading: true,
     columns: {},
     columnOrder: [],
-    partnerNames: new Set([]),
+    partners: new Set([]),
   };
 
   async componentDidMount() {
-    try {
-      /* Get all companies that are not in archived state */
-      const res = (await client.service('api/companies').find({
-        query: {
-          status: {
-            $nin: archivedStates,
-          },
-          $eager: 'pointPartners',
-        },
-      })) as Paginated<Company>;
-      const ret = transformData(res.data);
-      this.setState({
-        columnOrder: ret.columnOrder,
-        columns: ret.columns,
-        partnerNames: ret.partnerNames,
-        isLoading: false,
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    // should add 'default' as enum value to Team instead of giving as key directly
+    this.loadCompanies('default', 'ALL');
   }
 
-  onDragEnd = (result) => {
+  onDragEnd = async (result) => {
     const { destination, source, draggableId } = result;
 
     if (!destination) {
@@ -155,9 +146,17 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
      * Note that draggableId is equivalent to the companyID.
      */
     try {
-      client.service('api/companies').patch(draggableId, {
-        status: newForeign.id,
-      });
+      const companyObj: Company = await client
+        .service('api/companies')
+        .patch(draggableId, {
+          status: newForeign.id,
+        });
+      if (
+        newForeign.id === Status.Pitching &&
+        process.env.NODE_ENV === 'production'
+      ) {
+        await generateGoogleDriveDocuments(companyObj);
+      }
     } catch (e) {
       console.error(e);
     }
@@ -173,51 +172,95 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
     this.setState(newState);
   };
 
+  async loadCompanies(currentTeam, currentPartnerId) {
+    try {
+      const query: any = {
+        status: {
+          $nin: archivedStates,
+        },
+        $eager: 'pointPartners',
+        $limit: 10000,
+      };
+
+      if (currentPartnerId !== 'ALL') {
+        query.userId = currentPartnerId;
+        query.$joinRelation = 'pointPartners';
+      }
+      if (currentTeam !== 'default') {
+        query.team = currentTeam;
+      }
+
+      console.log(query);
+      /* Get all companies that are not in archived state */
+      const res = (await client.service('api/companies').find({
+        query,
+      })) as Paginated<Company>;
+      const ret = transformData(res.data);
+      this.setState({
+        columnOrder: ret.columnOrder,
+        columns: ret.columns,
+        partners: ret.partners,
+        isLoading: false,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   render() {
     return (
-      <div>
-        <h2>{`${this.props.user.firstName} ${this.props.user.lastName}`}</h2>
-        <div className="pipelineButtons">
-          <CustomDropdown partners={this.state.partnerNames} />
-          <IndividualButton
-            loggedInPartnerName={`${this.props.user.firstName} ${
-              this.props.user.lastName
-            }`}
-          />
-          <GroupButton />
-        </div>
-        {this.state.isLoading ? (
-          <div> Loading </div>
-        ) : (
+      <STAC>
+        {(ac) => (
           <div>
-            <DragDropContext onDragEnd={this.onDragEnd}>
-              <AppContainer className="pipelineColumns">
-                {this.state.columnOrder.map((columnId) => {
-                  const column = this.state.columns[columnId];
-                  return (
-                    <Column
-                      key={column.id}
-                      id={column.id}
-                      title={column.title}
-                      companies={column.companies}
-                      userPartnerTeam={this.props.user.partnerTeam}
-                    />
-                  );
-                })}
-                <div className="addCompanyDiv">
-                  <a
-                    href="https://dormroomfund.typeform.com/to/H90ZNU"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    <img src="/static/Add_Company_Button.png" />
-                  </a>
-                </div>
-              </AppContainer>
-            </DragDropContext>
+            <h2>
+              {`${this.props.user.firstName} ${this.props.user.lastName}`}
+            </h2>
+            <div className="pipelineButtons">
+              <PartnerDropdown
+                partners={this.state.partners}
+                reloadKanbanCompanies={this.loadCompanies}
+              />
+              <IndividualButton
+                reloadKanbanCompanies={this.loadCompanies}
+                loggedInPartnerFirstName={this.props.user.firstName}
+                loggedInPartnerId={this.props.user.id.toString()}
+              />
+              <GroupButton reloadKanbanCompanies={this.loadCompanies} />
+              <PartnerTeamDropdown reloadKanbanCompanies={this.loadCompanies} />
+            </div>
+            {this.state.isLoading ? (
+              <div> Loading </div>
+            ) : (
+              <div>
+                <DragDropContext onDragEnd={this.onDragEnd}>
+                  <AppContainer className="pipelineColumns">
+                    {this.state.columnOrder.map((columnId) => {
+                      const column = this.state.columns[columnId];
+                      return (
+                        <Column
+                          key={column.id}
+                          id={column.id}
+                          title={column.title}
+                          companies={column.companies}
+                        />
+                      );
+                    })}
+                    <div className="addCompanyDiv">
+                      <a
+                        href="https://dormroomfund.typeform.com/to/H90ZNU"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        <img src="/static/Add_Company_Button.png" />
+                      </a>
+                    </div>
+                  </AppContainer>
+                </DragDropContext>
+              </div>
+            )}
           </div>
         )}
-      </div>
+      </STAC>
     );
   }
 }

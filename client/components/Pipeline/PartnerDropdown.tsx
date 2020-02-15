@@ -9,17 +9,27 @@ const StyledDropdown = styled(Dropdown)`
   margin: 0.5% 1%;
 `;
 
-interface DropdownProps {
+interface PartnerDropdownProps {
   partners: Set<User>;
+  reloadKanbanCompanies: (
+    currentTeam: string,
+    currentPartnerId: string
+  ) => Promise<void>;
 }
 
-export default class CustomDropdown extends PureComponent<DropdownProps> {
+export default class PartnerDropdown extends PureComponent<
+  PartnerDropdownProps
+> {
   renderItems = (partner, pipeline) => (
     <Dropdown.Item
-      key={partner}
-      onSelect={() => pipeline.setCurrentPartner(partner)}
+      key={`${partner.firstName} ${partner.lastName}`}
+      onSelect={() => {
+        this.props.reloadKanbanCompanies('default', partner.id);
+        pipeline.setCurrentPartnerFirstName(partner.firstName);
+        pipeline.setCurrentTeamView('default');
+      }}
     >
-      {partner}
+      {`${partner.firstName} ${partner.lastName}`}
     </Dropdown.Item>
   );
 
@@ -29,7 +39,9 @@ export default class CustomDropdown extends PureComponent<DropdownProps> {
         {(ac) => (
           <StyledDropdown>
             <Dropdown.Toggle variant="secondary" id="dropdown-basic" size="sm">
-              Partner
+              {ac.pipeline.state.currentPartnerFirstName === 'ALL'
+                ? 'Partner'
+                : ac.pipeline.state.currentPartnerFirstName}
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
