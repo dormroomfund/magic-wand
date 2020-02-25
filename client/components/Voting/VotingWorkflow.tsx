@@ -171,6 +171,7 @@ export default class VotingWorkflow extends Component<
                   ))}
                 </Row>
               )}
+              <br />
             </>
           );
         }}
