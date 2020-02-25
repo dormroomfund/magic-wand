@@ -11,10 +11,6 @@ export interface VotingFormProps {
   disabled?: boolean;
 }
 
-Object.keys(voteFormSchema.properties).forEach((key) => {
-  voteFormSchema.properties[key].title = startCase(key);
-});
-
 export default ({ formData, onChange, onSubmit, disabled = false }) => (
   <Form
     schema={voteFormSchema}
