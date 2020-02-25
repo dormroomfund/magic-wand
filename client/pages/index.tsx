@@ -15,7 +15,7 @@ export default () => (
     <Row>
       <Col md={{ span: 6, offset: 3 }}>
         <h1 className="mt-5 text-center">
-          Magic Wand
+          Magic Wand{' '}
           <span role="img" aria-label="hat">
             🎩
           </span>
