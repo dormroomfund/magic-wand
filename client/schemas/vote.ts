@@ -69,3 +69,9 @@ export const voteSchema = {
     comment: { type: 'string', title: 'Comment' },
   },
 };
+
+export const voteUISchema = {
+  comment: {
+    'ui:widget': 'textarea',
+  },
+};

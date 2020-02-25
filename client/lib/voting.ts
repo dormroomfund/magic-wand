@@ -1,7 +1,7 @@
 import { JSONSchema6 } from 'json-schema';
 import { Paginated } from '@feathersjs/feathers';
 import { pick, makeRequired } from '../schemas/_utils';
-import { voteSchema, Vote, OverallVote } from '../schemas/vote';
+import { voteSchema, voteUISchema, Vote, OverallVote } from '../schemas/vote';
 
 const requiredFields = [
   'fitScore',
@@ -26,6 +26,8 @@ export const voteFormSchema = makeRequired(
   pick(voteSchema as JSONSchema6, requiredFields),
   requiredFields
 );
+
+export const voteUIFormSchema = voteUISchema;
 
 export const computeVotingScores = (votes: Vote[]) => {
   /*
