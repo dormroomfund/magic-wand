@@ -1,8 +1,8 @@
 import React from 'react';
+import { startCase } from 'lodash';
 import Form, { ISubmitEvent, IChangeEvent } from 'react-jsonschema-form-bs4';
 import Button from 'react-bootstrap/lib/Button';
 import { voteFormSchema, VoteFields } from '../../lib/voting';
-import { Vote } from '../../schemas/vote';
 
 export interface VotingFormProps {
   formData: VoteFields;
