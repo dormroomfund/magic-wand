@@ -259,6 +259,15 @@ export default withAC(
                         </p>
                       )}
                     </Card.Text>
+                    {company.status === Status.Pitching && (
+                      <Button
+                        variant="primary"
+                        href={`/vote/${company.id}`}
+                        style={{ marginRight: '0.5rem' }}
+                      >
+                        Vote
+                      </Button>
+                    )}
                     <Button
                       variant="outline-primary"
                       href={`mailto:${company.contactEmail}`}
