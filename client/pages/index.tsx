@@ -14,7 +14,12 @@ export default () => (
   <Layout>
     <Row>
       <Col md={{ span: 6, offset: 3 }}>
-        <h1 className="mt-5 text-center">Magic Wand</h1>
+        <h1 className="mt-5 text-center">
+          Magic Wand
+          <span role="img" aria-label="hat">
+            🎩
+          </span>
+        </h1>
         <Subscribe to={[CurrentUserContainer]}>
           {(cuc: CurrentUserContainer) => {
             switch (cuc.authState) {
