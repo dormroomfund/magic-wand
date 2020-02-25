@@ -143,7 +143,7 @@ export default class VotingWorkflow extends Component<
                 </>
               ) : (
                 doingPrevote || (
-                  <Alert variant="success">
+                  <Alert variant="success" style={{ marginTop: '1rem' }}>
                     You have already cast a final vote.
                     <VoteDisplay
                       companyId={companyId}
