@@ -66,12 +66,20 @@ export const voteSchema = {
       enum: Object.values(OverallVote),
       title: 'Overall Vote',
     },
-    comment: { type: 'string', title: 'Comment' },
+    comment: {
+      type: 'string',
+      title: 'Comment',
+      default: 'Fit: \nMarket: \nProduct: \nTeam: \nOverall:',
+    },
   },
 };
 
 export const voteUISchema = {
   comment: {
     'ui:widget': 'textarea',
+    'ui:default': 'Choose an option',
+    'ui:options': {
+      rows: 8,
+    },
   },
 };
