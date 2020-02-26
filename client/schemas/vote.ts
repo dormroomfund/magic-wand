@@ -73,16 +73,3 @@ export const voteSchema = {
     },
   },
 };
-
-/**
- * Describes UI configurations for the voting form.
- */
-export const voteUISchema = {
-  comment: {
-    'ui:widget': 'textarea',
-    'ui:default': 'Choose an option',
-    'ui:options': {
-      rows: 8,
-    },
-  },
-};
