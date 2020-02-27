@@ -105,6 +105,14 @@ export default class VotingWorkflow extends Component<
                         Open Prevote Discussion Document
                       </Button>
                     )}
+                    <Button
+                      style={{ marginTop: '0.5rem', marginLeft: '0.2rem' }}
+                      variant="danger"
+                      // onClick={() => vc.deleteVote(vote.voteId)}
+                      // disabled={archivedStates.includes(vc.company(companyId).status)}
+                    >
+                      Delete
+                    </Button>
                   </Alert>
                   <Row>
                     {vc
