@@ -1,5 +1,4 @@
 import { JSONSchema6 } from 'json-schema';
-import { Paginated } from '@feathersjs/feathers';
 import { pick, makeRequired } from '../schemas/_utils';
 import { voteSchema, Vote, OverallVote } from '../schemas/vote';
 
@@ -26,6 +25,19 @@ export const voteFormSchema = makeRequired(
   pick(voteSchema as JSONSchema6, requiredFields),
   requiredFields
 );
+
+/**
+ * Describes UI configurations for the voting form.
+ */
+export const voteUIFormSchema = {
+  comment: {
+    'ui:widget': 'textarea',
+    'ui:default': 'Choose an option',
+    'ui:options': {
+      rows: 8,
+    },
+  },
+};
 
 export const computeVotingScores = (votes: Vote[]) => {
   /*

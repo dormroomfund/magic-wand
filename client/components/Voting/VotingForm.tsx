@@ -2,7 +2,7 @@ import React from 'react';
 import { startCase } from 'lodash';
 import Form, { ISubmitEvent, IChangeEvent } from 'react-jsonschema-form-bs4';
 import Button from 'react-bootstrap/lib/Button';
-import { voteFormSchema, VoteFields } from '../../lib/voting';
+import { voteFormSchema, voteUIFormSchema, VoteFields } from '../../lib/voting';
 
 export interface VotingFormProps {
   formData: VoteFields;
@@ -14,6 +14,7 @@ export interface VotingFormProps {
 export default ({ formData, onChange, onSubmit, disabled = false }) => (
   <Form
     schema={voteFormSchema}
+    uiSchema={voteUIFormSchema}
     onChange={onChange}
     disabled={disabled}
     formData={formData}
