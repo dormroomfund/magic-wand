@@ -66,6 +66,10 @@ export const voteSchema = {
       enum: Object.values(OverallVote),
       title: 'Overall Vote',
     },
-    comment: { type: 'string', title: 'Comment' },
+    comment: {
+      type: 'string',
+      title: 'Comment',
+      default: 'Fit: \nMarket: \nProduct: \nTeam: \nOverall:',
+    },
   },
 };
