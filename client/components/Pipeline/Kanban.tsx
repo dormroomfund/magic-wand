@@ -20,6 +20,7 @@ import GroupButton from './GroupButton';
 import IndividualButton from './IndividualButton';
 import { User } from '../../schemas/user';
 import { STAC } from '../../containers/ApplicationContainer';
+import { Team } from '../../schemas/common';
 
 const companyPartialSchema = {
   type: companySchema.type,
@@ -69,7 +70,7 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
   };
 
   async componentDidMount() {
-    this.loadCompanies(Team.All, 'ALL');
+    this.loadCompanies(this.props.user.partnerTeam, 'ALL');
   }
 
   onDragEnd = async (result) => {
