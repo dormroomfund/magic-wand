@@ -58,6 +58,9 @@ export default class VotingWorkflow extends Component<
           const doingFinalVote =
             vc.votingStatus(companyId, cuc.user.id) ===
             VotingStatus.DoingFinalVote;
+          const awaitingFinalization =
+            vc.votingStatus(companyId, cuc.user.id) ===
+            VotingStatus.AwaitingFinalization;
           const votingFinalized =
             vc.votingStatus(companyId, cuc.user.id) ===
             VotingStatus.VotingFinalized;
@@ -108,8 +111,8 @@ export default class VotingWorkflow extends Component<
                     <Button
                       style={{ marginTop: '0.5rem', marginLeft: '0.2rem' }}
                       variant="danger"
-                      // onClick={() => vc.deleteVote(vote.voteId)}
-                      // disabled={archivedStates.includes(vc.company(companyId).status)}
+                      onClick={() => vc.deletePrevote(companyId, cuc.user.id)}
+                      disabled={awaitingFinalization || votingFinalized}
                     >
                       Delete
                     </Button>
