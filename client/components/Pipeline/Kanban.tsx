@@ -19,7 +19,10 @@ import PartnerTeamDropdown from './PartnerTeamDropdown';
 import GroupButton from './GroupButton';
 import IndividualButton from './IndividualButton';
 import { User } from '../../schemas/user';
-import { STAC } from '../../containers/ApplicationContainer';
+import {
+  withAC,
+  ApplicationContainerProps,
+} from '../../containers/ApplicationContainer';
 import { Team } from '../../schemas/common';
 
 const companyPartialSchema = {
@@ -56,7 +59,10 @@ interface KanbanState {
   partners: Set<User>;
 }
 
-export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
+class Kanban extends PureComponent<
+  KanbanProps & ApplicationContainerProps,
+  KanbanState
+> {
   constructor(props) {
     super(props);
     this.loadCompanies = this.loadCompanies.bind(this);
@@ -70,6 +76,9 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
   };
 
   async componentDidMount() {
+    this.props.applicationContainer.pipeline.setCurrentTeamView(
+      this.props.user.partnerTeam
+    );
     this.loadCompanies(this.props.user.partnerTeam, 'ALL');
   }
 
@@ -208,58 +217,54 @@ export default class Kanban extends PureComponent<KanbanProps, KanbanState> {
 
   render() {
     return (
-      <STAC>
-        {(ac) => (
+      <div>
+        <h2>{`${this.props.user.firstName} ${this.props.user.lastName}`}</h2>
+        <div className="pipelineButtons">
+          <PartnerDropdown
+            partners={this.state.partners}
+            reloadKanbanCompanies={this.loadCompanies}
+          />
+          <IndividualButton
+            reloadKanbanCompanies={this.loadCompanies}
+            loggedInPartnerFirstName={this.props.user.firstName}
+            loggedInPartnerId={this.props.user.id.toString()}
+          />
+          <GroupButton reloadKanbanCompanies={this.loadCompanies} />
+          <PartnerTeamDropdown reloadKanbanCompanies={this.loadCompanies} />
+        </div>
+        {this.state.isLoading ? (
+          <div> Loading </div>
+        ) : (
           <div>
-            <h2>
-              {`${this.props.user.firstName} ${this.props.user.lastName}`}
-            </h2>
-            <div className="pipelineButtons">
-              <PartnerDropdown
-                partners={this.state.partners}
-                reloadKanbanCompanies={this.loadCompanies}
-              />
-              <IndividualButton
-                reloadKanbanCompanies={this.loadCompanies}
-                loggedInPartnerFirstName={this.props.user.firstName}
-                loggedInPartnerId={this.props.user.id.toString()}
-              />
-              <GroupButton reloadKanbanCompanies={this.loadCompanies} />
-              <PartnerTeamDropdown reloadKanbanCompanies={this.loadCompanies} />
-            </div>
-            {this.state.isLoading ? (
-              <div> Loading </div>
-            ) : (
-              <div>
-                <DragDropContext onDragEnd={this.onDragEnd}>
-                  <AppContainer className="pipelineColumns">
-                    {this.state.columnOrder.map((columnId) => {
-                      const column = this.state.columns[columnId];
-                      return (
-                        <Column
-                          key={column.id}
-                          id={column.id}
-                          title={column.title}
-                          companies={column.companies}
-                        />
-                      );
-                    })}
-                    <div className="addCompanyDiv">
-                      <a
-                        href="https://dormroomfund.typeform.com/to/H90ZNU"
-                        rel="noopener noreferrer"
-                        target="_blank"
-                      >
-                        <img src="/static/Add_Company_Button.png" />
-                      </a>
-                    </div>
-                  </AppContainer>
-                </DragDropContext>
-              </div>
-            )}
+            <DragDropContext onDragEnd={this.onDragEnd}>
+              <AppContainer className="pipelineColumns">
+                {this.state.columnOrder.map((columnId) => {
+                  const column = this.state.columns[columnId];
+                  return (
+                    <Column
+                      key={column.id}
+                      id={column.id}
+                      title={column.title}
+                      companies={column.companies}
+                    />
+                  );
+                })}
+                <div className="addCompanyDiv">
+                  <a
+                    href="https://dormroomfund.typeform.com/to/H90ZNU"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <img src="/static/Add_Company_Button.png" />
+                  </a>
+                </div>
+              </AppContainer>
+            </DragDropContext>
           </div>
         )}
-      </STAC>
+      </div>
     );
   }
 }
+
+export default withAC(Kanban);

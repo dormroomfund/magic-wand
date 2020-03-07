@@ -1,5 +1,6 @@
 import { Container } from 'unstated';
 import { ChildContainer } from '../lib/combineContainers';
+import { Team } from '../schemas/common';
 
 export interface PipelineContainerState {
   currentPartnerFirstName: string;
@@ -14,7 +15,7 @@ export default class PipelineContainer extends ChildContainer<
     this.state = {
       currentPartnerFirstName: 'ALL',
       // current user's team
-      currentTeam: 'All',
+      currentTeam: Team.All,
     };
   }
 
