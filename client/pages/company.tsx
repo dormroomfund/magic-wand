@@ -3,10 +3,7 @@ import { NextContext } from 'next';
 import React from 'react';
 import CompanyProfile from '../components/CompanyProfile/CompanyProfile';
 import FullWidthLayout from '../components/Layout/FullWidthLayout';
-import {
-  ApplicationContainerProps,
-  withAC,
-} from '../containers/ApplicationContainer';
+import { ApplicationContainerProps } from '../containers/ApplicationContainer';
 import { requireLoggedIn } from '../lib/routing';
 
 interface CompanyProps {
