@@ -167,7 +167,7 @@ export default class VotingContainer extends Container<VotingContainerState> {
     const company = this.company(companyId);
     if (!company) return;
 
-    const prevoteObj = company.partnerVotes.prevote.find(
+    const prevoteObj = await company.partnerVotes.prevote.find(
       (vote) => vote.partnerId === partnerId
     );
     if (!company.partnerVotes.prevote && prevoteObj) {
