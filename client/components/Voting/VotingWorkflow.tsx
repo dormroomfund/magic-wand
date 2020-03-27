@@ -58,6 +58,9 @@ export default class VotingWorkflow extends Component<
           const doingFinalVote =
             vc.votingStatus(companyId, cuc.user.id) ===
             VotingStatus.DoingFinalVote;
+          const awaitingFinalization =
+            vc.votingStatus(companyId, cuc.user.id) ===
+            VotingStatus.AwaitingFinalization;
           const votingFinalized =
             vc.votingStatus(companyId, cuc.user.id) ===
             VotingStatus.VotingFinalized;
@@ -105,6 +108,14 @@ export default class VotingWorkflow extends Component<
                         Open Prevote Discussion Document
                       </Button>
                     )}
+                    <Button
+                      style={{ marginTop: '0.5rem', marginLeft: '0.2rem' }}
+                      variant="danger"
+                      onClick={() => vc.deletePrevote(companyId, cuc.user.id)}
+                      disabled={awaitingFinalization || votingFinalized}
+                    >
+                      Delete
+                    </Button>
                   </Alert>
                   <Row>
                     {vc

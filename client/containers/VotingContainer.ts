@@ -159,6 +159,26 @@ export default class VotingContainer extends Container<VotingContainerState> {
   }
 
   /**
+   * Deletes a prevote. If a prevote is deleted, the final vote it deleted as well.
+   * @param companyId The company that is currently being voted on.
+   * @param partnerId The id of the voting partner.
+   */
+  async deletePrevote(companyId: number, partnerId: number) {
+    const company = this.company(companyId);
+    if (!company) return;
+
+    const prevoteObj = await company.partnerVotes.prevote.find(
+      (vote) => vote.partnerId === partnerId
+    );
+    if (!company.partnerVotes.prevote && prevoteObj) {
+      return;
+    }
+
+    const prevoteId = prevoteObj.voteId;
+    await this.deleteVote(prevoteId);
+  }
+
+  /**
    * Delete votes. If a prevote is deleted, the final vote is deleted as well.
    * @param userId The ID of the current user. If the user deletes their own vote,
    *               allows them to recast it.
